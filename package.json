@@ -1,0 +1,36 @@
+{
+  "name": "knicknaks",
+  "type": "module",
+  "version": "3.2.6",
+  "description": "Free, offline-capable web app with useful day-to-day tools",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro",
+    "new-tool": "node scripts/new-tool.mjs"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/react": "^4.2.1",
+    "@astrojs/sitemap": "^3.3.1",
+    "@tailwindcss/typography": "^0.5.19",
+    "astro": "^5.17.1",
+    "canvas-confetti": "^1.9.4",
+    "cronstrue": "^3.13.0",
+    "fuse.js": "^7.1.0",
+    "marked": "^17.0.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "shiki": "^3.23.0",
+    "typescript": "^5.9.3",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.1",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "tailwindcss": "^4.2.1"
+  }
+}

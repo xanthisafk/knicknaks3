@@ -1,0 +1,294 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import {
+  getAllTools,
+  getToolsByCategory,
+  getActiveCategories,
+} from "@/tools/_registry";
+import { CATEGORY_INFO } from "@/tools/_types";
+
+const allTools = getAllTools();
+const activeCategories = getActiveCategories();
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Knicknaks",
+  description: "Free, offline-capable web app with useful day-to-day tools.",
+  url: Astro.site?.toString(),
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Any",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+};
+---
+
+<BaseLayout title="Knicknaks" structuredData={structuredData}>
+  <div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header
+      class="sticky top-0 z-40 bg-[var(--surface-bg)]/80 backdrop-blur-lg border-b border-[var(--border-default)]"
+    >
+      <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <a href="/" class="flex items-center gap-2 no-underline">
+            <span class="text-2xl">🪀</span>
+            <span
+              class="text-xl font-bold tracking-tight text-[var(--text-primary)]"
+              style="font-family: var(--font-heading)"
+            >
+              <span class="doodle-underline">Knicknaks</span>
+            </span>
+          </a>
+          <div class="flex items-center gap-2">
+            <button
+              id="theme-toggle"
+              type="button"
+              class="w-9 h-9 flex items-center justify-center rounded-[var(--radius-md)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] transition-colors"
+              aria-label="Toggle theme"
+            >
+              🌜
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <!-- Hero Section -->
+      <section class="py-16 md:py-24 text-center">
+        <div class="max-w-3xl mx-auto px-4">
+          <h1
+            class="text-4xl md:text-6xl font-extrabold mb-4 text-[var(--text-primary)]"
+            style="font-family: var(--font-heading)"
+          >
+            Your go-to <span class="doodle-underline">toolbox</span>
+          </h1>
+          <p
+            class="text-lg md:text-xl text-[var(--text-secondary)] mb-8 max-w-xl mx-auto"
+          >
+            Free, fast, and privacy-friendly tools that run entirely in your
+            browser. No signup. No tracking. No nonsense.
+          </p>
+
+          <!-- Search -->
+          <div class="relative max-w-md mx-auto">
+            <input
+              id="tool-search"
+              type="search"
+              placeholder="⌘K or Ctrl+K"
+              autocomplete="off"
+              class="w-full px-4 py-3 pl-10 rounded-[var(--radius-xl)] bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] placeholder:text-[var(--text-tertiary)] shadow-sm focus:outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-color)] text-base"
+            />
+            <span
+              class="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-tertiary)]"
+              >🔍</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <hr class="doodle-divider max-w-full mx-auto" />
+
+      <!-- Tool Grid -->
+      <section class="pb-16 md:pb-24" id="tools">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+          {
+            activeCategories.length > 0 ? (
+              activeCategories.map((category) => {
+                const categoryTools = getToolsByCategory(category);
+                const info = CATEGORY_INFO[category];
+                return (
+                  <div
+                    class="mb-12 category-section"
+                    id={`category-${category}`}
+                    data-category={category}
+                  >
+                    <div class="mb-6">
+                      <h2
+                        class="text-2xl font-bold text-[var(--text-primary)] flex items-center gap-2"
+                        style="font-family: var(--font-heading)"
+                      >
+                        <span>{info.icon}</span>
+                        {info.label}
+                      </h2>
+                      <p class="text-sm text-[var(--text-secondary)] mt-1">
+                        {info.description}
+                      </p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                      {categoryTools.map((tool) => (
+                        <a
+                          href={`/tools/${tool.slug}`}
+                          class="group block p-4 md:p-5 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] no-underline transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-md hover:-translate-y-0.5 tool-card"
+                          data-tool-slug={tool.slug}
+                        >
+                          <div class="flex items-start gap-3">
+                            <span class="text-2xl flex-shrink-0 mt-0.5">
+                              {tool.icon}
+                            </span>
+                            <div>
+                              <h3
+                                class="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-600)]"
+                                style="font-family: var(--font-heading)"
+                              >
+                                {tool.name}
+                              </h3>
+                              <p class="text-xs text-[var(--text-secondary)] mt-1 line-clamp-2">
+                                {tool.description}
+                              </p>
+                            </div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div class="text-center py-16">
+                <p class="text-4xl mb-4">🧰</p>
+                <p class="text-[var(--text-secondary)]">
+                  Tools are being crafted. Check back soon!
+                </p>
+              </div>
+            )
+          }
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[var(--border-default)] py-8">
+      <div
+        class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4"
+      >
+        <div class="flex items-center gap-2 text-[var(--text-tertiary)]">
+          <span>🪀</span>
+          <span class="text-sm">Knicknaks — Free tools, no nonsense.</span>
+        </div>
+        <p class="text-sm text-[var(--text-tertiary)]">
+          100% client-side. No data leaves your browser.
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Theme toggle script -->
+  <script is:inline>
+    const toggle = document.getElementById("theme-toggle");
+    if (toggle) {
+      const update = () => {
+        const theme = document.documentElement.getAttribute("data-theme");
+        toggle.textContent = theme === "dark" ? "🌞" : "🌜";
+      };
+      update();
+      toggle.addEventListener("click", () => {
+        const current = document.documentElement.getAttribute("data-theme");
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("knicknaks-theme", next);
+        update();
+      });
+    }
+  </script>
+
+  <!-- Search functionality -->
+  <script>
+    import { searchTools } from "@/lib/search";
+    import { debounce } from "@/lib/utils";
+
+    const searchInput = document.getElementById(
+      "tool-search",
+    ) as HTMLInputElement;
+    const toolCards = document.querySelectorAll(
+      ".tool-card",
+    ) as NodeListOf<HTMLElement>;
+    const categorySections = document.querySelectorAll(
+      ".category-section",
+    ) as NodeListOf<HTMLElement>;
+    const toolsContainer = document.getElementById("tools");
+
+    if (searchInput) {
+      const handleSearch = debounce(() => {
+        const query = searchInput.value;
+        const results = searchTools(query);
+        const resultSlugs = new Set(results.map((t) => t.slug));
+
+        // Show/hide tools
+        toolCards.forEach((card) => {
+          const slug = card.getAttribute("data-tool-slug");
+          if (query.trim() === "" || (slug && resultSlugs.has(slug))) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+
+        // Show/hide categories that have visible tools
+        categorySections.forEach((section) => {
+          const visibleTools = section.querySelectorAll(
+            '.tool-card[style*="display: block"]',
+          );
+          const hasVisibleTools =
+            visibleTools.length > 0 || query.trim() === "";
+
+          if (hasVisibleTools) {
+            section.style.display = "block";
+          } else {
+            section.style.display = "none";
+          }
+        });
+
+        // Handle "No results" message (optional)
+        let noResultsMsg = document.getElementById("no-results-msg");
+        const anyVisible = Array.from(toolCards).some(
+          (card) => card.style.display !== "none",
+        );
+
+        if (!anyVisible && query.trim() !== "") {
+          if (!noResultsMsg && toolsContainer) {
+            noResultsMsg = document.createElement("div");
+            noResultsMsg.id = "no-results-msg";
+            noResultsMsg.className = "text-center py-16 w-full";
+            noResultsMsg.innerHTML = `
+              <p class="text-4xl mb-4">🔍</p>
+              <p class="text-[var(--text-primary)] font-semibold">No tools found for "${query}"</p>
+              <p class="text-[var(--text-secondary)] mt-2">Try a different search term or browse by category.</p>
+            `;
+            toolsContainer.appendChild(noResultsMsg);
+          } else if (noResultsMsg) {
+            noResultsMsg.style.display = "block";
+            const querySpan = noResultsMsg.querySelector("p:nth-child(2)");
+            if (querySpan)
+              querySpan.textContent = `No tools found for "${query}"`;
+          }
+        } else if (noResultsMsg) {
+          noResultsMsg.style.display = "none";
+        }
+      }, 50); // Fast response for better feel
+
+      searchInput.addEventListener("input", handleSearch);
+
+      // Clear search on 'esc'
+      searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          searchInput.value = "";
+          handleSearch();
+          searchInput.blur();
+        }
+      });
+
+      // Keyboard shortcut ⌘K or Ctrl+K to focus search
+      window.addEventListener("keydown", (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      });
+    }
+  </script>
+</BaseLayout>

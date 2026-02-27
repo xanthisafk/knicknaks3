@@ -1,0 +1,242 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ===== DESIGN TOKENS ===== */
+@theme {
+  /* --- Colors: Light Mode (default) --- */
+  --color-primary-50: oklch(0.97 0.02 65);
+  --color-primary-100: oklch(0.93 0.04 65);
+  --color-primary-200: oklch(0.87 0.07 65);
+  --color-primary-300: oklch(0.78 0.12 60);
+  --color-primary-400: oklch(0.7 0.15 55);
+  --color-primary-500: oklch(0.62 0.18 50);
+  --color-primary-600: oklch(0.55 0.17 48);
+  --color-primary-700: oklch(0.48 0.14 45);
+  --color-primary-800: oklch(0.4 0.11 42);
+  --color-primary-900: oklch(0.32 0.08 40);
+
+  --color-accent-50: oklch(0.96 0.02 250);
+  --color-accent-100: oklch(0.92 0.04 250);
+  --color-accent-200: oklch(0.85 0.08 250);
+  --color-accent-300: oklch(0.76 0.12 250);
+  --color-accent-400: oklch(0.66 0.16 250);
+  --color-accent-500: oklch(0.56 0.18 250);
+  --color-accent-600: oklch(0.48 0.16 250);
+  --color-accent-700: oklch(0.4 0.13 250);
+
+  --color-success: oklch(0.64 0.17 145);
+  --color-warning: oklch(0.75 0.18 75);
+  --color-error: oklch(0.58 0.22 25);
+  --color-info: oklch(0.62 0.15 240);
+
+  /* --- Typography --- */
+  --font-heading: "Outfit", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* --- Spacing (4px base) --- */
+  --spacing-px: 1px;
+  --spacing-0: 0px;
+  --spacing-0_5: 2px;
+  --spacing-1: 4px;
+  --spacing-1_5: 6px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+
+  /* --- Border Radius --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* --- Shadows (warm-tinted) --- */
+  --shadow-xs: 0 1px 2px oklch(0.25 0.02 50 / 0.06);
+  --shadow-sm:
+    0 1px 3px oklch(0.25 0.02 50 / 0.1), 0 1px 2px oklch(0.25 0.02 50 / 0.06);
+  --shadow-md:
+    0 4px 6px oklch(0.25 0.02 50 / 0.1), 0 2px 4px oklch(0.25 0.02 50 / 0.06);
+  --shadow-lg:
+    0 10px 15px oklch(0.25 0.02 50 / 0.1), 0 4px 6px oklch(0.25 0.02 50 / 0.05);
+  --shadow-xl:
+    0 20px 25px oklch(0.25 0.02 50 / 0.1), 0 8px 10px oklch(0.25 0.02 50 / 0.04);
+  --shadow-2xl: 0 25px 50px oklch(0.25 0.02 50 / 0.25);
+
+  /* --- Motion --- */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ===== CSS CUSTOM PROPERTIES (Semantic Tokens) ===== */
+:root {
+  /* Surfaces */
+  --surface-bg: oklch(0.98 0.005 65);
+  --surface-primary: oklch(0.99 0.003 65);
+  --surface-secondary: oklch(0.96 0.008 65);
+  --surface-elevated: oklch(1 0 0);
+  --surface-overlay: oklch(0.25 0.02 50 / 0.5);
+
+  /* Text */
+  --text-primary: oklch(0.2 0.02 50);
+  --text-secondary: oklch(0.4 0.02 50);
+  --text-tertiary: oklch(0.55 0.015 50);
+  --text-inverse: oklch(0.98 0.005 65);
+
+  /* Borders */
+  --border-default: oklch(0.88 0.01 65);
+  --border-hover: oklch(0.78 0.02 55);
+  --border-focus: var(--color-primary-500);
+
+  /* Focus ring */
+  --ring-color: oklch(0.62 0.18 50 / 0.4);
+  --ring-offset: 2px;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --surface-bg: oklch(0.16 0.015 260);
+  --surface-primary: oklch(0.2 0.015 260);
+  --surface-secondary: oklch(0.24 0.015 260);
+  --surface-elevated: oklch(0.28 0.015 260);
+  --surface-overlay: oklch(0.1 0.02 260 / 0.7);
+
+  --text-primary: oklch(0.92 0.01 65);
+  --text-secondary: oklch(0.72 0.01 65);
+  --text-tertiary: oklch(0.55 0.01 65);
+  --text-inverse: oklch(0.16 0.015 260);
+
+  --border-default: oklch(0.32 0.015 260);
+  --border-hover: oklch(0.42 0.02 260);
+  --border-focus: var(--color-primary-400);
+
+  --ring-color: oklch(0.7 0.15 55 / 0.4);
+}
+
+/* ===== BASE STYLES ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background-color: var(--surface-bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  line-height: 1.25;
+  margin: 0;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: var(--ring-offset);
+  border-radius: var(--radius-sm);
+}
+
+/* Selection */
+::selection {
+  background-color: oklch(0.62 0.18 50 / 0.2);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+}
+
+
+/* ===== TYPOGRAPHY CUSTOMIZATION ===== */
+.prose {
+  --tw-prose-body: var(--text-primary);
+  --tw-prose-headings: var(--text-primary);
+  --tw-prose-lead: var(--text-secondary);
+  --tw-prose-links: var(--color-primary-600);
+  --tw-prose-bold: inherit;
+  --tw-prose-counters: var(--text-tertiary);
+  --tw-prose-bullets: var(--text-tertiary);
+  --tw-prose-hr: var(--border-default);
+  --tw-prose-quotes: var(--text-secondary);
+  --tw-prose-quote-borders: var(--border-default);
+  --tw-prose-captions: var(--text-tertiary);
+  --tw-prose-code: var(--color-primary-600);
+  --tw-prose-pre-code: var(--text-primary);
+  --tw-prose-pre-bg: var(--surface-secondary);
+  --tw-prose-th-borders: var(--border-default);
+  --tw-prose-td-borders: var(--border-default);
+
+  /* Fix for prose adding backticks to inline code */
+  code::before { content: "" !important; }
+  code::after { content: "" !important; }
+}
+
+/* Ensure code blocks in prose don't have double padding/background when using Shiki */
+.prose pre {
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+
+.prose pre code {
+  padding: 0 !important;
+  background-color: transparent !important;
+  border: none !important;
+}

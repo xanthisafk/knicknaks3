@@ -1,0 +1,209 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getAllTools, getToolBySlug, getRelatedTools } from "@/tools/_registry";
+import { CATEGORY_INFO } from "@/tools/_types";
+import { ToolWrapper } from "@/components/advanced/ToolWrapper";
+
+// Generate static paths for all tools
+export function getStaticPaths() {
+  const tools = getAllTools();
+  return tools.map((tool) => ({
+    params: { slug: tool.slug },
+    props: { tool },
+  }));
+}
+
+const { tool } = Astro.props;
+const categoryInfo = CATEGORY_INFO[tool.category];
+const relatedTools = getRelatedTools(tool);
+
+// Structured Data: WebApplication
+const structuredData: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": tool.schemaType ?? "WebApplication",
+  "name": tool.name,
+  "description": tool.description,
+  "url": Astro.url.href,
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+// FAQ structured data
+if (tool.faq?.length) {
+  structuredData["mainEntity"] = tool.faq.map((item) => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
+    },
+  }));
+}
+---
+
+<BaseLayout
+  title={tool.name}
+  description={tool.description}
+  ogImage={tool.ogImage}
+  structuredData={structuredData}
+>
+  <div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-[var(--surface-bg)]/80 backdrop-blur-lg border-b border-[var(--border-default)]">
+      <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <a href="/" class="flex items-center gap-2 no-underline">
+            <span class="text-2xl">🪀</span>
+            <span class="text-xl font-bold tracking-tight text-[var(--text-primary)]" style="font-family: var(--font-heading)">Knicknaks</span>
+          </a>
+          <div class="flex items-center gap-2">
+            <button
+              id="theme-toggle-tool"
+              type="button"
+              class="w-9 h-9 flex items-center justify-center rounded-[var(--radius-md)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] transition-colors"
+              aria-label="Toggle theme"
+            >
+              🌜
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <div class="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12">
+        <!-- Breadcrumb -->
+        <nav class="mb-6 text-sm" aria-label="Breadcrumb">
+          <ol class="flex items-center gap-2 text-[var(--text-tertiary)]">
+            <li><a href="/" class="hover:text-[var(--text-primary)] transition-colors">Home</a></li>
+            <li>/</li>
+            <li><a href={`/#category-${tool.category}`} class="hover:text-[var(--text-primary)] transition-colors">{categoryInfo.label}</a></li>
+            <li>/</li>
+            <li class="text-[var(--text-primary)] font-medium">{tool.name}</li>
+          </ol>
+        </nav>
+
+        <!-- Tool Header -->
+        <div class="mb-8">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="text-3xl">{tool.icon}</span>
+            <h1 class="text-3xl md:text-4xl font-bold text-[var(--text-primary)]" style="font-family: var(--font-heading)">
+              {tool.name}
+            </h1>
+          </div>
+          <p class="text-[var(--text-secondary)] text-lg max-w-2xl">
+            {tool.longDescription ?? tool.description}
+          </p>
+          {tool.tags && (
+            <div class="flex flex-wrap gap-2 mt-3">
+              {tool.tags.map((tag) => (
+                <span class="px-2 py-0.5 text-xs rounded-[var(--radius-full)] bg-[var(--surface-secondary)] text-[var(--text-secondary)] border border-[var(--border-default)]">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <!-- Tool Component (React Island) -->
+        <section class="mb-12">
+          <ToolWrapper tool={tool} client:idle />
+        </section>
+
+        <!-- How It Works -->
+        {tool.howItWorks && (
+          <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-3 text-[var(--text-primary)]" style="font-family: var(--font-heading)">
+              How It Works
+            </h2>
+            <p class="text-[var(--text-secondary)] leading-relaxed">
+              {tool.howItWorks}
+            </p>
+          </section>
+        )}
+
+        <!-- FAQ -->
+        {tool.faq && tool.faq.length > 0 && (
+          <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4 text-[var(--text-primary)]" style="font-family: var(--font-heading)">
+              Frequently Asked Questions
+            </h2>
+            <div class="space-y-4">
+              {tool.faq.map((item) => (
+                <details class="group border border-[var(--border-default)] rounded-[var(--radius-lg)] overflow-hidden">
+                  <summary class="flex items-center justify-between cursor-pointer p-4 text-[var(--text-primary)] font-medium hover:bg-[var(--surface-secondary)] transition-colors">
+                    {item.question}
+                    <span class="text-[var(--text-tertiary)] group-open:rotate-180 transition-transform">▾</span>
+                  </summary>
+                  <div class="px-4 pb-4 text-sm text-[var(--text-secondary)] leading-relaxed">
+                    {item.answer}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Related Tools -->
+        {relatedTools.length > 0 && (
+          <section class="mb-12">
+            <hr class="doodle-divider" />
+            <h2 class="text-xl font-semibold mb-4 text-[var(--text-primary)]" style="font-family: var(--font-heading)">
+              Related Tools
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {relatedTools.map((related) => (
+                <a
+                  href={`/tools/${related.slug}`}
+                  class="group block p-4 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] no-underline transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-md"
+                >
+                  <div class="flex items-start gap-3">
+                    <span class="text-xl">{related.icon}</span>
+                    <div>
+                      <h3 class="text-sm font-semibold text-[var(--text-primary)]">{related.name}</h3>
+                      <p class="text-xs text-[var(--text-secondary)] mt-1">{related.description}</p>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[var(--border-default)] py-8">
+      <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2 text-[var(--text-tertiary)]">
+          <span>🪀</span>
+          <span class="text-sm">Knicknaks — Free tools, no nonsense.</span>
+        </div>
+        <p class="text-sm text-[var(--text-tertiary)]">100% client-side. No data leaves your browser.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script is:inline>
+    const toggle = document.getElementById('theme-toggle-tool');
+    if (toggle) {
+      const update = () => {
+        const theme = document.documentElement.getAttribute('data-theme');
+        toggle.textContent = theme === 'dark' ? '🌞' : '🌜';
+      };
+      update();
+      toggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('knicknaks-theme', next);
+        update();
+      });
+    }
+  </script>
+</BaseLayout>

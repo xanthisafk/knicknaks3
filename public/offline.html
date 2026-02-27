@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Offline — Knicknaks</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: #f5f0e8;
+        color: #3a3530;
+        text-align: center;
+        padding: 2rem;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #1a1a2e;
+          color: #e0ddd5;
+        }
+      }
+      .container {
+        max-width: 400px;
+      }
+      .emoji {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+      p {
+        font-size: 1rem;
+        opacity: 0.7;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+      }
+      a {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background: #c8864c;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: opacity 0.2s;
+      }
+      a:hover {
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="emoji">📡</div>
+      <h1>You're offline</h1>
+      <p>
+        No worries! Knicknaks works offline for tools you've already visited.
+        Check your connection and try again.
+      </p>
+      <a href="/">Try Again</a>
+    </div>
+  </body>
+</html>
