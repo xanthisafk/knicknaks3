@@ -2,8 +2,6 @@
 
 **Knicknaks** is a collection of free, offline-capable, and privacy-focused web tools designed for daily use. All tools run 100% client-side, meaning your data never leaves your device.
 
-![Knicknaks Banner](https://raw.githubusercontent.com/xanthis/knicknaks/main/public/banner.png) _(Note: Replace with actual banner if available)_
-
 ## ✨ Key Features
 
 - **Privacy First**: No data is sent to any server. Everything happens in your browser.
@@ -89,4 +87,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-Built with ❤️ by [Xanthis](https://github.com/xanthis)
+Built with ❤️ by [Abhinav](https://github.com/xanthisafk)
