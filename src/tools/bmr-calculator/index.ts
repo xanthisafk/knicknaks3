@@ -3,14 +3,21 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "BMR Calculator",
   slug: "bmr-calculator",
-  description: "Calculate your Basal Metabolic Rate (BMR) - the number of calories your body burns at rest.",
+  description: "Calculate your Basal Metabolic Rate (BMR) accurately to determine how many calories your body burns at rest.",
+  longDescription: "The BMR (Basal Metabolic Rate) Calculator helps you discover the exact number of calories your body requires to maintain basic life-sustaining functions while completely at rest. Essential for diet planning, weight loss, and muscle gain.",
   category: "health",
   icon: "🔋",
-  keywords: ["bmr", "basal metabolic rate", "metabolism", "calories", "health", "calculator"],
+  keywords: ["bmr calculator online", "basal metabolic rate computation", "resting metabolism calculator", "daily calorie burn rate", "energy expenditure calculator", "fitness calorie tracking", "mifflin st jeor equation", "weight loss tool"],
   tags: ["calculator", "health"],
   component: () => import("./BmrCalculatorTool"),
   capabilities: { supportsOffline: true },
-  howItWorks: "Uses the Mifflin-St Jeor equation based on your age, gender, height, and weight to determine your resting energy expenditure.",
+  faq: [
+    { question: "What exactly is BMR?", answer: "Basal Metabolic Rate (BMR) represents the absolute minimum number of calories your body needs to endure basic, life-sustaining functions (like breathing, blood circulation, and cell production) during a 24-hour period of resting." },
+    { question: "How does the BMR calculation work?", answer: "Our calculator utilizes the Mifflin-St Jeor equation, which is widely considered the most reliable method for estimating resting energy expenditure based on physiological markers like age, gender, height, and weight." },
+    { question: "How is BMR different from TDEE?", answer: "BMR only accounts for the calories burned at complete rest. Your Total Daily Energy Expenditure (TDEE) multiplies your BMR by an activity factor to account for physical movement and exercise throughout the day." }
+  ],
+  howItWorks: "Provide your biological age, gender, exact height, and weight. The calculator instantly processes this data strictly using the validated Mifflin-St Jeor scientific formula to report your daily resting burned calories.",
   relatedTools: ["calorie-calculator", "bmi-calculator", "body-fat-calculator"],
   schemaType: "WebApplication",
+  lastUpdated: "2026-03-03",
 };

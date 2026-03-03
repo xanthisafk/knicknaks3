@@ -3,13 +3,13 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Hash Generator",
   slug: "hash-generator",
-  description: "Generate SHA-1, SHA-256, SHA-384, SHA-512, and MD5 hashes from text or files using SubtleCrypto.",
+  description: "Securely generate SHA-1, SHA-256, SHA-384, SHA-512, and MD5 hashes from text or files locally.",
   longDescription:
-    "Compute cryptographic hashes using browser-native SubtleCrypto API. Supports SHA-1, SHA-256, " +
-    "SHA-384, and SHA-512 algorithms. Optionally hash file contents. All processing is local.",
+    "Compute cryptographic data hashes securely using your browser's native SubtleCrypto API. Instantly generate standard SHA-1, SHA-256, " +
+    "SHA-384, SHA-512, and MD5 checksums. Supports both raw text input and direct binary file hashing. All processing guarantees zero-knowledge local execution.",
   category: "crypto",
   icon: "🔐",
-  keywords: ["hash", "sha", "md5", "sha256", "sha512", "checksum", "digest", "crypto"],
+  keywords: ["hash generator online", "sha256 hash calculator", "md5 checksum generator", "text to sha512", "secure file hashing", "crypto digest generation", "local cryptography tool"],
   tags: ["crypto", "security", "hash"],
 
   component: () => import("./HashGeneratorTool"),
@@ -22,22 +22,26 @@ export const definition: ToolDefinition = {
 
   faq: [
     {
-      question: "What is a hash?",
+      question: "What is a cryptographic hash?",
       answer:
-        "A hash is a fixed-size string produced by a one-way cryptographic function. " +
-        "The same input always produces the same hash, but you can't reverse a hash back to its input.",
+        "A hash is a mathematically fixed-size string produced by running a one-way cryptographic function on any amount of data. " +
+        "The exact same input will always produce the exact same hash, but you cannot mathematically reverse a hash back to discover its original input.",
     },
     {
-      question: "Is my data safe?",
-      answer: "Yes. All hashing is done locally in your browser using the built-in SubtleCrypto API. No data is sent anywhere.",
+      question: "Is my data and file content kept safe?",
+      answer: "Absolutely. All hashing computations are performed 100% locally inside your web browser leveraging the Web Crypto API. Absolutely no text or files are ever sent to our backend servers.",
     },
+    {
+      question: "Why should I hash a file?",
+      answer: "Hashing a file generates a unique 'fingerprint' (checksum). You can compare this checksum against a provided trusted hash from a developer to mathematically verify that your downloaded file hasn't been corrupted or maliciously altered."
+    }
   ],
 
   howItWorks:
-    "Enter text in the input field to generate hashes in all supported algorithms simultaneously. " +
-    "You can also drag-and-drop or select a file to hash its binary content.",
+    "Continuously type text into the input field to watch the tool generate hashes across all supported algorithms simultaneously in real-time. " +
+    "Alternatively, you can drag-and-drop or manually select a file from your computer to securely hash its underlying binary content.",
 
   relatedTools: ["base64", "password-generator", "uuid-generator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-02-26",
+  lastUpdated: "2026-03-03",
 };

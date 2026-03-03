@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/layout/Layout";
+import pkg from "../../../package.json";
 import type { ReactNode } from "react";
 
 interface AppShellProps {
@@ -145,9 +146,11 @@ export function AppShell({ children }: AppShellProps) {
                 Knicknaks — Free tools, no nonsense.
               </span>
             </div>
-            <p className="text-sm text-[var(--text-tertiary)]">
-              100% client-side. No data leaves your browser.
-            </p>
+            <div className="flex flex-col md:flex-row items-center gap-4 text-sm text-[var(--text-tertiary)]">
+              <p>100% client-side. No data leaves your browser.</p>
+              <p className="hidden md:block opacity-50">•</p>
+              <p suppressHydrationWarning>{pkg.version.split('.')[0]}.{pkg.version.split('.')[1]} = build {parseInt(pkg.version.split('.')[0]) * 1000 + parseInt(pkg.version.split('.')[1])}</p>
+            </div>
           </div>
         </Container>
       </footer>

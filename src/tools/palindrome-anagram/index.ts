@@ -3,19 +3,21 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Palindrome & Anagram Checker",
   slug: "palindrome-anagram",
-  description: "Detect palindromes, check if two strings are anagrams, and find anagram combinations.",
+  description: "Detect text palindromes and check if multiple phrases are perfect anagrams instantly.",
+  longDescription: "Solve word puzzles or validate string logic quickly. Our Palindrome & Anagram Checker analyzes your text to determine if it reads the exact same forwards and backwards (a palindrome), or if two distinct phrases use the exact same letters in a different order (an anagram). Perfect for linguistic students and developers.",
   category: "text",
   icon: "🔁",
-  keywords: ["palindrome", "anagram", "check", "word", "reverse", "letter", "rearrange"],
+  keywords: ["palindrome checker", "anagram solver online", "check if anagram", "is it a palindrome", "reverse word puzzle", "text phrase anagram tool", "letters rearrange words"],
   tags: ["text", "fun", "word-games"],
   component: () => import("./PalindromeAnagramTool"),
   capabilities: { supportsOffline: true },
   faq: [
-    { question: "What is a palindrome?", answer: "A word or phrase that reads the same forwards and backwards, ignoring spaces and punctuation — e.g. 'racecar' or 'A man a plan a canal Panama'." },
-    { question: "What is an anagram?", answer: "Two words or phrases that use the same letters in a different order — e.g. 'listen' and 'silent'." },
+    { question: "What exactly is a palindrome?", answer: "A palindrome is a word, phrase, or number that reads symmetrically the same forwards and backwards. Our tool automatically ignores spaces and punctuation to accurately detect complex palindromes like 'A man, a plan, a canal: Panama'." },
+    { question: "What qualifies as an anagram?", answer: "An anagram is created by taking all the letters of one phrase and rearranging them to form a completely different phrase (e.g., 'listen' becomes 'silent'). Both phrases must use the exact same letters the exact same number of times." },
+    { question: "Is the checking case-sensitive?", answer: "No, the checker normalizes all text. It treats capital 'A' and lowercase 'a' as the same letter to provide accurate real-world results." }
   ],
-  howItWorks: "Enter a word or phrase to check if it's a palindrome. Enter two strings to check if they're anagrams of each other.",
+  howItWorks: "Enter a single word or sentence into the first box to test if it passes as a valid palindrome. To check for an anagram, type a second phrase into the target box; the tool will instantly compare the letter frequencies to see if they match perfectly.",
   relatedTools: ["word-counter", "reverse-text"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-02-27",
+  lastUpdated: "2026-03-03",
 };

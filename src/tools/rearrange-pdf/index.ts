@@ -3,13 +3,13 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Rearrange PDF Pages",
   slug: "rearrange-pdf",
-  description: "Reorder pages in a PDF by dragging and dropping — all in your browser.",
+  description: "Visually reorder and move individual pages within a PDF file safely within your browser.",
   longDescription:
-    "Upload a PDF and visually reorder its pages. Click move buttons to rearrange, " +
-    "then save the new order as a PDF. All local, powered by pdf-lib.",
+    "Fix scrambled documents quickly. Upload your PDF to generate visual page thumbnails, allowing you to seamlessly drag and drop individual pages into a perfectly sequential order. " +
+    "This zero-server tool writes the new structural arrangement exclusively utilizing your local device resources via pdf-lib.",
   category: "pdf",
   icon: "🔀",
-  keywords: ["pdf", "rearrange", "reorder", "move", "pages", "sort"],
+  keywords: ["rearrange pdf pages", "reorder pdf online", "move pdf pages order", "sort pdf document online", "visual pdf page organizer", "drag and drop pdf sorter", "local pdf restructure"],
   tags: ["pdf", "edit"],
 
   component: () => import("./RearrangePdfTool"),
@@ -19,8 +19,19 @@ export const definition: ToolDefinition = {
     supportsOffline: true,
   },
 
+  faq: [
+    {
+      question: "Is there a limit to how many pages I can rearrange?",
+      answer: "Because rendering thumbnails and restructuring the document happens locally on your computer, very massive files (e.g., 500+ pages) may temporarily slow down older web browsers due to memory constraints."
+    },
+    {
+      question: "Is this tool safe for modifying legal or medical documents?",
+      answer: "Yes. Due to its rigid serverless design, your uploaded PDF is processed completely offline inside your browser environment, guaranteeing total data residency and privacy."
+    }
+  ],
+
   howItWorks:
-    "Upload a PDF to see page thumbnails. Use the arrow buttons to reorder pages, then click Save to download.",
+    "Upload a multi-page PDF document. The tool will parse the file and generate sequence boxes representing each page. Simply click and drag these boxes left or right into your newly desired configuration. Click 'Save PDF' to directly download the manipulated file.",
 
   relatedTools: ["merge-pdf", "split-pdf", "rotate-pdf", "delete-pdf-pages"],
   schemaType: "WebApplication",

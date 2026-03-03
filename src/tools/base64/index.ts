@@ -3,13 +3,13 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Base64 Encoder / Decoder",
   slug: "base64",
-  description: "Encode and decode text to/from Base64 format with URL-safe and live mode support.",
+  description: "Encode and decode text and data to/from Base64 format instantly. Supports URL-safe mode and live conversion.",
   longDescription:
-    "Convert text to Base64 encoding and back. Supports standard Base64 (RFC 4648) and URL-safe Base64. " +
-    "Features live conversion mode, character counting, clipboard integration, and input/output swapping.",
+    "Convert text to Base64 encoding and back with our developer-friendly Base64 Encoder / Decoder tool. Supports standard Base64 (RFC 4648) and URL-safe Base64 variants. " +
+    "Features live on-the-fly conversion mode, character counting, clipboard integration, and one-click input/output swapping for seamless data handling.",
   category: "encoders",
   icon: "🔄",
-  keywords: ["base64", "encode", "decode", "binary", "text", "conversion", "btoa", "atob"],
+  keywords: ["base64 encoder", "base64 decoder", "url safe base64", "btoa function online", "atob", "encode to base64", "binary to text encoding", "base64 conversion tool"],
   tags: ["encoding", "conversion", "text"],
 
   component: () => import("./Base64Tool.tsx"),
@@ -23,28 +23,28 @@ export const definition: ToolDefinition = {
     {
       question: "What is Base64 encoding?",
       answer:
-        "Base64 is a binary-to-text encoding scheme that represents binary data using 64 ASCII characters (A-Z, a-z, 0-9, +, /). " +
-        "It's commonly used for encoding data in URLs, emails, and data URIs.",
+        "Base64 is a widespread binary-to-text encoding scheme that represents binary data using 64 ASCII characters (A-Z, a-z, 0-9, +, /). " +
+        "It's primarily used for safely encoding data in URLs, sending email attachments, and embedding data URIs in CSS and HTML.",
     },
     {
       question: "What is URL-safe Base64?",
       answer:
-        "URL-safe Base64 replaces the + and / characters with - and _, and removes trailing = padding. " +
-        "This makes the encoded string safe for use in URLs without percent-encoding.",
+        "URL-safe Base64 replaces the plus `+` and slash `/` characters with a minus `-` and underscore `_`, and commonly removes the trailing `=` padding. " +
+        "This adaptation guarantees the encoded string is safe to use directly inside URL routes or query parameters without requiring further percent-encoding.",
     },
     {
-      question: "Does this tool send my data anywhere?",
+      question: "Is this Base64 tool safe to use with sensitive data?",
       answer:
-        "No. All encoding and decoding happens entirely in your browser. No data is transmitted to any server.",
+        "Yes. All Base64 encoding and decoding operations happen locally inside your browser using JavaScript. Absolutely no text or data is transmitted to or stored on external servers.",
     },
   ],
 
   howItWorks:
-    "Paste your text in the input field and see the Base64-encoded result instantly (in live mode). " +
-    "Toggle to decode mode to convert Base64 back to readable text. Enable URL-safe mode for web-friendly output.",
+    "Paste your raw string into the text area to immediately view the Base64-encoded string. " +
+    "Switch to 'Decode' mode to unwrap encoded Base64 back into readable text. Select 'URL-safe' mode to strip special symbols and output web-friendly strings.",
 
-  relatedTools: ["url-encoder", "hash-generator", "binary-converter"],
+  relatedTools: ["url-encoder", "hash-generator"],
 
   schemaType: "WebApplication",
-  lastUpdated: "2026-02-25",
+  lastUpdated: "2026-03-03",
 };

@@ -1,11 +1,11 @@
 {
   "name": "knicknaks",
   "type": "module",
-  "version": "3.2.6",
+  "version": "3.4.0",
   "description": "Free, offline-capable web app with useful day-to-day tools",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "npm version minor --no-git-tag-version && astro dev",
+    "build": "npm version minor --no-git-tag-version && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",

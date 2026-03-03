@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getAllTools, getToolBySlug, getRelatedTools } from "@/tools/_registry";
 import { CATEGORY_INFO } from "@/tools/_types";
 import { ToolWrapper } from "@/components/advanced/ToolWrapper";
+import pkg from "../../../package.json";
 
 // Generate static paths for all tools
 export function getStaticPaths() {
@@ -227,9 +228,18 @@ if (tool.faq?.length) {
           <span>🪀</span>
           <span class="text-sm">Knicknaks — Free tools, no nonsense.</span>
         </div>
-        <p class="text-sm text-[var(--text-tertiary)]">
-          100% client-side. No data leaves your browser.
-        </p>
+        <div
+          class="flex flex-col md:flex-row items-center gap-4 text-sm text-[var(--text-tertiary)]"
+        >
+          <p>100% client-side. No data leaves your browser.</p>
+          <p class="hidden md:block opacity-50">•</p>
+          <p>
+            Build {
+              parseInt(pkg.version.split(".")[0]) * 1000 +
+                parseInt(pkg.version.split(".")[1])
+            }
+          </p>
+        </div>
       </div>
     </footer>
   </div>

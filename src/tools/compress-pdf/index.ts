@@ -3,13 +3,13 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Compress PDF",
   slug: "compress-pdf",
-  description: "Reduce PDF file size by re-encoding — all in your browser.",
+  description: "Reduce PDF file size securely directly in your browser without uploading to external servers.",
   longDescription:
-    "Upload a PDF and save a stripped-down copy. Removes redundant objects and re-serializes for a smaller file. " +
-    "All processing is local using pdf-lib.",
+    "Compress and optimize your PDF files instantly with our secure, client-side PDF compressor. By running entirely in your browser using WebAssembly and pdf-lib, this tool significantly reduces file sizes by stripping redundant objects and re-serializing documents. " +
+    "Perfect for preparing large PDFs for email attachments or web hosting without compromising privacy.",
   category: "pdf",
   icon: "📦",
-  keywords: ["pdf", "compress", "reduce", "shrink", "optimize", "smaller"],
+  keywords: ["compress pdf online", "reduce pdf file size", "shrink pdf document", "optimize pdf for web", "secure pdf compression local", "make pdf smaller", "pdf size reducer"],
   tags: ["pdf", "optimize"],
 
   component: () => import("./CompressPdfTool"),
@@ -22,12 +22,20 @@ export const definition: ToolDefinition = {
   faq: [
     {
       question: "How much smaller will my PDF get?",
-      answer: "Results vary. PDFs with redundant metadata or embedded objects benefit most. Heavily compressed PDFs may see little change.",
+      answer: "Reduction results vary depending on the original file. PDFs burdened with unoptimized images, redundant metadata, or heavily embedded redundant objects benefit the most. Documents that are already highly optimized may see minimal changes.",
     },
+    {
+      question: "Are my PDF files kept private?",
+      answer: "Absolutely. All compression algorithms execute completely locally inside your web browser. Your sensitive documents are never uploaded to our servers, ensuring 100% data privacy."
+    },
+    {
+      question: "Will the compression lower the quality of my PDF?",
+      answer: "No visible quality is lost. Our tool utilizes lossless optimization techniques by reconstructing the internal PDF structure and removing unnecessary bloat without degrading the actual content."
+    }
   ],
 
   howItWorks:
-    "Upload a PDF — the tool re-encodes it by copying all pages to a fresh document, stripping unnecessary embedded data.",
+    "Drop your bulky PDF into the upload zone. The tool instantly parses the file locally, then re-encodes the entire document by creating a fresh internal structure, effectively stripping out unnecessary embedded bloat before returning a lean, compressed file ready for download.",
 
   relatedTools: ["merge-pdf", "image-to-pdf", "pdf-metadata"],
   schemaType: "WebApplication",

@@ -3,18 +3,21 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Gradient Maker",
   slug: "gradient-maker",
-  description: "Visual multi-stop CSS gradient builder with linear/radial/conic modes and copy-ready output.",
+  description: "Visual CSS gradient builder. Create multi-stop linear, radial, and conic backgrounds instantly.",
+  longDescription: "Design beautiful, responsive CSS backgrounds with our interactive Gradient Maker. Seamlessly generate complex, multi-stop linear, radial, and conic gradients using a live visual editor. Perfect for UI developers looking to export clean, cross-browser compatible CSS code.",
   category: "converters",
   icon: "🌈",
-  keywords: ["gradient", "css", "linear", "radial", "conic", "color", "background", "design"],
+  keywords: ["css gradient generator", "radial background maker", "linear gradient builder", "conic css backgrounds", "visual gradient editor", "css color stops tool", "ui design backgrounds"],
   tags: ["color", "design", "css"],
   component: () => import("./GradientMakerTool"),
   capabilities: { supportsOffline: true, supportsClipboard: true },
   faq: [
-    { question: "What gradient types are supported?", answer: "Linear, radial, and conic gradients with multiple color stops and custom angles." },
+    { question: "What types of CSS gradients are supported?", answer: "Our tool supports exactly what modern browsers support: Linear (directional), Radial (circular/elliptical), and Conic (sweeping around a center point) gradients." },
+    { question: "Can I add more than two colors?", answer: "Yes! You can add virtually unlimited 'color stops' along the gradient line to construct dense, complex, or sharply-banded background transitions." },
+    { question: "Is the exported CSS compatible everywhere?", answer: "We generate standard CSS3 `background-image` syntax which is universally supported across all modern web browsers including Chrome, Safari, Firefox, and Edge." }
   ],
-  howItWorks: "Add color stops, choose a gradient type, adjust angle and positions, preview live, and copy the CSS.",
+  howItWorks: "Add your desired color stops to the interactive gradient bar. Choose between linear, radial, or conic modes and adjust angles or center positions. See your background render live before clicking to copy the final CSS snippet.",
   relatedTools: ["color-converter", "palette-generator", "box-shadow"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-02-27",
+  lastUpdated: "2026-03-03",
 };
