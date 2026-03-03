@@ -66,7 +66,7 @@ export default function JsonFormatterTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Input JSON</label>
+              <label className="text-sm font-medium text(--text-primary)">Input JSON</label>
               <Button size="sm" variant="ghost" onClick={handleSampleJson}>
                 📝 Sample
               </Button>
@@ -83,7 +83,7 @@ export default function JsonFormatterTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Formatted Output</label>
+              <label className="text-sm font-medium text(--text-primary)">Formatted Output</label>
               {output && (
                 <Button size="sm" variant="ghost" onClick={handleCopy}>
                   {copied ? "✓ Copied!" : "📋 Copy"}
@@ -111,11 +111,11 @@ export default function JsonFormatterTool() {
       <Panel>
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs text-[var(--text-secondary)]">Indent</label>
+            <label className="text-xs text(--text-secondary)">Indent</label>
             <select
               value={indent}
               onChange={(e) => setIndent(e.target.value as IndentStyle)}
-              className="px-3 py-1.5 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] text-sm cursor-pointer"
+              className="px-3 py-1.5 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm cursor-pointer"
             >
               <option value="2">2 Spaces</option>
               <option value="4">4 Spaces</option>

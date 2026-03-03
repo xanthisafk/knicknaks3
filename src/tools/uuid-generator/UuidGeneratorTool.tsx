@@ -69,7 +69,7 @@ export default function UuidGeneratorTool() {
       <Panel>
         <div className="flex flex-wrap items-end gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Version</label>
+            <label className="text-sm font-medium text(--text-primary)">Version</label>
             <div className="flex gap-1 p-1 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
               {(["v4", "v7"] as const).map((v) => (
                 <button
@@ -77,8 +77,8 @@ export default function UuidGeneratorTool() {
                   onClick={() => setVersion(v)}
                   className={`px-4 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-colors cursor-pointer ${
                     version === v
-                      ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] shadow-sm"
-                      : "text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
+                      ? "bg-[var(--surface-elevated)] text(--text-primary) shadow-sm"
+                      : "text-[var(--text-tertiary)] hover:text(--text-primary)"
                   }`}
                 >
                   {v.toUpperCase()}
@@ -88,14 +88,14 @@ export default function UuidGeneratorTool() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Count</label>
+            <label className="text-sm font-medium text(--text-primary)">Count</label>
             <input
               type="number"
               min={1}
               max={100}
               value={count}
               onChange={(e) => setCount(Math.max(1, Math.min(100, parseInt(e.target.value) || 1)))}
-              className="w-24 px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] text-sm"
+              className="w-24 px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm"
             />
           </div>
 
@@ -107,7 +107,7 @@ export default function UuidGeneratorTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-[var(--text-primary)]">
+              <h3 className="text-sm font-medium text(--text-primary)">
                 Generated UUIDs ({uuids.length})
               </h3>
               <Button size="sm" variant="ghost" onClick={handleCopyAll}>
@@ -118,14 +118,14 @@ export default function UuidGeneratorTool() {
               {uuids.map((uuid, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] hover:bg-[var(--surface-bg)] transition-colors group"
+                  className="flex items-center justify-between px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] hover:bg(--surface-bg) transition-colors group"
                 >
-                  <code className="text-sm font-[family-name:var(--font-mono)] text-[var(--text-primary)] select-all">
+                  <code className="text-sm font-[family-name:var(--font-mono)] text(--text-primary) select-all">
                     {uuid}
                   </code>
                   <button
                     onClick={() => handleCopyOne(uuid, i)}
-                    className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
+                    className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
                   >
                     {copiedIndex === i ? "✓" : "Copy"}
                   </button>

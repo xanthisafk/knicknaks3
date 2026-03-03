@@ -64,7 +64,7 @@ export function Tabs({ tabs, defaultTab, className, onChange }: TabsProps) {
             onKeyDown={(e) => handleKeyDown(e, index)}
             className={cn(
               "px-4 py-2 text-sm font-medium -mb-px border-b-2 transition-colors duration-[var(--duration-fast)]",
-              "hover:text-[var(--text-primary)]",
+              "hover:text(--text-primary)",
               "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--border-focus)]",
               activeTab === tab.id
                 ? "border-[var(--color-primary-500)] text-[var(--color-primary-600)]"

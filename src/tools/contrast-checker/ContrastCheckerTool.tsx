@@ -140,10 +140,10 @@ export default function ContrastCheckerTool() {
         <Panel>
           <div className="text-center mb-6">
             <p className="text-xs text-[var(--text-tertiary)] mb-1">Contrast Ratio</p>
-            <p className="text-4xl md:text-5xl font-bold font-[family-name:var(--font-mono)] text-[var(--text-primary)] tabular-nums">
+            <p className="text-4xl md:text-5xl font-bold font-[family-name:var(--font-mono)] text(--text-primary) tabular-nums">
               {result.ratio}:1
             </p>
-            <p className="text-sm text-[var(--text-secondary)] mt-1">{ratioLabel}</p>
+            <p className="text-sm text(--text-secondary) mt-1">{ratioLabel}</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

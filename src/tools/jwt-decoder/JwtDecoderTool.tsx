@@ -49,7 +49,7 @@ function ClaimRow({ name, value }: { name: string; value: unknown }) {
         {name}
       </code>
       <div className="flex-1">
-        <span className="text-sm text-[var(--text-primary)] break-all">
+        <span className="text-sm text(--text-primary) break-all">
           {typeof value === "object" ? JSON.stringify(value) : String(value)}
         </span>
         {formatted && (
@@ -83,7 +83,7 @@ function JsonBlock({ title, data, color }: { title: string; data: Record<string,
             {copied ? "✓ Copied!" : "📋 Copy"}
           </Button>
         </div>
-        <pre className="text-xs font-[family-name:var(--font-mono)] bg-[var(--surface-secondary)] rounded-[var(--radius-md)] p-3 overflow-x-auto whitespace-pre-wrap text-[var(--text-primary)]">
+        <pre className="text-xs font-[family-name:var(--font-mono)] bg-[var(--surface-secondary)] rounded-[var(--radius-md)] p-3 overflow-x-auto whitespace-pre-wrap text(--text-primary)">
           {json}
         </pre>
         <div className="divide-y divide-[var(--border-default)]">
@@ -117,7 +117,7 @@ export default function JwtDecoderTool() {
     <div className="space-y-6">
       <Panel>
         <div className="space-y-3">
-          <label className="text-sm font-medium text-[var(--text-primary)]">Paste JWT Token</label>
+          <label className="text-sm font-medium text(--text-primary)">Paste JWT Token</label>
           <Textarea
             value={token}
             onChange={(e) => setToken(e.target.value)}
@@ -147,7 +147,7 @@ export default function JwtDecoderTool() {
       {decoded && (
         <Panel padding="sm">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-[var(--text-secondary)]">Signature:</span>
+            <span className="text-xs font-medium text(--text-secondary)">Signature:</span>
             <code className="text-xs font-[family-name:var(--font-mono)] text-[var(--text-tertiary)] break-all">
               {decoded.signature}
             </code>

@@ -41,15 +41,15 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <div className="flex items-center justify-between py-2 px-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
-      <span className="text-xs font-medium text-[var(--text-secondary)] w-20">{label}</span>
-      <span className="text-sm font-[family-name:var(--font-mono)] text-[var(--text-primary)] flex-1 ml-3">{value}</span>
+      <span className="text-xs font-medium text(--text-secondary) w-20">{label}</span>
+      <span className="text-sm font-[family-name:var(--font-mono)] text(--text-primary) flex-1 ml-3">{value}</span>
       <button
         onClick={async () => {
           await copyToClipboard(value);
           setCopied(true);
           setTimeout(() => setCopied(false), 1500);
         }}
-        className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer ml-2"
+        className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) transition-colors cursor-pointer ml-2"
       >
         {copied ? "✓" : "Copy"}
       </button>
@@ -129,7 +129,7 @@ export default function UnixTimestampTool() {
         {/* Timestamp → Date */}
         <Panel>
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-[var(--text-primary)]">Timestamp → Date</h3>
+            <h3 className="text-sm font-medium text(--text-primary)">Timestamp → Date</h3>
             <Input
               value={timestampInput}
               onChange={(e) => setTimestampInput(e.target.value)}
@@ -146,12 +146,12 @@ export default function UnixTimestampTool() {
         {/* Date → Timestamp */}
         <Panel>
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-[var(--text-primary)]">Date → Timestamp</h3>
+            <h3 className="text-sm font-medium text(--text-primary)">Date → Timestamp</h3>
             <input
               type="datetime-local"
               value={dateInput}
               onChange={(e) => setDateInput(e.target.value)}
-              className="w-full px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] text-sm"
+              className="w-full px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm"
             />
             <Button onClick={handleDateConvert} size="sm">Convert</Button>
           </div>
@@ -164,7 +164,7 @@ export default function UnixTimestampTool() {
 
       {result && (
         <Panel>
-          <h3 className="text-sm font-medium text-[var(--text-primary)] mb-3">Conversion Result</h3>
+          <h3 className="text-sm font-medium text(--text-primary) mb-3">Conversion Result</h3>
           <div className="space-y-2">
             {resultTimestamp !== null && (
               <InfoRow label="Timestamp" value={resultTimestamp.toString()} />

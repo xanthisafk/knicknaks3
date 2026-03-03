@@ -33,12 +33,12 @@ export function Slider({
       {(label || showValue) && (
         <div className="flex items-center justify-between">
           {label && (
-            <label htmlFor={inputId} className="text-sm font-medium text-[var(--text-primary)]">
+            <label htmlFor={inputId} className="text-sm font-medium text(--text-primary)">
               {label}
             </label>
           )}
           {showValue && (
-            <span className="text-sm font-mono text-[var(--text-secondary)] tabular-nums">
+            <span className="text-sm font-mono text(--text-secondary) tabular-nums">
               {formatValue(value)}
             </span>
           )}

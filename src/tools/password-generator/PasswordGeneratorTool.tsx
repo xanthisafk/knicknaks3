@@ -83,7 +83,7 @@ export default function PasswordGeneratorTool() {
           {/* Length slider */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Length</label>
+              <label className="text-sm font-medium text(--text-primary)">Length</label>
               <span className="text-sm font-[family-name:var(--font-mono)] text-[var(--color-primary-500)] font-bold">
                 {length}
               </span>
@@ -113,7 +113,7 @@ export default function PasswordGeneratorTool() {
           {/* Entropy bar */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-[var(--text-secondary)]">Entropy: {entropy} bits</span>
+              <span className="text(--text-secondary)">Entropy: {entropy} bits</span>
               <span style={{ color: strength.color }} className="font-medium">{strength.label}</span>
             </div>
             <div className="h-2 w-full rounded-full bg-[var(--surface-secondary)] overflow-hidden">
@@ -135,13 +135,13 @@ export default function PasswordGeneratorTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Your Password</label>
+              <label className="text-sm font-medium text(--text-primary)">Your Password</label>
               <Button size="sm" variant="ghost" onClick={handleCopy}>
                 {copied ? "✓ Copied!" : "📋 Copy"}
               </Button>
             </div>
             <div
-              className="px-4 py-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] font-[family-name:var(--font-mono)] text-base break-all text-[var(--text-primary)] select-all cursor-pointer border border-[var(--border-default)]"
+              className="px-4 py-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] font-[family-name:var(--font-mono)] text-base break-all text(--text-primary) select-all cursor-pointer border border-[var(--border-default)]"
               onClick={handleCopy}
               role="button"
               tabIndex={0}

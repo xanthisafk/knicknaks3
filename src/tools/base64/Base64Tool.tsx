@@ -113,7 +113,7 @@ export default function Base64Tool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Input</label>
+              <label className="text-sm font-medium text(--text-primary)">Input</label>
               <span className="text-xs text-[var(--text-tertiary)]">{input.length} chars</span>
             </div>
             <Textarea
@@ -128,7 +128,7 @@ export default function Base64Tool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Output</label>
+              <label className="text-sm font-medium text(--text-primary)">Output</label>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-[var(--text-tertiary)]">{output.length} chars</span>
                 {output && (

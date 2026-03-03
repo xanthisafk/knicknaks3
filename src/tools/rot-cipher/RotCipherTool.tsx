@@ -39,7 +39,7 @@ export default function RotCipherTool() {
       <Panel>
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Shift (N)</label>
+            <label className="text-sm font-medium text(--text-primary)">Shift (N)</label>
             <div className="flex items-center gap-3">
               <input
                 type="range"
@@ -62,7 +62,7 @@ export default function RotCipherTool() {
                 className={`px-3 py-1 text-xs font-medium rounded-[var(--radius-md)] transition-colors cursor-pointer ${
                   shift === n
                     ? "bg-[var(--color-primary-500)] text-white"
-                    : "bg-[var(--surface-secondary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    : "bg-[var(--surface-secondary)] text(--text-secondary) hover:text(--text-primary)"
                 }`}
               >
                 ROT{n}
@@ -75,7 +75,7 @@ export default function RotCipherTool() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Panel>
           <div className="space-y-3">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Input</label>
+            <label className="text-sm font-medium text(--text-primary)">Input</label>
             <Textarea
               value={input}
               onChange={(e) => handleInputChange(e.target.value)}
@@ -87,7 +87,7 @@ export default function RotCipherTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">
+              <label className="text-sm font-medium text(--text-primary)">
                 Output (ROT{shift})
               </label>
               {output && (
@@ -111,7 +111,7 @@ export default function RotCipherTool() {
           💡 To decode, apply ROT{26 - shift} (or{" "}
           <button
             onClick={() => handleShiftChange(26 - shift)}
-            className="underline hover:text-[var(--text-primary)] cursor-pointer"
+            className="underline hover:text(--text-primary) cursor-pointer"
           >
             click here
           </button>

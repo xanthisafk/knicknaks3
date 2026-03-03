@@ -15,6 +15,8 @@ export const TOOL_CATEGORIES = [
   "crypto",
   "dev",
   "health",
+  "pdf",
+  "ai",
   "other",
 ] as const;
 
@@ -34,6 +36,8 @@ export const CATEGORY_INFO: Record<ToolCategory, { label: string; icon: string; 
   crypto: { label: "Cryptography", icon: "🔐", description: "Hashing and encryption tools" },
   dev: { label: "Developer", icon: "💻", description: "Developer utilities" },
   health: { label: "Health & Fitness", icon: "❤️", description: "Health and fitness calculators" },
+  pdf: { label: "PDF Tools", icon: "📄", description: "Merge, split, and edit PDFs in-browser" },
+  ai: { label: "AI Tools", icon: "🤖", description: "Use AI models to get stuff done - directly in browser!" },
   other: { label: "Other", icon: "🧩", description: "Miscellaneous tools" },
 };
 

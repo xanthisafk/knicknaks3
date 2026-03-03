@@ -49,7 +49,7 @@ export default function TailwindColorsTool() {
       <div className="space-y-4">
         {filtered.map(([name, shades]) => (
           <div key={name}>
-            <h3 className="text-sm font-medium capitalize text-[var(--text-primary)] mb-2">{name}</h3>
+            <h3 className="text-sm font-medium capitalize text(--text-primary) mb-2">{name}</h3>
             <div className="flex gap-1 flex-wrap">
               {SHADES.map(shade => {
                 const hex = shades[shade];
@@ -63,7 +63,7 @@ export default function TailwindColorsTool() {
                       style={{ backgroundColor: hex }}
                       title={`${name}-${shade}: ${hex}`}
                     />
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-[var(--surface-elevated)] border border-[var(--border-default)] rounded px-1.5 py-0.5 text-xs font-[family-name:var(--font-mono)] text-[var(--text-primary)] whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-[var(--surface-elevated)] border border-[var(--border-default)] rounded px-1.5 py-0.5 text-xs font-[family-name:var(--font-mono)] text(--text-primary) whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-10">
                       {copied === id ? "✓ Copied!" : `${name}-${shade}`}
                     </div>
                   </div>

@@ -15,7 +15,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="text-sm font-medium text-[var(--text-primary)]"
+            className="text-sm font-medium text(--text-primary)"
           >
             {label}
           </label>
@@ -25,7 +25,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           className={cn(
             "w-full px-3 py-2 rounded-[var(--radius-md)]",
-            "bg-[var(--surface-elevated)] text-[var(--text-primary)]",
+            "bg-[var(--surface-elevated)] text(--text-primary)",
             "border border-[var(--border-default)]",
             "placeholder:text-[var(--text-tertiary)]",
             "transition-colors duration-[var(--duration-fast)]",
@@ -69,7 +69,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="text-sm font-medium text-[var(--text-primary)]"
+            className="text-sm font-medium text(--text-primary)"
           >
             {label}
           </label>
@@ -79,7 +79,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={inputId}
           className={cn(
             "w-full px-3 py-2 rounded-[var(--radius-md)] min-h-[100px] resize-y",
-            "bg-[var(--surface-elevated)] text-[var(--text-primary)]",
+            "bg-[var(--surface-elevated)] text(--text-primary)",
             "border border-[var(--border-default)]",
             "placeholder:text-[var(--text-tertiary)]",
             "transition-colors duration-[var(--duration-fast)]",

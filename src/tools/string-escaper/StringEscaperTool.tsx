@@ -109,8 +109,8 @@ export default function StringEscaperTool() {
                 onClick={() => setDirection(d)}
                 className={`px-4 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-colors cursor-pointer ${
                   direction === d
-                    ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] shadow-sm"
-                    : "text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
+                    ? "bg-[var(--surface-elevated)] text(--text-primary) shadow-sm"
+                    : "text-[var(--text-tertiary)] hover:text(--text-primary)"
                 }`}
               >
                 {d.charAt(0).toUpperCase() + d.slice(1)}
@@ -135,7 +135,7 @@ export default function StringEscaperTool() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Panel>
           <div className="space-y-3">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Input</label>
+            <label className="text-sm font-medium text(--text-primary)">Input</label>
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -147,7 +147,7 @@ export default function StringEscaperTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Output</label>
+              <label className="text-sm font-medium text(--text-primary)">Output</label>
               {output && (
                 <Button size="sm" variant="ghost" onClick={handleCopy}>
                   {copied ? "✓ Copied!" : "📋 Copy"}

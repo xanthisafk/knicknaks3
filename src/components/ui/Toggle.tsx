@@ -42,7 +42,7 @@ export function Toggle({ label, checked, onChange, disabled = false, id }: Toggl
         />
       </button>
       {label && (
-        <span className="text-sm text-[var(--text-primary)]">{label}</span>
+        <span className="text-sm text(--text-primary)">{label}</span>
       )}
     </label>
   );

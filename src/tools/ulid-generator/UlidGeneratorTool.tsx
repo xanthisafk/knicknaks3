@@ -58,14 +58,14 @@ export default function UlidGeneratorTool() {
       <Panel>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-[var(--text-primary)]">ULIDs</h3>
-            <button onClick={async () => { await copyToClipboard(ulids.join("\n")); setCopied("all"); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] cursor-pointer">{copied === "all" ? "✓ Copied all" : "Copy All"}</button>
+            <h3 className="text-sm font-semibold text(--text-primary)">ULIDs</h3>
+            <button onClick={async () => { await copyToClipboard(ulids.join("\n")); setCopied("all"); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) cursor-pointer">{copied === "all" ? "✓ Copied all" : "Copy All"}</button>
           </div>
           <div className="space-y-1.5 max-h-72 overflow-y-auto">
             {ulids.map((u, i) => (
               <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] hover:bg-[var(--surface-elevated)] transition-colors group">
-                <span className="font-[family-name:var(--font-mono)] text-sm text-[var(--text-primary)] flex-1 select-all">{u}</span>
-                <button onClick={async () => { await copyToClipboard(u); setCopied(u); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] cursor-pointer opacity-0 group-hover:opacity-100">{copied === u ? "✓" : "Copy"}</button>
+                <span className="font-[family-name:var(--font-mono)] text-sm text(--text-primary) flex-1 select-all">{u}</span>
+                <button onClick={async () => { await copyToClipboard(u); setCopied(u); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) cursor-pointer opacity-0 group-hover:opacity-100">{copied === u ? "✓" : "Copy"}</button>
               </div>
             ))}
           </div>
@@ -74,17 +74,17 @@ export default function UlidGeneratorTool() {
 
       <Panel>
         <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-[var(--text-primary)]">Inspect a ULID</h3>
+          <h3 className="text-sm font-semibold text(--text-primary)">Inspect a ULID</h3>
           <Input value={inspect} onChange={e => setInspect(e.target.value)} placeholder="Paste a ULID to decode..." className="font-[family-name:var(--font-mono)]" />
           {decoded ? (
             <div className="space-y-2">
               <div className="flex gap-3 px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
                 <span className="text-xs text-[var(--text-tertiary)] w-24">Timestamp</span>
-                <span className="text-sm font-[family-name:var(--font-mono)] text-[var(--text-primary)]">{decoded.timestamp.toISOString()}</span>
+                <span className="text-sm font-[family-name:var(--font-mono)] text(--text-primary)">{decoded.timestamp.toISOString()}</span>
               </div>
               <div className="flex gap-3 px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
                 <span className="text-xs text-[var(--text-tertiary)] w-24">Random</span>
-                <span className="text-sm font-[family-name:var(--font-mono)] text-[var(--text-primary)]">{decoded.random}</span>
+                <span className="text-sm font-[family-name:var(--font-mono)] text(--text-primary)">{decoded.random}</span>
               </div>
             </div>
           ) : inspect ? (

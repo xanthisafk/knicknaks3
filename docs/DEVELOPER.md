@@ -148,9 +148,7 @@ See `src/components/ui/` and `src/components/layout/` for full component APIs.
 All design tokens are CSS custom properties defined in `src/styles/global.css`. Use them via `var(--token-name)` in Tailwind's arbitrary values:
 
 ```tsx
-<div className="bg-[var(--surface-elevated)] text-[var(--text-primary)]">
-  ...
-</div>
+<div className="bg-[var(--surface-elevated)] text(--text-primary)">...</div>
 ```
 
 ## Build & Deploy

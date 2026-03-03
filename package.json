@@ -20,7 +20,10 @@
     "canvas-confetti": "^1.9.4",
     "cronstrue": "^3.13.0",
     "fuse.js": "^7.1.0",
+    "kokoro-js": "^1.2.1",
     "marked": "^17.0.3",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.5.207",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "shiki": "^3.23.0",
@@ -32,5 +35,9 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "tailwindcss": "^4.2.1"
+  },
+  "overrides": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   }
 }

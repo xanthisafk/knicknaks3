@@ -57,7 +57,7 @@ function highlightMatches(text: string, matches: MatchResult[]): React.ReactNode
     parts.push(
       <mark
         key={i}
-        className="bg-[var(--color-primary-200)] dark:bg-[var(--color-primary-700)] text-[var(--text-primary)] rounded-sm px-0.5"
+        className="bg-[var(--color-primary-200)] dark:bg-[var(--color-primary-700)] text(--text-primary) rounded-sm px-0.5"
         title={`Match ${i + 1}`}
       >
         {m.full}
@@ -118,7 +118,7 @@ export default function RegexTesterTool() {
                     onChange={(e) => setFlags({ ...flags, [flag]: e.target.checked })}
                     className="w-4 h-4 rounded accent-[var(--color-primary-500)]"
                   />
-                  <span className="text-sm font-[family-name:var(--font-mono)] text-[var(--text-primary)]">{flag}</span>
+                  <span className="text-sm font-[family-name:var(--font-mono)] text(--text-primary)">{flag}</span>
                 </label>
               ))}
             </div>
@@ -132,7 +132,7 @@ export default function RegexTesterTool() {
       {/* Test string */}
       <Panel>
         <div className="space-y-3">
-          <label className="text-sm font-medium text-[var(--text-primary)]">Test String</label>
+          <label className="text-sm font-medium text(--text-primary)">Test String</label>
           <Textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -147,12 +147,12 @@ export default function RegexTesterTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Highlighted Matches</label>
+              <label className="text-sm font-medium text(--text-primary)">Highlighted Matches</label>
               <span className="text-xs text-[var(--text-tertiary)]">
                 {matches.length} match{matches.length !== 1 ? "es" : ""}
               </span>
             </div>
-            <div className="px-3 py-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] font-[family-name:var(--font-mono)] text-sm text-[var(--text-primary)] whitespace-pre-wrap break-all">
+            <div className="px-3 py-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] font-[family-name:var(--font-mono)] text-sm text(--text-primary) whitespace-pre-wrap break-all">
               {highlighted}
             </div>
           </div>
@@ -162,7 +162,7 @@ export default function RegexTesterTool() {
       {/* Match details */}
       {matches.length > 0 && (
         <Panel>
-          <h3 className="text-sm font-medium text-[var(--text-primary)] mb-3">
+          <h3 className="text-sm font-medium text(--text-primary) mb-3">
             Match Details ({matches.length})
           </h3>
           <div className="space-y-2 max-h-64 overflow-y-auto">
@@ -184,7 +184,7 @@ export default function RegexTesterTool() {
                       {m.groups.map((g, gi) => (
                         <span
                           key={gi}
-                          className="text-xs px-1.5 py-0.5 rounded bg-[var(--color-accent-100)] dark:bg-[var(--color-accent-700)] text-[var(--text-primary)]"
+                          className="text-xs px-1.5 py-0.5 rounded bg-[var(--color-accent-100)] dark:bg-[var(--color-accent-700)] text(--text-primary)"
                         >
                           ${gi + 1}: "{g}"
                         </span>

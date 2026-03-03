@@ -67,7 +67,7 @@ export default function TextDiffTool() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Panel>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Original</label>
+            <label className="text-sm font-medium text(--text-primary)">Original</label>
             <Textarea
               value={left}
               onChange={e => setLeft(e.target.value)}
@@ -78,7 +78,7 @@ export default function TextDiffTool() {
         </Panel>
         <Panel>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Modified</label>
+            <label className="text-sm font-medium text(--text-primary)">Modified</label>
             <Textarea
               value={right}
               onChange={e => setRight(e.target.value)}
@@ -91,7 +91,7 @@ export default function TextDiffTool() {
 
       {stats && (
         <div className="flex flex-wrap gap-3">
-          <span className="text-xs px-2.5 py-1 rounded-full bg-[var(--surface-secondary)] text-[var(--text-secondary)]">
+          <span className="text-xs px-2.5 py-1 rounded-full bg-[var(--surface-secondary)] text(--text-secondary)">
             {stats.unchanged} unchanged
           </span>
           <span className="text-xs px-2.5 py-1 rounded-full bg-green-500/15 text-green-500">
@@ -117,7 +117,7 @@ export default function TextDiffTool() {
                     ? "bg-green-500/10 text-green-600 dark:text-green-400"
                     : op.type === "delete"
                     ? "bg-red-500/10 text-red-600 dark:text-red-400 line-through opacity-70"
-                    : "text-[var(--text-secondary)]"
+                    : "text(--text-secondary)"
                 }`}
               >
                 <span className="select-none mr-2 opacity-50">

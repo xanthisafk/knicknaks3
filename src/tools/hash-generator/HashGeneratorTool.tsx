@@ -34,17 +34,17 @@ function HashRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-[var(--text-secondary)]">{label}</span>
+        <span className="text-xs font-medium text(--text-secondary)">{label}</span>
         {value && (
           <button
             onClick={handleCopy}
-            className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+            className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) transition-colors cursor-pointer"
           >
             {copied ? "✓ Copied" : "Copy"}
           </button>
         )}
       </div>
-      <div className="px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] font-[family-name:var(--font-mono)] text-xs break-all text-[var(--text-primary)] min-h-[36px]">
+      <div className="px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] font-[family-name:var(--font-mono)] text-xs break-all text(--text-primary) min-h-[36px]">
         {value || <span className="text-[var(--text-tertiary)]">—</span>}
       </div>
     </div>
@@ -111,12 +111,12 @@ export default function HashGeneratorTool() {
             className="h-32 font-[family-name:var(--font-mono)] text-sm"
           />
           <div className="flex items-center gap-3">
-            <label className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] text-sm text-[var(--text-primary)] cursor-pointer hover:border-[var(--border-hover)] transition-colors">
+            <label className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] text-sm text(--text-primary) cursor-pointer hover:border-[var(--border-hover)] transition-colors">
               📁 Hash a file
               <input type="file" onChange={handleFileChange} className="hidden" />
             </label>
             {fileName && (
-              <span className="text-sm text-[var(--text-secondary)]">
+              <span className="text-sm text(--text-secondary)">
                 File: <strong>{fileName}</strong>
               </span>
             )}
@@ -129,7 +129,7 @@ export default function HashGeneratorTool() {
 
       <Panel>
         <div className="space-y-4">
-          <h3 className="text-sm font-medium text-[var(--text-primary)]">Hash Results</h3>
+          <h3 className="text-sm font-medium text(--text-primary)">Hash Results</h3>
           {ALGORITHMS.map((alg) => (
             <HashRow key={alg} label={alg} value={hashes[alg]} />
           ))}

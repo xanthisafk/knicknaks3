@@ -26,8 +26,8 @@ function ResultRow({ label, value }: { label: string; value: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <div className="flex items-center justify-between py-2 px-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
-      <span className="text-xs font-medium text-[var(--text-secondary)] min-w-[120px]">{label}</span>
-      <span className="text-sm font-[family-name:var(--font-mono)] text-[var(--text-primary)] flex-1 ml-3 break-all">
+      <span className="text-xs font-medium text(--text-secondary) min-w-[120px]">{label}</span>
+      <span className="text-sm font-[family-name:var(--font-mono)] text(--text-primary) flex-1 ml-3 break-all">
         {value || "—"}
       </span>
       {value && (
@@ -37,7 +37,7 @@ function ResultRow({ label, value }: { label: string; value: string }) {
             setCopied(true);
             setTimeout(() => setCopied(false), 1500);
           }}
-          className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer ml-2"
+          className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) transition-colors cursor-pointer ml-2"
         >
           {copied ? "✓" : "Copy"}
         </button>
@@ -81,11 +81,11 @@ export default function BaseConverterTool() {
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-[var(--text-primary)]">From Base</label>
+              <label className="text-sm font-medium text(--text-primary)">From Base</label>
               <select
                 value={fromBase}
                 onChange={(e) => setFromBase(parseInt(e.target.value))}
-                className="px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] text-sm cursor-pointer"
+                className="px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm cursor-pointer"
               >
                 {COMMON_BASES.map(({ base, label }) => (
                   <option key={base} value={base}>{label}</option>
@@ -98,7 +98,7 @@ export default function BaseConverterTool() {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-sm text-[var(--text-secondary)]">Quick:</span>
+            <span className="text-sm text(--text-secondary)">Quick:</span>
             {[2, 8, 10, 16].map((b) => (
               <button
                 key={b}
@@ -106,7 +106,7 @@ export default function BaseConverterTool() {
                 className={`px-3 py-1 text-xs font-medium rounded-[var(--radius-md)] transition-colors cursor-pointer ${
                   fromBase === b
                     ? "bg-[var(--color-primary-500)] text-white"
-                    : "bg-[var(--surface-secondary)] text-[var(--text-secondary)]"
+                    : "bg-[var(--surface-secondary)] text(--text-secondary)"
                 }`}
               >
                 Base {b}
@@ -118,7 +118,7 @@ export default function BaseConverterTool() {
 
       {Object.keys(results).length > 0 && (
         <Panel>
-          <h3 className="text-sm font-medium text-[var(--text-primary)] mb-3">Results</h3>
+          <h3 className="text-sm font-medium text(--text-primary) mb-3">Results</h3>
           <div className="space-y-2">
             {Object.entries(results).map(([label, value]) => (
               <ResultRow key={label} label={label} value={value} />

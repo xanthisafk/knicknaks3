@@ -40,7 +40,7 @@ export default function TextToSlugTool() {
           />
 
           <div className="flex items-center gap-3">
-            <span className="text-sm text-[var(--text-secondary)]">Separator:</span>
+            <span className="text-sm text(--text-secondary)">Separator:</span>
             {["-", "_", "."].map((sep) => (
               <button
                 key={sep}
@@ -48,7 +48,7 @@ export default function TextToSlugTool() {
                 className={`px-3 py-1 text-sm font-[family-name:var(--font-mono)] rounded-[var(--radius-md)] transition-colors cursor-pointer ${
                   separator === sep
                     ? "bg-[var(--color-primary-500)] text-white"
-                    : "bg-[var(--surface-secondary)] text-[var(--text-secondary)]"
+                    : "bg-[var(--surface-secondary)] text(--text-secondary)"
                 }`}
               >
                 {sep === "-" ? "hyphen" : sep === "_" ? "underscore" : "dot"}
@@ -62,7 +62,7 @@ export default function TextToSlugTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Generated Slug</label>
+              <label className="text-sm font-medium text(--text-primary)">Generated Slug</label>
               <Button size="sm" variant="ghost" onClick={handleCopy}>
                 {copied ? "✓ Copied!" : "📋 Copy"}
               </Button>

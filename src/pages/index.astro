@@ -30,14 +30,14 @@ const structuredData = {
   <div class="min-h-screen flex flex-col">
     <!-- Header -->
     <header
-      class="sticky top-0 z-40 bg-[var(--surface-bg)]/80 backdrop-blur-lg border-b border-[var(--border-default)]"
+      class="sticky top-0 z-40 bg(--surface-bg)/80 backdrop-blur-lg border-b border-[var(--border-default)]"
     >
       <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <a href="/" class="flex items-center gap-2 no-underline">
             <span class="text-2xl">🪀</span>
             <span
-              class="text-xl font-bold tracking-tight text-[var(--text-primary)]"
+              class="text-xl font-bold tracking-tight text(--text-primary)"
               style="font-family: var(--font-heading)"
             >
               <span class="doodle-underline">Knicknaks</span>
@@ -47,7 +47,7 @@ const structuredData = {
             <button
               id="theme-toggle"
               type="button"
-              class="w-9 h-9 flex items-center justify-center rounded-[var(--radius-md)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] transition-colors"
+              class="w-9 h-9 flex items-center justify-center rounded-[var(--radius-md)] text(--text-secondary) hover:text(--text-primary) hover:bg-[var(--surface-secondary)] transition-colors"
               aria-label="Toggle theme"
             >
               🌜
@@ -62,13 +62,13 @@ const structuredData = {
       <section class="py-16 md:py-24 text-center">
         <div class="max-w-3xl mx-auto px-4">
           <h1
-            class="text-4xl md:text-6xl font-extrabold mb-4 text-[var(--text-primary)]"
+            class="text-4xl md:text-6xl font-extrabold mb-4 text(--text-primary)"
             style="font-family: var(--font-heading)"
           >
             Your go-to <span class="doodle-underline">toolbox</span>
           </h1>
           <p
-            class="text-lg md:text-xl text-[var(--text-secondary)] mb-8 max-w-xl mx-auto"
+            class="text-lg md:text-xl text(--text-secondary) mb-8 max-w-xl mx-auto"
           >
             Free, fast, and privacy-friendly tools that run entirely in your
             browser. No signup. No tracking. No nonsense.
@@ -81,7 +81,7 @@ const structuredData = {
               type="search"
               placeholder="⌘K or Ctrl+K"
               autocomplete="off"
-              class="w-full px-4 py-3 pl-10 rounded-[var(--radius-xl)] bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] placeholder:text-[var(--text-tertiary)] shadow-sm focus:outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-color)] text-base"
+              class="w-full px-4 py-3 pl-10 rounded-[var(--radius-xl)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] placeholder:text-[var(--text-tertiary)] shadow-sm focus:outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-color)] text-base"
             />
             <span
               class="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-tertiary)]"
@@ -109,13 +109,13 @@ const structuredData = {
                   >
                     <div class="mb-6">
                       <h2
-                        class="text-2xl font-bold text-[var(--text-primary)] flex items-center gap-2"
+                        class="text-2xl font-bold text(--text-primary) flex items-center gap-2"
                         style="font-family: var(--font-heading)"
                       >
                         <span>{info.icon}</span>
                         {info.label}
                       </h2>
-                      <p class="text-sm text-[var(--text-secondary)] mt-1">
+                      <p class="text-sm text(--text-secondary) mt-1">
                         {info.description}
                       </p>
                     </div>
@@ -132,12 +132,12 @@ const structuredData = {
                             </span>
                             <div>
                               <h3
-                                class="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-600)]"
+                                class="text-sm font-semibold text(--text-primary) group-hover:text-[var(--color-primary-600)]"
                                 style="font-family: var(--font-heading)"
                               >
                                 {tool.name}
                               </h3>
-                              <p class="text-xs text-[var(--text-secondary)] mt-1 line-clamp-2">
+                              <p class="text-xs text(--text-secondary) mt-1 line-clamp-2">
                                 {tool.description}
                               </p>
                             </div>
@@ -151,7 +151,7 @@ const structuredData = {
             ) : (
               <div class="text-center py-16">
                 <p class="text-4xl mb-4">🧰</p>
-                <p class="text-[var(--text-secondary)]">
+                <p class="text(--text-secondary)">
                   Tools are being crafted. Check back soon!
                 </p>
               </div>
@@ -256,8 +256,8 @@ const structuredData = {
             noResultsMsg.className = "text-center py-16 w-full";
             noResultsMsg.innerHTML = `
               <p class="text-4xl mb-4">🔍</p>
-              <p class="text-[var(--text-primary)] font-semibold">No tools found for "${query}"</p>
-              <p class="text-[var(--text-secondary)] mt-2">Try a different search term or browse by category.</p>
+              <p class="text(--text-primary) font-semibold">No tools found for "${query}"</p>
+              <p class="text(--text-secondary) mt-2">Try a different search term or browse by category.</p>
             `;
             toolsContainer.appendChild(noResultsMsg);
           } else if (noResultsMsg) {

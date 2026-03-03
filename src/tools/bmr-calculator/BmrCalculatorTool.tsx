@@ -46,12 +46,12 @@ export default function BmrCalculatorTool() {
     <div className="space-y-6">
       <Panel>
         <div className="flex justify-center mb-6">
-          <div className="flex bg-[var(--surface-secondary)] rounded-xl p-1 border border-[var(--border-default)]">
+          <div className="flex bg-(--surface-secondary) rounded-xl p-1 border border-(--border-default)">
             <button
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 unit === "metric"
-                  ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] shadow-sm"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                  ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
+                  : "text-(--text-secondary) hover:text-(--text-primary)"
               }`}
               onClick={() => setUnit("metric")}
             >
@@ -60,8 +60,8 @@ export default function BmrCalculatorTool() {
             <button
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 unit === "imperial"
-                  ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] shadow-sm"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                  ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
+                  : "text-(--text-secondary) hover:text-(--text-primary)"
               }`}
               onClick={() => setUnit("imperial")}
             >
@@ -72,13 +72,13 @@ export default function BmrCalculatorTool() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-4">
-            <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Gender</label>
-            <div className="flex bg-[var(--surface-elevated)] rounded-xl p-1 border border-[var(--border-default)]">
+            <label className="block text-sm font-medium text-(--text-primary) mb-1">Gender</label>
+            <div className="flex bg-(--surface-elevated) rounded-xl p-1 border border-(--border-default)">
               <button
                 className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   gender === "male"
-                    ? "bg-[var(--color-primary-500)] text-white shadow-sm"
-                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    ? "bg-primary-500 text-white shadow-sm"
+                    : "text-(--text-secondary) hover:text-(--text-primary)"
                 }`}
                 onClick={() => setGender("male")}
               >
@@ -87,8 +87,8 @@ export default function BmrCalculatorTool() {
               <button
                 className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   gender === "female"
-                    ? "bg-[var(--color-primary-500)] text-white shadow-sm"
-                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    ? "bg-primary-500 text-white shadow-sm"
+                    : "text-(--text-secondary) hover:text-(--text-primary)"
                 }`}
                 onClick={() => setGender("female")}
               >
@@ -96,34 +96,34 @@ export default function BmrCalculatorTool() {
               </button>
             </div>
             
-            <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Age</label>
+            <label className="block text-sm font-medium text-(--text-primary) mb-1">Age</label>
             <div className="flex items-center gap-2">
               <input
                 type="number"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]"
+                className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
                 placeholder="years"
                 min="1"
                 max="120"
               />
-              <span className="text-sm text-[var(--text-secondary)]">years</span>
+              <span className="text-sm text-(--text-secondary)">years</span>
             </div>
           </div>
 
           <div className="space-y-4">
-            <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Height</label>
+            <label className="block text-sm font-medium text-(--text-primary) mb-1">Height</label>
             {unit === "metric" ? (
               <div className="flex items-center gap-2">
                 <input
                   type="number"
                   value={cm}
                   onChange={(e) => setCm(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]"
+                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
                   placeholder="cm"
                   min="0"
                 />
-                <span className="text-sm text-[var(--text-secondary)]">cm</span>
+                <span className="text-sm text-(--text-secondary)">cm</span>
               </div>
             ) : (
               <div className="flex items-center gap-2">
@@ -131,36 +131,36 @@ export default function BmrCalculatorTool() {
                   type="number"
                   value={feet}
                   onChange={(e) => setFeet(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]"
+                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
                   placeholder="ft"
                   min="0"
                 />
-                <span className="text-sm text-[var(--text-secondary)]">ft</span>
+                <span className="text-sm text-(--text-secondary)">ft</span>
                 <input
                   type="number"
                   value={inches}
                   onChange={(e) => setInches(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]"
+                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
                   placeholder="in"
                   min="0"
                   max="11"
                 />
-                <span className="text-sm text-[var(--text-secondary)]">in</span>
+                <span className="text-sm text-(--text-secondary)">in</span>
               </div>
             )}
             
-            <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Weight</label>
+            <label className="block text-sm font-medium text-(--text-primary) mb-1">Weight</label>
             {unit === "metric" ? (
               <div className="flex items-center gap-2">
                 <input
                   type="number"
                   value={kg}
                   onChange={(e) => setKg(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]"
+                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
                   placeholder="kg"
                   min="0"
                 />
-                <span className="text-sm text-[var(--text-secondary)]">kg</span>
+                <span className="text-sm text-(--text-secondary)">kg</span>
               </div>
             ) : (
               <div className="flex items-center gap-2">
@@ -168,11 +168,11 @@ export default function BmrCalculatorTool() {
                   type="number"
                   value={lbs}
                   onChange={(e) => setLbs(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]"
+                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
                   placeholder="lbs"
                   min="0"
                 />
-                <span className="text-sm text-[var(--text-secondary)]">lbs</span>
+                <span className="text-sm text-(--text-secondary)">lbs</span>
               </div>
             )}
           </div>
@@ -182,15 +182,15 @@ export default function BmrCalculatorTool() {
       {bmr !== null && (
         <Panel>
           <div className="text-center py-6 space-y-4">
-            <h3 className="text-sm font-medium text-[var(--text-secondary)]">Your BMR</h3>
-            <div className="text-5xl font-bold text-[var(--color-primary-500)]">
+            <h3 className="text-sm font-medium text-(--text-secondary)">Your BMR</h3>
+            <div className="text-5xl font-bold text-primary-500">
               {bmr.toLocaleString()}
             </div>
-            <div className="text-sm text-[var(--text-secondary)]">
+            <div className="text-sm text-(--text-secondary)">
               Calories / day
             </div>
           </div>
-          <p className="text-xs text-[var(--text-tertiary)] text-center max-w-lg mx-auto mt-4 px-4 bg-[var(--surface-secondary)] p-3 rounded-lg border border-[var(--border-default)]">
+          <p className="text-xs text-(--text-tertiary) text-center max-w-lg mx-auto mt-4 px-4 bg-(--surface-secondary) p-3 rounded-lg border border-(--border-default)">
             Your Basal Metabolic Rate (BMR) is the amount of energy expended while at complete rest. It's the number of calories you'd burn if you stayed in bed all day doing absolutely nothing.
           </p>
         </Panel>

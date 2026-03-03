@@ -44,7 +44,7 @@ export default function ReverseTextTool() {
   return (
     <div className="space-y-6">
       <Panel>
-        <label className="text-sm font-medium text-[var(--text-primary)] mb-3 block">Reverse mode</label>
+        <label className="text-sm font-medium text(--text-primary) mb-3 block">Reverse mode</label>
         <div className="flex flex-wrap gap-2">
           {MODES.map((m) => (
             <Button
@@ -62,7 +62,7 @@ export default function ReverseTextTool() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Panel>
           <div className="space-y-3">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Input</label>
+            <label className="text-sm font-medium text(--text-primary)">Input</label>
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -74,7 +74,7 @@ export default function ReverseTextTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Reversed</label>
+              <label className="text-sm font-medium text(--text-primary)">Reversed</label>
               {output && (
                 <Button size="sm" variant="ghost" onClick={handleCopy}>
                   {copied ? "✓ Copied!" : "📋 Copy"}

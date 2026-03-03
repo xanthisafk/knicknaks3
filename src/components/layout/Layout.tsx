@@ -117,12 +117,12 @@ export function Section({ children, className, title, description }: SectionProp
       {(title || description) && (
         <div className="mb-6 md:mb-8">
           {title && (
-            <h2 className="text-2xl md:text-3xl font-bold font-[family-name:var(--font-heading)] text-[var(--text-primary)]">
+            <h2 className="text-2xl md:text-3xl font-bold font-[family-name:var(--font-heading)] text(--text-primary)">
               {title}
             </h2>
           )}
           {description && (
-            <p className="mt-2 text-[var(--text-secondary)] max-w-2xl">{description}</p>
+            <p className="mt-2 text(--text-secondary) max-w-2xl">{description}</p>
           )}
         </div>
       )}

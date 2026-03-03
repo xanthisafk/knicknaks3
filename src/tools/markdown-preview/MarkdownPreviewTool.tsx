@@ -136,7 +136,7 @@ export default function MarkdownPreviewTool() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your Markdown here..."
-            className="flex-1 w-full p-4 bg-transparent text-[var(--text-primary)] font-[family-name:var(--font-mono)] text-sm resize-none border-none outline-none min-h-[400px]"
+            className="flex-1 w-full p-4 bg-transparent text(--text-primary) font-[family-name:var(--font-mono)] text-sm resize-none border-none outline-none min-h-[400px]"
             spellCheck={false}
           />
         </Panel>

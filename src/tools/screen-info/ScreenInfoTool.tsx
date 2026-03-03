@@ -44,9 +44,9 @@ function getScreenData(): ScreenData {
 
 function InfoRow({ label, value, badge }: { label: string; value: string | number; badge?: "green" | "red" }) {
   return (
-    <div className="flex items-center justify-between py-2.5 px-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] hover:bg-[var(--surface-bg)] transition-colors">
-      <span className="text-sm text-[var(--text-secondary)]">{label}</span>
-      <span className="text-sm font-medium font-[family-name:var(--font-mono)] text-[var(--text-primary)] flex items-center gap-2">
+    <div className="flex items-center justify-between py-2.5 px-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] hover:bg(--surface-bg) transition-colors">
+      <span className="text-sm text(--text-secondary)">{label}</span>
+      <span className="text-sm font-medium font-[family-name:var(--font-mono)] text(--text-primary) flex items-center gap-2">
         {badge && (
           <span
             className={`w-2 h-2 rounded-full ${
@@ -84,7 +84,7 @@ export default function ScreenInfoTool() {
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
             <p className="text-xs text-[var(--text-tertiary)]">Screen</p>
-            <p className="text-lg font-bold text-[var(--text-primary)] font-[family-name:var(--font-mono)] tabular-nums">
+            <p className="text-lg font-bold text(--text-primary) font-[family-name:var(--font-mono)] tabular-nums">
               {data.screenWidth} × {data.screenHeight}
             </p>
           </div>
@@ -96,7 +96,7 @@ export default function ScreenInfoTool() {
           </div>
           <div>
             <p className="text-xs text-[var(--text-tertiary)]">DPR</p>
-            <p className="text-lg font-bold text-[var(--text-primary)] font-[family-name:var(--font-mono)] tabular-nums">
+            <p className="text-lg font-bold text(--text-primary) font-[family-name:var(--font-mono)] tabular-nums">
               {data.dpr}x
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function ScreenInfoTool() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Panel>
-          <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-3">Display</h3>
+          <h3 className="text-sm font-semibold text(--text-primary) mb-3">Display</h3>
           <div className="space-y-1.5">
             <InfoRow label="Screen Resolution" value={`${data.screenWidth} × ${data.screenHeight}`} />
             <InfoRow label="Viewport Size" value={`${data.viewportWidth} × ${data.viewportHeight}`} />
@@ -117,7 +117,7 @@ export default function ScreenInfoTool() {
         </Panel>
 
         <Panel>
-          <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-3">Device & Browser</h3>
+          <h3 className="text-sm font-semibold text(--text-primary) mb-3">Device & Browser</h3>
           <div className="space-y-1.5">
             <InfoRow label="Platform" value={data.platform} />
             <InfoRow label="CPU Cores" value={data.hardwareConcurrency || "N/A"} />

@@ -327,7 +327,7 @@ export default function AgeCalculatorTool() {
       <Panel>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Date of Birth</label>
+            <label className="text-sm font-medium text(--text-primary)">Date of Birth</label>
             <input
               type="date"
               value={birthDate}
@@ -337,7 +337,7 @@ export default function AgeCalculatorTool() {
             />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Calculate to</label>
+            <label className="text-sm font-medium text(--text-primary)">Calculate to</label>
             <input
               type="date"
               value={toDate}
@@ -365,14 +365,14 @@ export default function AgeCalculatorTool() {
               <div className="flex items-center justify-center gap-2">
                 <button
                   onClick={() => setZodiacMode(zodiacMode === "western" ? "chinese" : "western")}
-                  className="px-3 py-1 rounded-full text-xs font-semibold border border-[var(--border-default)] bg-[var(--surface-secondary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-primary-300)] transition-colors"
+                  className="px-3 py-1 rounded-full text-xs font-semibold border border-[var(--border-default)] bg-[var(--surface-secondary)] text(--text-secondary) hover:text(--text-primary) hover:border-[var(--color-primary-300)] transition-colors"
                 >
                   {zodiacMode === "western" ? "Switch to 🐉 Chinese Zodiac" : "Switch to ✨ Western Zodiac"}
                 </button>
               </div>
 
               {zodiacMode === "western" ? (
-                <p className="text-sm text-[var(--text-secondary)]">✨ {result.zodiac}</p>
+                <p className="text-sm text(--text-secondary)">✨ {result.zodiac}</p>
               ) : (
                 <div className="text-center">
                   <p className="text-sm font-semibold text-[var(--color-primary-500)]">
@@ -401,11 +401,11 @@ export default function AgeCalculatorTool() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <span className="text-xs text-[var(--text-tertiary)]">Born on</span>
-                <p className="text-sm font-medium text-[var(--text-primary)]">{result.dayOfWeek}</p>
+                <p className="text-sm font-medium text(--text-primary)">{result.dayOfWeek}</p>
               </div>
               <div>
                 <span className="text-xs text-[var(--text-tertiary)]">Next birthday</span>
-                <p className="text-sm font-medium text-[var(--text-primary)]">{result.nextBirthdayText}</p>
+                <p className="text-sm font-medium text(--text-primary)">{result.nextBirthdayText}</p>
                 <p className="text-xs text-[var(--color-primary-500)] mt-1 tabular-nums">⏳ {countdown}</p>
               </div>
             </div>

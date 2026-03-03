@@ -96,10 +96,10 @@ export default function PaceCalculatorTool() {
     <div className="space-y-6">
       <Panel>
         <div className="flex justify-center mb-6">
-          <div className="flex bg-[var(--surface-secondary)] rounded-xl p-1 border border-[var(--border-default)]">
+          <div className="flex bg-(--surface-secondary) rounded-xl p-1 border border-(--border-default)">
             <button
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                calculateMode === "pace" ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] shadow-sm" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                calculateMode === "pace" ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm" : "text-(--text-secondary) hover:text-(--text-primary)"
               }`}
               onClick={() => setCalculateMode("pace")}
             >
@@ -107,7 +107,7 @@ export default function PaceCalculatorTool() {
             </button>
             <button
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                calculateMode === "time" ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] shadow-sm" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                calculateMode === "time" ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm" : "text-(--text-secondary) hover:text-(--text-primary)"
               }`}
               onClick={() => setCalculateMode("time")}
             >
@@ -115,7 +115,7 @@ export default function PaceCalculatorTool() {
             </button>
             <button
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                calculateMode === "distance" ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] shadow-sm" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                calculateMode === "distance" ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm" : "text-(--text-secondary) hover:text-(--text-primary)"
               }`}
               onClick={() => setCalculateMode("distance")}
             >
@@ -127,28 +127,28 @@ export default function PaceCalculatorTool() {
         <div className="space-y-6">
           {calculateMode !== "time" && (
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-[var(--text-primary)]">Time</label>
+              <label className="block text-sm font-medium text-(--text-primary)">Time</label>
               <div className="flex items-center gap-2">
-                <input type="number" value={timeHrs} onChange={(e) => setTimeHrs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]" placeholder="hr" min="0" />
-                <span className="text-xs text-[var(--text-secondary)]">h</span>
+                <input type="number" value={timeHrs} onChange={(e) => setTimeHrs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="hr" min="0" />
+                <span className="text-xs text-(--text-secondary)">h</span>
                 
-                <input type="number" value={timeMins} onChange={(e) => setTimeMins(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]" placeholder="min" min="0" max="59" />
-                <span className="text-xs text-[var(--text-secondary)]">m</span>
+                <input type="number" value={timeMins} onChange={(e) => setTimeMins(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="min" min="0" max="59" />
+                <span className="text-xs text-(--text-secondary)">m</span>
                 
-                <input type="number" value={timeSecs} onChange={(e) => setTimeSecs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]" placeholder="sec" min="0" max="59" />
-                <span className="text-xs text-[var(--text-secondary)]">s</span>
+                <input type="number" value={timeSecs} onChange={(e) => setTimeSecs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="sec" min="0" max="59" />
+                <span className="text-xs text-(--text-secondary)">s</span>
               </div>
             </div>
           )}
 
           {calculateMode !== "distance" && (
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-[var(--text-primary)]">Distance</label>
+              <label className="block text-sm font-medium text-(--text-primary)">Distance</label>
               <div className="flex items-center gap-2">
                 {["km", "mi", "m"].includes(distUnit) && (
-                  <input type="number" value={distValue} onChange={(e) => setDistValue(e.target.value)} className="flex-1 px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]" placeholder="Distance" min="0" step="0.01" />
+                  <input type="number" value={distValue} onChange={(e) => setDistValue(e.target.value)} className="flex-1 px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="Distance" min="0" step="0.01" />
                 )}
-                <select value={distUnit} onChange={(e) => setDistUnit(e.target.value)} className="flex-1 px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]">
+                <select value={distUnit} onChange={(e) => setDistUnit(e.target.value)} className="flex-1 px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)">
                   <option value="km">Kilometers (km)</option>
                   <option value="mi">Miles (mi)</option>
                   <option value="m">Meters (m)</option>
@@ -163,14 +163,14 @@ export default function PaceCalculatorTool() {
 
           {calculateMode !== "pace" && (
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-[var(--text-primary)]">Pace</label>
+              <label className="block text-sm font-medium text-(--text-primary)">Pace</label>
               <div className="flex items-center gap-2">
-                <input type="number" value={paceMins} onChange={(e) => setPaceMins(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]" placeholder="min" min="0" />
-                <span className="text-xs text-[var(--text-secondary)]">m</span>
-                <input type="number" value={paceSecs} onChange={(e) => setPaceSecs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]" placeholder="sec" min="0" max="59" />
-                <span className="text-xs text-[var(--text-secondary)]">s</span>
-                <span className="text-sm font-medium px-2 text-[var(--text-primary)]">per</span>
-                <select value={paceUnit} onChange={(e) => setPaceUnit(e.target.value as "km"|`mi`)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]">
+                <input type="number" value={paceMins} onChange={(e) => setPaceMins(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="min" min="0" />
+                <span className="text-xs text-(--text-secondary)">m</span>
+                <input type="number" value={paceSecs} onChange={(e) => setPaceSecs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="sec" min="0" max="59" />
+                <span className="text-xs text-(--text-secondary)">s</span>
+                <span className="text-sm font-medium px-2 text-(--text-primary)">per</span>
+                <select value={paceUnit} onChange={(e) => setPaceUnit(e.target.value as "km"|`mi`)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)">
                   <option value="km">km</option>
                   <option value="mi">mi</option>
                 </select>
@@ -180,8 +180,8 @@ export default function PaceCalculatorTool() {
 
           {calculateMode === "pace" && (
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-[var(--text-primary)]">Pace Format</label>
-              <select value={paceUnit} onChange={(e) => setPaceUnit(e.target.value as "km"|`mi`)} className="w-full md:w-1/2 px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]">
+              <label className="block text-sm font-medium text-(--text-primary)">Pace Format</label>
+              <select value={paceUnit} onChange={(e) => setPaceUnit(e.target.value as "km"|`mi`)} className="w-full md:w-1/2 px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)">
                 <option value="km">Minutes per km</option>
                 <option value="mi">Minutes per mile</option>
               </select>
@@ -193,8 +193,8 @@ export default function PaceCalculatorTool() {
       {result && (
         <Panel>
           <div className="text-center py-6 space-y-4">
-            <h3 className="text-sm font-medium text-[var(--text-secondary)]">Your Calculated {result.label}</h3>
-            <div className="text-5xl font-bold text-[var(--color-primary-500)]">
+            <h3 className="text-sm font-medium text-(--text-secondary)">Your Calculated {result.label}</h3>
+            <div className="text-5xl font-bold text-primary-500">
               {result.value}
             </div>
           </div>

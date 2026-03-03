@@ -59,16 +59,16 @@ export default function WordToNumberTool() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Panel>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Start Date & Time</label>
+            <label className="text-sm font-medium text(--text-primary)">Start Date & Time</label>
             <input type="datetime-local" value={start} onChange={e => setStart(e.target.value)}
-              className="w-full px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] text-sm" />
+              className="w-full px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm" />
           </div>
         </Panel>
         <Panel>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-[var(--text-primary)]">End Date & Time</label>
+            <label className="text-sm font-medium text(--text-primary)">End Date & Time</label>
             <input type="datetime-local" value={end} onChange={e => setEnd(e.target.value)}
-              className="w-full px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] text-sm" />
+              className="w-full px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm" />
           </div>
         </Panel>
       </div>
@@ -79,8 +79,8 @@ export default function WordToNumberTool() {
             {rows.map(([label, value]) => (
               <div key={label} className="flex items-center justify-between px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
                 <span className="text-xs text-[var(--text-tertiary)] w-32">{label}</span>
-                <span className={`font-[family-name:var(--font-mono)] text-sm font-medium flex-1 ${label === "Duration" ? (result.negative ? "text-red-500" : "text-green-500") : "text-[var(--text-primary)]"}`}>{value}</span>
-                <button onClick={async () => { await copyToClipboard(value); setCopied(String(label)); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] cursor-pointer">{copied === String(label) ? "✓" : "Copy"}</button>
+                <span className={`font-[family-name:var(--font-mono)] text-sm font-medium flex-1 ${label === "Duration" ? (result.negative ? "text-red-500" : "text-green-500") : "text(--text-primary)"}`}>{value}</span>
+                <button onClick={async () => { await copyToClipboard(value); setCopied(String(label)); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) cursor-pointer">{copied === String(label) ? "✓" : "Copy"}</button>
               </div>
             ))}
           </div>

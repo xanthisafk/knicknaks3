@@ -70,10 +70,10 @@ export default function NumberToWordsTool() {
             <Panel key={r.label}>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-[var(--text-primary)]">{r.label}</span>
-                  <button onClick={async () => { await copyToClipboard(r.value); setCopied(r.label); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] cursor-pointer">{copied === r.label ? "✓ Copied" : "Copy"}</button>
+                  <span className="text-sm font-medium text(--text-primary)">{r.label}</span>
+                  <button onClick={async () => { await copyToClipboard(r.value); setCopied(r.label); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) cursor-pointer">{copied === r.label ? "✓ Copied" : "Copy"}</button>
                 </div>
-                <p className="text-[var(--text-primary)] capitalize leading-relaxed">{r.value}</p>
+                <p className="text(--text-primary) capitalize leading-relaxed">{r.value}</p>
               </div>
             </Panel>
           ))}

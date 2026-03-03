@@ -34,10 +34,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       return (
         <Panel className="text-center py-12">
           <div className="text-4xl mb-4">😵</div>
-          <h3 className="text-lg font-semibold font-[family-name:var(--font-heading)] text-[var(--text-primary)] mb-2">
+          <h3 className="text-lg font-semibold font-[family-name:var(--font-heading)] text(--text-primary) mb-2">
             Oops! Something broke.
           </h3>
-          <p className="text-sm text-[var(--text-secondary)] mb-4 max-w-md mx-auto">
+          <p className="text-sm text(--text-secondary) mb-4 max-w-md mx-auto">
             {this.props.toolName
               ? `The ${this.props.toolName} tool ran into an unexpected error.`
               : "An unexpected error occurred."}

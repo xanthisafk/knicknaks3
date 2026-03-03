@@ -37,7 +37,7 @@ export default function RemoveLineBreaksTool() {
       <Panel>
         <div className="flex flex-wrap items-end gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Join with</label>
+            <label className="text-sm font-medium text(--text-primary)">Join with</label>
             <div className="flex gap-1">
               {PRESETS.map((p) => (
                 <button
@@ -46,7 +46,7 @@ export default function RemoveLineBreaksTool() {
                   className={`px-3 py-1.5 text-xs font-medium rounded-[var(--radius-md)] transition-colors cursor-pointer ${
                     separator === p.value
                       ? "bg-[var(--color-primary-500)] text-white"
-                      : "bg-[var(--surface-secondary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                      : "bg-[var(--surface-secondary)] text(--text-secondary) hover:text(--text-primary)"
                   }`}
                 >
                   {p.label}
@@ -55,11 +55,11 @@ export default function RemoveLineBreaksTool() {
             </div>
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs text-[var(--text-secondary)]">Custom</label>
+            <label className="text-xs text(--text-secondary)">Custom</label>
             <input
               value={separator}
               onChange={(e) => setSeparator(e.target.value)}
-              className="w-24 px-3 py-1.5 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] text-sm font-[family-name:var(--font-mono)]"
+              className="w-24 px-3 py-1.5 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm font-[family-name:var(--font-mono)]"
             />
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function RemoveLineBreaksTool() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Panel>
           <div className="space-y-3">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Input (with line breaks)</label>
+            <label className="text-sm font-medium text(--text-primary)">Input (with line breaks)</label>
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -80,7 +80,7 @@ export default function RemoveLineBreaksTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Output</label>
+              <label className="text-sm font-medium text(--text-primary)">Output</label>
               {output && (
                 <Button size="sm" variant="ghost" onClick={handleCopy}>
                   {copied ? "✓ Copied!" : "📋 Copy"}

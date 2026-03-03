@@ -39,17 +39,17 @@ export default function PlaceholderImageTool() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Background</label>
+              <label className="text-sm font-medium text(--text-primary)">Background</label>
               <div className="flex gap-2 items-center">
                 <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="w-10 h-9 rounded cursor-pointer border-0" />
-                <span className="text-sm font-[family-name:var(--font-mono)] text-[var(--text-secondary)]">{bgColor.toUpperCase()}</span>
+                <span className="text-sm font-[family-name:var(--font-mono)] text(--text-secondary)">{bgColor.toUpperCase()}</span>
               </div>
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Text Color</label>
+              <label className="text-sm font-medium text(--text-primary)">Text Color</label>
               <div className="flex gap-2 items-center">
                 <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)} className="w-10 h-9 rounded cursor-pointer border-0" />
-                <span className="text-sm font-[family-name:var(--font-mono)] text-[var(--text-secondary)]">{textColor.toUpperCase()}</span>
+                <span className="text-sm font-[family-name:var(--font-mono)] text(--text-secondary)">{textColor.toUpperCase()}</span>
               </div>
             </div>
           </div>

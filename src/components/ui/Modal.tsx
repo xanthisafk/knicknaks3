@@ -49,7 +49,7 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
       onClick={handleBackdropClick}
       className={cn(
         "backdrop:bg-[var(--surface-overlay)] backdrop:backdrop-blur-sm",
-        "bg-[var(--surface-elevated)] text-[var(--text-primary)]",
+        "bg-[var(--surface-elevated)] text(--text-primary)",
         "rounded-[var(--radius-xl)] shadow-2xl",
         "p-0 m-auto w-full max-w-lg",
         "border border-[var(--border-default)]",
@@ -67,7 +67,7 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
               aria-label="Close dialog"
               className={cn(
                 "w-8 h-8 flex items-center justify-center rounded-[var(--radius-md)]",
-                "text-[var(--text-tertiary)] hover:text-[var(--text-primary)]",
+                "text-[var(--text-tertiary)] hover:text(--text-primary)",
                 "hover:bg-[var(--surface-secondary)]",
                 "transition-colors duration-[var(--duration-fast)]"
               )}

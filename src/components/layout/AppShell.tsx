@@ -18,7 +18,7 @@ export function AppShell({ children }: AppShellProps) {
       <header
         className={cn(
           "sticky top-0 z-40",
-          "bg-[var(--surface-bg)]/80 backdrop-blur-lg",
+          "bg(--surface-bg)/80 backdrop-blur-lg",
           "border-b border-[var(--border-default)]"
         )}
       >
@@ -27,7 +27,7 @@ export function AppShell({ children }: AppShellProps) {
             {/* Logo */}
             <a
               href="/"
-              className="flex items-center gap-2 text-[var(--text-primary)] no-underline group"
+              className="flex items-center gap-2 text(--text-primary) no-underline group"
             >
               <span className="text-2xl">🧩</span>
               <span className="text-xl font-bold font-[family-name:var(--font-heading)] tracking-tight">
@@ -39,13 +39,13 @@ export function AppShell({ children }: AppShellProps) {
             <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
               <a
                 href="/"
-                className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="text-sm font-medium text(--text-secondary) hover:text(--text-primary) transition-colors"
               >
                 All Tools
               </a>
               <a
                 href="/#categories"
-                className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="text-sm font-medium text(--text-secondary) hover:text(--text-primary) transition-colors"
               >
                 Categories
               </a>
@@ -60,7 +60,7 @@ export function AppShell({ children }: AppShellProps) {
                   "hidden md:flex items-center gap-2 px-3 py-1.5 rounded-[var(--radius-md)]",
                   "bg-[var(--surface-secondary)] text-[var(--text-tertiary)]",
                   "border border-[var(--border-default)]",
-                  "hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]",
+                  "hover:border-[var(--border-hover)] hover:text(--text-secondary)",
                   "transition-colors duration-[var(--duration-fast)]",
                   "text-sm"
                 )}
@@ -68,7 +68,7 @@ export function AppShell({ children }: AppShellProps) {
               >
                 <span>🔍</span>
                 <span>Search...</span>
-                <kbd className="ml-4 px-1.5 py-0.5 text-xs bg-[var(--surface-bg)] rounded border border-[var(--border-default)]">
+                <kbd className="ml-4 px-1.5 py-0.5 text-xs bg(--surface-bg) rounded border border-[var(--border-default)]">
                   ⌘K
                 </kbd>
               </button>
@@ -79,7 +79,7 @@ export function AppShell({ children }: AppShellProps) {
                 onClick={toggleTheme}
                 className={cn(
                   "w-9 h-9 flex items-center justify-center rounded-[var(--radius-md)]",
-                  "text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
+                  "text(--text-secondary) hover:text(--text-primary)",
                   "hover:bg-[var(--surface-secondary)]",
                   "transition-colors duration-[var(--duration-fast)]"
                 )}
@@ -94,7 +94,7 @@ export function AppShell({ children }: AppShellProps) {
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className={cn(
                   "md:hidden w-9 h-9 flex items-center justify-center rounded-[var(--radius-md)]",
-                  "text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
+                  "text(--text-secondary) hover:text(--text-primary)",
                   "hover:bg-[var(--surface-secondary)]",
                   "transition-colors duration-[var(--duration-fast)]"
                 )}
@@ -109,18 +109,18 @@ export function AppShell({ children }: AppShellProps) {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-[var(--border-default)] bg-[var(--surface-bg)]">
+          <div className="md:hidden border-t border-[var(--border-default)] bg(--surface-bg)">
             <Container>
               <nav className="flex flex-col py-4 gap-2" aria-label="Mobile navigation">
                 <a
                   href="/"
-                  className="px-3 py-2 rounded-[var(--radius-md)] text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] transition-colors"
+                  className="px-3 py-2 rounded-[var(--radius-md)] text-sm font-medium text(--text-secondary) hover:text(--text-primary) hover:bg-[var(--surface-secondary)] transition-colors"
                 >
                   All Tools
                 </a>
                 <a
                   href="/#categories"
-                  className="px-3 py-2 rounded-[var(--radius-md)] text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] transition-colors"
+                  className="px-3 py-2 rounded-[var(--radius-md)] text-sm font-medium text(--text-secondary) hover:text(--text-primary) hover:bg-[var(--surface-secondary)] transition-colors"
                 >
                   Categories
                 </a>

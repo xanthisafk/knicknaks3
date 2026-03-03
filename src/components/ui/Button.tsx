@@ -11,9 +11,9 @@ const variantStyles: Record<string, string> = {
   primary:
     "bg-[var(--color-primary-500)] text-white hover:bg-[var(--color-primary-600)] active:bg-[var(--color-primary-700)] shadow-sm hover:shadow-md",
   secondary:
-    "bg-[var(--surface-secondary)] text-[var(--text-primary)] border border-[var(--border-default)] hover:border-[var(--border-hover)] hover:bg-[var(--surface-elevated)]",
+    "bg-[var(--surface-secondary)] text(--text-primary) border border-[var(--border-default)] hover:border-[var(--border-hover)] hover:bg-[var(--surface-elevated)]",
   ghost:
-    "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)]",
+    "text(--text-secondary) hover:text(--text-primary) hover:bg-[var(--surface-secondary)]",
   danger:
     "bg-[var(--color-error)] text-white hover:opacity-90 active:opacity-80",
 };

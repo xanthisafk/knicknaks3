@@ -58,8 +58,8 @@ export default function IdealWeightCalculatorTool() {
             <button
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 unit === "metric"
-                  ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] shadow-sm"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                  ? "bg-[var(--surface-elevated)] text(--text-primary) shadow-sm"
+                  : "text(--text-secondary) hover:text(--text-primary)"
               }`}
               onClick={() => setUnit("metric")}
             >
@@ -68,8 +68,8 @@ export default function IdealWeightCalculatorTool() {
             <button
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 unit === "imperial"
-                  ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] shadow-sm"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                  ? "bg-[var(--surface-elevated)] text(--text-primary) shadow-sm"
+                  : "text(--text-secondary) hover:text(--text-primary)"
               }`}
               onClick={() => setUnit("imperial")}
             >
@@ -80,13 +80,13 @@ export default function IdealWeightCalculatorTool() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-4">
-            <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Gender</label>
+            <label className="block text-sm font-medium text(--text-primary) mb-1">Gender</label>
             <div className="flex bg-[var(--surface-elevated)] rounded-xl p-1 border border-[var(--border-default)]">
               <button
                 className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   gender === "male"
                     ? "bg-[var(--color-primary-500)] text-white shadow-sm"
-                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    : "text(--text-secondary) hover:text(--text-primary)"
                 }`}
                 onClick={() => setGender("male")}
               >
@@ -96,7 +96,7 @@ export default function IdealWeightCalculatorTool() {
                 className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   gender === "female"
                     ? "bg-[var(--color-primary-500)] text-white shadow-sm"
-                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    : "text(--text-secondary) hover:text(--text-primary)"
                 }`}
                 onClick={() => setGender("female")}
               >
@@ -106,18 +106,18 @@ export default function IdealWeightCalculatorTool() {
           </div>
 
           <div className="space-y-4">
-            <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Height</label>
+            <label className="block text-sm font-medium text(--text-primary) mb-1">Height</label>
             {unit === "metric" ? (
               <div className="flex items-center gap-2">
                 <input
                   type="number"
                   value={cm}
                   onChange={(e) => setCm(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]"
+                  className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text(--text-primary)"
                   placeholder="cm"
                   min="0"
                 />
-                <span className="text-sm text-[var(--text-secondary)]">cm</span>
+                <span className="text-sm text(--text-secondary)">cm</span>
               </div>
             ) : (
               <div className="flex items-center gap-2">
@@ -125,21 +125,21 @@ export default function IdealWeightCalculatorTool() {
                   type="number"
                   value={feet}
                   onChange={(e) => setFeet(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]"
+                  className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text(--text-primary)"
                   placeholder="ft"
                   min="0"
                 />
-                <span className="text-sm text-[var(--text-secondary)]">ft</span>
+                <span className="text-sm text(--text-secondary)">ft</span>
                 <input
                   type="number"
                   value={inches}
                   onChange={(e) => setInches(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-primary)]"
+                  className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text(--text-primary)"
                   placeholder="in"
                   min="0"
                   max="11"
                 />
-                <span className="text-sm text-[var(--text-secondary)]">in</span>
+                <span className="text-sm text(--text-secondary)">in</span>
               </div>
             )}
           </div>
@@ -149,7 +149,7 @@ export default function IdealWeightCalculatorTool() {
       {results && (
         <Panel>
           <div className="text-center py-6 space-y-4">
-            <h3 className="text-sm font-medium text-[var(--text-secondary)]">Healthy BMI Weight Range</h3>
+            <h3 className="text-sm font-medium text(--text-secondary)">Healthy BMI Weight Range</h3>
             <div className="text-4xl font-bold text-[var(--color-green-500)]">
               {results.bmiRange}
             </div>
@@ -159,10 +159,10 @@ export default function IdealWeightCalculatorTool() {
           </div>
 
           <div className="mt-6 border-t border-[var(--border-default)] pt-6">
-            <h3 className="text-sm font-medium text-[var(--text-secondary)] text-center mb-4">Specific Formula Result</h3>
+            <h3 className="text-sm font-medium text(--text-secondary) text-center mb-4">Specific Formula Result</h3>
             <div className="flex justify-center items-center">
               <div className="flex justify-between items-center w-full max-w-sm p-3 rounded-lg bg-[var(--surface-secondary)] border border-[var(--border-default)]">
-                <span className="text-sm font-semibold text-[var(--text-primary)]">Robinson Formula (1983)</span>
+                <span className="text-sm font-semibold text(--text-primary)">Robinson Formula (1983)</span>
                 <span className="text-lg font-bold tabular-nums text-[var(--color-primary-500)]">{results.robinson}</span>
               </div>
             </div>

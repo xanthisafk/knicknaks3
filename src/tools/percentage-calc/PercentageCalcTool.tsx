@@ -15,7 +15,7 @@ function CalcCard({
 }) {
   return (
     <Panel>
-      <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-1">{label}</h3>
+      <h3 className="text-sm font-semibold text(--text-primary) mb-1">{label}</h3>
       <p className="text-xs text-[var(--text-tertiary)] mb-3">{formula}</p>
       <div className="space-y-3">
         {children}
@@ -89,7 +89,7 @@ export default function PercentageCalcTool() {
             type="number"
             className="text-center"
           />
-          <span className="text-sm text-[var(--text-secondary)]">% of</span>
+          <span className="text-sm text(--text-secondary)">% of</span>
           <Input
             value={pctOf_y}
             onChange={(e) => setPctOf_y(e.target.value)}
@@ -109,7 +109,7 @@ export default function PercentageCalcTool() {
             type="number"
             className="text-center"
           />
-          <span className="text-sm text-[var(--text-secondary)]">of</span>
+          <span className="text-sm text(--text-secondary)">of</span>
           <Input
             value={isWhat_y}
             onChange={(e) => setIsWhat_y(e.target.value)}
@@ -129,7 +129,7 @@ export default function PercentageCalcTool() {
             type="number"
             className="text-center"
           />
-          <span className="text-sm text-[var(--text-secondary)]">→</span>
+          <span className="text-sm text(--text-secondary)">→</span>
           <Input
             value={change_y}
             onChange={(e) => setChange_y(e.target.value)}
@@ -153,7 +153,7 @@ export default function PercentageCalcTool() {
             type="number"
             className="text-center"
           />
-          <span className="text-sm text-[var(--text-secondary)]">by</span>
+          <span className="text-sm text(--text-secondary)">by</span>
           <Input
             value={adj_y}
             onChange={(e) => setAdj_y(e.target.value)}

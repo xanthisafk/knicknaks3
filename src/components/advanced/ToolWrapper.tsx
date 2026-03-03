@@ -1,7 +1,6 @@
 import { Suspense, useEffect, useState, type ComponentType } from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Panel } from "@/components/layout/Layout";
-import { useRecentTools } from "@/hooks/useRecentTools";
 import type { ToolDefinition } from "@/tools/_types";
 import { getToolBySlug } from "@/tools/_registry";
 
@@ -13,8 +12,8 @@ interface ToolWrapperProps {
 function ToolLoading({ name }: { name: string }) {
   return (
     <Panel className="flex flex-col items-center justify-center py-16 gap-4">
-      <div className="w-8 h-8 border-2 border-[var(--color-primary-400)] border-t-transparent rounded-full animate-spin" />
-      <p className="text-sm text-[var(--text-secondary)]">Loading {name}...</p>
+      <div className="w-8 h-8 border-2 border-primary-400 border-t-transparent rounded-full animate-spin" />
+      <p className="text-sm text(--text-secondary)">Loading {name}...</p>
     </Panel>
   );
 }
@@ -46,16 +45,14 @@ function LazyToolComponent({ tool }: { tool: ToolDefinition }) {
 }
 
 export function ToolWrapper({ tool }: ToolWrapperProps) {
-  const { addRecent } = useRecentTools();
 
   useEffect(() => {
     // Recover functions lost during serialization
     const actualTool = typeof tool.component === 'function' ? tool : getToolBySlug(tool.slug);
     
-    addRecent(tool.slug);
     actualTool?.onMount?.();
     return () => { actualTool?.onUnmount?.(); };
-  }, [tool, addRecent]);
+  }, [tool]);
 
   return (
     <ErrorBoundary toolName={tool.name}>

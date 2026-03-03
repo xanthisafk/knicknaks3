@@ -63,12 +63,12 @@ export default function RomanNumeralTool() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Panel>
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-[var(--text-primary)]">Integer → Roman</h3>
+            <h3 className="text-sm font-semibold text(--text-primary)">Integer → Roman</h3>
             <Input value={numInput} onChange={e => setNumInput(e.target.value)} type="number" label="Integer (1–3999)" placeholder="e.g. 2024" />
             {romanResult && (
               <div className="flex items-center gap-3">
                 <p className="text-3xl font-bold font-serif text-[var(--color-primary-500)] flex-1">{romanResult}</p>
-                <button onClick={async () => { await copyToClipboard(romanResult); setCopied("rom"); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] cursor-pointer">{copied === "rom" ? "✓" : "Copy"}</button>
+                <button onClick={async () => { await copyToClipboard(romanResult); setCopied("rom"); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) cursor-pointer">{copied === "rom" ? "✓" : "Copy"}</button>
               </div>
             )}
           </div>
@@ -76,12 +76,12 @@ export default function RomanNumeralTool() {
 
         <Panel>
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-[var(--text-primary)]">Roman → Integer</h3>
+            <h3 className="text-sm font-semibold text(--text-primary)">Roman → Integer</h3>
             <Input value={romInput} onChange={e => setRomInput(e.target.value)} label="Roman Numeral" placeholder="e.g. MMXXIV" className="font-[family-name:var(--font-mono)] uppercase" />
             {numResult !== null ? (
               <div className="flex items-center gap-3">
                 <p className="text-3xl font-bold font-[family-name:var(--font-mono)] text-[var(--color-primary-500)] flex-1">{numResult}</p>
-                <button onClick={async () => { await copyToClipboard(String(numResult)); setCopied("num"); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] cursor-pointer">{copied === "num" ? "✓" : "Copy"}</button>
+                <button onClick={async () => { await copyToClipboard(String(numResult)); setCopied("num"); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) cursor-pointer">{copied === "num" ? "✓" : "Copy"}</button>
               </div>
             ) : romInput ? (
               <p className="text-xs text-[var(--color-error)]">Invalid Roman numeral</p>
@@ -91,7 +91,7 @@ export default function RomanNumeralTool() {
       </div>
 
       <Panel>
-        <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-3">Reference Table</h3>
+        <h3 className="text-sm font-semibold text(--text-primary) mb-3">Reference Table</h3>
         <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
           {VALUES.map(v => (
             <div key={v.numeral} className="flex items-center gap-1.5 px-2 py-1.5 rounded-[var(--radius-sm)] bg-[var(--surface-secondary)]">

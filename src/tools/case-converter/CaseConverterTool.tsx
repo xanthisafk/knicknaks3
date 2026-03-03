@@ -108,7 +108,7 @@ export default function CaseConverterTool() {
     <div className="space-y-6">
       <Panel>
         <div className="space-y-3">
-          <label className="text-sm font-medium text-[var(--text-primary)]">Input Text</label>
+          <label className="text-sm font-medium text(--text-primary)">Input Text</label>
           <Textarea
             value={input}
             onChange={(e) => {
@@ -122,7 +122,7 @@ export default function CaseConverterTool() {
       </Panel>
 
       <Panel>
-        <label className="text-sm font-medium text-[var(--text-primary)] mb-3 block">
+        <label className="text-sm font-medium text(--text-primary) mb-3 block">
           Choose case style
         </label>
         <div className="flex flex-wrap gap-2">
@@ -144,7 +144,7 @@ export default function CaseConverterTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Result</label>
+              <label className="text-sm font-medium text(--text-primary)">Result</label>
               <Button size="sm" variant="ghost" onClick={handleCopy}>
                 {copied ? "✓ Copied!" : "📋 Copy"}
               </Button>

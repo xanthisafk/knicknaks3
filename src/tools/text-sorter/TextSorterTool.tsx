@@ -67,7 +67,7 @@ export default function TextSorterTool() {
       <Panel>
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Input Lines</label>
+            <label className="text-sm font-medium text(--text-primary)">Input Lines</label>
             <span className="text-xs text-[var(--text-tertiary)]">{lineCount} lines</span>
           </div>
           <Textarea
@@ -80,7 +80,7 @@ export default function TextSorterTool() {
       </Panel>
 
       <Panel>
-        <label className="text-sm font-medium text-[var(--text-primary)] mb-3 block">Sort by</label>
+        <label className="text-sm font-medium text(--text-primary) mb-3 block">Sort by</label>
         <div className="flex flex-wrap gap-2">
           {SORT_OPTIONS.map((opt) => (
             <Button
@@ -99,7 +99,7 @@ export default function TextSorterTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Sorted Result</label>
+              <label className="text-sm font-medium text(--text-primary)">Sorted Result</label>
               <Button size="sm" variant="ghost" onClick={handleCopy}>
                 {copied ? "✓ Copied!" : "📋 Copy"}
               </Button>

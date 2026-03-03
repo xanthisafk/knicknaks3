@@ -165,20 +165,20 @@ _Uses `pdf-lib` and `pdfjs-dist`. All processing in-browser._
 
 | Status | Tool                    | Description                                            |
 | ------ | ----------------------- | ------------------------------------------------------ |
-| —      | **Merge PDF**           | Combine multiple PDFs into one.                        |
-| —      | **Split PDF**           | Extract specific pages or split into individual files. |
-| —      | **Rotate PDF Pages**    | 90/180/270° rotation for specific or all pages.        |
-| —      | **Delete PDF Pages**    | Remove selected pages from a document.                 |
-| —      | **Rearrange PDF Pages** | Drag-and-drop page reordering.                         |
-| —      | **Add Page Numbers**    | Overlay page numbers at chosen positions.              |
-| —      | **Watermark PDF**       | Text or image overlay with transparency settings.      |
-| —      | **Protect PDF**         | Add password and owner restrictions.                   |
-| —      | **Unlock PDF**          | Remove password if you know the current one.           |
-| —      | **Image to PDF**        | Batch images → single PDF, one image per page.         |
-| —      | **PDF to Images**       | Render pages to canvas and export as PNG/JPG.          |
-| —      | **PDF Metadata Editor** | Modify Title, Author, Keywords, Subject fields.        |
-| —      | **Markdown to PDF**     | Render Markdown → HTML → PDF via `jspdf`.              |
-| —      | **Compress PDF**        | Lower image resolution and simplify paths client-side. |
+| ✅     | **Merge PDF**           | Combine multiple PDFs into one.                        |
+| ✅     | **Split PDF**           | Extract specific pages or split into individual files. |
+| ✅     | **Rotate PDF Pages**    | 90/180/270° rotation for specific or all pages.        |
+| ✅     | **Delete PDF Pages**    | Remove selected pages from a document.                 |
+| ✅     | **Rearrange PDF Pages** | Drag-and-drop page reordering.                         |
+| ✅     | **Add Page Numbers**    | Overlay page numbers at chosen positions.              |
+| ✅     | **Watermark PDF**       | Text or image overlay with transparency settings.      |
+| ✅     | **Protect PDF**         | Add password and owner restrictions.                   |
+| ✅     | **Unlock PDF**          | Remove password if you know the current one.           |
+| ✅     | **Image to PDF**        | Batch images → single PDF, one image per page.         |
+| ✅     | **PDF to Images**       | Render pages to canvas and export as PNG/JPG.          |
+| ✅     | **PDF Metadata Editor** | Modify Title, Author, Keywords, Subject fields.        |
+| ✅     | **Markdown to PDF**     | Render Markdown → HTML → PDF via `jspdf`.              |
+| ✅     | **Compress PDF**        | Lower image resolution and simplify paths client-side. |
 
 ---
 

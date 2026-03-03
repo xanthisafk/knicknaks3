@@ -80,7 +80,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
       role="alert"
       className={cn(
         "flex items-start gap-3 px-4 py-3 rounded-[var(--radius-lg)]",
-        "bg-[var(--surface-elevated)] text-[var(--text-primary)]",
+        "bg-[var(--surface-elevated)] text(--text-primary)",
         "border border-[var(--border-default)] border-l-4",
         "shadow-lg",
         "animate-in slide-in-from-right-full duration-[var(--duration-normal)]",
@@ -92,7 +92,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
       <button
         type="button"
         onClick={() => onDismiss(toast.id)}
-        className="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] text-sm"
+        className="text-[var(--text-tertiary)] hover:text(--text-primary) text-sm"
         aria-label="Dismiss"
       >
         ✕

@@ -98,11 +98,11 @@ export default function LoremIpsumTool() {
       <Panel>
         <div className="flex flex-wrap items-end gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Mode</label>
+            <label className="text-sm font-medium text(--text-primary)">Mode</label>
             <select
               value={mode}
               onChange={(e) => setMode(e.target.value as Mode)}
-              className="px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] text-sm cursor-pointer"
+              className="px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm cursor-pointer"
             >
               <option value="paragraphs">Paragraphs</option>
               <option value="sentences">Sentences</option>
@@ -111,14 +111,14 @@ export default function LoremIpsumTool() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Count</label>
+            <label className="text-sm font-medium text(--text-primary)">Count</label>
             <input
               type="number"
               min={1}
               max={100}
               value={count}
               onChange={(e) => setCount(Math.max(1, parseInt(e.target.value) || 1))}
-              className="w-24 px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] text-sm"
+              className="w-24 px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm"
             />
           </div>
 
@@ -129,7 +129,7 @@ export default function LoremIpsumTool() {
               onChange={(e) => setStartWithLorem(e.target.checked)}
               className="w-4 h-4 rounded accent-[var(--color-primary-500)]"
             />
-            <span className="text-sm text-[var(--text-primary)]">Start with "Lorem ipsum…"</span>
+            <span className="text-sm text(--text-primary)">Start with "Lorem ipsum…"</span>
           </label>
 
           <Button onClick={generate}>Generate</Button>
@@ -140,7 +140,7 @@ export default function LoremIpsumTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[var(--text-primary)]">Generated Text</label>
+              <label className="text-sm font-medium text(--text-primary)">Generated Text</label>
               <Button size="sm" variant="ghost" onClick={handleCopy}>
                 {copied ? "✓ Copied!" : "📋 Copy"}
               </Button>
