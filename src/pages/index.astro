@@ -5,7 +5,7 @@ import {
   getToolsByCategory,
   getActiveCategories,
 } from "@/tools/_registry";
-import { CATEGORY_INFO } from "@/tools/_types";
+import { CATEGORY_INFO, TOOL_STATUSES, STATUS_INFO } from "@/tools/_types";
 import pkg from "../../package.json";
 
 const allTools = getAllTools();
@@ -76,7 +76,7 @@ const structuredData = {
           </p>
 
           <!-- Search -->
-          <div class="relative max-w-md mx-auto">
+          <div class="relative max-w-md mx-auto mb-6">
             <input
               id="tool-search"
               type="search"
@@ -88,6 +88,32 @@ const structuredData = {
               class="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-tertiary)]"
               >🔍</span
             >
+          </div>
+
+          <!-- Status Filters -->
+          <div
+            class="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto"
+          >
+            <button
+              class="status-filter-btn px-3 py-1.5 rounded-[var(--radius-full)] text-sm font-medium border transition-colors bg-[var(--surface-elevated)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
+              data-status="all"
+            >
+              All Tools
+            </button>
+            {
+              TOOL_STATUSES.map((status) => {
+                const info = STATUS_INFO[status];
+                return (
+                  <button
+                    class="status-filter-btn px-3 py-1.5 rounded-[var(--radius-full)] text-sm font-medium border transition-colors bg-transparent text(--text-secondary) border-transparent hover:bg-[var(--surface-secondary)] hover:text(--text-primary)"
+                    data-status={status}
+                  >
+                    <span class="mr-1">{info.icon}</span>
+                    {info.label}
+                  </button>
+                );
+              })
+            }
           </div>
         </div>
       </section>
@@ -124,10 +150,38 @@ const structuredData = {
                       {categoryTools.map((tool) => (
                         <a
                           href={`/tools/${tool.slug}`}
-                          class="group block p-4 md:p-5 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] no-underline transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-md hover:-translate-y-0.5 tool-card"
+                          class="group flex flex-col p-4 md:p-5 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] no-underline transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-md hover:-translate-y-0.5 tool-card relative overflow-visible"
                           data-tool-slug={tool.slug}
+                          data-tool-status={tool.status || ""}
                         >
-                          <div class="flex items-start gap-3">
+                          {/* Bookmark ribbon — peeks out from the top-right corner */}
+                          {tool.status && (
+                            <div class="absolute -top-px -right-px flex flex-col items-center pointer-events-none">
+                              {/* Ribbon body */}
+                              <div class="flex items-center justify-center gap-1 px-2 pt-1.5 pb-0 bg-[var(--surface-secondary)] border border-b-0 border-[var(--border-default)] rounded-tl-sm rounded-tr-[var(--radius-lg)] min-w-[44px]">
+                                <span class="text-[11px] leading-none">
+                                  {STATUS_INFO[tool.status].icon}
+                                </span>
+                                <span class="text-[9px] uppercase font-bold tracking-widest text(--text-secondary) leading-none">
+                                  {STATUS_INFO[tool.status].label}
+                                </span>
+                              </div>
+                              {/* Notched arrow tip — inward V cut using border trick */}
+                              <div
+                                class="w-full"
+                                style="
+                            height: 8px;
+                            background: var(--surface-secondary);
+                            border-left: 1px solid var(--border-default);
+                            border-right: 1px solid var(--border-default);
+                            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 55%, 0% 100%);
+                          "
+                              />
+                            </div>
+                          )}
+
+                          {/* Card content — flex-col + flex-1 ensures uniform height */}
+                          <div class="flex items-start gap-3 flex-1">
                             <span class="text-2xl flex-shrink-0 mt-0.5">
                               {tool.icon}
                             </span>
@@ -206,7 +260,6 @@ const structuredData = {
     }
   </script>
 
-  <!-- Search functionality -->
   <script>
     import { searchTools } from "@/lib/search";
     import { debounce } from "@/lib/utils";
@@ -221,66 +274,108 @@ const structuredData = {
       ".category-section",
     ) as NodeListOf<HTMLElement>;
     const toolsContainer = document.getElementById("tools");
+    const filterBtns = document.querySelectorAll(
+      ".status-filter-btn",
+    ) as NodeListOf<HTMLButtonElement>;
+
+    let activeStatus = "all";
+
+    const handleSearch = debounce(() => {
+      const query = searchInput ? searchInput.value : "";
+      const results = query.trim() !== "" ? searchTools(query) : [];
+      const resultSlugs = new Set(results.map((t) => t.slug));
+
+      // Show/hide tools
+      toolCards.forEach((card) => {
+        const slug = card.getAttribute("data-tool-slug");
+        const status = card.getAttribute("data-tool-status");
+
+        const matchesSearch =
+          query.trim() === "" || (slug && resultSlugs.has(slug));
+        const matchesStatus = activeStatus === "all" || status === activeStatus;
+
+        if (matchesSearch && matchesStatus) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      // Show/hide categories that have visible tools
+      categorySections.forEach((section) => {
+        const visibleTools = section.querySelectorAll(
+          '.tool-card[style*="display: block"]',
+        );
+        const isDefaultState = query.trim() === "" && activeStatus === "all";
+        const hasVisibleTools = visibleTools.length > 0 || isDefaultState;
+
+        if (hasVisibleTools) {
+          section.style.display = "block";
+        } else {
+          section.style.display = "none";
+        }
+      });
+
+      // Handle "No results" message
+      let noResultsMsg = document.getElementById("no-results-msg");
+      const anyVisible = Array.from(toolCards).some(
+        (card) => card.style.display !== "none",
+      );
+
+      if (!anyVisible && (query.trim() !== "" || activeStatus !== "all")) {
+        if (!noResultsMsg && toolsContainer) {
+          noResultsMsg = document.createElement("div");
+          noResultsMsg.id = "no-results-msg";
+          noResultsMsg.className = "text-center py-16 w-full";
+          noResultsMsg.innerHTML = `
+            <p class="text-4xl mb-4">🔍</p>
+            <p class="text(--text-primary) font-semibold">No tools found</p>
+            <p class="text(--text-secondary) mt-2">Try a different search term or filter.</p>
+          `;
+          toolsContainer.appendChild(noResultsMsg);
+        } else if (noResultsMsg) {
+          noResultsMsg.style.display = "block";
+        }
+      } else if (noResultsMsg) {
+        noResultsMsg.style.display = "none";
+      }
+    }, 50);
+
+    // Initial setup for filter buttons
+    if (filterBtns) {
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          // Update active styling
+          filterBtns.forEach((b) => {
+            b.classList.remove(
+              "bg-[var(--surface-elevated)]",
+              "text(--text-primary)",
+              "border-[var(--border-default)]",
+            );
+            b.classList.add(
+              "bg-transparent",
+              "text(--text-secondary)",
+              "border-transparent",
+            );
+          });
+          btn.classList.add(
+            "bg-[var(--surface-elevated)]",
+            "text(--text-primary)",
+            "border-[var(--border-default)]",
+          );
+          btn.classList.remove(
+            "bg-transparent",
+            "text(--text-secondary)",
+            "border-transparent",
+          );
+
+          activeStatus = btn.getAttribute("data-status") || "all";
+          handleSearch();
+        });
+      });
+    }
 
     if (searchInput) {
-      const handleSearch = debounce(() => {
-        const query = searchInput.value;
-        const results = searchTools(query);
-        const resultSlugs = new Set(results.map((t) => t.slug));
-
-        // Show/hide tools
-        toolCards.forEach((card) => {
-          const slug = card.getAttribute("data-tool-slug");
-          if (query.trim() === "" || (slug && resultSlugs.has(slug))) {
-            card.style.display = "block";
-          } else {
-            card.style.display = "none";
-          }
-        });
-
-        // Show/hide categories that have visible tools
-        categorySections.forEach((section) => {
-          const visibleTools = section.querySelectorAll(
-            '.tool-card[style*="display: block"]',
-          );
-          const hasVisibleTools =
-            visibleTools.length > 0 || query.trim() === "";
-
-          if (hasVisibleTools) {
-            section.style.display = "block";
-          } else {
-            section.style.display = "none";
-          }
-        });
-
-        // Handle "No results" message (optional)
-        let noResultsMsg = document.getElementById("no-results-msg");
-        const anyVisible = Array.from(toolCards).some(
-          (card) => card.style.display !== "none",
-        );
-
-        if (!anyVisible && query.trim() !== "") {
-          if (!noResultsMsg && toolsContainer) {
-            noResultsMsg = document.createElement("div");
-            noResultsMsg.id = "no-results-msg";
-            noResultsMsg.className = "text-center py-16 w-full";
-            noResultsMsg.innerHTML = `
-              <p class="text-4xl mb-4">🔍</p>
-              <p class="text(--text-primary) font-semibold">No tools found for "${query}"</p>
-              <p class="text(--text-secondary) mt-2">Try a different search term or browse by category.</p>
-            `;
-            toolsContainer.appendChild(noResultsMsg);
-          } else if (noResultsMsg) {
-            noResultsMsg.style.display = "block";
-            const querySpan = noResultsMsg.querySelector("p:nth-child(2)");
-            if (querySpan)
-              querySpan.textContent = `No tools found for "${query}"`;
-          }
-        } else if (noResultsMsg) {
-          noResultsMsg.style.display = "none";
-        }
-      }, 50); // Fast response for better feel
-
       searchInput.addEventListener("input", handleSearch);
 
       // Clear search on 'esc'

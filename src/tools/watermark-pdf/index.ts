@@ -8,6 +8,7 @@ export const definition: ToolDefinition = {
     "Protect your intellectual property or label document drafts easily. Upload a standard PDF and overlay a heavily customized text watermark on every single page. You have total creative control over the font opacity, diagonal rotation, sizing, and color. All operations execute directly inside your browser.",
   category: "pdf",
   icon: "💧",
+  status: "beta",
   keywords: ["watermark pdf online", "add stamp to pdf", "overlay text on pdf", "brand pdf document", "draft watermark maker", "secure pdf document", "transparent pdf text overlay"],
   tags: ["pdf", "edit"],
 
@@ -34,5 +35,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["pdf-page-numbers", "rotate-pdf", "protect-pdf"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  lastUpdated: "2026-03-04",
 };

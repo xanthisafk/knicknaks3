@@ -8,6 +8,7 @@ export const definition: ToolDefinition = {
     "Strip encryption and permission restrictions from any locked PDF without taking the risk of uploading it to an unknown server. If you currently possess the password, our Unlock PDF tool utilizes the local WebAssembly power of pdf-lib to rip off the encryption sheath, providing you with a clean, unencumbered file.",
   category: "pdf",
   icon: "🔓",
+  status: "beta",
   keywords: ["unlock pdf online", "remove pdf password", "decrypt pdf file", "strip pdf encryption locally", "unprotect pdf document", "remove pdf printing restriction", "bypass pdf lock"],
   tags: ["pdf", "security"],
 
@@ -34,5 +35,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["protect-pdf", "pdf-metadata", "merge-pdf"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  lastUpdated: "2026-03-04",
 };

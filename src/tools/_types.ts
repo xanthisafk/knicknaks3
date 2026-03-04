@@ -41,6 +41,25 @@ export const CATEGORY_INFO: Record<ToolCategory, { label: string; icon: string; 
   other: { label: "Other", icon: "🧩", description: "Miscellaneous tools" },
 };
 
+// ===== Tool Statuses =====
+export const TOOL_STATUSES = [
+  "new",
+  "beta",
+  "dev-pick",
+  "popular",
+  "alpha",
+] as const;
+
+export type ToolStatus = (typeof TOOL_STATUSES)[number];
+
+export const STATUS_INFO: Record<ToolStatus, { label: string; icon: string; }> = {
+  new: { label: "New", icon: "✨" },
+  popular: { label: "Popular", icon: "🔥" },
+  "dev-pick": { label: "Dev Pick", icon: "🛡️" },
+  beta: { label: "Beta", icon: "🧪" },
+  alpha: { label: "Alpha", icon: "🚧" },
+};
+
 // ===== FAQ Schema =====
 export interface FAQItem {
   question: string;
@@ -66,6 +85,7 @@ export interface ToolDefinition {
   icon: string;
   keywords: string[];
   tags?: string[];
+  status?: ToolStatus;
 
   // Component (lazy-loaded)
   component: () => Promise<{ default: ComponentType }>;
@@ -101,6 +121,7 @@ export const toolDefinitionSchema = z.object({
   icon: z.string().min(1, "Icon is required"),
   keywords: z.array(z.string()).min(1, "At least one keyword is required"),
   tags: z.array(z.string()).optional(),
+  status: z.enum(TOOL_STATUSES).optional(),
   faq: z
     .array(
       z.object({

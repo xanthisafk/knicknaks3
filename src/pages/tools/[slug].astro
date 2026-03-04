@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getAllTools, getToolBySlug, getRelatedTools } from "@/tools/_registry";
-import { CATEGORY_INFO } from "@/tools/_types";
+import { CATEGORY_INFO, STATUS_INFO } from "@/tools/_types";
 import { ToolWrapper } from "@/components/advanced/ToolWrapper";
 import pkg from "../../../package.json";
 
@@ -106,7 +106,7 @@ if (tool.faq?.length) {
 
         <!-- Tool Header -->
         <div class="mb-8">
-          <div class="flex items-center gap-3 mb-2">
+          <div class="flex items-center flex-wrap gap-3 mb-2">
             <span class="text-3xl">{tool.icon}</span>
             <h1
               class="text-3xl md:text-4xl font-bold text(--text-primary)"
@@ -114,6 +114,14 @@ if (tool.faq?.length) {
             >
               {tool.name}
             </h1>
+            {
+              tool.status && (
+                <div class="flex items-center gap-1.5 text-xs uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-[var(--surface-secondary)] text(--text-secondary) border border-[var(--border-default)]">
+                  <span>{STATUS_INFO[tool.status].icon}</span>
+                  {STATUS_INFO[tool.status].label}
+                </div>
+              )
+            }
           </div>
           <p class="text(--text-secondary) text-lg max-w-2xl">
             {tool.longDescription ?? tool.description}

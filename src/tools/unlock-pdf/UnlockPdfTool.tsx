@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Input } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { PdfDropZone } from "@/components/advanced/PdfDropZone";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument } from "@cantoo/pdf-lib";
 import { downloadPdf, formatFileSize } from "@/tools/_pdf-utils";
 
 export default function UnlockPdfTool() {
@@ -26,18 +26,17 @@ export default function UnlockPdfTool() {
     try {
       const buffer = await file.arrayBuffer();
 
-      // Load with the provided password
+      // Load with password — @cantoo/pdf-lib actually decrypts it
       const pdf = await PDFDocument.load(buffer, {
         password: password || undefined,
-        ignoreEncryption: true,
       });
 
-      // Create a new unencrypted PDF with all pages
+      // Copy all pages into a fresh, unencrypted document
       const dest = await PDFDocument.create();
       const pages = await dest.copyPages(pdf, pdf.getPageIndices());
       pages.forEach((page) => dest.addPage(page));
 
-      // Copy metadata
+      // Carry over metadata
       dest.setTitle(pdf.getTitle() ?? "");
       dest.setAuthor(pdf.getAuthor() ?? "");
       dest.setSubject(pdf.getSubject() ?? "");

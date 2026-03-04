@@ -7,6 +7,7 @@ export const definition: ToolDefinition = {
   longDescription: "Create engaging social media posts, fun jokes, or unique gaming usernames. The Upside Down Text generator maps your standard alphabetical input to visually inverted Unicode character equivalents, giving the perfect optical illusion of an inverted string. Guaranteed to make your friends tilt their phones.",
   category: "text",
   icon: "🙃",
+  status: "new",
   keywords: ["upside down text generator", "flip text upside down", "mirror text online", "inverted letters copy paste", "unicode flip letters", "make text read upside down", "funny social media font"],
   tags: ["text", "fun", "unicode"],
   component: () => import("./UpsideDownTextTool"),
@@ -19,5 +20,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Type your joke or message into the main input field. As you type, the engine instantly matches your standard string against a large dictionary array of inverted Unicode characters, displaying the flipped result below.",
   relatedTools: ["fancy-text-generator", "zalgo-text", "reverse-text"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  lastUpdated: "2026-03-04",
 };

@@ -8,6 +8,7 @@ export const definition: ToolDefinition = {
     "Lock down sensitive data strictly inside your browser. Apply secure user passwords (required to even open the file) and owner passwords (used to manage restriction flags). " +
     "Selectively block unauthorized printing, text copying, and document modifications. The heavy cryptographic lifting is entirely handled locally via pdf-lib.",
   category: "pdf",
+  status: "beta",
   icon: "🔒",
   keywords: ["password protect pdf online", "encrypt pdf document", "lock pdf file locally", "restrict pdf printing", "prevent pdf copying", "secure pdf maker", "add pdf password"],
   tags: ["pdf", "security"],

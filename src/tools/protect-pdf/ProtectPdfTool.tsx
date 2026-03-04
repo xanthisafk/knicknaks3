@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Input, Toggle } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { PdfDropZone } from "@/components/advanced/PdfDropZone";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument } from "@cantoo/pdf-lib";
 import { downloadPdf, formatFileSize } from "@/tools/_pdf-utils";
 
 export default function ProtectPdfTool() {
@@ -43,13 +43,17 @@ export default function ProtectPdfTool() {
       const buffer = await file.arrayBuffer();
       const pdf = await PDFDocument.load(buffer, { ignoreEncryption: true });
 
-      pdf.encrypt({
-        userPassword: userPassword || undefined,
+      await pdf.encrypt({
+        userPassword: userPassword || "",
         ownerPassword: ownerPassword || userPassword,
         permissions: {
-          printing: allowPrinting ? "highQuality" : undefined,
+          printing: allowPrinting ? "highResolution" : undefined,
           copying: allowCopying,
           modifying: allowModifying,
+          annotating: false,
+          fillingForms: false,
+          contentAccessibility: allowCopying,
+          documentAssembly: allowModifying,
         },
       });
 
@@ -63,7 +67,13 @@ export default function ProtectPdfTool() {
     }
   };
 
-  const reset = () => { setFile(null); setPageCount(0); setUserPassword(""); setOwnerPassword(""); setStatus(""); };
+  const reset = () => {
+    setFile(null);
+    setPageCount(0);
+    setUserPassword("");
+    setOwnerPassword("");
+    setStatus("");
+  };
 
   return (
     <div className="space-y-6">
@@ -76,9 +86,16 @@ export default function ProtectPdfTool() {
               <span>📄</span>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text(--text-primary) truncate">{file.name}</p>
-                <p className="text-xs text-[var(--text-tertiary)]">{formatFileSize(file.size)} · {pageCount} pages</p>
+                <p className="text-xs text-[var(--text-tertiary)]">
+                  {formatFileSize(file.size)} · {pageCount} pages
+                </p>
               </div>
-              <button onClick={reset} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--color-error)] transition-colors cursor-pointer">✕</button>
+              <button
+                onClick={reset}
+                className="text-xs text-[var(--text-tertiary)] hover:text-[var(--color-error)] transition-colors cursor-pointer"
+              >
+                ✕
+              </button>
             </div>
 
             <Input
@@ -111,13 +128,24 @@ export default function ProtectPdfTool() {
       {file && (
         <Panel>
           <div className="flex items-center gap-4">
-            <Button onClick={handleProtect} disabled={isProcessing || (!userPassword && !ownerPassword)}>
+            <Button
+              onClick={handleProtect}
+              disabled={isProcessing || (!userPassword && !ownerPassword)}
+            >
               {isProcessing ? "Encrypting…" : "Protect & Download"}
             </Button>
-            <Button variant="ghost" onClick={reset}>Choose Another</Button>
+            <Button variant="ghost" onClick={reset}>
+              Choose Another
+            </Button>
           </div>
           {status && (
-            <p className={`mt-3 text-sm ${status.startsWith("Error") || status.startsWith("Please") ? "text-[var(--color-error)]" : "text(--text-secondary)"}`}>
+            <p
+              className={`mt-3 text-sm ${
+                status.startsWith("Error") || status.startsWith("Please")
+                  ? "text-[var(--color-error)]"
+                  : "text(--text-secondary)"
+              }`}
+            >
               {status}
             </p>
           )}
