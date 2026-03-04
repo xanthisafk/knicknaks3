@@ -55,16 +55,16 @@ interface SliderRowProps {
 function SliderRow({ label, value, min, max, unit = "px", onChange }: SliderRowProps) {
   return (
     <div className="grid grid-cols-[90px_1fr_52px] items-center gap-3">
-      <span className="text-xs text-[--text-tertiary] font-medium">{label}</span>
+      <span className="text-xs text-[var(--text-tertiary)] font-medium uppercase tracking-wider">{label}</span>
       <input
         type="range"
         min={min}
         max={max}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-1.5 rounded-full appearance-none bg-[--border-default] accent-[--color-primary] cursor-pointer"
+        className="w-full h-1.5 rounded-full appearance-none bg-[var(--border-default)] accent-[var(--color-primary-500)] cursor-pointer"
       />
-      <div className="rounded-radius-sm bg-[--surface-secondary] border border-[--border-default] px-1.5 py-0.5 text-xs font-mono text-[--text-primary] text-center">
+      <div className="rounded-[var(--radius-sm)] bg-[var(--surface-secondary)] border border-[var(--border-default)] px-1.5 py-0.5 text-xs font-mono text-[var(--text-primary)] text-center">
         {value}{unit}
       </div>
     </div>
@@ -93,7 +93,7 @@ export default function BoxShadowTool() {
   const removeLayer = (id: number) => {
     if (layers.length === 1) return;
     const next = layers.filter((l) => l.id !== id);
-    setLayers(next);
+    setLayers((prev) => next);
     if (activeId === id) setActiveId(next[next.length - 1].id);
   };
 
@@ -107,13 +107,14 @@ export default function BoxShadowTool() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Preview */}
       <Panel>
-        <div className="flex items-center justify-center py-10 rounded-radius-md bg-(--surface-secondary)"
+        <div className="flex items-center justify-center py-12 rounded-[var(--radius-lg)] bg-[var(--surface-secondary)] border border-[var(--border-default)] relative overflow-hidden"
           style={{ background: "repeating-conic-gradient(var(--border-default) 0% 25%, transparent 0% 50%) 0 0 / 20px 20px" }}>
+            <div className="absolute inset-0 bg-white/20 dark:bg-black/20 backdrop-blur-[1px]"></div>
           <div
-            className="w-32 h-32 rounded-radius-md bg-white transition-shadow duration-150"
+            className="w-40 h-40 rounded-[var(--radius-lg)] bg-white dark:bg-[var(--surface-primary)] transition-shadow duration-200 ease-out relative z-10"
             style={{ boxShadow: cssValue }}
           />
         </div>
@@ -121,25 +122,25 @@ export default function BoxShadowTool() {
 
       {/* Layers */}
       <Panel>
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-medium text-(--text-tertiary) uppercase tracking-wider">Shadow Layers</p>
+            <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">Shadow Layers</h3>
             <button
               onClick={addLayer}
-              className="text-xs text-(--color-primary) hover:opacity-75 transition-opacity cursor-pointer font-medium"
+              className="text-xs text-[var(--color-primary-500)] hover:text-[var(--color-primary-600)] hover:underline transition-colors cursor-pointer font-medium flex items-center gap-1"
             >
-              + Add Layer
+              <span>+</span> Add Layer
             </button>
           </div>
           <div className="flex flex-wrap gap-2">
             {layers.map((l, i) => (
-              <div key={l.id} className="flex items-center gap-1">
+              <div key={l.id} className="flex items-center gap-1 group">
                 <button
                   onClick={() => setActiveId(l.id)}
-                  className={`px-3 py-1.5 rounded-radius-sm text-xs font-medium border transition-colors cursor-pointer ${
+                  className={`px-4 py-2 rounded-[var(--radius-md)] text-xs font-medium border transition-all duration-200 cursor-pointer ${
                     l.id === activeId
-                      ? "bg-(--color-primary) border-[--color-primary]"
-                      : "bg-(--surface-secondary) text-[--text-secondary] border-[--border-default] hover:text-[--text-primary]"
+                      ? "bg-[var(--color-primary-50)] dark:bg-[var(--color-primary-900)] text-[var(--color-primary-600)] dark:text-[var(--color-primary-300)] border-[var(--color-primary-400)] shadow-sm"
+                      : "bg-[var(--surface-secondary)] text-[var(--text-secondary)] border-[var(--border-default)] hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] hover:bg-[var(--surface-elevated)]"
                   }`}
                 >
                   Layer {i + 1}
@@ -147,7 +148,8 @@ export default function BoxShadowTool() {
                 {layers.length > 1 && (
                   <button
                     onClick={() => removeLayer(l.id)}
-                    className="text-[--text-tertiary] hover:text-[--color-error] transition-colors cursor-pointer text-xs leading-none"
+                    className={`p-2 rounded-full text-[var(--text-tertiary)] hover:bg-[var(--color-error)]/10 hover:text-[var(--color-error)] transition-colors cursor-pointer text-xs ${l.id === activeId ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
+                    title="Remove Layer"
                   >
                     ✕
                   </button>
@@ -160,10 +162,10 @@ export default function BoxShadowTool() {
 
       {/* Controls */}
       <Panel>
-        <div className="space-y-4">
-          <p className="text-xs font-medium text-(--text-tertiary) uppercase tracking-wider">Controls</p>
+        <div className="space-y-6">
+          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">Controls</h3>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
             <SliderRow label="Offset X" value={active.x} min={-60} max={60} onChange={(v) => updateActive({ x: v })} />
             <SliderRow label="Offset Y" value={active.y} min={-60} max={60} onChange={(v) => updateActive({ y: v })} />
             <SliderRow label="Blur" value={active.blur} min={0} max={100} onChange={(v) => updateActive({ blur: v })} />
@@ -171,31 +173,33 @@ export default function BoxShadowTool() {
             <SliderRow label="Opacity" value={active.opacity} min={0} max={100} unit="%" onChange={(v) => updateActive({ opacity: v })} />
           </div>
 
-          <div className="grid grid-cols-2 gap-3 pt-1">
-            <div className="space-y-1.5">
-              <label className="text-xs text-[--text-tertiary] font-medium">Color</label>
-              <div className="flex items-center gap-2 rounded-radius-md bg-[--surface-secondary] border border-[--border-default] px-3 py-2">
-                <input
-                  type="color"
-                  value={active.color}
-                  onChange={(e) => updateActive({ color: e.target.value })}
-                  className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent p-0"
-                />
-                <span className="text-xs font-mono text-[--text-primary]">{active.color.toUpperCase()}</span>
+          <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[var(--border-default)]">
+            <div className="space-y-2">
+              <label className="text-xs text-[var(--text-tertiary)] font-medium uppercase tracking-wider block">Color</label>
+              <div className="flex items-center gap-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] px-3 py-2.5 focus-within:ring-2 focus-within:ring-[var(--color-primary-500)] focus-within:border-[var(--color-primary-500)] transition-shadow">
+                <div className="w-8 h-8 rounded-full shadow-sm overflow-hidden relative cursor-pointer border border-[var(--border-default)]">
+                     <input
+                        type="color"
+                        value={active.color}
+                        onChange={(e) => updateActive({ color: e.target.value })}
+                        className="absolute -inset-4 w-[200%] h-[200%] cursor-pointer border-0 p-0"
+                    />
+                </div>
+                <span className="text-sm font-mono text-[var(--text-primary)] font-medium">{active.color.toUpperCase()}</span>
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs text-[--text-tertiary] font-medium">Type</label>
-              <div className="flex gap-2">
+            <div className="space-y-2">
+              <label className="text-xs text-[var(--text-tertiary)] font-medium uppercase tracking-wider block">Type</label>
+              <div className="flex gap-1 p-1 bg-[var(--surface-secondary)] rounded-[var(--radius-lg)] border border-[var(--border-default)]">
                 {(["outset", "inset"] as const).map((type) => (
                   <button
                     key={type}
                     onClick={() => updateActive({ inset: type === "inset" })}
-                    className={`flex-1 py-2 rounded-radius-md text-xs font-medium border transition-colors cursor-pointer ${
+                    className={`flex-1 py-2 px-3 rounded-[var(--radius-md)] text-sm font-medium transition-all duration-200 cursor-pointer capitalize ${
                       active.inset === (type === "inset")
-                        ? "bg-[--color-primary] text-white border-[--color-primary]"
-                        : "bg-[--surface-secondary] text-[--text-secondary] border-[--border-default] hover:text-[--text-primary]"
+                        ? "bg-white dark:bg-[var(--surface-primary)] text-[var(--text-primary)] shadow-sm border border-[var(--border-default)]"
+                        : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-elevated)] border border-transparent"
                     }`}
                   >
                     {type}
@@ -209,14 +213,16 @@ export default function BoxShadowTool() {
 
       {/* CSS Output */}
       <Panel>
-        <div className="space-y-3">
-          <p className="text-xs font-medium text-[--text-tertiary] uppercase tracking-wider">CSS Output</p>
-          <pre className="rounded-radius-md bg-[--surface-secondary] border border-[--border-default] px-3 py-2.5 text-xs font-mono text-[--text-primary] whitespace-pre-wrap break-all select-all">
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+              <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">CSS Output</h3>
+               <Button onClick={handleCopy} size="sm" variant={copied ? "primary" : "secondary"}>
+                {copied ? "✓ Copied!" : "Copy CSS"}
+              </Button>
+          </div>
+          <pre className="rounded-[var(--radius-lg)] bg-[var(--surface-secondary)] border border-[var(--border-default)] p-4 text-sm font-mono text-[var(--text-primary)] whitespace-pre-wrap break-all select-all leading-relaxed relative overflow-x-auto">
             {fullCSS}
           </pre>
-          <Button onClick={handleCopy}>
-            {copied ? "✓ Copied!" : "Copy CSS"}
-          </Button>
         </div>
       </Panel>
     </div>

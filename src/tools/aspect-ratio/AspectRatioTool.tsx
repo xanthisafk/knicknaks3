@@ -86,18 +86,18 @@ export default function AspectRatioTool() {
   const clearScale = () => { setScaleW(""); setScaleH(""); };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Mode tabs */}
       <Panel>
-        <div className="flex gap-2">
+        <div className="flex p-1 bg-[var(--surface-secondary)] rounded-[var(--radius-lg)] border border-[var(--border-default)]">
           {(["detect", "scale"] as Mode[]).map((m) => (
             <button
               key={m}
               onClick={() => setMode(m)}
-              className={`flex-1 py-2 px-4 rounded-[var(--radius-md)] text-sm font-medium transition-colors cursor-pointer ${
+              className={`flex-1 py-2.5 px-4 rounded-[var(--radius-md)] text-sm font-medium transition-all duration-200 cursor-pointer ${
                 mode === m
-                  ? "bg-[var(--color-primary)] text-white"
-                  : "bg-[var(--surface-secondary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-default)]"
+                  ? "bg-white dark:bg-[var(--surface-primary)] text-[var(--text-primary)] shadow-sm border border-[var(--border-default)]"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-elevated)] border border-transparent"
               }`}
             >
               {m === "detect" ? "Detect Ratio" : "Scale Dimensions"}
@@ -109,8 +109,8 @@ export default function AspectRatioTool() {
       {mode === "detect" && (
         <>
           <Panel>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-5">
+              <div className="grid grid-cols-2 gap-4">
                 <Input
                   label="Width (px)"
                   type="number"
@@ -130,14 +130,14 @@ export default function AspectRatioTool() {
               </div>
 
               {/* Presets */}
-              <div className="space-y-1.5">
-                <p className="text-xs text-[var(--text-tertiary)] font-medium uppercase tracking-wider">Quick presets</p>
+              <div className="space-y-2">
+                <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">Quick presets</h3>
                 <div className="flex flex-wrap gap-2">
                   {PRESETS.map((p) => (
                     <button
                       key={p.label}
                       onClick={() => handleDetectPreset(p.w, p.h)}
-                      className="px-3 py-1 rounded-[var(--radius-sm)] text-xs font-mono bg-[var(--surface-secondary)] border border-[var(--border-default)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-primary)] transition-colors cursor-pointer"
+                      className="px-3 py-1.5 rounded-[var(--radius-md)] text-xs font-mono bg-[var(--surface-secondary)] border border-[var(--border-default)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-primary-400)] hover:bg-[var(--surface-elevated)] transition-colors cursor-pointer"
                     >
                       {p.label}
                     </button>
@@ -149,36 +149,39 @@ export default function AspectRatioTool() {
 
           {canDetect && (
             <Panel>
-              <div className="space-y-3">
-                <p className="text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wider">Result</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] px-4 py-3 text-center">
-                    <p className="text-xs text-[var(--text-tertiary)] mb-1">Aspect Ratio</p>
-                    <p className="text-2xl font-bold text-[var(--text-primary)] font-mono">{detectedRatio}</p>
+               <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">Result</h3>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="rounded-[var(--radius-lg)] bg-[var(--surface-secondary)] border border-[var(--border-default)] p-4 flex flex-col items-center justify-center relative overflow-hidden group">
+                     <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary-50)] to-transparent dark:from-[var(--color-primary-900)] opacity-20 transition-opacity group-hover:opacity-40"></div>
+                    <p className="text-xs text-[var(--text-tertiary)] font-medium mb-1 relative z-10">Aspect Ratio</p>
+                    <p className="text-3xl font-bold text-[var(--text-primary)] font-mono tracking-tight relative z-10">{detectedRatio}</p>
                   </div>
-                  <div className="rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] px-4 py-3 text-center">
-                    <p className="text-xs text-[var(--text-tertiary)] mb-1">Decimal</p>
-                    <p className="text-2xl font-bold text-[var(--text-primary)] font-mono">{decimalRatio}</p>
+                  <div className="rounded-[var(--radius-lg)] bg-[var(--surface-secondary)] border border-[var(--border-default)] p-4 flex flex-col items-center justify-center">
+                    <p className="text-xs text-[var(--text-tertiary)] font-medium mb-1">Decimal</p>
+                    <p className="text-3xl font-bold text-[var(--text-primary)] font-mono tracking-tight">{decimalRatio}</p>
                   </div>
                 </div>
 
                 {/* Visual preview */}
-                <div className="rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] p-4 flex items-center justify-center">
+                <div className="rounded-[var(--radius-lg)] bg-[var(--surface-secondary)] border border-[var(--border-default)] p-6 flex items-center justify-center min-h-[160px] relative overflow-hidden">
+                   <div className="absolute inset-0 bg-[var(--border-default)] opacity-10" style={{ backgroundImage: "radial-gradient(var(--border-primary) 1px, transparent 1px)", backgroundSize: "16px 16px" }}></div>
                   <div
-                    className="bg-[var(--color-primary)] rounded-[var(--radius-sm)] opacity-80 flex items-center justify-center"
+                    className="bg-gradient-to-br from-[var(--color-primary-400)] to-[var(--color-primary-600)] rounded-[var(--radius-md)] shadow-md flex items-center justify-center transition-all duration-300 ease-out relative z-10 ring-4 ring-[var(--surface-primary)] dark:ring-[var(--surface-secondary)]"
                     style={{
-                      width: `${Math.min(240, (dw / dh) * 120)}px`,
-                      height: `${Math.min(120, (dh / dw) * 240)}px`,
+                      width: `${Math.min(260, (dw / dh) * 140)}px`,
+                      height: `${Math.min(140, (dh / dw) * 260)}px`,
                     }}
                   >
-                    <span className="text-white text-xs font-mono font-medium">
+                     <div className="absolute inset-0 rounded-[var(--radius-md)] ring-1 ring-black/10 dark:ring-white/10 inset-ring inset-ring-white/20"></div>
+                    <span className="text-white text-xs font-mono font-bold tracking-wider drop-shadow-md relative z-20">
                       {detectedRatio}
                     </span>
                   </div>
                 </div>
               </div>
-              <div className="mt-3">
-                <Button variant="ghost" onClick={clearDetect}>Clear</Button>
+              <div className="mt-4 flex justify-end">
+                <Button variant="ghost" onClick={clearDetect} className="text-sm px-4">Clear Results</Button>
               </div>
             </Panel>
           )}
@@ -188,32 +191,35 @@ export default function AspectRatioTool() {
       {mode === "scale" && (
         <>
           <Panel>
-            <div className="space-y-4">
-              <Input
-                label="Aspect Ratio"
-                value={ratioStr}
-                onChange={(e) => { setRatioStr(e.target.value); clearScale(); }}
-                placeholder="e.g. 16:9"
-                helperText={scaleError || "Enter as W:H, e.g. 16:9 or 4:3"}
-              />
+            <div className="space-y-6">
+                <div className="space-y-2">
+                    <Input
+                        label="Aspect Ratio"
+                        value={ratioStr}
+                        onChange={(e) => { setRatioStr(e.target.value); clearScale(); }}
+                        placeholder="e.g. 16:9"
+                        helperText={scaleError || "Enter as W:H, e.g. 16:9 or 4:3"}
+                        className="font-mono text-lg"
+                    />
 
-              <div className="flex flex-wrap gap-2">
-                {PRESETS.map((p) => (
-                  <button
-                    key={p.label}
-                    onClick={() => applyPreset(p.w, p.h)}
-                    className={`px-3 py-1 rounded-[var(--radius-sm)] text-xs font-mono border transition-colors cursor-pointer ${
-                      ratioStr === `${p.w / gcd(p.w, p.h)}:${p.h / gcd(p.w, p.h)}`
-                        ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
-                        : "bg-[var(--surface-secondary)] border-[var(--border-default)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-primary)]"
-                    }`}
-                  >
-                    {p.label}
-                  </button>
-                ))}
+                    <div className="flex flex-wrap gap-2 pt-1">
+                        {PRESETS.map((p) => (
+                        <button
+                            key={p.label}
+                            onClick={() => applyPreset(p.w, p.h)}
+                            className={`px-3 py-1.5 rounded-[var(--radius-md)] text-xs font-mono border transition-all duration-200 cursor-pointer ${
+                            ratioStr === `${p.w / gcd(p.w, p.h)}:${p.h / gcd(p.w, p.h)}`
+                                ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)] shadow-sm font-semibold"
+                                : "bg-[var(--surface-secondary)] border-[var(--border-default)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-primary-400)] hover:bg-[var(--surface-elevated)]"
+                            }`}
+                        >
+                            {p.label}
+                        </button>
+                        ))}
+                    </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 <Input
                   label="Width (px)"
                   type="number"
@@ -236,21 +242,23 @@ export default function AspectRatioTool() {
 
           {ratio && (scaleW || scaleH) && (scaledW || scaledH) && (
             <Panel>
-              <div className="space-y-3">
-                <p className="text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wider">Calculated</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] px-4 py-3 text-center">
-                    <p className="text-xs text-[var(--text-tertiary)] mb-1">Width</p>
-                    <p className="text-2xl font-bold text-[var(--text-primary)] font-mono">
+                 <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">Calculated Dimensions</h3>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="rounded-[var(--radius-lg)] bg-[var(--surface-secondary)] border border-[var(--border-default)] p-4 flex flex-col items-center justify-center relative overflow-hidden group">
+                     <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary-50)] to-transparent dark:from-[var(--color-primary-900)] opacity-20 transition-opacity group-hover:opacity-40"></div>
+                    <p className="text-xs text-[var(--text-tertiary)] font-medium mb-1 relative z-10">Width</p>
+                    <p className="text-3xl font-bold text-[var(--text-primary)] font-mono tracking-tight relative z-10">
                       {scaleW || scaledW}
-                      <span className="text-sm font-normal text-[var(--text-tertiary)] ml-1">px</span>
+                      <span className="text-sm font-medium text-[var(--text-tertiary)] ml-1">px</span>
                     </p>
                   </div>
-                  <div className="rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] px-4 py-3 text-center">
-                    <p className="text-xs text-[var(--text-tertiary)] mb-1">Height</p>
-                    <p className="text-2xl font-bold text-[var(--text-primary)] font-mono">
+                  <div className="rounded-[var(--radius-lg)] bg-[var(--surface-secondary)] border border-[var(--border-default)] p-4 flex flex-col items-center justify-center relative overflow-hidden group">
+                     <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary-50)] to-transparent dark:from-[var(--color-primary-900)] opacity-20 transition-opacity group-hover:opacity-40"></div>
+                    <p className="text-xs text-[var(--text-tertiary)] font-medium mb-1 relative z-10">Height</p>
+                    <p className="text-3xl font-bold text-[var(--text-primary)] font-mono tracking-tight relative z-10">
                       {scaleH || scaledH}
-                      <span className="text-sm font-normal text-[var(--text-tertiary)] ml-1">px</span>
+                      <span className="text-sm font-medium text-[var(--text-tertiary)] ml-1">px</span>
                     </p>
                   </div>
                 </div>
@@ -261,26 +269,28 @@ export default function AspectRatioTool() {
                   const h = parseFloat(scaleH || scaledH);
                   if (!isNaN(w) && !isNaN(h) && w > 0 && h > 0) {
                     return (
-                      <div className="rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] p-4 flex items-center justify-center">
-                        <div
-                          className="bg-[var(--color-primary)] rounded-[var(--radius-sm)] opacity-80 flex items-center justify-center"
-                          style={{
-                            width: `${Math.min(240, (w / h) * 120)}px`,
-                            height: `${Math.min(120, (h / w) * 240)}px`,
-                          }}
-                        >
-                          <span className="text-white text-xs font-mono font-medium">
-                            {ratioStr}
-                          </span>
+                        <div className="rounded-[var(--radius-lg)] bg-[var(--surface-secondary)] border border-[var(--border-default)] p-6 flex items-center justify-center min-h-[160px] relative overflow-hidden">
+                             <div className="absolute inset-0 bg-[var(--border-default)] opacity-10" style={{ backgroundImage: "radial-gradient(var(--border-primary) 1px, transparent 1px)", backgroundSize: "16px 16px" }}></div>
+                            <div
+                                className="bg-gradient-to-br from-[var(--color-primary-400)] to-[var(--color-primary-600)] rounded-[var(--radius-md)] shadow-md flex items-center justify-center transition-all duration-300 ease-out relative z-10 ring-4 ring-[var(--surface-primary)] dark:ring-[var(--surface-secondary)]"
+                                style={{
+                                width: `${Math.min(260, (w / h) * 140)}px`,
+                                height: `${Math.min(140, (h / w) * 260)}px`,
+                                }}
+                            >
+                                <div className="absolute inset-0 rounded-[var(--radius-md)] ring-1 ring-black/10 dark:ring-white/10 inset-ring inset-ring-white/20"></div>
+                                <span className="text-white text-xs font-mono font-bold tracking-wider drop-shadow-md relative z-20">
+                                {ratioStr}
+                                </span>
+                            </div>
                         </div>
-                      </div>
                     );
                   }
                   return null;
                 })()}
               </div>
-              <div className="mt-3">
-                <Button variant="ghost" onClick={clearScale}>Clear</Button>
+               <div className="mt-4 flex justify-end">
+                <Button variant="ghost" onClick={clearScale} className="text-sm px-4">Clear Results</Button>
               </div>
             </Panel>
           )}
