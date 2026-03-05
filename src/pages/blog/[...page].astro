@@ -1,0 +1,247 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Container, Card, Grid } from "@/components/layout/Layout";
+import BlogSearchContainer from "@/components/blog/BlogSearchContainer.astro";
+import FeaturedPostCard from "@/components/blog/FeaturedPostCard.astro";
+import StickyPostCard from "@/components/blog/StickyPostCard.astro";
+import Header from "@/components/layout/Header.astro";
+import Footer from "@/components/layout/Footer.astro";
+import type { PaginateFunction } from "astro";
+
+export async function getStaticPaths({
+  paginate,
+}: {
+  paginate: PaginateFunction;
+}) {
+  const posts = await getCollection("blog");
+  const standardPosts = posts
+    .filter((p) => !p.data.isFeatured && !p.data.isSticky)
+    .sort(
+      (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime(),
+    );
+  return paginate(standardPosts, { pageSize: 12 });
+}
+
+const { page } = Astro.props;
+const allPosts = await getCollection("blog");
+
+const featuredPosts =
+  page.currentPage === 1
+    ? allPosts
+        .filter((p) => p.data.isFeatured)
+        .sort(
+          (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime(),
+        )
+    : [];
+
+const stickyPosts =
+  page.currentPage === 1
+    ? allPosts
+        .filter((p) => p.data.isSticky && !p.data.isFeatured)
+        .sort(
+          (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime(),
+        )
+    : [];
+
+// Determine active tags from all posts to show standard categories
+const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].slice(0, 8); // Top 8 tags
+---
+
+<BaseLayout
+  title="Knicknaks Blog — Tips, Tricks, and Privacy-First Tools"
+  description="Expert guides on web tools, privacy, and client-side utilities. Learn how to work faster without uploading your data."
+>
+  <div class="min-h-screen flex flex-col w-full">
+    <Header activeTab="blog" />
+
+    <main class="flex-1 doodle-paper">
+      <!-- Hero Section -->
+      <section class="py-16 md:py-24 text-center relative overflow-hidden">
+        <div class="max-w-3xl mx-auto px-4 relative z-10">
+          <h1
+            class="text-4xl md:text-6xl font-extrabold mb-4 text-[var(--text-primary)] font-[family-name:var(--font-heading)]"
+          >
+            The Knicknaks <span class="doodle-underline">Blog</span>
+          </h1>
+          <p
+            class="text-lg md:text-xl text-[var(--text-secondary)] mb-8 max-w-xl mx-auto"
+          >
+            Deep dives into browser-based tools, privacy-first workflows, and
+            helpful developer utilities.
+          </p>
+
+          <!-- Search Container from React -->
+          <div class="max-w-md mx-auto mb-6">
+            <BlogSearchContainer />
+          </div>
+
+          <!-- Tag Filters -->
+          <div
+            class="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto"
+          >
+            <a
+              href="/blog"
+              class="px-3 py-1.5 rounded-[var(--radius-full)] text-sm font-medium border transition-colors bg-[var(--surface-elevated)] text-[var(--text-primary)] border-[var(--border-default)] hover:border-[var(--border-hover)]"
+            >
+              All Posts
+            </a>
+            {
+              allTags.map((tag) => (
+                <a
+                  href={`/blog/tag/${tag}`}
+                  class="px-3 py-1.5 rounded-[var(--radius-full)] text-sm font-medium border transition-colors bg-transparent text-[var(--text-secondary)] border-transparent hover:bg-[var(--surface-secondary)] hover:text-[var(--text-primary)] capitalize"
+                >
+                  {tag}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Decorative bg elements -->
+        <div class="doodle-scatter absolute top-10 left-10 opacity-20"></div>
+        <div
+          class="doodle-scatter absolute bottom-10 right-10 opacity-20 rotate-180"
+        >
+        </div>
+      </section>
+
+      <hr class="doodle-divider max-w-full mx-auto" />
+
+      <!-- Main Feed -->
+      <section class="py-16 md:py-24" id="blog-posts">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+          {
+            featuredPosts.length > 0 && (
+              <div class="mb-16">
+                {featuredPosts.map((post) => (
+                  <FeaturedPostCard post={post} />
+                ))}
+              </div>
+            )
+          }
+
+          {
+            stickyPosts.length > 0 && (
+              <div class="mb-16">
+                <h3 class="text-2xl font-bold font-[family-name:var(--font-heading)] mb-6 text-[--text-primary] flex items-center gap-2">
+                  <span>📌</span>
+                  <span class="doodle-underline">Pinned Guides</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {stickyPosts.map((post) => (
+                    <StickyPostCard post={post} />
+                  ))}
+                </div>
+              </div>
+            )
+          }
+
+          {/* Standard Paginated Feed */}
+          <div
+            class={`${(stickyPosts.length > 0 || featuredPosts.length > 0) && page.currentPage === 1 ? "pt-16 border-t border-[--border-default] relative" : ""}`}
+          >
+            {
+              page.currentPage === 1 &&
+                (stickyPosts.length > 0 || featuredPosts.length > 0) && (
+                  <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[--surface-bg] px-6 py-2 text-sm font-bold text-[--text-tertiary] uppercase tracking-widest border-2 border-[--border-default] rounded-full shadow-sm doodle-border z-10">
+                    Latest Articles
+                  </div>
+                )
+            }
+
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8"
+            >
+              {
+                page.data.map((post: any) => (
+                  <a
+                    href={`/blog/${post.id}`}
+                    class="group flex flex-col p-4 md:p-5 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] no-underline transition-all duration-300 hover:border-[var(--color-primary-500)] hover:shadow-lg hover:-translate-y-1 relative overflow-visible h-full"
+                  >
+                    {post.data.coverImage && (
+                      <div class="aspect-video mb-4 overflow-hidden rounded-[var(--radius-md)] border border-[var(--border-default)]">
+                        <img
+                          src={post.data.coverImage}
+                          alt={post.data.title}
+                          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
+                    <div class="flex-1 flex flex-col">
+                      <div class="flex flex-wrap gap-2 mb-3">
+                        {post.data.tags.slice(0, 2).map((tag: string) => (
+                          <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-[var(--surface-bg)] text-[var(--text-secondary)] border border-[var(--border-default)] rounded-[var(--radius-sm)]">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <h2 class="text-lg font-bold font-[family-name:var(--font-heading)] text-[var(--text-primary)] group-hover:text-[var(--color-primary-600)] transition-colors line-clamp-2 leading-snug">
+                        {post.data.title}
+                      </h2>
+                      <p class="mt-2 text-sm text-[var(--text-secondary)] line-clamp-3 flex-1 leading-relaxed">
+                        {post.data.description}
+                      </p>
+                      <div class="mt-6 pt-4 border-t border-[var(--border-default)] flex items-center justify-between text-xs text-[var(--text-tertiary)]">
+                        <span>
+                          {new Intl.DateTimeFormat("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          }).format(post.data.publishDate)}
+                        </span>
+                        <span class="font-semibold text-[var(--color-primary-600)] group-hover:translate-x-1 transition-transform">
+                          Read →
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+
+          {/* Pagination */}
+          {
+            page.lastPage > 1 && (
+              <nav class="mt-20 flex justify-center items-center gap-6">
+                {page.url.prev ? (
+                  <a
+                    href={page.url.prev}
+                    class="px-6 py-3 bg-[var(--surface-elevated)] border-2 border-[var(--border-default)] doodle-border rounded-[var(--radius-lg)] font-bold text-[var(--text-primary)] hover:border-[var(--color-primary-500)] hover:text-[var(--color-primary-600)] transition-all hover:shadow-md"
+                  >
+                    ← Newer
+                  </a>
+                ) : (
+                  <span class="px-6 py-3 border-2 border-[var(--border-default)] rounded-[var(--radius-lg)] opacity-30 cursor-not-allowed">
+                    ← Newer
+                  </span>
+                )}
+
+                <span class="font-bold text-[var(--text-secondary)] bg-[var(--surface-bg)] px-4 py-2 rounded-full border border-[var(--border-default)] shadow-inner">
+                  {page.currentPage} / {page.lastPage}
+                </span>
+
+                {page.url.next ? (
+                  <a
+                    href={page.url.next}
+                    class="px-6 py-3 bg-[var(--surface-elevated)] border-2 border-[var(--border-default)] doodle-border rounded-[var(--radius-lg)] font-bold text-[var(--text-primary)] hover:border-[var(--color-primary-500)] hover:text-[var(--color-primary-600)] transition-all hover:shadow-md"
+                  >
+                    Older →
+                  </a>
+                ) : (
+                  <span class="px-6 py-3 border-2 border-[var(--border-default)] rounded-[var(--radius-lg)] opacity-30 cursor-not-allowed">
+                    Older →
+                  </span>
+                )}
+              </nav>
+            )
+          }
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </div>
+</BaseLayout>

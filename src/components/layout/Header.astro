@@ -1,0 +1,90 @@
+---
+interface Props {
+  activeTab?: "tools" | "blog";
+}
+
+const { activeTab } = Astro.props;
+---
+
+<header
+  class="sticky top-0 z-40 bg-[var(--surface-bg)]/80 backdrop-blur-lg border-b border-[var(--border-default)]"
+>
+  <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="/" class="flex items-center gap-2 no-underline group">
+        <span
+          class="text-2xl group-hover:rotate-12 transition-transform duration-300"
+          >🪀</span
+        >
+        <span
+          class="text-xl font-bold tracking-tight text-[var(--text-primary)] font-[family-name:var(--font-heading)]"
+        >
+          Knicknaks
+        </span>
+      </a>
+      <div class="flex items-center gap-4 text-sm font-medium">
+        <a
+          href="/"
+          class={`${activeTab === "tools" ? "text-[--color-primary-600] border-[--color-primary-500]" : "text-[--text-secondary] hover:text-[--text-primary] border-transparent"} border-b-2 py-5 transition-colors`}
+          >Tools</a
+        >
+        <a
+          href="/blog"
+          class={`${activeTab === "blog" ? "text-[--color-primary-600] border-[--color-primary-500]" : "text-[--text-secondary] hover:text-[--text-primary] border-transparent"} border-b-2 py-5 transition-colors`}
+          >Blog</a
+        >
+
+        <div class="w-px h-4 bg-[--border-default] mx-1"></div>
+
+        <button
+          id="theme-toggle-btn"
+          type="button"
+          class="w-8 h-8 flex items-center justify-center rounded-[var(--radius-md)] text-[--text-secondary] hover:text-[--text-primary] hover:bg-[var(--surface-secondary)] transition-colors relative"
+          aria-label="Toggle theme"
+        >
+          <span class="theme-icon-light absolute transition-all duration-300"
+            >🌞</span
+          >
+          <span class="theme-icon-dark absolute transition-all duration-300"
+            >🌜</span
+          >
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  html[data-theme="dark"] .theme-icon-dark {
+    opacity: 0;
+    transform: scale(0.5) rotate(-45deg);
+  }
+  html[data-theme="dark"] .theme-icon-light {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  html[data-theme="light"] .theme-icon-dark {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  html[data-theme="light"] .theme-icon-light {
+    opacity: 0;
+    transform: scale(0.5) rotate(45deg);
+  }
+</style>
+
+<script is:inline>
+  // Simple listener specifically for the toggle button
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("theme-toggle-btn");
+    if (btn) {
+      btn.addEventListener("click", () => {
+        const current = document.documentElement.getAttribute("data-theme");
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("knicknaks-theme", next);
+      });
+    }
+  });
+</script>

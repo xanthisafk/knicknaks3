@@ -50,6 +50,12 @@ export function AppShell({ children }: AppShellProps) {
               >
                 Categories
               </a>
+              <a
+                href="/blog"
+                className="text-sm font-medium text(--text-secondary) hover:text(--text-primary) transition-colors"
+              >
+                Blog
+              </a>
             </nav>
 
             {/* Actions */}
@@ -124,6 +130,12 @@ export function AppShell({ children }: AppShellProps) {
                   className="px-3 py-2 rounded-[var(--radius-md)] text-sm font-medium text(--text-secondary) hover:text(--text-primary) hover:bg-[var(--surface-secondary)] transition-colors"
                 >
                   Categories
+                </a>
+                <a
+                  href="/blog"
+                  className="px-3 py-2 rounded-[var(--radius-md)] text-sm font-medium text(--text-secondary) hover:text(--text-primary) hover:bg-[var(--surface-secondary)] transition-colors"
+                >
+                  Blog
                 </a>
               </nav>
             </Container>

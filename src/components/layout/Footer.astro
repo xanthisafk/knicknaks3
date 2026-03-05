@@ -1,0 +1,113 @@
+---
+import pkg from "../../../package.json";
+
+const currentYear = new Date().getFullYear();
+---
+
+<style>
+  .flex-temp {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+<footer
+  class="border-t border-[var(--border-default)] pt-16 pb-8 bg-[var(--surface-bg)] mt-auto relative z-10 w-full overflow-hidden"
+>
+  <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+    <!-- Footer Content -->
+    <div class="flex-temp flex-col md:flex-row space-between gap-10 mb-16">
+      <!-- Left: Branding & description -->
+      <div class="flex flex-col gap-4 max-w-sm">
+        <a href="/" class="flex items-center gap-2 no-underline group">
+          <span
+            class="text-3xl group-hover:rotate-12 transition-transform duration-300"
+            >🪀</span
+          >
+          <span
+            class="text-2xl font-bold tracking-tight text-[var(--text-primary)] font-[family-name:var(--font-heading)]"
+          >
+            Knicknaks
+          </span>
+        </a>
+        <p class="text-sm text-[var(--text-secondary)] leading-relaxed">
+          A privacy-first, 100% client-side collection of essential tools for
+          developers and creators. No tracking, no backend, no nonsense.
+        </p>
+      </div>
+
+      <!-- Right: Links -->
+      <div class="flex flex-col gap-2 text-sm">
+        <a
+          href="/blog"
+          class="text-[var(--text-secondary)] hover:text-[var(--color-primary-600)] transition-colors inline-block py-1 hover:translate-x-1 transform duration-200"
+          >Blog</a
+        >
+        <a
+          href="/about"
+          class="text-[var(--text-secondary)] hover:text-[var(--color-primary-600)] transition-colors inline-block py-1 hover:translate-x-1 transform duration-200"
+          >About Our Philosophy</a
+        >
+        <a
+          href="/contact"
+          class="text-[var(--text-secondary)] hover:text-[var(--color-primary-600)] transition-colors inline-block py-1 hover:translate-x-1 transform duration-200"
+          >Contact Us</a
+        >
+        <a
+          href="/privacy"
+          class="text-[var(--text-secondary)] hover:text-[var(--color-primary-600)] transition-colors inline-block py-1 hover:translate-x-1 transform duration-200"
+          >Privacy Policy</a
+        >
+        <a
+          href="/terms"
+          class="text-[var(--text-secondary)] hover:text-[var(--color-primary-600)] transition-colors inline-block py-1 hover:translate-x-1 transform duration-200"
+          >Terms of Service</a
+        >
+        <a
+          href="/credits"
+          class="text-[var(--text-secondary)] hover:text-[var(--color-primary-600)] transition-colors inline-block py-1 hover:translate-x-1 transform duration-200"
+          >Credits</a
+        >
+      </div>
+    </div>
+
+    <hr class="doodle-divider w-full mb-8 opacity-50" />
+
+    <!-- Bottom Bar -->
+    <div
+      class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs md:text-sm text-[var(--text-tertiary)]"
+    >
+      <div
+        class="flex items-center flex-wrap gap-2 text-center md:text-left justify-center md:justify-start"
+      >
+        <span
+          >&copy; {currentYear}
+          <a
+            href="/"
+            class="hover:text-[var(--color-primary-600)] transition-colors"
+            >Knicknaks</a
+          >.</span
+        >
+        <span class="hidden sm:inline">•</span>
+        <span>100% Client-Side.</span>
+        <span class="hidden sm:inline">•</span>
+        <span>No Data Leaves Your Browser.</span>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <span class="font-mono text-xs opacity-50"
+          >Build {
+            parseInt(pkg.version.split(".")[0]) * 1000 +
+              parseInt(pkg.version.split(".")[1])
+          }</span
+        >
+        <button
+          onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+          class="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--surface-secondary)] hover:bg-[var(--surface-elevated)] transition-colors border border-transparent hover:border-[var(--border-default)] hover:text-[var(--color-primary-600)]"
+          aria-label="Scroll to top of page"
+        >
+          ↑
+        </button>
+      </div>
+    </div>
+  </div>
+</footer>

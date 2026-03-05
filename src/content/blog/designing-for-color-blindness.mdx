@@ -1,0 +1,72 @@
+---
+title: "Designing for Color Blindness: A Developer's Guide"
+description: "Accessibility matters. Learn how to simulate different forms of color blindness to ensure your web projects are usable by everyone."
+publishDate: "2026-03-06T13:00:00.000Z"
+author: "Knicknaks"
+tags: ["design", "accessibility", "colors", "tools"]
+coverImage: "/content/blog/undraw_web-browsing_qx8i.png"
+isFeatured: true
+isSticky: false
+seoTitle: "Color Blindness Simulator | Accessibility Testing Tool"
+seoDescription: "Test images and UI designs against Protanopia, Deuteranopia, and Tritanopia. See how colorblind users view your website with our free offline emulator."
+---
+
+import { ToolLink, Callout } from "@/components/blog/MDXComponents";
+
+## The Invisible Barrier
+
+It's estimated that roughly **300 million people globally** have some form of color vision deficiency (CVD), commonly referred to as color blindness. That equates to about 1 in 12 men and 1 in 200 women.
+
+As developers and designers, we often build interfaces using vibrant color palettes intended to convey urgent meaning—like outlining an input box in red to indicate an error, or making an "Accept" button bright green. However, if color is the _only_ indicator of an action state, a substantial portion of your user base may be completely lost.
+
+## Types of Color Blindness
+
+To build accessible software, you must first understand how different users perceive light.
+
+1. **Protanopia & Protanomaly:** Difficulties perceiving red light. Red, orange, and yellow can appear shifted toward green, and colors often appear less bright.
+2. **Deuteranopia & Deuteranomaly:** The most common form (red-green color blindness). Green light is difficult to perceive, making it hard to distinguish between reds, greens, browns, and oranges.
+3. **Tritanopia & Tritanomaly:** Rarer blue-yellow color blindness. Blues appear greener, and it can be difficult to tell yellow and pink apart.
+4. **Achromatopsia:** Complete color blindness. The world is viewed essentially in shades of gray.
+
+## We Need to Test Our Designs
+
+You cannot simply guess how your interface looks to a user with Deuteranopia. You have to put a lens over your work.
+
+We built an offline, client-side Color Blindness Simulator so you can drag-and-drop screenshots of your web applications and instantly view them through different accessibility filters.
+
+<ToolLink
+  slug="color-blindness-simulator"
+  name="Launch Color Blindness Simulator"
+/>
+
+Because it runs entirely locally using Canvas APIs, you can feel safe dragging in screenshots of unreleased products, proprietary UX wireframes, or local development environments without fear of data leakage.
+
+While you are at it, also check your app for contrast issues!
+
+<ToolLink slug="contrast-checker" name="Launch Contrast Checker" />
+
+Web accessibility isn't just about color blindness. It's also about ensuring your website is accessible to people with disabilities, such as visual impairments, hearing impairments, and motor impairments.
+
+## Core Rules for Accessible Web Design
+
+Running your designs through a simulator will quickly highlight problem areas. Here are the cardinal rules to fix them:
+
+### 1. Never Rely on Color Alone
+
+If an error occurs, do not just turn the text red. Add an icon (like an X or an exclamation point) and bold text stating "Error." If a graph relies on different colored lines, ensure each line also utilizes a distinct pattern (dashed, dotted) or shape markers on the data points.
+
+### 2. Contrast is Everything
+
+Regardless of hue perception, contrast dictates readability. The WCAG (Web Content Accessibility Guidelines) mandates a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text. Ensure your backgrounds and foregrounds clash heavily in luminance, not just saturation.
+
+<Callout type="tip">
+  **Pro Tip:** If you simulate Achromatopsia (full grayscale) and you can still
+  easily navigate your interface and read all the text, your contrast is likely
+  excellent.
+</Callout>
+
+### 3. Provide Alternative Themes (Dark/Light Modes)
+
+Allowing users to switch between a high-contrast dark theme and a standard light theme gives them the agency to choose the aesthetic that works best for their specific optical needs.
+
+By proactively simulating color conditions, we can stop building invisible barriers and start designing web experiences that truly serve everyone.

@@ -1,0 +1,14 @@
+---
+import { getCollection } from "astro:content";
+import BlogSearch from "./BlogSearch";
+
+const posts = await getCollection("blog");
+const searchPosts = posts.map((post) => ({
+  id: post.id,
+  title: post.data.title,
+  description: post.data.description,
+  tags: post.data.tags,
+}));
+---
+
+<BlogSearch client:load posts={searchPosts} />

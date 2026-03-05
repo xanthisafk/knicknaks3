@@ -1,0 +1,214 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import {
+  ToolLink,
+  Screenshot,
+  Callout,
+  ComparisonTable,
+} from "@/components/blog/MDXComponents";
+import { Container } from "@/components/layout/Layout";
+import Header from "@/components/layout/Header.astro";
+import Footer from "@/components/layout/Footer.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+// JSON-LD for Blog Posting
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.seoTitle || post.data.title,
+  description: post.data.seoDescription || post.data.description,
+  image: post.data.coverImage,
+  author: {
+    "@type": "Person",
+    name: post.data.author,
+  },
+  datePublished: post.data.publishDate.toISOString(),
+  dateModified:
+    post.data.updatedDate?.toISOString() || post.data.publishDate.toISOString(),
+  publisher: {
+    "@type": "Organization",
+    name: "Knicknaks",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://knicknaks.xanthis.xyz/logo.png",
+    },
+  },
+};
+
+const formattedDate = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}).format(post.data.publishDate);
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.coverImage}
+  structuredData={jsonLd}
+>
+  <div class="min-h-screen flex flex-col w-full">
+    <Header activeTab="blog" />
+
+    <main class="flex-1 doodle-paper pb-20">
+      <Container size="md">
+        <header class="py-12 md:py-20 text-center relative overflow-hidden">
+          <div class="doodle-scatter absolute top-4 left-4 opacity-20"></div>
+          <div
+            class="doodle-scatter absolute bottom-4 right-4 opacity-20 rotate-180"
+          >
+          </div>
+
+          {
+            post.data.tags && post.data.tags.length > 0 && (
+              <div class="flex flex-wrap justify-center gap-2 mb-6">
+                {post.data.tags.map((tag: string) => (
+                  <a
+                    href={`/blog/tag/${tag}`}
+                    class="px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-[var(--surface-secondary)] text-[var(--text-secondary)] border border-[var(--border-default)] rounded-[var(--radius-sm)] hover:border-[var(--color-primary-500)] hover:text-[var(--color-primary-700)] dark:hover:text-[var(--color-primary-300)] transition-all"
+                  >
+                    {tag}
+                  </a>
+                ))}
+              </div>
+            )
+          }
+
+          <h1
+            class="text-4xl md:text-6xl font-extrabold font-[family-name:var(--font-heading)] leading-tight text-[var(--text-primary)] mb-8"
+          >
+            <span class="doodle-underline">{post.data.title}</span>
+          </h1>
+
+          <div
+            class="flex flex-wrap items-center justify-center gap-4 text-sm text-[var(--text-secondary)]"
+          >
+            {
+              post.data.author && (
+                <div class="flex items-center gap-2">
+                  <span class="opacity-70 italic text-xs">by</span>
+                  <span class="font-bold text-[var(--text-primary)] tracking-tight">
+                    {post.data.author}
+                  </span>
+                </div>
+              )
+            }
+            {
+              formattedDate && (
+                <>
+                  <span class="opacity-30">•</span>
+                  <time
+                    datetime={post.data.publishDate?.toISOString()}
+                    class="font-medium"
+                  >
+                    {formattedDate}
+                  </time>
+                </>
+              )
+            }
+          </div>
+        </header>
+
+        {
+          post.data.coverImage && (
+            <div class="mb-16 group relative">
+              <div class="absolute -inset-2 bg-[var(--surface-secondary)] rotate-1 rounded-[var(--radius-xl)] -z-10 group-hover:rotate-0 transition-transform" />
+              <div class="overflow-hidden rounded-[var(--radius-xl)] border-2 border-[var(--border-default)] shadow-xl bg-[var(--surface-elevated)]">
+                <img
+                  src={post.data.coverImage}
+                  alt={post.data.title}
+                  class="w-full h-auto object-cover max-h-[600px] transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+            </div>
+          )
+        }
+
+        <article
+          class="prose prose-lg dark:prose-invert max-w-none
+          prose-headings:font-[family-name:var(--font-heading)]
+          prose-headings:text-[var(--text-primary)]
+          prose-headings:tracking-tight
+          prose-p:text-[var(--text-secondary)]
+          prose-p:leading-relaxed
+          prose-a:text-[var(--color-primary-600)] prose-a:font-bold prose-a:no-underline hover:prose-a:underline
+          prose-strong:text-[var(--text-primary)]
+          prose-img:rounded-[var(--radius-lg)] prose-img:border-2 prose-img:border-[var(--border-default)]
+          prose-hr:border-[var(--border-default)] prose-hr:my-12"
+        >
+          <Content
+            components={{ ToolLink, Screenshot, Callout, ComparisonTable }}
+          />
+        </article>
+
+        <div class="my-20">
+          <hr class="doodle-divider w-full" />
+        </div>
+
+        <footer class="text-center">
+          <a
+            href="/blog"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--color-primary-600)] font-bold hover:border-[var(--color-primary-500)] hover:shadow-md transition-all active:translate-y-0.5"
+          >
+            ← Back to the Toolbox blog
+          </a>
+        </footer>
+      </Container>
+    </main>
+
+    <Footer />
+  </div>
+</BaseLayout>
+
+<style is:global>
+  /* Custom prose overrides for the doodle aesthetic */
+  .prose h2 {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  .prose h2::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60%;
+    height: 3px;
+    background: var(--color-primary-500);
+    opacity: 0.3;
+    border-radius: 2px;
+  }
+
+  .prose blockquote {
+    border-left: none;
+    font-style: italic;
+    background: var(--surface-elevated);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-default);
+    position: relative;
+    box-shadow: 4px 4px 0px var(--border-default);
+  }
+
+  .prose code:not(pre code) {
+    background: var(--surface-secondary);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    color: var(--color-primary-600);
+    font-weight: 600;
+    border: 1px solid var(--border-default);
+  }
+</style>

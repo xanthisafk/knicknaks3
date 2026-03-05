@@ -1,0 +1,103 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/layout/Header.astro";
+import Footer from "@/components/layout/Footer.astro";
+---
+
+<BaseLayout
+  title="About the Philosophy — Knicknaks"
+  description="Learn why Knicknaks exists, our stance on privacy, and why we refuse to show you advertisements."
+>
+  <div class="min-h-screen flex flex-col w-full">
+    <Header />
+
+    <main class="flex-1 doodle-paper py-16 md:py-24">
+      <div class="max-w-3xl mx-auto px-4 md:px-6">
+        <header class="text-center mb-16">
+          <span class="text-5xl mb-6 inline-block">🪀</span>
+          <h1
+            class="text-4xl md:text-5xl font-extrabold mb-6 font-[family-name:var(--font-heading)] text-[var(--text-primary)]"
+          >
+            About <span class="doodle-underline">Our Philosophy</span>
+          </h1>
+          <p class="text-xl text-[var(--text-secondary)] italic">
+            "A toolbox shouldn't spy on the carpenter."
+          </p>
+        </header>
+
+        <div
+          class="prose prose-lg dark:prose-invert max-w-none text-[var(--text-secondary)]
+          prose-headings:font-[family-name:var(--font-heading)]
+          prose-headings:text-[var(--text-primary)]
+          prose-strong:text-[var(--text-primary)]"
+        >
+          <p>
+            The modern web is exhausted. You go to format a simple block of
+            arbitrary JSON, and you are immediately bombarded by cookie banners,
+            autoplaying video advertisements, newsletter pop-ups, and hidden
+            tracking pixels sending your payload to an analytics server halfway
+            across the globe.
+          </p>
+
+          <p>We got tired of it. So we built Knicknaks.</p>
+
+          <hr class="doodle-divider w-full my-12" />
+
+          <h2>100% Free. Zero Advertisements.</h2>
+          <p>
+            When a basic utility website covers its interface in flashing banner
+            ads, it reveals its true objective. It's not trying to solve your
+            problem—it's trying to extract attention and revenue out of your
+            frustration.
+          </p>
+          <p>
+            <strong
+              >Knicknaks will never host third-party advertisements.</strong
+            > We believe software tools should be beautifully crafted, highly performant,
+            and exist purely to serve the user. No rent-seeking behaviors allowed.
+          </p>
+
+          <h2>Privacy is Not a Feature, It's the Baseline</h2>
+          <p>
+            Sending developer secrets, log files, PDFs, or private keys to a
+            backend server so it can run a simple regex match or decode a Base64
+            string is a fundamental violation of operational security.
+          </p>
+          <p>
+            Every single utility on Knicknaks executes <strong
+              >in your browser</strong
+            >. Your processor does the math. Your RAM holds the data. By
+            leveraging the sheer power of modern web engines (like V8) and
+            WebAssembly, we prove that invasive server-side processing for
+            simple tools is obsolete. What happens on your machine stays on your
+            machine.
+          </p>
+
+          <h2>A Return to the Artisanal Web</h2>
+          <p>
+            The web used to be fun. It used to feel hand-crafted by passionate
+            individuals making weird, useful things. We designed Knicknaks with
+            a playful "sketchbook" aesthetic—complete with doodles, wobbly
+            borders, and asymmetric layouts—to remind ourselves that
+            professional, enterprise-grade utility tools don't have to look like
+            sterile corporate spreadsheets.
+          </p>
+
+          <div
+            class="bg-[var(--surface-secondary)] p-6 rounded-[var(--radius-lg)] border border-[var(--border-default)] mt-12 text-center"
+          >
+            <p class="font-bold text-[var(--text-primary)] mb-2 mt-0">
+              Support the Vision
+            </p>
+            <p class="text-sm mb-0">
+              If you believe in an ad-free, privacy-first internet, just share
+              Knicknaks with a friend. That's all we ask.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</BaseLayout>

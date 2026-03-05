@@ -4,6 +4,8 @@ import { getAllTools, getToolBySlug, getRelatedTools } from "@/tools/_registry";
 import { CATEGORY_INFO, STATUS_INFO } from "@/tools/_types";
 import { ToolWrapper } from "@/components/advanced/ToolWrapper";
 import pkg from "../../../package.json";
+import Header from "@/components/layout/Header.astro";
+import Footer from "@/components/layout/Footer.astro";
 
 // Generate static paths for all tools
 export function getStaticPaths() {
@@ -55,31 +57,7 @@ if (tool.faq?.length) {
 >
   <div class="min-h-screen flex flex-col">
     <!-- Header -->
-    <header
-      class="sticky top-0 z-40 bg(--surface-bg)/80 backdrop-blur-lg border-b border-[var(--border-default)]"
-    >
-      <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-          <a href="/" class="flex items-center gap-2 no-underline">
-            <span class="text-2xl">🪀</span>
-            <span
-              class="text-xl font-bold tracking-tight text(--text-primary)"
-              style="font-family: var(--font-heading)">Knicknaks</span
-            >
-          </a>
-          <div class="flex items-center gap-2">
-            <button
-              id="theme-toggle-tool"
-              type="button"
-              class="w-9 h-9 flex items-center justify-center rounded-[var(--radius-md)] text(--text-secondary) hover:text(--text-primary) hover:bg-[var(--surface-secondary)] transition-colors"
-              aria-label="Toggle theme"
-            >
-              🌜
-            </button>
-          </div>
-        </div>
-      </div>
-    </header>
+    <Header activeTab="tools" />
 
     <main class="flex-1">
       <div class="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12">
@@ -240,45 +218,6 @@ if (tool.faq?.length) {
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-[var(--border-default)] py-8">
-      <div
-        class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4"
-      >
-        <div class="flex items-center gap-2 text-[var(--text-tertiary)]">
-          <span>🪀</span>
-          <span class="text-sm">Knicknaks — Free tools, no nonsense.</span>
-        </div>
-        <div
-          class="flex flex-col md:flex-row items-center gap-4 text-sm text-[var(--text-tertiary)]"
-        >
-          <p>100% client-side. No data leaves your browser.</p>
-          <p class="hidden md:block opacity-50">•</p>
-          <p>
-            Build {
-              parseInt(pkg.version.split(".")[0]) * 1000 +
-                parseInt(pkg.version.split(".")[1])
-            }
-          </p>
-        </div>
-      </div>
-    </footer>
+    <Footer />
   </div>
-
-  <script is:inline>
-    const toggle = document.getElementById("theme-toggle-tool");
-    if (toggle) {
-      const update = () => {
-        const theme = document.documentElement.getAttribute("data-theme");
-        toggle.textContent = theme === "dark" ? "🌞" : "🌜";
-      };
-      update();
-      toggle.addEventListener("click", () => {
-        const current = document.documentElement.getAttribute("data-theme");
-        const next = current === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", next);
-        localStorage.setItem("knicknaks-theme", next);
-        update();
-      });
-    }
-  </script>
 </BaseLayout>

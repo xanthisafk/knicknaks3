@@ -1,0 +1,87 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/layout/Header.astro";
+import Footer from "@/components/layout/Footer.astro";
+---
+
+<BaseLayout
+  title="Terms of Service — Knicknaks"
+  description="Terms of service and usage rules for Knicknaks."
+>
+  <div class="min-h-screen flex flex-col w-full">
+    <Header />
+
+    <main class="flex-1 doodle-paper py-16 md:py-24">
+      <div class="max-w-3xl mx-auto px-4 md:px-6">
+        <h1
+          class="text-4xl md:text-5xl font-extrabold mb-8 font-[family-name:var(--font-heading)] text-[var(--text-primary)]"
+        >
+          <span class="doodle-underline">Terms of Service</span>
+        </h1>
+
+        <div
+          class="prose prose-lg dark:prose-invert max-w-none text-[var(--text-secondary)]"
+        >
+          <p class="lead mb-8">
+            By accessing and using Knicknaks, you agree to these fundamental
+            rules. Keep it legal, keep it safe.
+          </p>
+
+          <h2>1. Acceptable Use</h2>
+          <p>
+            Knicknaks provides free utility tools for developers, designers, and
+            general users. You agree to use this website only for lawful
+            purposes. You are strictly prohibited from using our services to:
+          </p>
+          <ul>
+            <li>Facilitate illegal activities.</li>
+            <li>
+              Generate, format, or process data intended to cause harm, harass,
+              or defraud others.
+            </li>
+            <li>
+              Bypass security controls on other systems or engage in malicious
+              hacking.
+            </li>
+          </ul>
+
+          <h2>2. No Warranty</h2>
+          <p>
+            The tools provided on Knicknaks run locally in your browser and are
+            provided on an <strong>"AS IS"</strong> and <strong
+              >"AS AVAILABLE"</strong
+            > basis, without any warranties of any kind, either express or implied.
+          </p>
+          <p>
+            While we strive for accuracy, we do not guarantee that our tools
+            (such as generators, converters, or calculators) will always be 100%
+            error-free. You are solely responsible for verifying the output
+            before relying on it for production-critical systems, legal
+            documents, or financial calculations.
+          </p>
+
+          <h2>3. Liability Limitation</h2>
+          <p>
+            In no event shall Knicknaks, its creators, or contributors be liable
+            for any direct, indirect, incidental, special, consequential, or
+            punitive damages arising out of your use of, or inability to use,
+            our tools. Because all processing occurs locally on your machine,
+            you assume all risks associated with the data you process.
+          </p>
+
+          <h2>4. Modifications to Service</h2>
+          <p>
+            We reserve the right to modify, suspend, or discontinue any tool or
+            feature on Knicknaks at any time without notice. We are providing a
+            free service and cannot guarantee permanent availability of any
+            specific utility.
+          </p>
+
+          <p class="text-sm mt-12 opacity-70">Last updated: March 6, 2026</p>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</BaseLayout>
