@@ -5,7 +5,7 @@ export const definition: ToolDefinition = {
   slug: "palette-generator",
   description: "Instantly generate harmonious, mathematically precise color schemes from a single seed color.",
   longDescription: "Kickstart your UI design process. Enter a single seed hex color, and our Palette Generator will instantly calculate beautiful, mathematically accurate color schemes. Effortlessly explore complete triadic, analogous, strictly complementary, and cascading monochromatic design palettes ready to use in your CSS.",
-  category: "converters",
+  category: "color",
   icon: "🎨",
   keywords: ["color palette generator", "color scheme maker", "analogous color calculator", "triadic color wheel", "hex color harmony", "monochromatic css variables", "complementary color finder", "ui design themes"],
   tags: ["color", "design", "css"],

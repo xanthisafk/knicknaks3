@@ -77,6 +77,11 @@ export default function ContrastCheckerTool() {
       : "Poor"
     : "";
 
+  const handleSwap = () => {
+    setFg(bg);
+    setBg(fg);
+  };
+
   return (
     <div className="space-y-6">
       {/* Preview */}
@@ -98,8 +103,9 @@ export default function ContrastCheckerTool() {
       </Panel>
 
       {/* Color pickers */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-4 items-end">
         <Panel>
+          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">Foreground (Text)</h3>
           <div className="flex items-center gap-3">
             <input
               type="color"
@@ -108,7 +114,6 @@ export default function ContrastCheckerTool() {
               className="w-12 h-12 rounded-[var(--radius-md)] border border-[var(--border-default)] cursor-pointer p-0.5"
             />
             <Input
-              label="Foreground (Text)"
               value={fg}
               onChange={(e) => setFg(e.target.value)}
               placeholder="#1a1a2e"
@@ -116,7 +121,15 @@ export default function ContrastCheckerTool() {
             />
           </div>
         </Panel>
+        <button
+          onClick={handleSwap}
+          className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-[var(--surface-secondary)] border border-[var(--border-default)] hover:bg-[var(--surface-elevated)] hover:border-[var(--border-hover)] transition-all cursor-pointer text-[var(--text-secondary)] hover:text-[var(--text-primary)] mb-2"
+          title="Swap colors"
+        >
+          ⇄
+        </button>
         <Panel>
+          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">Background</h3>
           <div className="flex items-center gap-3">
             <input
               type="color"
@@ -125,7 +138,6 @@ export default function ContrastCheckerTool() {
               className="w-12 h-12 rounded-[var(--radius-md)] border border-[var(--border-default)] cursor-pointer p-0.5"
             />
             <Input
-              label="Background"
               value={bg}
               onChange={(e) => setBg(e.target.value)}
               placeholder="#ffffff"
@@ -139,11 +151,11 @@ export default function ContrastCheckerTool() {
       {result && (
         <Panel>
           <div className="text-center mb-6">
-            <p className="text-xs text-[var(--text-tertiary)] mb-1">Contrast Ratio</p>
-            <p className="text-4xl md:text-5xl font-bold font-[family-name:var(--font-mono)] text(--text-primary) tabular-nums">
+            <p className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-1">Contrast Ratio</p>
+            <p className="text-4xl md:text-5xl font-bold font-[family-name:var(--font-mono)] text-[var(--text-primary)] tabular-nums">
               {result.ratio}:1
             </p>
-            <p className="text-sm text(--text-secondary) mt-1">{ratioLabel}</p>
+            <p className="text-sm text-[var(--text-secondary)] mt-1">{ratioLabel}</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

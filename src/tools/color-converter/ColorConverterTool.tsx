@@ -81,15 +81,15 @@ function ColorValueRow({ label, value, onCopy }: { label: string; value: string;
   const [copied, setCopied] = useState(false);
   return (
     <div className="flex items-center justify-between py-2 px-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
-      <span className="text-xs font-medium text(--text-secondary) w-12">{label}</span>
-      <span className="text-sm font-[family-name:var(--font-mono)] text(--text-primary) flex-1 ml-3">{value}</span>
+      <span className="text-xs font-medium text-[var(--text-secondary)] w-12">{label}</span>
+      <span className="text-sm font-[family-name:var(--font-mono)] text-[var(--text-primary)] flex-1 ml-3">{value}</span>
       <button
         onClick={async () => {
           await copyToClipboard(value);
           setCopied(true);
           setTimeout(() => setCopied(false), 1500);
         }}
-        className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) transition-colors cursor-pointer"
+        className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
       >
         {copied ? "✓" : "Copy"}
       </button>
@@ -144,7 +144,7 @@ export default function ColorConverterTool() {
       <Panel>
         <div className="flex items-center gap-6">
           <div
-            className="w-24 h-24 rounded-[var(--radius-lg)] border-2 border-[var(--border-default)] shadow-sm flex-shrink-0 relative overflow-hidden"
+            className="w-28 h-28 rounded-[var(--radius-lg)] border-2 border-[var(--border-default)] shadow-sm flex-shrink-0 relative overflow-hidden"
             style={{ backgroundColor: hex }}
           >
             <input
@@ -171,11 +171,11 @@ export default function ColorConverterTool() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* RGB */}
         <Panel>
-          <h3 className="text-sm font-medium text(--text-primary) mb-3">RGB</h3>
+          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">RGB</h3>
           <div className="space-y-2">
             {(["r", "g", "b"] as const).map((ch) => (
               <div key={ch} className="flex items-center gap-2">
-                <span className="text-xs font-medium text(--text-secondary) w-4 uppercase">{ch}</span>
+                <span className="text-xs font-medium text-[var(--text-secondary)] w-4 uppercase">{ch}</span>
                 <input
                   type="range"
                   min={0}
@@ -190,7 +190,7 @@ export default function ColorConverterTool() {
                   max={255}
                   value={rgb[ch]}
                   onChange={(e) => handleRgbChange(ch, parseInt(e.target.value) || 0)}
-                  className="w-16 px-2 py-1 text-xs rounded-[var(--radius-sm)] bg-[var(--surface-secondary)] border border-[var(--border-default)] text-center text(--text-primary)"
+                  className="w-16 px-2 py-1 text-xs rounded-[var(--radius-sm)] bg-[var(--surface-secondary)] border border-[var(--border-default)] text-center text-[var(--text-primary)]"
                 />
               </div>
             ))}
@@ -199,7 +199,7 @@ export default function ColorConverterTool() {
 
         {/* HSL */}
         <Panel>
-          <h3 className="text-sm font-medium text(--text-primary) mb-3">HSL</h3>
+          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">HSL</h3>
           <div className="space-y-2">
             {([
               { key: "h" as const, label: "H", max: 360 },
@@ -207,7 +207,7 @@ export default function ColorConverterTool() {
               { key: "l" as const, label: "L", max: 100 },
             ]).map(({ key, label, max }) => (
               <div key={key} className="flex items-center gap-2">
-                <span className="text-xs font-medium text(--text-secondary) w-4">{label}</span>
+                <span className="text-xs font-medium text-[var(--text-secondary)] w-4">{label}</span>
                 <input
                   type="range"
                   min={0}
@@ -231,11 +231,11 @@ export default function ColorConverterTool() {
 
         {/* CMYK */}
         <Panel>
-          <h3 className="text-sm font-medium text(--text-primary) mb-3">CMYK</h3>
+          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">CMYK</h3>
           <div className="space-y-2">
             {(["c", "m", "y", "k"] as const).map((ch) => (
               <div key={ch} className="flex items-center gap-2">
-                <span className="text-xs font-medium text(--text-secondary) w-4 uppercase">{ch}</span>
+                <span className="text-xs font-medium text-[var(--text-secondary)] w-4 uppercase">{ch}</span>
                 <input
                   type="range"
                   min={0}
@@ -260,7 +260,7 @@ export default function ColorConverterTool() {
 
       {/* All values summary */}
       <Panel>
-        <h3 className="text-sm font-medium text(--text-primary) mb-3">All Values</h3>
+        <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">All Values</h3>
         <div className="space-y-2">
           <ColorValueRow label="HEX" value={hex.toUpperCase()} onCopy={() => copyToClipboard(hex)} />
           <ColorValueRow label="RGB" value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} onCopy={() => {}} />

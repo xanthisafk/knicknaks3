@@ -31,6 +31,14 @@ const COLORS: Record<string, Record<string, string>> = {
 
 const SHADES = ["50","100","200","300","400","500","600","700","800","900","950"];
 
+function isLightColor(hex: string): boolean {
+  const c = hex.replace("#", "");
+  const r = parseInt(c.slice(0, 2), 16);
+  const g = parseInt(c.slice(2, 4), 16);
+  const b = parseInt(c.slice(4, 6), 16);
+  return (0.299 * r + 0.587 * g + 0.114 * b) > 150;
+}
+
 export default function TailwindColorsTool() {
   const [search, setSearch] = useState("");
   const [copied, setCopied] = useState<string | null>(null);
@@ -46,31 +54,35 @@ export default function TailwindColorsTool() {
         <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search colors (e.g. blue, red...)" />
       </Panel>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {filtered.map(([name, shades]) => (
-          <div key={name}>
-            <h3 className="text-sm font-medium capitalize text(--text-primary) mb-2">{name}</h3>
-            <div className="flex gap-1 flex-wrap">
+          <Panel key={name}>
+            <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">{name}</h3>
+            <div className="grid grid-cols-11 gap-1.5">
               {SHADES.map(shade => {
                 const hex = shades[shade];
                 if (!hex) return null;
                 const id = `${name}-${shade}`;
+                const textColor = isLightColor(hex) ? "#1a1a1a" : "#ffffff";
                 return (
                   <div key={shade} className="group relative">
                     <button
                       onClick={async () => { await copyToClipboard(hex); setCopied(id); setTimeout(() => setCopied(null), 1500); }}
-                      className="w-8 h-8 rounded-[var(--radius-sm)] cursor-pointer transition-transform hover:scale-110 shadow-sm"
+                      className="w-full aspect-square rounded-[var(--radius-md)] cursor-pointer transition-all duration-200 hover:scale-110 hover:shadow-lg hover:z-10 relative border border-black/5 dark:border-white/5"
                       style={{ backgroundColor: hex }}
                       title={`${name}-${shade}: ${hex}`}
                     />
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-[var(--surface-elevated)] border border-[var(--border-default)] rounded px-1.5 py-0.5 text-xs font-[family-name:var(--font-mono)] text(--text-primary) whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                      {copied === id ? "✓ Copied!" : `${name}-${shade}`}
+                    <div className="text-center mt-1">
+                      <span className="text-[9px] font-medium text-[var(--text-tertiary)]">{shade}</span>
+                    </div>
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-[var(--surface-elevated)] border border-[var(--border-default)] rounded-[var(--radius-md)] px-2 py-1 text-xs font-mono text-[var(--text-primary)] whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-20 shadow-lg">
+                      {copied === id ? "✓ Copied!" : hex.toUpperCase()}
                     </div>
                   </div>
                 );
               })}
             </div>
-          </div>
+          </Panel>
         ))}
       </div>
     </div>

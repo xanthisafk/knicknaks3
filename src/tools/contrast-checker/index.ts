@@ -5,7 +5,7 @@ export const definition: ToolDefinition = {
   slug: "contrast-checker",
   description: "Validate foreground/background color accessibility against strict WCAG AA and AAA standards.",
   longDescription: "Ensure your website design is accessible to all users visually. Our comprehensive Contrast Checker instantly calculates the contrast ratio between text and background colors, verifying compliance with the Web Content Accessibility Guidelines (WCAG) 2.1 AA and AAA standards for normal, large, and graphical elements.",
-  category: "converters",
+  category: "color",
   icon: "♿",
   keywords: ["color contrast checker", "wcag contrast ratio", "accessibility color tool", "a11y contrast validator", "aa aaa compliance", "web design accessibility", "foreground background checker", "accessible color palette"],
   tags: ["accessibility", "color", "design"],

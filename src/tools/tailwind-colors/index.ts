@@ -5,7 +5,7 @@ export const definition: ToolDefinition = {
   slug: "tailwind-colors",
   description: "Searchable reference cheat sheet for all Tailwind CSS v3 and v4 default color palettes.",
   longDescription: "Speed up your web design workflow with our interactive Tailwind Color Reference. Instantly browse, search, and copy hex codes or utility class names for every single color swatch in the official Tailwind CSS default palette. Supports both legacy v3 and the latest v4 design systems.",
-  category: "dev",
+  category: "color",
   icon: "🐦",
   keywords: ["tailwind color palette", "tailwind hex codes", "tailwind css colors", "tailwind v4 palette", "copy tailwind classes", "tailwind color shades", "tailwind slate zinc"],
   tags: ["design", "css", "tailwind", "reference"],
