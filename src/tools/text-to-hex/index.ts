@@ -1,7 +1,7 @@
 import type { ToolDefinition } from "@/tools/_types";
 
 export const definition: ToolDefinition = {
-  name: "Text ↔ Hex",
+  name: "Text to Hex",
   slug: "text-to-hex",
   description: "Instantly convert text to hexadecimal UTF-8 character codes and decode hex back to string.",
   longDescription: "Translate human-readable phrases into standard base-16 machine representation. This advanced bidirectional Text-to-Hexadecimal converter meticulously translates standard characters and complex multibyte Unicode strings (including emojis) into their precise UTF-8 hex byte sequences. Crucial for web developers, cybersecurity analysts investigating payloads, and computer science students.",
