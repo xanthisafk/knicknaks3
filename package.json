@@ -1,7 +1,7 @@
 {
   "name": "knicknaks",
   "type": "module",
-  "version": "3.10.0",
+  "version": "3.13.0",
   "description": "Free, offline-capable web app with useful day-to-day tools",
   "scripts": {
     "dev": "npm version minor --no-git-tag-version && astro dev",
@@ -20,13 +20,19 @@
     "astro": "^5.17.1",
     "canvas-confetti": "^1.9.4",
     "cronstrue": "^3.13.0",
+    "dexie": "^4.3.0",
+    "dexie-react-hooks": "^4.2.0",
     "fuse.js": "^7.1.0",
+    "hls.js": "^1.6.15",
+    "iptv-playlist-parser": "^0.15.2",
     "kokoro-js": "^1.2.1",
     "marked": "^17.0.3",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^5.5.207",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hotkeys-hook": "^5.2.4",
+    "react-virtuoso": "^4.18.3",
     "shiki": "^3.23.0",
     "typescript": "^5.9.3",
     "zod": "^3.24.4"
