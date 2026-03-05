@@ -100,43 +100,55 @@ if (tool.faq?.length) {
               >
             </li>
             <li>/</li>
-            <li class="text(--text-primary) font-medium">{tool.name}</li>
+            <li class="text(--text-primary) font-medium">
+              {tool.name}
+            </li>
           </ol>
         </nav>
 
         <!-- Tool Header -->
-        <div class="mb-8">
-          <div class="flex items-center flex-wrap gap-3 mb-2">
-            <span class="text-3xl">{tool.icon}</span>
-            <h1
-              class="text-3xl md:text-4xl font-bold text(--text-primary)"
-              style="font-family: var(--font-heading)"
-            >
-              {tool.name}
-            </h1>
+        <div class="mb-8 flex items-center justify-between gap-8">
+          <!-- LEFT CONTENT -->
+          <div class="max-w-2xl">
+            <div class="flex items-center flex-wrap gap-3 mb-2">
+              <h1
+                class="text-3xl md:text-4xl font-bold text(--text-primary) doodle-underline"
+                style="font-family: var(--font-heading)"
+              >
+                {tool.name}
+              </h1>
+
+              {
+                tool.status && (
+                  <div class="flex items-center gap-1.5 text-xs uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-[var(--surface-secondary)] text(--text-secondary) border border-[var(--border-default)]">
+                    <span>{STATUS_INFO[tool.status].icon}</span>
+                    {STATUS_INFO[tool.status].label}
+                  </div>
+                )
+              }
+            </div>
+
+            <p class="text(--text-secondary) text-lg">
+              {tool.longDescription ?? tool.description}
+            </p>
+
             {
-              tool.status && (
-                <div class="flex items-center gap-1.5 text-xs uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-[var(--surface-secondary)] text(--text-secondary) border border-[var(--border-default)]">
-                  <span>{STATUS_INFO[tool.status].icon}</span>
-                  {STATUS_INFO[tool.status].label}
+              tool.tags && (
+                <div class="flex flex-wrap gap-2 mt-3">
+                  {tool.tags.map((tag) => (
+                    <span class="px-2 py-0.5 text-xs rounded-[var(--radius-full)] bg-[var(--surface-secondary)] text(--text-secondary) border border-[var(--border-default)]">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               )
             }
           </div>
-          <p class="text(--text-secondary) text-lg max-w-2xl">
-            {tool.longDescription ?? tool.description}
-          </p>
-          {
-            tool.tags && (
-              <div class="flex flex-wrap gap-2 mt-3">
-                {tool.tags.map((tag) => (
-                  <span class="px-2 py-0.5 text-xs rounded-[var(--radius-full)] bg-[var(--surface-secondary)] text(--text-secondary) border border-[var(--border-default)]">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )
-          }
+
+          <!-- RIGHT ICON -->
+          <div class="text-8xl md:text-9xl opacity-80">
+            {tool.icon}
+          </div>
         </div>
 
         <!-- Tool Component (React Island) -->
