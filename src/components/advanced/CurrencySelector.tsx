@@ -9,38 +9,38 @@ export interface Currency {
 }
 
 export const CURRENCIES: Currency[] = [
-  { symbol: "$",  code: "USD", name: "US Dollar"        },
-  { symbol: "€",  code: "EUR", name: "Euro"             },
-  { symbol: "£",  code: "GBP", name: "British Pound"    },
-  { symbol: "¥",  code: "JPY", name: "Japanese Yen"     },
-  { symbol: "¥",  code: "CNY", name: "Chinese Yuan"     },
-  { symbol: "₹",  code: "INR", name: "Indian Rupee"     },
-  { symbol: "₩",  code: "KRW", name: "South Korean Won" },
-  { symbol: "₣",  code: "CHF", name: "Swiss Franc"      },
-  { symbol: "C$", code: "CAD", name: "Canadian Dollar"  },
-  { symbol: "A$", code: "AUD", name: "Australian Dollar"},
-  { symbol: "R$", code: "BRL", name: "Brazilian Real"   },
-  { symbol: "₽",  code: "RUB", name: "Russian Ruble"    },
-  { symbol: "kr", code: "SEK", name: "Swedish Krona"    },
-  { symbol: "kr", code: "NOK", name: "Norwegian Krone"  },
-  { symbol: "kr", code: "DKK", name: "Danish Krone"     },
-  { symbol: "zł", code: "PLN", name: "Polish Złoty"     },
-  { symbol: "Kč", code: "CZK", name: "Czech Koruna"     },
+  { symbol: "$", code: "USD", name: "US Dollar" },
+  { symbol: "€", code: "EUR", name: "Euro" },
+  { symbol: "£", code: "GBP", name: "British Pound" },
+  { symbol: "¥", code: "JPY", name: "Japanese Yen" },
+  { symbol: "¥", code: "CNY", name: "Chinese Yuan" },
+  { symbol: "₹", code: "INR", name: "Indian Rupee" },
+  { symbol: "₩", code: "KRW", name: "South Korean Won" },
+  { symbol: "₣", code: "CHF", name: "Swiss Franc" },
+  { symbol: "C$", code: "CAD", name: "Canadian Dollar" },
+  { symbol: "A$", code: "AUD", name: "Australian Dollar" },
+  { symbol: "R$", code: "BRL", name: "Brazilian Real" },
+  { symbol: "₽", code: "RUB", name: "Russian Ruble" },
+  { symbol: "kr", code: "SEK", name: "Swedish Krona" },
+  { symbol: "kr", code: "NOK", name: "Norwegian Krone" },
+  { symbol: "kr", code: "DKK", name: "Danish Krone" },
+  { symbol: "zł", code: "PLN", name: "Polish Złoty" },
+  { symbol: "Kč", code: "CZK", name: "Czech Koruna" },
   { symbol: "Ft", code: "HUF", name: "Hungarian Forint" },
-  { symbol: "₺",  code: "TRY", name: "Turkish Lira"     },
-  { symbol: "﷼",  code: "SAR", name: "Saudi Riyal"      },
-  { symbol: "د.إ",code: "AED", name: "UAE Dirham"       },
-  { symbol: "₪",  code: "ILS", name: "Israeli Shekel"   },
-  { symbol: "฿",  code: "THB", name: "Thai Baht"        },
-  { symbol: "₫",  code: "VND", name: "Vietnamese Dong"  },
-  { symbol: "Rp", code: "IDR", name: "Indonesian Rupiah"},
-  { symbol: "RM", code: "MYR", name: "Malaysian Ringgit"},
-  { symbol: "₦",  code: "NGN", name: "Nigerian Naira"   },
-  { symbol: "R",  code: "ZAR", name: "South African Rand"},
-  { symbol: "MX$",code: "MXN", name: "Mexican Peso"     },
+  { symbol: "₺", code: "TRY", name: "Turkish Lira" },
+  { symbol: "﷼", code: "SAR", name: "Saudi Riyal" },
+  { symbol: "د.إ", code: "AED", name: "UAE Dirham" },
+  { symbol: "₪", code: "ILS", name: "Israeli Shekel" },
+  { symbol: "฿", code: "THB", name: "Thai Baht" },
+  { symbol: "₫", code: "VND", name: "Vietnamese Dong" },
+  { symbol: "Rp", code: "IDR", name: "Indonesian Rupiah" },
+  { symbol: "RM", code: "MYR", name: "Malaysian Ringgit" },
+  { symbol: "₦", code: "NGN", name: "Nigerian Naira" },
+  { symbol: "R", code: "ZAR", name: "South African Rand" },
+  { symbol: "MX$", code: "MXN", name: "Mexican Peso" },
   { symbol: "S$", code: "SGD", name: "Singapore Dollar" },
-  { symbol: "HK$",code: "HKD", name: "Hong Kong Dollar" },
-  { symbol: "NZ$",code: "NZD", name: "New Zealand Dollar"},
+  { symbol: "HK$", code: "HKD", name: "Hong Kong Dollar" },
+  { symbol: "NZ$", code: "NZD", name: "New Zealand Dollar" },
 ];
 
 // ─── Props ────────────────────────────────────────────────────────────────────
@@ -80,11 +80,11 @@ export function CurrencySelector({ value, onChange, compact = false }: CurrencyS
 
   const filtered = query.trim()
     ? CURRENCIES.filter(
-        (c) =>
-          c.name.toLowerCase().includes(query.toLowerCase()) ||
-          c.code.toLowerCase().includes(query.toLowerCase()) ||
-          c.symbol.includes(query)
-      )
+      (c) =>
+        c.name.toLowerCase().includes(query.toLowerCase()) ||
+        c.code.toLowerCase().includes(query.toLowerCase()) ||
+        c.symbol.includes(query)
+    )
     : CURRENCIES;
 
   const handleSelect = (currency: Currency) => {
@@ -101,16 +101,16 @@ export function CurrencySelector({ value, onChange, compact = false }: CurrencyS
         onClick={() => setOpen((v) => !v)}
         title={`${value.name} (${value.code}) — click to change currency`}
         className={`
-          flex items-center gap-1 font-medium transition-all select-none group rounded-md border border-[var(--border-default)]
+          flex items-center gap-1 font-medium transition-all select-none group rounded-md border border-(--border-default)
           ${compact
-            ? `px-3 h-full text-sm border-r border-[var(--border-default)]
-               bg-[var(--surface-elevated)] text-[var(--text-secondary)]
-               hover:text-[var(--color-primary-500)] hover:bg-[var(--color-primary-500)]/5`
-            : `px-3 py-2 text-sm rounded-[var(--radius-md)] border border-[var(--border-default)]
-               bg-[var(--surface-bg)] text-[var(--text-secondary)]
-               hover:text-[var(--text-primary)] hover:border-[var(--color-primary-500)]`
+            ? `px-3 h-full text-sm border-r border-(--border-default)
+               bg-(--surface-elevated) text-(--text-secondary)
+               hover:text-primary-500 hover:bg-primary-500/5`
+            : `px-3 py-2 text-sm rounded-md border border-(--border-default)
+               bg-(--surface-bg) text-(--text-secondary)
+               hover:text-(--text-primary) hover:border-primary-500`
           }
-          ${open ? "text-[var(--color-primary-500)]" : ""}
+          ${open ? "text-primary-500" : ""}
         `}
       >
         <span className="tabular-nums">{value.symbol}</span>
@@ -127,14 +127,14 @@ export function CurrencySelector({ value, onChange, compact = false }: CurrencyS
         <div
           className="
             absolute left-0 top-full mt-1.5 z-50
-            w-64 rounded-[var(--radius-lg)] border border-[var(--border-default)]
-            bg-[var(--surface-elevated)] shadow-xl
+            w-64 rounded-lg border border-(--border-default)
+            bg-(--surface-elevated) shadow-xl
             flex flex-col overflow-hidden
           "
           style={{ maxHeight: "320px" }}
         >
           {/* Search */}
-          <div className="p-2 border-b border-[var(--border-default)]">
+          <div className="p-2 border-b border-(--border-default)">
             <input
               ref={searchRef}
               type="text"
@@ -142,10 +142,10 @@ export function CurrencySelector({ value, onChange, compact = false }: CurrencyS
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search currency…"
               className="
-                w-full px-3 py-1.5 text-xs rounded-[var(--radius-sm)]
-                border border-[var(--border-default)] bg-[var(--surface-bg)]
-                text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)]
-                outline-none focus:border-[var(--color-primary-500)] transition-colors
+                w-full px-3 py-1.5 text-xs rounded-sm
+                border border-(--border-default) bg-(--surface-bg)
+                text-(--text-primary) placeholder:text-(--text-tertiary)
+                outline-none focus:border-primary-500 transition-colors
               "
             />
           </div>
@@ -153,7 +153,7 @@ export function CurrencySelector({ value, onChange, compact = false }: CurrencyS
           {/* List */}
           <div className="overflow-y-auto flex-1">
             {filtered.length === 0 ? (
-              <p className="px-4 py-6 text-xs text-center text-[var(--text-tertiary)]">No currencies found</p>
+              <p className="px-4 py-6 text-xs text-center text-(--text-tertiary)">No currencies found</p>
             ) : (
               filtered.map((currency) => {
                 const active = currency.code === value.code;
@@ -163,20 +163,20 @@ export function CurrencySelector({ value, onChange, compact = false }: CurrencyS
                     type="button"
                     onClick={() => handleSelect(currency)}
                     className={`
-                      w-full flex items-center gap-3 px-3 py-2 text-left transition-colors
+                      w-full flex items-center gap-3 px-3 py-2 text-left transition-colors cursor-pointer
                       ${active
-                        ? "bg-[var(--color-primary-500)]/10 text-[var(--text-primary)]"
-                        : "text-[var(--text-secondary)] hover:bg-[var(--surface-bg)] hover:text-[var(--text-primary)]"
+                        ? "bg-primary-500/10 text-(--text-primary)"
+                        : "text-(--text-secondary) hover:bg-(--surface-bg) hover:text-(--text-primary)"
                       }
                     `}
                   >
                     {/* Symbol badge */}
                     <span
                       className={`
-                        w-8 h-7 flex items-center justify-center rounded text-sm font-semibold flex-shrink-0
+                        w-8 h-7 flex items-center justify-center rounded text-sm font-semibold shrink-0
                         ${active
-                          ? "bg-[var(--color-primary-500)] text-white"
-                          : "bg-[var(--surface-bg)] border border-[var(--border-default)] text-[var(--text-primary)]"
+                          ? "bg-primary-500 text-white"
+                          : "bg-(--surface-bg) border border-(--border-default) text-(--text-primary)"
                         }
                       `}
                     >
@@ -185,11 +185,11 @@ export function CurrencySelector({ value, onChange, compact = false }: CurrencyS
 
                     <span className="flex-1 min-w-0">
                       <span className="text-xs font-medium block truncate">{currency.name}</span>
-                      <span className="text-[10px] text-[var(--text-tertiary)]">{currency.code}</span>
+                      <span className="text-[10px] text-(--text-tertiary)">{currency.code}</span>
                     </span>
 
                     {active && (
-                      <svg className="w-3.5 h-3.5 text-[var(--color-primary-500)] flex-shrink-0" viewBox="0 0 14 14" fill="none">
+                      <svg className="w-3.5 h-3.5 text-primary-500 shrink-0" viewBox="0 0 14 14" fill="none">
                         <path d="M2 7l3.5 3.5L12 3.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     )}
