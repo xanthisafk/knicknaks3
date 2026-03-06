@@ -81,24 +81,24 @@ export default function BlogSearch({ posts }: BlogSearchProps) {
 
 
       {isOpen && query && (
-        <div className="absolute mt-3 w-full bg-[--surface-elevated] shadow-2xl rounded-[--radius-xl] border-2 border-[--border-default] overflow-hidden doodle-border transform transition-all">
+        <div className="absolute mt-3 w-full bg-(--surface-elevated) shadow-2xl rounded-xl border-2 border-(--border-default) overflow-hidden doodle-border transform transition-all">
           {results.length > 0 ? (
             <ul className="max-h-[60vh] overflow-y-auto py-2">
               {results.map((post) => (
-                <li key={post.id} className="border-b border-[--border-default] last:border-b-0">
+                <li key={post.id} className="border-b border-(--border-default) last:border-b-0">
                   <a
                     href={`/blog/${post.id}`}
-                    className="block px-6 py-4 hover:bg-[--surface-secondary] transition-colors group"
+                    className="block px-6 py-4 hover:bg-(--surface-secondary) transition-colors group"
                   >
-                    <h4 className="text-lg font-bold text-[--text-primary] mb-1 font-[family-name:var(--font-heading)] group-hover:text-[--color-primary-500] transition-colors">
+                    <h4 className="text-lg font-bold text-(--text-primary) mb-1 font-heading group-hover:text-primary-500 transition-colors">
                       {post.title}
                     </h4>
-                    <p className="text-sm text-[--text-secondary] line-clamp-2 mb-3 leading-relaxed">
+                    <p className="text-sm text-(--text-secondary) line-clamp-2 mb-3 leading-relaxed">
                       {post.description}
                     </p>
                     <div className="flex gap-2">
                       {post.tags.slice(0, 4).map(tag => (
-                        <span key={tag} className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-[--surface-bg] text-[--text-secondary] border border-[--border-default] rounded-[--radius-sm]">
+                        <span key={tag} className="px-2 py-0.5 text-xs font-bold uppercase tracking-wider bg-(--surface-bg) text-(--text-secondary) border border-(--border-default) rounded-sm">
                           {tag}
                         </span>
                       ))}
@@ -108,9 +108,9 @@ export default function BlogSearch({ posts }: BlogSearchProps) {
               ))}
             </ul>
           ) : (
-            <div className="px-6 py-12 text-center text-[--text-secondary]">
+            <div className="px-6 py-12 text-center text-(--text-secondary)">
               <div className="text-4xl mb-4">🔍</div>
-              <p className="text-lg font-medium text-[--text-primary] mb-1">No results found</p>
+              <p className="text-lg font-medium text-(--text-primary) mb-1">No results found</p>
               <p className="text-sm">We couldn't find any articles matching "{query}".</p>
             </div>
           )}

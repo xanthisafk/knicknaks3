@@ -77,7 +77,7 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
                 {post.data.tags.map((tag: string) => (
                   <a
                     href={`/blog/tag/${tag}`}
-                    class="px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-[var(--surface-secondary)] text-[var(--text-secondary)] border border-[var(--border-default)] rounded-[var(--radius-sm)] hover:border-[var(--color-primary-500)] hover:text-[var(--color-primary-700)] dark:hover:text-[var(--color-primary-300)] transition-all"
+                    class="px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-(--surface-secondary)-[var(--text-secondary)] border border-(--border-default) rounded-sm hover:border-primary-500 hover:text-primary-700 dark:hover:text-primary-300 transition-all"
                   >
                     {tag}
                   </a>
@@ -87,19 +87,19 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
           }
 
           <h1
-            class="text-4xl md:text-6xl font-extrabold font-[family-name:var(--font-heading)] leading-tight text-[var(--text-primary)] mb-8"
+            class="text-4xl md:text-6xl font-extrabold font-heading leading-tight text-(--text-primary) mb-8"
           >
             {post.data.title}
           </h1>
 
           <div
-            class="flex flex-wrap items-center justify-center gap-4 mt-6 text-sm text-[var(--text-secondary)]"
+            class="flex flex-wrap items-center justify-center gap-4 mt-6 text-sm text-(--text-secondary)"
           >
             {
               post.data.author && (
                 <div class="flex items-center gap-2">
                   <span class="opacity-70 italic text-xs">by</span>
-                  <span class="font-bold text-[var(--text-primary)] tracking-tight">
+                  <span class="font-bold text-(--text-primary) tracking-tight">
                     {post.data.author}
                   </span>
                 </div>
@@ -125,8 +125,8 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
         {
           post.data.coverImage && (
             <div class="mb-16 group relative">
-              <div class="absolute -inset-2 bg-[var(--surface-secondary)] rotate-1 rounded-[var(--radius-xl)] -z-10 group-hover:rotate-0 transition-transform" />
-              <div class="overflow-hidden rounded-[var(--radius-xl)] border-2 border-[var(--border-default)] shadow-xl bg-[var(--surface-elevated)]">
+              <div class="absolute -inset-2 bg-(--surface-secondary) rotate-1 rounded-xl -z-10 group-hover:rotate-0 transition-transform" />
+              <div class="overflow-hidden rounded-xl border-2 border-(--border-default) shadow-xl bg-(--surface-elevated)">
                 <img
                   src={post.data.coverImage}
                   alt={post.data.title}
@@ -139,15 +139,15 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
 
         <article
           class="prose prose-lg dark:prose-invert max-w-none
-          prose-headings:font-[family-name:var(--font-heading)]
-          prose-headings:text-[var(--text-primary)]
+          prose-headings:font-heading
+          prose-headings:text-(--text-primary)
           prose-headings:tracking-tight
-          prose-p:text-[var(--text-secondary)]
+          prose-p:text-(--text-secondary)
           prose-p:leading-relaxed
-          prose-a:text-[var(--color-primary-600)] prose-a:font-bold prose-a:no-underline hover:prose-a:underline
-          prose-strong:text-[var(--text-primary)]
-          prose-img:rounded-[var(--radius-lg)] prose-img:border-2 prose-img:border-[var(--border-default)]
-          prose-hr:border-[var(--border-default)] prose-hr:my-12"
+          prose-a:text-primary-600 prose-a:font-bold prose-a:no-underline hover:prose-a:underline
+          prose-strong:text-(--text-primary)
+          prose-img:rounded-lg prose-img:border-2 prose-img:border-(--border-default)
+          prose-hr:border-(--border-default) prose-hr:my-12"
         >
           <Content
             components={{ ToolLink, Screenshot, Callout, ComparisonTable }}
@@ -161,7 +161,7 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
         <footer class="text-center">
           <a
             href="/blog"
-            class="inline-flex items-center gap-2 px-6 py-3 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--color-primary-600)] font-bold hover:border-[var(--color-primary-500)] hover:shadow-md transition-all active:translate-y-0.5"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-(--surface-elevated) border border-(--border-default) text-primary-600 font-bold hover:border-primary-500 hover:shadow-md transition-all active:translate-y-0.5"
           >
             ← Back to the Toolbox blog
           </a>

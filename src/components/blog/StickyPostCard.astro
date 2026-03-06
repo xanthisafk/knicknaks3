@@ -16,21 +16,15 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
 
 <a href={`/blog/${post.id}`} class="block group h-full relative">
   <Card
-    className="h-full flex flex-col doodle-border transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-xl bg-gradient-to-br from-[--surface-secondary] to-[--surface-elevated] border-2 border-[--color-primary-500]"
+    className="h-full mt-4 flex flex-col doodle-border transition-all duration-300 bg-linear-to-brrom-(--surface-secondary) to-(--surface-elevated) border-2 group-hover:border-primary-500"
   >
-    <div
-      class="absolute -top-3 -right-3 z-10 w-8 h-8 flex items-center justify-center bg-[--surface-bg] rounded-full border border-[--border-default] shadow-sm transform rotate-12"
-      title="Sticky Post"
-    >
-      📌
-    </div>
     {
       post.data.coverImage && (
-        <div class="aspect-video mb-4 overflow-hidden rounded-[--radius-md] border border-[--border-default]">
+        <div class="aspect-video mb-4 overflow-hidden rounded-md border border-(--border-default)">
           <img
             src={post.data.coverImage}
             alt={post.data.title}
-            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            class="w-full h-full object-cover"
           />
         </div>
       )
@@ -41,31 +35,27 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
           post.data.tags
             .slice(0, 2)
             .map((tag: string) => (
-              <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-[--surface-bg] text-[--text-secondary] border border-[--border-default] rounded-[--radius-sm]">
+              <span class="px-2 py-0.5 text-xs font-bold uppercase tracking-wider bg-(--surface-bg) text-(--text-secondary) border border-(--border-default) rounded-sm">
                 {tag}
               </span>
             ))
         }
       </div>
       <h2
-        class="text-xl font-bold font-[family-name:var(--font-heading)] text-[--text-primary] group-hover:text-[--color-primary-500] transition-colors line-clamp-2 leading-snug"
+        class="text-xl font-bold font-(family-name:var(--font-heading)) text-(--text-primary) group-hover:text-primary-500 transition-colors line-clamp-2 leading-snug"
       >
         {post.data.title}
       </h2>
       <p
-        class="mt-3 text-sm text-[--text-secondary] line-clamp-3 flex-1 leading-relaxed"
+        class="mt-3 text-sm text-(--text-secondary) line-clamp-3 flex-1 leading-relaxed"
       >
         {post.data.description}
       </p>
       <div
-        class="mt-6 pt-4 border-t border-[--border-default] flex items-center justify-between text-xs text-[--text-tertiary]"
+        class="mt-6 pt-4 border-t border-(--border-default) flex items-center justify-between text-xs text-(--text-tertiary)"
       >
         <span>{formattedDate}</span>
-        <span
-          class="font-semibold text-[--color-primary-500] group-hover:translate-x-1 transition-transform"
-        >
-          Read More →
-        </span>
+        <span class="font-semibold text-primary-500"> Read More → </span>
       </div>
     </div>
   </Card>
