@@ -7,17 +7,18 @@ const { activeTab } = Astro.props;
 ---
 
 <header
-  class="sticky top-0 z-40 bg-[var(--surface-bg)]/80 backdrop-blur-lg border-b border-[var(--border-default)]"
+  class="sticky top-0 z-40 bg-(--surface-bg)/80 backdrop-blur-lg border-b border-(--border-default)"
 >
   <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <a href="/" class="flex items-center gap-2 no-underline group">
         <span
-          class="text-2xl group-hover:rotate-12 transition-transform duration-300"
-          >🪀</span
+          id="yoyo-icon"
+          class="text-2xl transition-transform duration-300 inline-block"
+          style="will-change: transform;">🪀</span
         >
         <span
-          class="text-xl font-bold tracking-tight text-[var(--text-primary)] font-[family-name:var(--font-heading)]"
+          class="text-xl font-bold tracking-tight text-(--text-primary) font-heading"
         >
           Knicknaks
         </span>
@@ -25,12 +26,12 @@ const { activeTab } = Astro.props;
       <div class="flex items-center gap-4 text-sm font-medium">
         <a
           href="/"
-          class={`${activeTab === "tools" ? "text-[--color-primary-600] border-[--color-primary-500]" : "text-[--text-secondary] hover:text-[--text-primary] border-transparent"} border-b-2 py-5 transition-colors`}
+          class={`${activeTab === "tools" ? "text-primary-600 border-primary-500" : "text-(--text-secondary) hover:text-(--text-primary) border-transparent"} border-b-2 py-5 transition-colors`}
           >Tools</a
         >
         <a
           href="/blog"
-          class={`${activeTab === "blog" ? "text-[--color-primary-600] border-[--color-primary-500]" : "text-[--text-secondary] hover:text-[--text-primary] border-transparent"} border-b-2 py-5 transition-colors`}
+          class={`${activeTab === "blog" ? "text-primary-600 border-primary-500" : "text-(--text-secondary) hover:text-(--text-primary) border-transparent"} border-b-2 py-5 transition-colors`}
           >Blog</a
         >
 
@@ -39,7 +40,7 @@ const { activeTab } = Astro.props;
         <button
           id="theme-toggle-btn"
           type="button"
-          class="w-8 h-8 flex items-center justify-center rounded-[var(--radius-md)] text-[--text-secondary] hover:text-[--text-primary] hover:bg-[var(--surface-secondary)] transition-colors relative"
+          class="w-8 h-8 flex items-center justify-center rounded-md text-(--text-secondary) hover:text-(--text-primary) transition-colors relative cursor-pointer"
           aria-label="Toggle theme"
         >
           <span class="theme-icon-light absolute transition-all duration-300"
@@ -75,7 +76,7 @@ const { activeTab } = Astro.props;
 </style>
 
 <script is:inline>
-  // Simple listener specifically for the toggle button
+  // ── Theme toggle ──────────────────────────────────────────────────────────
   document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("theme-toggle-btn");
     if (btn) {
@@ -86,5 +87,120 @@ const { activeTab } = Astro.props;
         localStorage.setItem("knicknaks-theme", next);
       });
     }
+
+    // ── Yoyo animation ──────────────────────────────────────────────────────
+    initYoyoMotion();
   });
+
+  function initYoyoMotion() {
+    const yoyo = document.getElementById("yoyo-icon");
+    if (!yoyo) return;
+
+    // Lerp helper – smoothly closes the gap between current and target value
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    // ── Mobile: DeviceOrientation ─────────────────────────────────────────
+    // gamma = left/right tilt (-90 … +90 deg)
+    // We map gamma to a rotation so the yoyo "stands up" (counter-tilts the device).
+    // When the phone tilts right (positive gamma) the yoyo leans left to stay upright.
+    function tryDeviceOrientation() {
+      let targetAngle = 0;
+      let currentAngle = 0;
+      let rafId = null;
+
+      function onOrientation(e) {
+        // gamma: left-right tilt of device; clamp to ±45° for sanity
+        const gamma = Math.max(-45, Math.min(45, e.gamma || 0));
+        // Negate: phone tilts right → yoyo rotates left to stay vertical
+        targetAngle = -gamma;
+      }
+
+      function tick() {
+        currentAngle = lerp(currentAngle, targetAngle, 0.12);
+        yoyo.style.transform = `rotate(${currentAngle.toFixed(2)}deg)`;
+        rafId = requestAnimationFrame(tick);
+      }
+
+      window.addEventListener("deviceorientation", onOrientation, true);
+      tick();
+
+      return () => {
+        window.removeEventListener("deviceorientation", onOrientation, true);
+        cancelAnimationFrame(rafId);
+      };
+    }
+
+    // ── Desktop: gentle idle wobble ───────────────────────────────────────
+    function startDesktopWobble() {
+      let targetAngle = 0;
+      let currentAngle = 0;
+      let rafId = null;
+      let lastSwitch = performance.now();
+
+      // Alternate between a small left and right lean every ~1.6 s
+      const AMPLITUDE = 14; // degrees
+      const HOLD_MS = 1600; // time between direction changes
+      let direction = 1;
+
+      function tick(now) {
+        if (now - lastSwitch > HOLD_MS) {
+          direction *= -1;
+          targetAngle = direction * AMPLITUDE;
+          lastSwitch = now;
+        }
+
+        currentAngle = lerp(currentAngle, targetAngle, 0.035);
+        yoyo.style.transform = `rotate(${currentAngle.toFixed(2)}deg)`;
+        rafId = requestAnimationFrame(tick);
+      }
+
+      rafId = requestAnimationFrame(tick);
+
+      return () => cancelAnimationFrame(rafId);
+    }
+
+    // ── Feature-detect and branch ─────────────────────────────────────────
+    const isMobile =
+      /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      ("ontouchstart" in window && navigator.maxTouchPoints > 0);
+
+    if (isMobile && typeof DeviceOrientationEvent !== "undefined") {
+      // iOS 13+ requires explicit permission
+      if (typeof DeviceOrientationEvent.requestPermission === "function") {
+        // We can't request permission without a user gesture, so we attach a
+        // one-time tap listener on the yoyo itself as the gesture trigger.
+        yoyo.style.cursor = "pointer";
+        yoyo.title = "Tap to enable tilt";
+
+        const startWobble = startDesktopWobble(); // fallback until granted
+
+        yoyo.addEventListener(
+          "click",
+          () => {
+            DeviceOrientationEvent.requestPermission()
+              .then((state) => {
+                if (state === "granted") {
+                  startWobble(); // stop the desktop wobble
+                  tryDeviceOrientation();
+                  yoyo.style.cursor = "";
+                  yoyo.title = "";
+                }
+              })
+              .catch(() => {
+                /* permission denied – keep wobble */
+              });
+          },
+          { once: true },
+        );
+      } else {
+        // Android / older iOS – no permission needed
+        tryDeviceOrientation();
+      }
+    } else {
+      // Desktop or device without orientation support
+      startDesktopWobble();
+    }
+  }
 </script>

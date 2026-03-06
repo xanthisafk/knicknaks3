@@ -53,8 +53,8 @@ export function Panel({ children, className, padding = "md" }: PanelProps) {
   return (
     <div
       className={cn(
-        "bg-[var(--surface-elevated)] rounded-[var(--radius-lg)]",
-        "border border-[var(--border-default)]",
+        "bg-(--surface-elevated) rounded-lg",
+        "border border-(--border-default)",
         panelPadding[padding],
         className
       )}
@@ -86,15 +86,15 @@ export function Card({ children, className, onClick, hoverable = false }: CardPr
         }
       }}
       className={cn(
-        "bg-[var(--surface-elevated)] rounded-[var(--radius-lg)]",
-        "border border-[var(--border-default)]",
+        "bg-(--surface-elevated) rounded-lg",
+        "border border-(--border-default)",
         "p-4 md:p-5",
-        interactive && [
-          "cursor-pointer transition-all duration-[var(--duration-fast)] ease-[var(--ease-out)]",
-          "hover:border-[var(--border-hover)] hover:shadow-md",
-          "hover:-translate-y-0.5",
-          "active:translate-y-0 active:shadow-sm",
-        ],
+        interactive && `
+          cursor-pointer transition-all duration-(--duration-fast) ease-out
+          hover:border-(--border-hover) hover:shadow-md
+          hover:-translate-y-0.5
+          active:translate-y-0 active:shadow-sm
+        `,
         className
       )}
     >
@@ -117,7 +117,7 @@ export function Section({ children, className, title, description }: SectionProp
       {(title || description) && (
         <div className="mb-6 md:mb-8">
           {title && (
-            <h2 className="text-2xl md:text-3xl font-bold font-[family-name:var(--font-heading)] text(--text-primary)">
+            <h2 className="text-2xl md:text-3xl font-bold font-heading text(--text-primary)">
               {title}
             </h2>
           )}
