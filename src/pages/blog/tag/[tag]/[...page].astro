@@ -47,15 +47,14 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].slice(0, 8);
       <section class="py-16 md:py-24 text-center relative overflow-hidden">
         <div class="max-w-3xl mx-auto px-4 relative z-10">
           <h1
-            class="text-4xl md:text-6xl font-extrabold mb-4 text-[var(--text-primary)] font-[family-name:var(--font-heading)]"
+            class="text-4xl md:text-6xl font-extrabold mb-4 text-(--text-primary) font-heading"
           >
-            Topic: <span
-              class="doodle-underline capitalize text-[--color-primary-500]"
+            Topic: <span class="doodle-underline capitalize text-primary-500"
               >{tag}</span
             >
           </h1>
           <p
-            class="text-lg md:text-xl text-[var(--text-secondary)] mb-8 max-w-xl mx-auto"
+            class="text-lg md:text-xl text-(--text-secondary) mb-8 max-w-xl mx-auto"
           >
             Explore our collection of guides and tools focused on {tag}.
           </p>
@@ -71,7 +70,7 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].slice(0, 8);
           >
             <a
               href="/blog"
-              class="px-3 py-1.5 rounded-[var(--radius-full)] text-sm font-medium border transition-colors bg-transparent text-[var(--text-secondary)] border-transparent hover:bg-[var(--surface-secondary)] hover:text-[var(--text-primary)]"
+              class="px-3 py-1.5 rounded-full text-sm font-medium border transition-colors bg-transparent text-(--text-secondary) border-transparent hover:bg-(--surface-secondary) hover:text-(--text-primary)"
             >
               All Posts
             </a>
@@ -79,7 +78,7 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].slice(0, 8);
               allTags.map((t) => (
                 <a
                   href={`/blog/tag/${t}`}
-                  class={`px-3 py-1.5 rounded-[var(--radius-full)] text-sm font-medium border transition-colors capitalize ${t === tag ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] border-[var(--border-default)]" : "bg-transparent text-[var(--text-secondary)] border-transparent hover:bg-[var(--surface-secondary)] hover:text-[var(--text-primary)]"}`}
+                  class={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors capitalize ${t === tag ? "bg-(--surface-elevated) text-(--text-primary) border-(--border-default)" : "bg-transparent text-(--text-secondary) border-transparent hover:bg-(--surface-secondary) hover:text-(--text-primary)"}`}
                 >
                   {t}
                 </a>
@@ -108,10 +107,10 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].slice(0, 8);
               page.data.map((post: any) => (
                 <a
                   href={`/blog/${post.id}`}
-                  class="group flex flex-col p-4 md:p-5 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] no-underline transition-all duration-300 hover:border-[var(--color-primary-500)] hover:shadow-lg hover:-translate-y-1 relative overflow-visible h-full"
+                  class="group flex flex-col p-4 md:p-5 rounded-lg bg-(--surface-elevated) border border-(--border-default) no-underline transition-all duration-300 hover:border-primary-500 hover:shadow-lg hover:-translate-y-1 relative overflow-visible h-full"
                 >
                   {post.data.coverImage && (
-                    <div class="aspect-video mb-4 overflow-hidden rounded-[var(--radius-md)] border border-[var(--border-default)]">
+                    <div class="aspect-video mb-4 overflow-hidden rounded-md border border-(--border-default)">
                       <img
                         src={post.data.coverImage}
                         alt={post.data.title}
@@ -123,19 +122,19 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].slice(0, 8);
                     <div class="flex flex-wrap gap-2 mb-3">
                       {post.data.tags.slice(0, 2).map((postTag: string) => (
                         <span
-                          class={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider border rounded-[var(--radius-sm)] ${postTag === tag ? "bg-[--color-primary-100] text-[--color-primary-700] border-[--color-primary-200] dark:bg-[--color-primary-900] dark:text-[--color-primary-300] dark:border-[--color-primary-800]" : "bg-[var(--surface-bg)] text-[var(--text-secondary)] border-[var(--border-default)]"}`}
+                          class={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider border rounded-sm ${postTag === tag ? "bg-[--color-primary-100] text-[--color-primary-700] border-[--color-primary-200] dark:bg-[--color-primary-900] dark:text-[--color-primary-300] dark:border-[--color-primary-800]" : "bg-(--surface-bg) text-(--text-secondary) border-(--border-default)"}`}
                         >
                           {postTag}
                         </span>
                       ))}
                     </div>
-                    <h2 class="text-lg font-bold font-[family-name:var(--font-heading)] text-[var(--text-primary)] group-hover:text-[var(--color-primary-600)] transition-colors line-clamp-2 leading-snug">
+                    <h2 class="text-lg font-bold font-heading text-(--text-primary) group-hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
                       {post.data.title}
                     </h2>
-                    <p class="mt-2 text-sm text-[var(--text-secondary)] line-clamp-3 flex-1 leading-relaxed">
+                    <p class="mt-2 text-sm text-(--text-secondary) line-clamp-3 flex-1 leading-relaxed">
                       {post.data.description}
                     </p>
-                    <div class="mt-6 pt-4 border-t border-[var(--border-default)] flex items-center justify-between text-xs text-[var(--text-tertiary)]">
+                    <div class="mt-6 pt-4 border-t border-(--border-default) flex items-center justify-between text-xs text-(--text-tertiary)">
                       <span>
                         {new Intl.DateTimeFormat("en-US", {
                           month: "short",
@@ -143,7 +142,7 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].slice(0, 8);
                           year: "numeric",
                         }).format(post.data.publishDate)}
                       </span>
-                      <span class="font-semibold text-[var(--color-primary-600)] group-hover:translate-x-1 transition-transform">
+                      <span class="font-semibold text-primary-600 group-hover:translate-x-1 transition-transform">
                         Read →
                       </span>
                     </div>
@@ -160,29 +159,29 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].slice(0, 8);
                 {page.url.prev ? (
                   <a
                     href={page.url.prev}
-                    class="px-6 py-3 bg-[var(--surface-elevated)] border-2 border-[var(--border-default)] doodle-border rounded-[var(--radius-lg)] font-bold text-[var(--text-primary)] hover:border-[var(--color-primary-500)] hover:text-[var(--color-primary-600)] transition-all hover:shadow-md"
+                    class="px-6 py-3 bg-(--surface-elevated) border-2 border-(--border-default) doodle-border rounded-lg font-bold text-(--text-primary) hover:border-primary-500 hover:text-primary-600 transition-all hover:shadow-md"
                   >
                     ← Newer
                   </a>
                 ) : (
-                  <span class="px-6 py-3 border-2 border-[var(--border-default)] rounded-[var(--radius-lg)] opacity-30 cursor-not-allowed">
+                  <span class="px-6 py-3 border-2 border-(--border-default) rounded-lg opacity-30 cursor-not-allowed">
                     ← Newer
                   </span>
                 )}
 
-                <span class="font-bold text-[var(--text-secondary)] bg-[var(--surface-bg)] px-4 py-2 rounded-full border border-[var(--border-default)] shadow-inner">
+                <span class="font-bold text-(--text-secondary) bg-(--surface-bg) px-4 py-2 rounded-full border border-(--border-default) shadow-inner">
                   {page.currentPage} / {page.lastPage}
                 </span>
 
                 {page.url.next ? (
                   <a
                     href={page.url.next}
-                    class="px-6 py-3 bg-[var(--surface-elevated)] border-2 border-[var(--border-default)] doodle-border rounded-[var(--radius-lg)] font-bold text-[var(--text-primary)] hover:border-[var(--color-primary-500)] hover:text-[var(--color-primary-600)] transition-all hover:shadow-md"
+                    class="px-6 py-3 bg-(--surface-elevated) border-2 border-(--border-default) doodle-border rounded-lg font-bold text-(--text-primary) hover:border-primary-500 hover:text-primary-600 transition-all hover:shadow-md"
                   >
                     Older →
                   </a>
                 ) : (
-                  <span class="px-6 py-3 border-2 border-[var(--border-default)] rounded-[var(--radius-lg)] opacity-30 cursor-not-allowed">
+                  <span class="px-6 py-3 border-2 border-(--border-default) rounded-lg opacity-30 cursor-not-allowed">
                     Older →
                   </span>
                 )}

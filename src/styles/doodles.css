@@ -52,26 +52,25 @@
   margin: 2rem 0;
 }
 
-/* Subtle notebook-paper lines for certain containers */
+
+/* Subtle design-paper dot grid */
 .doodle-paper {
-  background-image:
-    repeating-linear-gradient(
-      transparent,
-      transparent 31px,
-      oklch(0.85 0.02 50 / 0.15) 31px,
-      oklch(0.85 0.02 50 / 0.15) 32px
-    );
-  background-position: 0 8px;
+  background-image: radial-gradient(
+    circle,
+    oklch(0.75 0.02 50 / 0.35) 1px,
+    transparent 1px
+  );
+  background-size: 2rem 2rem;
+  background-position: 0 0;
 }
 
 [data-theme="dark"] .doodle-paper {
-  background-image:
-    repeating-linear-gradient(
-      transparent,
-      transparent 31px,
-      oklch(0.45 0.02 260 / 0.15) 31px,
-      oklch(0.45 0.02 260 / 0.15) 32px
-    );
+  background-image: radial-gradient(
+    circle,
+    oklch(0.55 0.02 260 / 0.35) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
 }
 
 /* Asterisk / star scatter decorations */

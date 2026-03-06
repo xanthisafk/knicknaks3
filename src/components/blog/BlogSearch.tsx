@@ -16,8 +16,17 @@ interface BlogSearchProps {
 export default function BlogSearch({ posts }: BlogSearchProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [searchHint, setSearchHint] = useState("⌘K");
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  setTimeout(() => {
+    if (searchHint === "Ctrl+K") {
+      setSearchHint("⌘K");
+    } else {
+      setSearchHint("Ctrl+K");
+    }
+  }, 5000)
 
   const fuse = React.useMemo(() => {
     return new Fuse(posts, {
@@ -48,30 +57,28 @@ export default function BlogSearch({ posts }: BlogSearchProps) {
 
   return (
     <div className="relative w-full max-w-2xl mx-auto mb-8 z-50" ref={containerRef}>
-      <div className="relative group">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[--text-tertiary] group-focus-within:text-[--color-primary-500] transition-colors">
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
+      <div className="relative max-w-md mx-auto mb-6">
         <input
+          id="blog-search"
           ref={inputRef}
           type="text"
-          className="block w-full pl-11 pr-14 py-4 border-2 border-[--border-default] rounded-[--radius-full] leading-5 bg-[--surface-elevated] text-[--text-primary] placeholder-[--text-tertiary] focus:outline-none focus:ring-0 focus:border-[--color-primary-500] sm:text-base transition-all shadow-sm hover:border-[--border-hover] doodle-border"
-          placeholder="Search articles, guides, or tags... (Cmd+K)"
+          placeholder="Search articles, guides, or tags..."
+          name="blog-search-box"
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
-        />
+          className="w-full px-4 py-3 pl-10 rounded-xl bg-(--surface-elevated) text(--text-primary) border border-(--border-default) placeholder:text-(--text-tertiary) shadow-sm focus:outline-none focus:border-(--border-focus) focus:ring-2 focus:ring-(--ring-color) text-base" />
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-(--text-tertiary)">🔍</span>
         <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-           <span className="text-xs font-bold text-[--text-tertiary] px-2 py-1 border border-[--border-default] rounded-[--radius-md] bg-[--surface-bg]">
-             ⌘K
-           </span>
+          <span className="text-xs font-bold text-(--text-tertiary) px-2 py-1 border border-(--border-default) rounded-md bg-(--surface-bg)">
+            {searchHint}
+          </span>
         </div>
       </div>
+
 
       {isOpen && query && (
         <div className="absolute mt-3 w-full bg-[--surface-elevated] shadow-2xl rounded-[--radius-xl] border-2 border-[--border-default] overflow-hidden doodle-border transform transition-all">
@@ -91,7 +98,7 @@ export default function BlogSearch({ posts }: BlogSearchProps) {
                     </p>
                     <div className="flex gap-2">
                       {post.tags.slice(0, 4).map(tag => (
-                         <span key={tag} className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-[--surface-bg] text-[--text-secondary] border border-[--border-default] rounded-[--radius-sm]">
+                        <span key={tag} className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-[--surface-bg] text-[--text-secondary] border border-[--border-default] rounded-[--radius-sm]">
                           {tag}
                         </span>
                       ))}
