@@ -1,16 +1,8 @@
 import { useState, useMemo } from "react";
 import { Input } from "@/components/ui";
 import { Panel } from "@/components/layout";
-
-function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
-  const clean = hex.replace("#", "");
-  if (!/^[0-9a-fA-F]{6}$/.test(clean)) return null;
-  return {
-    r: parseInt(clean.slice(0, 2), 16),
-    g: parseInt(clean.slice(2, 4), 16),
-    b: parseInt(clean.slice(4, 6), 16),
-  };
-}
+import { hexToRgb } from "@/lib/convertColor";
+import StatBox from "@/components/ui/StatBox";
 
 function relativeLuminance(r: number, g: number, b: number): number {
   const [rs, gs, bs] = [r, g, b].map((c) => {
@@ -46,21 +38,6 @@ function checkWCAG(fg: string, bg: string): WCAGResult | null {
   };
 }
 
-function Badge({ pass, label }: { pass: boolean; label: string }) {
-  return (
-    <div
-      className={`flex items-center gap-2 px-3 py-2 rounded-[var(--radius-md)] border text-sm font-medium ${
-        pass
-          ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400"
-          : "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-700 dark:text-red-400"
-      }`}
-    >
-      <span>{pass ? "✅" : "❌"}</span>
-      <span>{label}</span>
-    </div>
-  );
-}
-
 export default function ContrastCheckerTool() {
   const [fg, setFg] = useState("#1a1a2e");
   const [bg, setBg] = useState("#ffffff");
@@ -71,10 +48,10 @@ export default function ContrastCheckerTool() {
     ? result.ratio >= 7
       ? "Excellent"
       : result.ratio >= 4.5
-      ? "Good"
-      : result.ratio >= 3
-      ? "Okay for large text"
-      : "Poor"
+        ? "Good"
+        : result.ratio >= 3
+          ? "Okay for large text"
+          : "Poor"
     : "";
 
   const handleSwap = () => {
@@ -87,7 +64,7 @@ export default function ContrastCheckerTool() {
       {/* Preview */}
       <Panel padding="none" className="overflow-hidden">
         <div
-          className="p-8 md:p-12 text-center transition-colors"
+          className="p-8 md:p-12 text-center"
           style={{ backgroundColor: bg, color: fg }}
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-2" style={{ fontFamily: "var(--font-heading)" }}>
@@ -105,43 +82,43 @@ export default function ContrastCheckerTool() {
       {/* Color pickers */}
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-4 items-end">
         <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">Foreground (Text)</h3>
+          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-3">Foreground (Text)</h3>
           <div className="flex items-center gap-3">
             <input
               type="color"
               value={fg}
               onChange={(e) => setFg(e.target.value)}
-              className="w-12 h-12 rounded-[var(--radius-md)] border border-[var(--border-default)] cursor-pointer p-0.5"
+              className="w-12 h-12 rounded-md border border-(--border-default) cursor-pointer p-0.5"
             />
             <Input
               value={fg}
               onChange={(e) => setFg(e.target.value)}
               placeholder="#1a1a2e"
-              className="font-[family-name:var(--font-mono)]"
+              className="font-mono"
             />
           </div>
         </Panel>
         <button
           onClick={handleSwap}
-          className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-[var(--surface-secondary)] border border-[var(--border-default)] hover:bg-[var(--surface-elevated)] hover:border-[var(--border-hover)] transition-all cursor-pointer text-[var(--text-secondary)] hover:text-[var(--text-primary)] mb-2"
+          className="hidden sm:flex self-center items-center justify-center w-10 h-10 rounded-full bg-(--surface-secondary) border border-(--border-default) hover:bg-(--surface-elevated) hover:border-(--border-hover) cursor-pointer text-(--text-secondary) hover:text-(--text-primary) mb-2"
           title="Swap colors"
         >
           ⇄
         </button>
         <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">Background</h3>
+          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-3">Background</h3>
           <div className="flex items-center gap-3">
             <input
               type="color"
               value={bg}
               onChange={(e) => setBg(e.target.value)}
-              className="w-12 h-12 rounded-[var(--radius-md)] border border-[var(--border-default)] cursor-pointer p-0.5"
+              className="w-12 h-12 rounded-md border border-(--border-default) cursor-pointer p-0.5"
             />
             <Input
               value={bg}
               onChange={(e) => setBg(e.target.value)}
               placeholder="#ffffff"
-              className="font-[family-name:var(--font-mono)]"
+              className="font-mono"
             />
           </div>
         </Panel>
@@ -149,22 +126,24 @@ export default function ContrastCheckerTool() {
 
       {/* Results */}
       {result && (
-        <Panel>
-          <div className="text-center mb-6">
-            <p className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-1">Contrast Ratio</p>
-            <p className="text-4xl md:text-5xl font-bold font-[family-name:var(--font-mono)] text-[var(--text-primary)] tabular-nums">
-              {result.ratio}:1
-            </p>
-            <p className="text-sm text-[var(--text-secondary)] mt-1">{ratioLabel}</p>
-          </div>
+        <>
+          <Panel>
+            <div className="text-center">
+              <p className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-1">Contrast Ratio</p>
+              <p className="text-4xl md:text-5xl font-bold font-mono text-primary-500 tabular-nums">
+                {result.ratio}:1
+              </p>
+              <p className="text-sm mt-2 text-(--text-secondary)">{ratioLabel}</p>
+            </div>
+          </Panel>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <Badge pass={result.aa.normal} label="AA Normal" />
-            <Badge pass={result.aa.large} label="AA Large" />
-            <Badge pass={result.aaa.normal} label="AAA Normal" />
-            <Badge pass={result.aaa.large} label="AAA Large" />
+            <StatBox value={result.aa.normal ? "Pass" : "Fail"} label="AA Normal" tooltip="Good contrast for normal text" />
+            <StatBox value={result.aa.large ? "Pass" : "Fail"} label="AA Large" tooltip="Good contrast for large text" />
+            <StatBox value={result.aaa.normal ? "Pass" : "Fail"} label="AAA Normal" tooltip="Excellent contrast for normal text" />
+            <StatBox value={result.aaa.large ? "Pass" : "Fail"} label="AA Large" tooltip="Excellent contrast for large text" />
           </div>
-        </Panel>
+        </>
       )}
     </div>
   );
