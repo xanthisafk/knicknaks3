@@ -26,7 +26,7 @@ export default function BlogSearch({ posts }: BlogSearchProps) {
     } else {
       setSearchHint("Ctrl+K");
     }
-  }, 5000)
+  }, 3000)
 
   const fuse = React.useMemo(() => {
     return new Fuse(posts, {

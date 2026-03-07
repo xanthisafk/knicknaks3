@@ -34,7 +34,7 @@ const structuredData = {
     <!-- Header -->
     <Header activeTab="tools" />
 
-    <main class="flex-1">
+    <main class="flex-1 doodle-paper">
       <!-- Hero Section -->
       <section class="py-16 md:py-24 text-center">
         <div class="max-w-3xl mx-auto px-4">
@@ -42,10 +42,12 @@ const structuredData = {
             class="text-4xl md:text-6xl font-extrabold mb-4 text(--text-primary)"
             style="font-family: var(--font-heading)"
           >
-            Your go-to <span class="doodle-underline">toolbox</span>
+            Your go-to <span class="doodle-underline text-primary-500"
+              >Toolbox</span
+            >
           </h1>
           <p
-            class="text-lg md:text-xl text(--text-secondary) mb-8 max-w-xl mx-auto"
+            class="text-lg md:text-xl text(--text-secondary) my-8 max-w-xl mx-auto"
           >
             Free, fast, and privacy-friendly tools that run entirely in your
             browser. No signup. No tracking. No nonsense.
@@ -56,14 +58,24 @@ const structuredData = {
             <input
               id="tool-search"
               type="search"
-              placeholder="⌘K or Ctrl+K"
+              placeholder="Search for a tool, description or tag..."
               autocomplete="off"
-              class="w-full px-4 py-3 pl-10 rounded-[var(--radius-xl)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] placeholder:text-[var(--text-tertiary)] shadow-sm focus:outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-color)] text-base"
+              class="w-full px-4 py-3 pl-10 rounded-xl bg-(--surface-elevated) text(--text-primary) border border-(--border-default) placeholder:text-(--text-tertiary) shadow-sm focus:outline-none focus:border-(--border-focus) focus:ring-2 focus:ring-(--ring-color) text-base"
             />
             <span
-              class="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-tertiary)]"
+              class="absolute left-3 top-1/2 -translate-y-1/2 text-(--text-tertiary)"
               >🔍</span
             >
+            <div
+              class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none"
+            >
+              <span
+                class="text-xs font-bold text-(--text-tertiary) px-2 py-1 border border-(--border-default) rounded-md bg-(--surface-bg)"
+                id="search-hint"
+              >
+                ⌘K
+              </span>
+            </div>
           </div>
 
           <!-- Status Filters -->
@@ -71,7 +83,7 @@ const structuredData = {
             class="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto"
           >
             <button
-              class="status-filter-btn px-3 py-1.5 rounded-[var(--radius-full)] text-sm font-medium border transition-colors bg-[var(--surface-elevated)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
+              class="status-filter-btn px-3 py-1.5 rounded-full text-sm font-medium border bg-(--surface-elevated) text(--text-primary) border-(--border-default) hover:border-(--border-hover)"
               data-status="all"
             >
               All Tools
@@ -81,7 +93,7 @@ const structuredData = {
                 const info = STATUS_INFO[status];
                 return (
                   <button
-                    class="status-filter-btn px-3 py-1.5 rounded-[var(--radius-full)] text-sm font-medium border transition-colors bg-transparent text(--text-secondary) border-transparent hover:bg-[var(--surface-secondary)] hover:text(--text-primary)"
+                    class="status-filter-btn px-3 py-1.5 rounded-full text-sm font-medium border bg-transparent text(--text-secondary) border-transparent hover:bg-(--surface-secondary) hover:text(--text-primary)"
                     data-status={status}
                   >
                     <span class="mr-1">{info.icon}</span>
@@ -126,7 +138,7 @@ const structuredData = {
                       {categoryTools.map((tool) => (
                         <a
                           href={`/tools/${tool.slug}`}
-                          class="group flex flex-col p-4 md:p-5 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] no-underline transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-md hover:-translate-y-0.5 tool-card relative overflow-visible"
+                          class="group flex flex-col p-4 md:p-5 rounded-lg bg-(--surface-elevated) border border-(--border-default) no-underline transition-transform duration-150 hover:border-(--border-hover) hover:shadow-md hover:-translate-y-0.5 tool-card relative overflow-visible"
                           data-tool-slug={tool.slug}
                           data-tool-status={tool.status || ""}
                         >
@@ -134,8 +146,8 @@ const structuredData = {
                           {tool.status && (
                             <div class="absolute -top-px -right-px flex flex-col items-center pointer-events-none">
                               {/* Ribbon body */}
-                              <div class="flex items-center justify-center gap-1 px-2 pt-1.5 pb-0 bg-[var(--surface-secondary)] border border-b-0 border-[var(--border-default)] rounded-tl-sm rounded-tr-[var(--radius-lg)] min-w-[44px]">
-                                <span class="text-[11px] leading-none">
+                              <div class="flex items-center justify-center gap-1 px-2 pt-1.5 pb-0 bg-(--surface-secondary) border border-b-0 border-(--border-default) min-w-[44px]">
+                                <span class="text-[10px] leading-none">
                                   {STATUS_INFO[tool.status].icon}
                                 </span>
                                 <span class="text-[9px] uppercase font-bold tracking-widest text(--text-secondary) leading-none">
@@ -158,12 +170,12 @@ const structuredData = {
 
                           {/* Card content — flex-col + flex-1 ensures uniform height */}
                           <div class="flex items-start gap-3 flex-1">
-                            <span class="text-2xl flex-shrink-0 mt-0.5">
+                            <span class="text-2xl shrink-0 mt-0.5">
                               {tool.icon}
                             </span>
                             <div>
                               <h3
-                                class="text-sm font-semibold text(--text-primary) group-hover:text-[var(--color-primary-600)]"
+                                class="text-sm font-semibold text(--text-primary) group-hover:text-primary-600"
                                 style="font-family: var(--font-heading)"
                               >
                                 {tool.name}
@@ -331,5 +343,16 @@ const structuredData = {
         }
       });
     }
+
+    setInterval(() => {
+      const searchHint = document.getElementById("search-hint");
+      if (searchHint) {
+        if (searchHint.textContent === "Ctrl+K") {
+          searchHint.textContent = "⌘K";
+        } else {
+          searchHint.textContent = "Ctrl+K";
+        }
+      }
+    }, 3000);
   </script>
 </BaseLayout>

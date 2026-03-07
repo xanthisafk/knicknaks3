@@ -65,7 +65,7 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].slice(0, 8); 
             The <span class="doodle-underline text-primary-500">Toolbox</span> Blog
           </h1>
           <p
-            class="text-lg md:text-xl text-(--text-secondary) mb-8 max-w-xl mx-auto"
+            class="text-lg md:text-xl text-(--text-secondary) my-8 max-w-xl mx-auto"
           >
             Deep dives into browser-based tools, privacy-first workflows, and
             helpful developer utilities.
@@ -90,7 +90,7 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].slice(0, 8); 
               allTags.map((tag) => (
                 <a
                   href={`/blog/tag/${tag}`}
-                  class="px-3 py-1.5 rounded-full text-sm font-medium border transition-colors bg-transparent text-(--text-secondary) border-transparent hover:bg-(--surface-secondary) hover:text-(--text-primary) capitalize"
+                  class="px-3 py-1.5 rounded-full text-sm uppercase font-medium border transition-colors bg-transparent text-(--text-secondary) border-transparent hover:bg-(--surface-secondary) hover:text-(--text-primary)"
                 >
                   {tag}
                 </a>
