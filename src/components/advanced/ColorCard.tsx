@@ -62,10 +62,10 @@ export function ColorCard({ color, label, defaultFormat = "hex", className = "" 
   };
 
   return (
-    <div className={`rounded-md border border-(--border-default) overflow-hidden flex flex-col ${className}`}>
+    <div className={`rounded-md border border-(--border-default) overflow-hidden flex flex-col ${className} w-full`}>
       {/* Swatch */}
       <div
-        className="h-20 flex items-end justify-between p-2 gap-1"
+        className="min-h-40 flex items-end justify-between p-2 gap-1"
         style={{ backgroundColor: displayHex }}
       >
         {label && (
@@ -80,7 +80,7 @@ export function ColorCard({ color, label, defaultFormat = "hex", className = "" 
         <button
           onClick={cycleFormat}
           title="Switch color format"
-          className="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded font-mono transition-opacity hover:opacity-100 opacity-70"
+          className="ml-auto text-xs font-bold px-1.5 py-0.5 rounded font-mono transition-opacity hover:opacity-100 opacity-70"
           style={{ backgroundColor: textOnColor.replace("0.65", "0.18").replace("0.75", "0.18"), color: textOnColor }}
         >
           {FORMAT_LABELS[format]}
