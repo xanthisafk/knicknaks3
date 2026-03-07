@@ -110,7 +110,7 @@ export default function FileDropZone({
                     : "border-(--border-default) hover:border-primary-500/60 hover:bg-(--surface-bg)"
                     } focus:border-primary-500`}
             >
-                <span className="text-4xl">{emoji}</span>
+                <span className="text-4xl font-emoji">{emoji}</span>
 
                 <div className="text-center">
                     <p className={`text-sm font-medium text-(--text-primary) ${warning ? "text-red-500" : ""}`}>

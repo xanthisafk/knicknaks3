@@ -392,7 +392,7 @@ export default function AgeCalculatorTool() {
                 label="Calories Burned (BMR)"
                 value={funStats.calories}
                 subLabel="~1,800 kcal/day just existing"
-                infoText="The average adult basal metabolic rate (BMR) — calories burned just staying alive — is roughly 1,600–2,000 kcal/day."
+                infoText="The average adult basal metabolic rate (BMR) — calories burned just staying alive — is roughly 1,600-2,000 kcal/day."
                 infoUrl="https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/metabolism"
               />
               <FunStat

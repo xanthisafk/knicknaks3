@@ -129,50 +129,50 @@ export default function WatermarkPdfTool() {
   }, [pdfjsLib, file]);
 
   const handleApply = async () => {
-  if (!file || !watermarkText.trim()) return;
-  setIsProcessing(true);
-  setStatus("Applying watermark...");
-  try {
-    const buffer = await file.arrayBuffer();
-    const pdf = await PDFDocument.load(buffer, { ignoreEncryption: true });
-    const font = await pdf.embedFont(StandardFonts.HelveticaBold);
-    const pages = pdf.getPages();
+    if (!file || !watermarkText.trim()) return;
+    setIsProcessing(true);
+    setStatus("Applying watermark...");
+    try {
+      const buffer = await file.arrayBuffer();
+      const pdf = await PDFDocument.load(buffer, { ignoreEncryption: true });
+      const font = await pdf.embedFont(StandardFonts.HelveticaBold);
+      const pages = pdf.getPages();
 
-    for (const page of pages) {
-      const { width, height } = page.getSize();
+      for (const page of pages) {
+        const { width, height } = page.getSize();
 
-      // Mirror the canvas preview logic exactly:
-      // Preview renders at scale 1.2 and clamps font to 40% of canvas width.
-      const PREVIEW_SCALE = 1.2;
-      const canvasWidth = width * PREVIEW_SCALE;
-      const scaledFont = Math.min(fontSize * PREVIEW_SCALE, canvasWidth * 0.4);
-      // Convert back to PDF points (undo the 1.2x scale)
-      const effectiveFontSize = scaledFont / PREVIEW_SCALE;
+        // Mirror the canvas preview logic exactly:
+        // Preview renders at scale 1.2 and clamps font to 40% of canvas width.
+        const PREVIEW_SCALE = 1.2;
+        const canvasWidth = width * PREVIEW_SCALE;
+        const scaledFont = Math.min(fontSize * PREVIEW_SCALE, canvasWidth * 0.4);
+        // Convert back to PDF points (undo the 1.2x scale)
+        const effectiveFontSize = scaledFont / PREVIEW_SCALE;
 
-      const textWidth = font.widthOfTextAtSize(watermarkText, effectiveFontSize);
-      const textHeight = font.heightAtSize(effectiveFontSize);
+        const textWidth = font.widthOfTextAtSize(watermarkText, effectiveFontSize);
+        const textHeight = font.heightAtSize(effectiveFontSize);
 
-      // pdf-lib's origin is bottom-left, so y center = (height + textHeight) / 2
-      page.drawText(watermarkText, {
-        x: (width - textWidth) / 2,
-        y: (height + textHeight) / 2,
-        size: effectiveFontSize,
-        font,
-        color: rgb(0.5, 0.5, 0.5),
-        opacity,
-        rotate: pdfDegrees(rotation),
-      });
+        // pdf-lib's origin is bottom-left, so y center = (height + textHeight) / 2
+        page.drawText(watermarkText, {
+          x: (width - textWidth) / 2,
+          y: (height + textHeight) / 2,
+          size: effectiveFontSize,
+          font,
+          color: rgb(0.5, 0.5, 0.5),
+          opacity,
+          rotate: pdfDegrees(rotation),
+        });
+      }
+
+      const bytes = await pdf.save();
+      downloadPdf(bytes, `watermarked_${file.name}`);
+      setStatus(`✓ Watermark applied to ${pages.length} pages!`);
+    } catch (err) {
+      setStatus(`Error: ${err instanceof Error ? err.message : "Failed"}`);
+    } finally {
+      setIsProcessing(false);
     }
-
-    const bytes = await pdf.save();
-    downloadPdf(bytes, `watermarked_${file.name}`);
-    setStatus(`✓ Watermark applied to ${pages.length} pages!`);
-  } catch (err) {
-    setStatus(`Error: ${err instanceof Error ? err.message : "Failed"}`);
-  } finally {
-    setIsProcessing(false);
-  }
-};
+  };
 
   const reset = () => { setFile(null); setPageCount(0); setStatus(""); setPdfDoc(null); };
   const previewPages = Math.min(pageCount, 2);
@@ -233,7 +233,7 @@ export default function WatermarkPdfTool() {
       {file && (
         <Panel>
           <p className="text-sm font-medium text(--text-primary) mb-3">
-            Live Preview {previewPages > 0 ? `(${previewPages === 1 ? "Page 1" : "Pages 1–2"})` : ""}
+            Live Preview {previewPages > 0 ? `(${previewPages === 1 ? "Page 1" : "Pages 1-2"})` : ""}
           </p>
           {!pdfDoc ? (
             <div className="flex items-center justify-center h-40 text-sm text-[var(--text-tertiary)]">

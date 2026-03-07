@@ -25,9 +25,9 @@ function convertBase(value: string, fromBase: number, toBase: number): string {
 function ResultRow({ label, value }: { label: string; value: string }) {
   const [copied, setCopied] = useState(false);
   return (
-    <div className="flex items-center justify-between py-2 px-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
+    <div className="flex items-center justify-between py-2 px-3 rounded-md bg-(--surface-secondary)">
       <span className="text-xs font-medium text(--text-secondary) min-w-[120px]">{label}</span>
-      <span className="text-sm font-[family-name:var(--font-mono)] text(--text-primary) flex-1 ml-3 break-all">
+      <span className="text-sm font-mono text(--text-primary) flex-1 ml-3 break-all">
         {value || "—"}
       </span>
       {value && (
@@ -37,7 +37,7 @@ function ResultRow({ label, value }: { label: string; value: string }) {
             setCopied(true);
             setTimeout(() => setCopied(false), 1500);
           }}
-          className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) transition-colors cursor-pointer ml-2"
+          className="text-xs text-(--text-tertiary) hover:text(--text-primary) transition-colors cursor-pointer ml-2"
         >
           {copied ? "✓" : "Copy"}
         </button>
@@ -76,7 +76,7 @@ export default function BaseConverterTool() {
                 value={input}
                 onChange={(e) => setInput(e.target.value.toUpperCase())}
                 placeholder="Enter a number..."
-                className="font-[family-name:var(--font-mono)]"
+                className="font-mono"
                 error={!isValid ? "Invalid number for the selected base" : undefined}
               />
             </div>
@@ -85,7 +85,7 @@ export default function BaseConverterTool() {
               <select
                 value={fromBase}
                 onChange={(e) => setFromBase(parseInt(e.target.value))}
-                className="px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm cursor-pointer"
+                className="px-3 py-2 rounded-md bg-(--surface-elevated) text(--text-primary) border border-(--border-default) text-sm cursor-pointer"
               >
                 {COMMON_BASES.map(({ base, label }) => (
                   <option key={base} value={base}>{label}</option>
@@ -103,11 +103,10 @@ export default function BaseConverterTool() {
               <button
                 key={b}
                 onClick={() => setFromBase(b)}
-                className={`px-3 py-1 text-xs font-medium rounded-[var(--radius-md)] transition-colors cursor-pointer ${
-                  fromBase === b
-                    ? "bg-[var(--color-primary-500)] text-white"
-                    : "bg-[var(--surface-secondary)] text(--text-secondary)"
-                }`}
+                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${fromBase === b
+                    ? "bg-primary-500 text-white"
+                    : "bg-(--surface-secondary) text(--text-secondary)"
+                  }`}
               >
                 Base {b}
               </button>

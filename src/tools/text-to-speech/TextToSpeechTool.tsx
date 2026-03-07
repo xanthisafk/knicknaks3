@@ -12,49 +12,49 @@ interface VoiceInfo {
 }
 
 const VOICES: VoiceInfo[] = [
-  { id: "af_heart",    label: "Heart",      traits: "🚺❤️", grade: "A",  gradeColor: "#22c55e", description: "Warm, expressive American female. The top-rated voice — natural and emotive.", accent: "American", gender: "Female" },
-  { id: "af_alloy",   label: "Alloy",       traits: "🚺",   grade: "C",  gradeColor: "#f59e0b", description: "Clean American female voice. Mid-tier training.", accent: "American", gender: "Female" },
-  { id: "af_aoede",   label: "Aoede",       traits: "🚺",   grade: "C+", gradeColor: "#f59e0b", description: "American female with a smooth tone. Decent quality.", accent: "American", gender: "Female" },
-  { id: "af_bella",   label: "Bella",       traits: "🚺🔥", grade: "A-", gradeColor: "#22c55e", description: "High-energy American female. Extensively trained, near top-tier.", accent: "American", gender: "Female" },
-  { id: "af_jessica", label: "Jessica",     traits: "🚺",   grade: "D",  gradeColor: "#ef4444", description: "American female, lower quality — minimal training data.", accent: "American", gender: "Female" },
-  { id: "af_kore",    label: "Kore",        traits: "🚺",   grade: "C+", gradeColor: "#f59e0b", description: "Balanced American female. Good for neutral narration.", accent: "American", gender: "Female" },
-  { id: "af_nicole",  label: "Nicole",      traits: "🚺🎧", grade: "B-", gradeColor: "#84cc16", description: "ASMR-inflected American female. Soft and close-mic feel.", accent: "American", gender: "Female" },
-  { id: "af_nova",    label: "Nova",        traits: "🚺",   grade: "C",  gradeColor: "#f59e0b", description: "Bright American female. Average training.", accent: "American", gender: "Female" },
-  { id: "af_river",   label: "River",       traits: "🚺",   grade: "D",  gradeColor: "#ef4444", description: "American female. Limited training, lower fidelity.", accent: "American", gender: "Female" },
-  { id: "af_sarah",   label: "Sarah",       traits: "🚺",   grade: "C+", gradeColor: "#f59e0b", description: "Crisp American female. Reliable for everyday TTS.", accent: "American", gender: "Female" },
-  { id: "af_sky",     label: "Sky",         traits: "🚺",   grade: "C-", gradeColor: "#f97316", description: "Light American female. Minimal training — use sparingly.", accent: "American", gender: "Female" },
-  { id: "am_adam",    label: "Adam",        traits: "🚹",   grade: "F+", gradeColor: "#ef4444", description: "American male. Very limited training — noticeably rough.", accent: "American", gender: "Male" },
-  { id: "am_echo",    label: "Echo",        traits: "🚹",   grade: "D",  gradeColor: "#ef4444", description: "American male. Low training data, inconsistent output.", accent: "American", gender: "Male" },
-  { id: "am_eric",    label: "Eric",        traits: "🚹",   grade: "D",  gradeColor: "#ef4444", description: "American male. Low training, acceptable for short clips.", accent: "American", gender: "Male" },
-  { id: "am_fenrir",  label: "Fenrir",      traits: "🚹",   grade: "C+", gradeColor: "#f59e0b", description: "American male with a deeper quality. Solid for narration.", accent: "American", gender: "Male" },
-  { id: "am_liam",    label: "Liam",        traits: "🚹",   grade: "D",  gradeColor: "#ef4444", description: "American male. Limited data.", accent: "American", gender: "Male" },
-  { id: "am_michael", label: "Michael",     traits: "🚹",   grade: "C+", gradeColor: "#f59e0b", description: "American male. Well-trained, dependable voice.", accent: "American", gender: "Male" },
-  { id: "am_onyx",    label: "Onyx",        traits: "🚹",   grade: "D",  gradeColor: "#ef4444", description: "American male. Limited training.", accent: "American", gender: "Male" },
-  { id: "am_puck",    label: "Puck",        traits: "🚹",   grade: "C+", gradeColor: "#f59e0b", description: "American male with a lighter tone. Decent for character voices.", accent: "American", gender: "Male" },
-  { id: "am_santa",   label: "Santa",       traits: "🚹",   grade: "D-", gradeColor: "#ef4444", description: "Novelty American male. Very minimal training — holiday fun only.", accent: "American", gender: "Male" },
-  { id: "bf_alice",   label: "Alice",       traits: "🚺",   grade: "D",  gradeColor: "#ef4444", description: "British female. Recognizable accent, limited training.", accent: "British", gender: "Female" },
-  { id: "bf_emma",    label: "Emma",        traits: "🚺",   grade: "B-", gradeColor: "#84cc16", description: "British female with polished delivery. Well-trained.", accent: "British", gender: "Female" },
-  { id: "bf_isabella",label: "Isabella",    traits: "🚺",   grade: "C",  gradeColor: "#f59e0b", description: "Elegant British female. Average training.", accent: "British", gender: "Female" },
-  { id: "bf_lily",    label: "Lily",        traits: "🚺",   grade: "D",  gradeColor: "#ef4444", description: "British female. Light training, lower consistency.", accent: "British", gender: "Female" },
-  { id: "bm_daniel",  label: "Daniel",      traits: "🚹",   grade: "D",  gradeColor: "#ef4444", description: "British male. Limited training.", accent: "British", gender: "Male" },
-  { id: "bm_fable",   label: "Fable",       traits: "🚹",   grade: "C",  gradeColor: "#f59e0b", description: "British male storyteller tone. Decent for longer reads.", accent: "British", gender: "Male" },
-  { id: "bm_george",  label: "George",      traits: "🚹",   grade: "C",  gradeColor: "#f59e0b", description: "British male. Clear and measured.", accent: "British", gender: "Male" },
-  { id: "bm_lewis",   label: "Lewis",       traits: "🚹",   grade: "D+", gradeColor: "#ef4444", description: "British male. Some training, below average.", accent: "British", gender: "Male" },
+  { id: "af_heart", label: "Heart", traits: "🚺❤️", grade: "A", gradeColor: "#22c55e", description: "Warm, expressive American female. The top-rated voice — natural and emotive.", accent: "American", gender: "Female" },
+  { id: "af_alloy", label: "Alloy", traits: "🚺", grade: "C", gradeColor: "#f59e0b", description: "Clean American female voice. Mid-tier training.", accent: "American", gender: "Female" },
+  { id: "af_aoede", label: "Aoede", traits: "🚺", grade: "C+", gradeColor: "#f59e0b", description: "American female with a smooth tone. Decent quality.", accent: "American", gender: "Female" },
+  { id: "af_bella", label: "Bella", traits: "🚺🔥", grade: "A-", gradeColor: "#22c55e", description: "High-energy American female. Extensively trained, near top-tier.", accent: "American", gender: "Female" },
+  { id: "af_jessica", label: "Jessica", traits: "🚺", grade: "D", gradeColor: "#ef4444", description: "American female, lower quality — minimal training data.", accent: "American", gender: "Female" },
+  { id: "af_kore", label: "Kore", traits: "🚺", grade: "C+", gradeColor: "#f59e0b", description: "Balanced American female. Good for neutral narration.", accent: "American", gender: "Female" },
+  { id: "af_nicole", label: "Nicole", traits: "🚺🎧", grade: "B-", gradeColor: "#84cc16", description: "ASMR-inflected American female. Soft and close-mic feel.", accent: "American", gender: "Female" },
+  { id: "af_nova", label: "Nova", traits: "🚺", grade: "C", gradeColor: "#f59e0b", description: "Bright American female. Average training.", accent: "American", gender: "Female" },
+  { id: "af_river", label: "River", traits: "🚺", grade: "D", gradeColor: "#ef4444", description: "American female. Limited training, lower fidelity.", accent: "American", gender: "Female" },
+  { id: "af_sarah", label: "Sarah", traits: "🚺", grade: "C+", gradeColor: "#f59e0b", description: "Crisp American female. Reliable for everyday TTS.", accent: "American", gender: "Female" },
+  { id: "af_sky", label: "Sky", traits: "🚺", grade: "C-", gradeColor: "#f97316", description: "Light American female. Minimal training — use sparingly.", accent: "American", gender: "Female" },
+  { id: "am_adam", label: "Adam", traits: "🚹", grade: "F+", gradeColor: "#ef4444", description: "American male. Very limited training — noticeably rough.", accent: "American", gender: "Male" },
+  { id: "am_echo", label: "Echo", traits: "🚹", grade: "D", gradeColor: "#ef4444", description: "American male. Low training data, inconsistent output.", accent: "American", gender: "Male" },
+  { id: "am_eric", label: "Eric", traits: "🚹", grade: "D", gradeColor: "#ef4444", description: "American male. Low training, acceptable for short clips.", accent: "American", gender: "Male" },
+  { id: "am_fenrir", label: "Fenrir", traits: "🚹", grade: "C+", gradeColor: "#f59e0b", description: "American male with a deeper quality. Solid for narration.", accent: "American", gender: "Male" },
+  { id: "am_liam", label: "Liam", traits: "🚹", grade: "D", gradeColor: "#ef4444", description: "American male. Limited data.", accent: "American", gender: "Male" },
+  { id: "am_michael", label: "Michael", traits: "🚹", grade: "C+", gradeColor: "#f59e0b", description: "American male. Well-trained, dependable voice.", accent: "American", gender: "Male" },
+  { id: "am_onyx", label: "Onyx", traits: "🚹", grade: "D", gradeColor: "#ef4444", description: "American male. Limited training.", accent: "American", gender: "Male" },
+  { id: "am_puck", label: "Puck", traits: "🚹", grade: "C+", gradeColor: "#f59e0b", description: "American male with a lighter tone. Decent for character voices.", accent: "American", gender: "Male" },
+  { id: "am_santa", label: "Santa", traits: "🚹", grade: "D-", gradeColor: "#ef4444", description: "Novelty American male. Very minimal training — holiday fun only.", accent: "American", gender: "Male" },
+  { id: "bf_alice", label: "Alice", traits: "🚺", grade: "D", gradeColor: "#ef4444", description: "British female. Recognizable accent, limited training.", accent: "British", gender: "Female" },
+  { id: "bf_emma", label: "Emma", traits: "🚺", grade: "B-", gradeColor: "#84cc16", description: "British female with polished delivery. Well-trained.", accent: "British", gender: "Female" },
+  { id: "bf_isabella", label: "Isabella", traits: "🚺", grade: "C", gradeColor: "#f59e0b", description: "Elegant British female. Average training.", accent: "British", gender: "Female" },
+  { id: "bf_lily", label: "Lily", traits: "🚺", grade: "D", gradeColor: "#ef4444", description: "British female. Light training, lower consistency.", accent: "British", gender: "Female" },
+  { id: "bm_daniel", label: "Daniel", traits: "🚹", grade: "D", gradeColor: "#ef4444", description: "British male. Limited training.", accent: "British", gender: "Male" },
+  { id: "bm_fable", label: "Fable", traits: "🚹", grade: "C", gradeColor: "#f59e0b", description: "British male storyteller tone. Decent for longer reads.", accent: "British", gender: "Male" },
+  { id: "bm_george", label: "George", traits: "🚹", grade: "C", gradeColor: "#f59e0b", description: "British male. Clear and measured.", accent: "British", gender: "Male" },
+  { id: "bm_lewis", label: "Lewis", traits: "🚹", grade: "D+", gradeColor: "#ef4444", description: "British male. Some training, below average.", accent: "British", gender: "Male" },
 ];
 
 const DTYPES = ["fp32", "fp16", "q8", "q4", "q4f16"] as const;
 const DEVICES = ["wasm", "webgpu"] as const;
 
 const DTYPE_INFO: Record<string, string> = {
-  fp32:  "Full 32-bit precision. Best quality, largest download (~300MB).",
-  fp16:  "Half-precision. Near-identical quality at half the size. Requires WebGPU.",
-  q8:    "8-bit quantized. Best quality/speed balance. Recommended.",
-  q4:    "4-bit quantized. Smaller and faster, slight quality drop.",
+  fp32: "Full 32-bit precision. Best quality, largest download (~300MB).",
+  fp16: "Half-precision. Near-identical quality at half the size. Requires WebGPU.",
+  q8: "8-bit quantized. Best quality/speed balance. Recommended.",
+  q4: "4-bit quantized. Smaller and faster, slight quality drop.",
   q4f16: "4-bit weights + fp16 activations. Fast on WebGPU.",
 };
 
 const DEVICE_INFO: Record<string, string> = {
-  wasm:   "CPU via WebAssembly. Works everywhere, no special hardware needed. Slower.",
+  wasm: "CPU via WebAssembly. Works everywhere, no special hardware needed. Slower.",
   webgpu: "GPU acceleration. Much faster. Requires Chrome 113+ with WebGPU support.",
 };
 
@@ -165,16 +165,15 @@ function AudioPlayer({ src, loading }: { src: string | null; loading: boolean })
   const bars = waveform.length
     ? waveform
     : Array.from({ length: BAR_COUNT }, (_, i) =>
-        Math.abs(Math.sin(i * 0.7 + 1) * 0.35 + Math.sin(i * 1.9) * 0.2) + 0.07
-      );
+      Math.abs(Math.sin(i * 0.7 + 1) * 0.35 + Math.sin(i * 1.9) * 0.2) + 0.07
+    );
 
   const isReal = waveform.length > 0;
 
   return (
     <div
-      className={`rounded-2xl border border-(--border-primary) bg-(--surface-secondary) p-5 transition-all duration-300 ${
-        !src && !loading ? "opacity-50" : ""
-      }`}
+      className={`rounded-2xl border border-(--border-primary) bg-(--surface-secondary) p-5 transition-all duration-300 ${!src && !loading ? "opacity-50" : ""
+        }`}
     >
       {src && (
         <audio
@@ -236,10 +235,10 @@ function AudioPlayer({ src, loading }: { src: string | null; loading: boolean })
                 background: head
                   ? "var(--color-primary-400, #818cf8)"
                   : played
-                  ? "var(--color-primary-500, #6366f1)"
-                  : isReal
-                  ? "color-mix(in srgb, var(--color-primary-500, #6366f1) 28%, var(--color-surface-tertiary, #e5e7eb))"
-                  : "var(--color-surface-tertiary, #e2e8f0)",
+                    ? "var(--color-primary-500, #6366f1)"
+                    : isReal
+                      ? "color-mix(in srgb, var(--color-primary-500, #6366f1) 28%, var(--color-surface-tertiary, #e5e7eb))"
+                      : "var(--color-surface-tertiary, #e2e8f0)",
                 opacity: isReal ? 1 : 0.5,
               }}
             />
@@ -337,15 +336,15 @@ function encodeWAV(samples: Float32Array, sampleRate: number): ArrayBuffer {
   const buf = new ArrayBuffer(44 + samples.length * 2);
   const view = new DataView(buf);
   const s = (o: number, v: string) => { for (let i = 0; i < v.length; i++) view.setUint8(o + i, v.charCodeAt(i)); };
-  s(0,"RIFF"); view.setUint32(4, 36 + samples.length * 2, true);
-  s(8,"WAVE"); s(12,"fmt ");
-  view.setUint32(16,16,true); view.setUint16(20,1,true); view.setUint16(22,1,true);
-  view.setUint32(24,sampleRate,true); view.setUint32(28,sampleRate*2,true);
-  view.setUint16(32,2,true); view.setUint16(34,16,true);
-  s(36,"data"); view.setUint32(40,samples.length*2,true);
-  for (let i=0,o=44; i<samples.length; i++,o+=2) {
-    const v = Math.max(-1,Math.min(1,samples[i]));
-    view.setInt16(o, v < 0 ? v*0x8000 : v*0x7fff, true);
+  s(0, "RIFF"); view.setUint32(4, 36 + samples.length * 2, true);
+  s(8, "WAVE"); s(12, "fmt ");
+  view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+  view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true);
+  view.setUint16(32, 2, true); view.setUint16(34, 16, true);
+  s(36, "data"); view.setUint32(40, samples.length * 2, true);
+  for (let i = 0, o = 44; i < samples.length; i++, o += 2) {
+    const v = Math.max(-1, Math.min(1, samples[i]));
+    view.setInt16(o, v < 0 ? v * 0x8000 : v * 0x7fff, true);
   }
   return buf;
 }
@@ -382,34 +381,34 @@ export default function KokoroTool() {
   }
 
   async function handleGenerate() {
-  if (!text.trim()) return;
-  setError(null);
-  setGenerating(true);
+    if (!text.trim()) return;
+    setError(null);
+    setGenerating(true);
 
-  try {
-    const tts = await loadModel();
+    try {
+      const tts = await loadModel();
 
-    // Use generate() directly — returns a single AudioOutput with .audio and .sampling_rate
-    const output = await tts.generate(text, { voice });
+      // Use generate() directly — returns a single AudioOutput with .audio and .sampling_rate
+      const output = await tts.generate(text, { voice });
 
-    const pcm: Float32Array = output.audio;
-    const sampleRate: number = output.sampling_rate ?? tts.sample_rate ?? 24000;
+      const pcm: Float32Array = output.audio;
+      const sampleRate: number = output.sampling_rate ?? tts.sample_rate ?? 24000;
 
-    const wav = encodeWAV(pcm, sampleRate);
-    const blob = new Blob([wav], { type: "audio/wav" });
+      const wav = encodeWAV(pcm, sampleRate);
+      const blob = new Blob([wav], { type: "audio/wav" });
 
-    if (prevUrlRef.current) URL.revokeObjectURL(prevUrlRef.current);
-    const url = URL.createObjectURL(blob);
-    prevUrlRef.current = url;
-    setAudioSrc(url);
+      if (prevUrlRef.current) URL.revokeObjectURL(prevUrlRef.current);
+      const url = URL.createObjectURL(blob);
+      prevUrlRef.current = url;
+      setAudioSrc(url);
 
-  } catch (err) {
-    console.error(err);
-    setError("Failed to generate speech.");
-  } finally {
-    setGenerating(false);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to generate speech.");
+    } finally {
+      setGenerating(false);
+    }
   }
-}
 
   const resetModel = () => { ttsRef.current = null; setModelReady(false); };
   const busy = loading || generating;
@@ -425,22 +424,22 @@ export default function KokoroTool() {
           <div>
             <label className="text-sm font-medium text-(--text-primary) flex items-center">
               Voice
-              <InfoTooltip text="Choose a speaker. Grades (A–F) reflect audio quality based on training data. Hover the dropdown to see info on the selected voice." />
+              <InfoTooltip text="Choose a speaker. Grades (A-F) reflect audio quality based on training data. Hover the dropdown to see info on the selected voice." />
             </label>
             <div className="relative mt-1" onMouseEnter={() => setVoiceHover(true)} onMouseLeave={() => setVoiceHover(false)}>
               <select value={voice} onChange={e => setVoice(e.target.value)}
                 className="w-full p-2 rounded-md bg-(--surface-secondary) cursor-pointer">
                 <optgroup label="🇺🇸 American — Female">
-                  {VOICES.filter(v => v.accent==="American" && v.gender==="Female").map(v => <option key={v.id} value={v.id}>{v.label} · {v.grade}</option>)}
+                  {VOICES.filter(v => v.accent === "American" && v.gender === "Female").map(v => <option key={v.id} value={v.id}>{v.label} · {v.grade}</option>)}
                 </optgroup>
                 <optgroup label="🇺🇸 American — Male">
-                  {VOICES.filter(v => v.accent==="American" && v.gender==="Male").map(v => <option key={v.id} value={v.id}>{v.label} · {v.grade}</option>)}
+                  {VOICES.filter(v => v.accent === "American" && v.gender === "Male").map(v => <option key={v.id} value={v.id}>{v.label} · {v.grade}</option>)}
                 </optgroup>
                 <optgroup label="🇬🇧 British — Female">
-                  {VOICES.filter(v => v.accent==="British" && v.gender==="Female").map(v => <option key={v.id} value={v.id}>{v.label} · {v.grade}</option>)}
+                  {VOICES.filter(v => v.accent === "British" && v.gender === "Female").map(v => <option key={v.id} value={v.id}>{v.label} · {v.grade}</option>)}
                 </optgroup>
                 <optgroup label="🇬🇧 British — Male">
-                  {VOICES.filter(v => v.accent==="British" && v.gender==="Male").map(v => <option key={v.id} value={v.id}>{v.label} · {v.grade}</option>)}
+                  {VOICES.filter(v => v.accent === "British" && v.gender === "Male").map(v => <option key={v.id} value={v.id}>{v.label} · {v.grade}</option>)}
                 </optgroup>
               </select>
               {voiceHover && <VoiceTooltip voice={selectedVoice} />}
@@ -470,8 +469,8 @@ export default function KokoroTool() {
 
           <button onClick={handleGenerate} disabled={busy} type="button"
             className="px-4 py-2 rounded-md bg-primary-500 text-white disabled:opacity-50 font-medium hover:bg-primary-600 active:scale-[0.98] transition-all">
-            {loading ? `Loading model… ${progress != null ? progress+"%" : ""}` :
-             generating ? "Generating…" : modelReady ? "Generate Speech" : "Load & Generate"}
+            {loading ? `Loading model… ${progress != null ? progress + "%" : ""}` :
+              generating ? "Generating…" : modelReady ? "Generate Speech" : "Load & Generate"}
           </button>
 
           {progress !== null && (

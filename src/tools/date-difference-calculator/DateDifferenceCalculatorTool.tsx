@@ -209,8 +209,8 @@ export default function DateDifferenceCalculatorTool() {
 
           <Panel>
             <p className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-0">Breakdown by Day Type</p>
-            <ResultRow label="Workdays (Mon–Fri)" value={`${diff.workdays.toLocaleString()} days`} />
-            <ResultRow label="Weekend Days (Sat–Sun)" value={`${diff.weekends.toLocaleString()} days`} />
+            <ResultRow label="Workdays (Mon-Fri)" value={`${diff.workdays.toLocaleString()} days`} />
+            <ResultRow label="Weekend Days (Sat-Sun)" value={`${diff.weekends.toLocaleString()} days`} />
           </Panel>
         </>
       )}

@@ -54,7 +54,7 @@ const canonical = canonicalUrl ?? Astro.url.href;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap&family=Noto+Color+Emoji&display=swap&family=Gloria+Hallelujah&display=swap"
       rel="stylesheet"
     />
 
@@ -64,18 +64,27 @@ const canonical = canonicalUrl ?? Astro.url.href;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Structured Data -->
-    {structuredData && (
-      <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-    )}
+    {
+      structuredData && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(structuredData)}
+        />
+      )
+    }
   </head>
   <body>
     <slot />
 
     <!-- Theme initialization (prevent FOUC) -->
     <script is:inline>
-      (function() {
+      (function () {
         const stored = localStorage.getItem("knicknaks-theme");
-        const pref = stored || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        const pref =
+          stored ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
         document.documentElement.setAttribute("data-theme", pref);
       })();
     </script>

@@ -87,11 +87,10 @@ export default function TipCalculatorTool() {
               <button
                 key={pct}
                 onClick={() => { setTipPct(pct); setUseCustom(false); }}
-                className={`py-2 text-sm font-medium rounded-[var(--radius-md)] border transition-colors ${
-                  !useCustom && tipPct === pct
+                className={`py-2 text-sm font-medium rounded-[var(--radius-md)] border transition-colors ${!useCustom && tipPct === pct
                     ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/10 text-[var(--text-primary)]"
                     : "border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-primary-500)]/60"
-                }`}
+                  }`}
               >
                 {pct}%
               </button>
@@ -101,11 +100,10 @@ export default function TipCalculatorTool() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setUseCustom((v) => !v)}
-              className={`px-3 py-1.5 text-xs rounded-[var(--radius-sm)] border transition-colors ${
-                useCustom
+              className={`px-3 py-1.5 text-xs rounded-[var(--radius-sm)] border transition-colors ${useCustom
                   ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/10 text-[var(--text-primary)]"
                   : "border-[var(--border-default)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-              }`}
+                }`}
             >
               Custom
             </button>
@@ -168,12 +166,12 @@ export default function TipCalculatorTool() {
         <p className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">Tipping Guide</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {[
-            { label: "Counter service", range: "10–15%" },
-            { label: "Sit-down restaurant", range: "15–20%" },
-            { label: "Exceptional service", range: "20–25%+" },
-            { label: "Delivery", range: "15–20%" },
-            { label: "Bartender", range: `${sym}1–2 per drink` },
-            { label: "Taxi / rideshare", range: "15–20%" },
+            { label: "Counter service", range: "10-15%" },
+            { label: "Sit-down restaurant", range: "15-20%" },
+            { label: "Exceptional service", range: "20-25%+" },
+            { label: "Delivery", range: "15-20%" },
+            { label: "Bartender", range: `${sym}1-2 per drink` },
+            { label: "Taxi / rideshare", range: "15-20%" },
           ].map((item) => (
             <div key={item.label} className="rounded-[var(--radius-sm)] border border-[var(--border-default)] bg-[var(--surface-bg)] px-3 py-2">
               <p className="text-[11px] text-[var(--text-tertiary)]">{item.label}</p>

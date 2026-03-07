@@ -5,10 +5,10 @@ export default function CalorieCalculatorTool() {
   const [unit, setUnit] = useState<"metric" | "imperial">("metric");
   const [gender, setGender] = useState<"male" | "female">("male");
   const [age, setAge] = useState("30");
-  
+
   const [cm, setCm] = useState("170");
   const [kg, setKg] = useState("70");
-  
+
   const [feet, setFeet] = useState("5");
   const [inches, setInches] = useState("7");
   const [lbs, setLbs] = useState("154");
@@ -33,7 +33,7 @@ export default function CalorieCalculatorTool() {
     if (!weightKg || !heightCm || isNaN(weightKg) || isNaN(heightCm)) return null;
 
     let bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * ageVal);
-    
+
     if (gender === "male") {
       bmr += 5;
     } else {
@@ -59,21 +59,19 @@ export default function CalorieCalculatorTool() {
         <div className="flex justify-center mb-6">
           <div className="flex bg-(--surface-secondary) rounded-xl p-1 border border-(--border-default)">
             <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                unit === "metric"
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${unit === "metric"
                   ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
                   : "text-(--text-secondary) hover:text-(--text-primary)"
-              }`}
+                }`}
               onClick={() => setUnit("metric")}
             >
               Metric
             </button>
             <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                unit === "imperial"
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${unit === "imperial"
                   ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
                   : "text-(--text-secondary) hover:text-(--text-primary)"
-              }`}
+                }`}
               onClick={() => setUnit("imperial")}
             >
               US/Imperial
@@ -86,27 +84,25 @@ export default function CalorieCalculatorTool() {
             <label className="block text-sm font-medium text-(--text-primary) mb-1">Gender</label>
             <div className="flex bg-(--surface-elevated) rounded-xl p-1 border border-(--border-default)">
               <button
-                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  gender === "male"
+                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${gender === "male"
                     ? "bg-primary-500 text-white shadow-sm"
                     : "text-(--text-secondary) hover:text-(--text-primary)"
-                }`}
+                  }`}
                 onClick={() => setGender("male")}
               >
                 Male
               </button>
               <button
-                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  gender === "female"
+                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${gender === "female"
                     ? "bg-primary-500 text-white shadow-sm"
                     : "text-(--text-secondary) hover:text-(--text-primary)"
-                }`}
+                  }`}
                 onClick={() => setGender("female")}
               >
                 Female
               </button>
             </div>
-            
+
             <label className="block text-sm font-medium text(--text-primary) mb-1">Age</label>
             <div className="flex items-center gap-2">
               <input
@@ -172,7 +168,7 @@ export default function CalorieCalculatorTool() {
                 <span className="text-sm text-(--text-secondary)">in</span>
               </div>
             )}
-            
+
             <label className="block text-sm font-medium text(--text-primary) mb-1">Weight</label>
             {unit === "metric" ? (
               <div className="flex items-center gap-2">
@@ -208,10 +204,10 @@ export default function CalorieCalculatorTool() {
           <Panel>
             <div className="text-center py-4">
               <h3 className="text-sm font-medium text-(--text-secondary)">Maintain Weight</h3>
-              <div className="text-4xl font-bold text-[var(--color-primary-500)] mt-2">
-                {results.maintain.toLocaleString()} <span className="text-lg font-normal text-[var(--text-tertiary)] ml-1">kcal/day</span>
+              <div className="text-4xl font-bold text-primary-500 mt-2">
+                {results.maintain.toLocaleString()} <span className="text-lg font-normal text-(--text-tertiary) ml-1">kcal/day</span>
               </div>
-              <p className="text-xs text-[var(--text-tertiary)] mt-2 max-w-sm mx-auto">
+              <p className="text-xs text-(--text-tertiary) mt-2 max-w-sm mx-auto">
                 Calories needed to maintain your current body weight.
               </p>
             </div>

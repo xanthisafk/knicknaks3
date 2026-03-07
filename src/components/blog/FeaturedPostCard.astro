@@ -28,7 +28,7 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
       post.data.coverImage && (
         <div class="w-full md:w-1/2 aspect-video md:aspect-auto overflow-hidden rounded-lg border border-(--border-default) relative text-0">
           <span class="absolute top-4 left-4 z-10 px-3 py-1.5 bg-primary-500 text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-md transform -rotate-3">
-            ★ Featured
+            <span class="font-emoji">✨</span> Featured
           </span>
           <img
             src={post.data.coverImage}

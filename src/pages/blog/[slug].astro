@@ -6,6 +6,7 @@ import {
   Screenshot,
   Callout,
   ComparisonTable,
+  Emoji,
 } from "@/components/blog/MDXComponents";
 import { Container } from "@/components/layout/Layout";
 import Header from "@/components/layout/Header.astro";
@@ -150,7 +151,13 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
           prose-hr:border-(--border-default) prose-hr:my-12"
         >
           <Content
-            components={{ ToolLink, Screenshot, Callout, ComparisonTable }}
+            components={{
+              ToolLink,
+              Screenshot,
+              Callout,
+              ComparisonTable,
+              Emoji,
+            }}
           />
         </article>
 

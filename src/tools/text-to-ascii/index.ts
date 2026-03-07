@@ -12,7 +12,7 @@ export const definition: ToolDefinition = {
   component: () => import("./TextToAsciiTool"),
   capabilities: { supportsOffline: true, supportsClipboard: true },
   faq: [
-    { question: "What is the difference between ASCII and Unicode here?", answer: "The classic ASCII standard only covers basic characters numbered 0–127 (like 'A' which is 65). This tool actually uses Modern Javascript, which renders the full Unicode standard, allowing it to accurately generate decimal codes for emojis and foreign characters." },
+    { question: "What is the difference between ASCII and Unicode here?", answer: "The classic ASCII standard only covers basic characters numbered 0-127 (like 'A' which is 65). This tool actually uses Modern Javascript, which renders the full Unicode standard, allowing it to accurately generate decimal codes for emojis and foreign characters." },
     { question: "What separator is used for the output?", answer: "By default, the tool outputs a clean, space-separated sequence of decimal numbers to ensure readability. You can change this format in the options if needed." },
     { question: "How do I decode numbers back to text?", answer: "Simply toggle the tool to 'Decode', and paste your space-separated list of numerical digits. Assuming they are valid unicode points, the english text will immediately appear." }
   ],

@@ -15,7 +15,7 @@ const PRESETS: { label: string; value: string }[] = [
 ];
 
 const FIELD_LABELS = ["Minute", "Hour", "Day (Month)", "Month", "Day (Week)"];
-const FIELD_RANGES = ["0–59", "0–23", "1–31", "1–12", "0–7 (0,7=Sun)"];
+const FIELD_RANGES = ["0-59", "0-23", "1-31", "1-12", "0-7 (0,7=Sun)"];
 
 /** Compute the next N run times from a cron expression */
 function getNextRuns(expression: string, count = 5): Date[] {
@@ -220,11 +220,10 @@ export default function CronParserTool() {
               <button
                 key={preset.value}
                 onClick={() => setExpression(preset.value)}
-                className={`flex items-center justify-between gap-2 px-3 py-2 rounded-md border text-left transition-colors cursor-pointer ${
-                  expression === preset.value
-                    ? "bg-primary-500 text-white border-primary-500"
-                    : "bg-(--surface-secondary) text-(--text-primary) border-(--border-default) hover:border-(--border-hover)"
-                }`}
+                className={`flex items-center justify-between gap-2 px-3 py-2 rounded-md border text-left cursor-pointer ${expression === preset.value
+                  ? "bg-primary-500 text-white border-primary-500"
+                  : "bg-(--surface-secondary) text-(--text-primary) border-(--border-default) hover:border-(--border-hover)"
+                  }`}
               >
                 <span className="text-sm">{preset.label}</span>
                 <span className="font-mono text-xs opacity-70">{preset.value}</span>

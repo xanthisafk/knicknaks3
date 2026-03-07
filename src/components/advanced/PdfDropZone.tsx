@@ -103,7 +103,7 @@ export function PdfFileList({ files, onRemove }: PdfFileListProps) {
           key={`${file.name}-${i}`}
           className="flex items-center gap-3 px-3 py-2 rounded-md bg-(--surface-secondary) border border-(--border-default)"
         >
-          <span className="text-sm">📄</span>
+          <span className="text-sm font-emoji">📄</span>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-(--text-primary) truncate">
               {file.name}

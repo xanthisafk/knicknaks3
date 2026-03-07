@@ -14,11 +14,11 @@ const { activeTab } = Astro.props;
       <a href="/" class="flex items-center gap-2 no-underline group">
         <span
           id="yoyo-icon"
-          class="text-2xl transition-transform duration-300 inline-block"
+          class="text-2xl transition-transform duration-300 inline-block font-emoji"
           style="will-change: transform;">🪀</span
         >
         <span
-          class="text-xl font-bold tracking-tight text-(--text-primary) font-heading"
+          class="text-xl font-bold tracking-tight text-(--text-primary) font-brand"
         >
           Knicknaks
         </span>
@@ -43,11 +43,13 @@ const { activeTab } = Astro.props;
           class="w-8 h-8 text-lg flex items-center justify-center rounded-md text-(--text-secondary) hover:text-(--text-primary) transition-colors relative cursor-pointer"
           aria-label="Toggle theme"
         >
-          <span class="theme-icon-light absolute transition-all duration-300"
+          <span
+            class="theme-icon-light absolute transition-all duration-300 font-emoji"
             >🌞</span
           >
-          <span class="theme-icon-dark absolute transition-all duration-300"
-            >🌜</span
+          <span
+            class="theme-icon-dark absolute transition-all duration-300 font-emoji"
+            >🌚</span
           >
         </button>
       </div>
@@ -96,7 +98,7 @@ const { activeTab } = Astro.props;
     const yoyo = document.getElementById("yoyo-icon");
     if (!yoyo) return;
 
-    // Lerp helper – smoothly closes the gap between current and target value
+    // Lerp helper - smoothly closes the gap between current and target value
     function lerp(a, b, t) {
       return a + (b - a) * t;
     }
@@ -189,13 +191,13 @@ const { activeTab } = Astro.props;
                 }
               })
               .catch(() => {
-                /* permission denied – keep wobble */
+                /* permission denied - keep wobble */
               });
           },
           { once: true },
         );
       } else {
-        // Android / older iOS – no permission needed
+        // Android / older iOS - no permission needed
         tryDeviceOrientation();
       }
     } else {

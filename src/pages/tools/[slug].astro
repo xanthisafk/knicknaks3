@@ -63,7 +63,7 @@ if (tool.faq?.length) {
       <div class="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12">
         <!-- Breadcrumb -->
         <nav class="mb-6 text-sm" aria-label="Breadcrumb">
-          <ol class="flex items-center gap-2 text-[var(--text-tertiary)]">
+          <ol class="flex items-center gap-2 text-(--text-tertiary)">
             <li>
               <a href="/" class="hover:text(--text-primary) transition-colors"
                 >Home</a
@@ -98,7 +98,7 @@ if (tool.faq?.length) {
 
               {
                 tool.status && (
-                  <div class="flex items-center gap-1.5 text-xs uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-[var(--surface-secondary)] text(--text-secondary) border border-[var(--border-default)]">
+                  <div class="flex items-center gap-1.5 text-xs uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-(--surface-secondary) text(--text-secondary) border border-(--border-default)">
                     <span>{STATUS_INFO[tool.status].icon}</span>
                     {STATUS_INFO[tool.status].label}
                   </div>
@@ -114,7 +114,7 @@ if (tool.faq?.length) {
               tool.tags && (
                 <div class="flex flex-wrap gap-2 mt-3">
                   {tool.tags.map((tag) => (
-                    <span class="px-2 py-0.5 text-xs rounded-[var(--radius-full)] bg-[var(--surface-secondary)] text(--text-secondary) border border-[var(--border-default)]">
+                    <span class="px-2 py-0.5 text-xs rounded-full bg-(--surface-secondary) text(--text-secondary) border border-(--border-default)">
                       {tag}
                     </span>
                   ))}
@@ -124,7 +124,7 @@ if (tool.faq?.length) {
           </div>
 
           <!-- RIGHT ICON -->
-          <div class="text-8xl md:text-9xl opacity-80">
+          <div class="text-8xl md:text-9xl opacity-80 font-emoji">
             {tool.icon}
           </div>
         </div>
@@ -163,10 +163,10 @@ if (tool.faq?.length) {
               </h2>
               <div class="space-y-4">
                 {tool.faq.map((item) => (
-                  <details class="group border border-[var(--border-default)] rounded-[var(--radius-lg)] overflow-hidden">
-                    <summary class="flex items-center justify-between cursor-pointer p-4 text(--text-primary) font-medium hover:bg-[var(--surface-secondary)] transition-colors">
+                  <details class="group border border-(--border-default) rounded-lg overflow-hidden">
+                    <summary class="flex items-center justify-between cursor-pointer p-4 text(--text-primary) font-medium hover:bg-(--surface-secondary) transition-colors">
                       {item.question}
-                      <span class="text-[var(--text-tertiary)] group-open:rotate-180 transition-transform">
+                      <span class="text-(--text-tertiary) group-open:rotate-180 transition-transform">
                         ▾
                       </span>
                     </summary>
@@ -195,10 +195,10 @@ if (tool.faq?.length) {
                 {relatedTools.map((related) => (
                   <a
                     href={`/tools/${related.slug}`}
-                    class="group block p-4 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] no-underline transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-md"
+                    class="group block p-4 rounded-lg bg-(--surface-elevated) border border-(--border-default) no-underline transition-all duration-150 hover:border-(--border-hover) hover:shadow-md"
                   >
                     <div class="flex items-start gap-3">
-                      <span class="text-xl">{related.icon}</span>
+                      <span class="text-xl font-emoji">{related.icon}</span>
                       <div>
                         <h3 class="text-sm font-semibold text(--text-primary)">
                           {related.name}

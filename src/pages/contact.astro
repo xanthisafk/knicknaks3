@@ -21,7 +21,11 @@ const discord = "@cupmoodle";
         <div
           class="bg-(--surface-elevated) p-8 md:p-12 rounded-xl border-2 border-(--border-default) doodle-border relative overflow-hidden shadow-lg"
         >
-          <div class="absolute -right-10 -top-10 opacity-10 text-9xl">📬</div>
+          <div
+            class="absolute -right-10 -top-10 opacity-10 text-9xl font-emoji"
+          >
+            📬
+          </div>
 
           <h1
             class="text-4xl md:text-5xl font-extrabold mb-6 font-heading text-(--text-primary)"
@@ -47,7 +51,7 @@ const discord = "@cupmoodle";
                   href={`mailto:${item.email}`}
                   class="flex items-center gap-4 p-4 rounded-lg border border-(--border-default) hover:border-primary-500 bg-(--surface-bg) group transition-all"
                 >
-                  <span class="text-2xl group-hover:scale-110 transition-transform">
+                  <span class="text-2xl group-hover:scale-110 font-emoji transition-transform">
                     {item.icon}
                   </span>
                   <span class="font-mono text-(--text-primary) group-hover:text-primary-600 transition-colors">
@@ -67,7 +71,8 @@ const discord = "@cupmoodle";
               href={`https://x.com/${twitter}`}
               class="flex items-center gap-4 p-4 rounded-lg border border-(--border-default) hover:border-primary-500 bg-(--surface-bg) group transition-all"
             >
-              <span class="text-2xl group-hover:scale-110 transition-transform"
+              <span
+                class="text-2xl group-hover:scale-110 transition-transform font-emoji"
                 >🐦</span
               >
               <span
@@ -78,7 +83,8 @@ const discord = "@cupmoodle";
             <div
               class="flex items-center gap-4 p-4 rounded-lg border border-(--border-default) hover:border-primary-500 bg-(--surface-bg) group transition-all"
             >
-              <span class="text-2xl group-hover:scale-110 transition-transform"
+              <span
+                class="text-2xl group-hover:scale-110 transition-transform font-emoji"
                 >🗯</span
               >
               <span

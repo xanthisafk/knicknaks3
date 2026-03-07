@@ -46,9 +46,9 @@ Tool interfaces are **clean and professional**:
 
 | Font               | Usage                | Weight  |
 | ------------------ | -------------------- | ------- |
-| **Outfit**         | Headings, brand text | 500–800 |
-| **Inter**          | Body text, UI labels | 400–700 |
-| **JetBrains Mono** | Code, monospace data | 400–500 |
+| **Outfit**         | Headings, brand text | 500-800 |
+| **Inter**          | Body text, UI labels | 400-700 |
+| **JetBrains Mono** | Code, monospace data | 400-500 |
 
 ### Spacing
 

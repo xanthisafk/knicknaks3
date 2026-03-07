@@ -16,6 +16,13 @@ export const ToolLink: React.FC<{ slug: string; name?: string }> = ({ slug, name
 };
 
 /**
+ * Emoji component to render emoji properly
+ */
+export const Emoji: React.FC<{ emoji: string }> = ({ emoji }) => {
+  return <span className="font-emoji">{emoji}</span>
+}
+
+/**
  * Screenshot component with caption.
  */
 export const Screenshot: React.FC<{ src: string; alt: string; caption?: string }> = ({ src, alt, caption }) => {
@@ -57,9 +64,9 @@ export const Callout: React.FC<{ type?: 'info' | 'warning' | 'tip'; children: Re
 
   return (
     <div className={`my-8 rounded-lg border-2 p-6 relative overflow-hidden ${styles[type]}`}>
-      <div className="absolute top-0 right-0 p-2 opacity-10 text-4xl select-none">{icons[type]}</div>
+      <div className="absolute top-0 right-0 p-2 opacity-10 text-4xl select-none font-emoji">{icons[type]}</div>
       <div className="flex gap-4 relative z-10">
-        <span className="text-2xl shrink-0" role="img" aria-label={type}>
+        <span className="text-2xl shrink-0 font-emoji" role="img" aria-label={type}>
           {icons[type]}
         </span>
         <div className="prose-sm leading-relaxed font-medium">
@@ -103,4 +110,4 @@ export const ComparisonTable: React.FC<{ headers: string[]; rows: (string | bool
   );
 };
 
-export default { ToolLink, Screenshot, Callout, ComparisonTable };
+export default { ToolLink, Screenshot, Callout, ComparisonTable, Emoji };

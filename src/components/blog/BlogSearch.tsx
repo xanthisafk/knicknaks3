@@ -109,7 +109,7 @@ export default function BlogSearch({ posts }: BlogSearchProps) {
             </ul>
           ) : (
             <div className="px-6 py-12 text-center text-(--text-secondary)">
-              <div className="text-4xl mb-4">🔍</div>
+              <div className="text-4xl mb-4 font-emoji">🔍</div>
               <p className="text-lg font-medium text-(--text-primary) mb-1">No results found</p>
               <p className="text-sm">We couldn't find any articles matching "{query}".</p>
             </div>

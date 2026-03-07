@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { Button, Input, Textarea, Toggle, Tabs } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { cn, copyToClipboard } from "@/lib/utils";
+import { copyToClipboard } from "@/lib/utils";
 
 export default function Base64Tool() {
   const [input, setInput] = useState("");
@@ -114,13 +114,13 @@ export default function Base64Tool() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium text(--text-primary)">Input</label>
-              <span className="text-xs text-[var(--text-tertiary)]">{input.length} chars</span>
+              <span className="text-xs text-(--text-tertiary)">{input.length} chars</span>
             </div>
             <Textarea
               value={input}
               onChange={(e) => handleInputChange(e.target.value)}
               placeholder={mode === "encode" ? "Enter text to encode..." : "Enter Base64 to decode..."}
-              className="h-48 font-[family-name:var(--font-mono)] text-sm"
+              className="h-48 font-mono text-sm"
             />
           </div>
         </Panel>
@@ -130,7 +130,7 @@ export default function Base64Tool() {
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium text(--text-primary)">Output</label>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-[var(--text-tertiary)]">{output.length} chars</span>
+                <span className="text-xs text-(--text-tertiary)">{output.length} chars</span>
                 {output && (
                   <Button size="sm" variant="ghost" onClick={handleCopy}>
                     {copied ? "✓ Copied!" : "📋 Copy"}
@@ -142,14 +142,14 @@ export default function Base64Tool() {
               value={output}
               readOnly
               placeholder="Output will appear here..."
-              className="h-48 font-[family-name:var(--font-mono)] text-sm"
+              className="h-48 font-mono text-sm"
             />
           </div>
         </Panel>
       </div>
 
       {error && (
-        <p className="text-sm text-[var(--color-error)] px-1" role="alert">
+        <p className="text-sm text-error px-1" role="alert">
           {error}
         </p>
       )}

@@ -33,6 +33,8 @@
   --font-heading: "Outfit", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-emoji: "Noto Color Emoji", sans-serif;
+  --font-brand: "Gloria Hallelujah", cursive;
 
   /* --- Spacing (4px base) --- */
   --spacing-px: 1px;

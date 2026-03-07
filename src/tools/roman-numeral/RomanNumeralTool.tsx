@@ -20,7 +20,7 @@ const VALUES = [
 ];
 
 function toRoman(n: number): string {
-  if (n < 1 || n > 3999) return "Out of range (1–3999)";
+  if (n < 1 || n > 3999) return "Out of range (1-3999)";
   let result = "";
   for (const { value, numeral } of VALUES) {
     while (n >= value) { result += numeral; n -= value; }
@@ -64,7 +64,7 @@ export default function RomanNumeralTool() {
         <Panel>
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text(--text-primary)">Integer → Roman</h3>
-            <Input value={numInput} onChange={e => setNumInput(e.target.value)} type="number" label="Integer (1–3999)" placeholder="e.g. 2024" />
+            <Input value={numInput} onChange={e => setNumInput(e.target.value)} type="number" label="Integer (1-3999)" placeholder="e.g. 2024" />
             {romanResult && (
               <div className="flex items-center gap-3">
                 <p className="text-3xl font-bold font-serif text-[var(--color-primary-500)] flex-1">{romanResult}</p>

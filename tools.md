@@ -63,7 +63,7 @@ All tools run **100% client-side** using browser-native APIs and lightweight JS/
 | ✅     | **URL Encoder / Decoder**           | Percent-encoding for safe use in web addresses.                        |
 | ✅     | **HTML Entity Converter**           | Escape/unescape `&lt;`, `&gt;`, `&amp;`, named or decimal entities.    |
 | ✅     | **ROT-N Cipher**                    | Customizable Caesar cipher with user-defined shift N.                  |
-| ✅     | **Universal Base Converter**        | Convert numbers between any base 2–36.                                 |
+| ✅     | **Universal Base Converter**        | Convert numbers between any base 2-36.                                 |
 | ✅     | **Text to Hex / Hex to Text**       | Each character to its hexadecimal UTF-8 code and back.                 |
 | ✅     | **Text to Binary / Binary to Text** | Characters to 8-bit binary representations and back.                   |
 | ✅     | **Text to ASCII Codes**             | Maps characters to decimal ASCII values and back.                      |
@@ -258,6 +258,6 @@ _Canvas API, browser encoding, and optional `Transformers.js` for AI features._
 | —      | **Readability Scorer**         | Paste an article, get Flesch, Gunning Fog, SMOG scores with explanations.   |
 | —      | **Emoji Picker / Search**      | Searchable full emoji set with copy-to-clipboard, no CDN needed.            |
 | —      | **Changelog / Diff Formatter** | Paste two versions of a file, get a clean formatted diff for release notes. |
-| —      | **Dice Roller**                | Configurable dice (d4–d100), roll history, probability display.             |
+| —      | **Dice Roller**                | Configurable dice (d4-d100), roll history, probability display.             |
 | —      | **Coin Flip / Random Picker**  | Flip a coin or pick from a custom list of options.                          |
 | —      | **Pixel Ruler**                | Overlay a resizable ruler on screen for measuring UI elements.              |
