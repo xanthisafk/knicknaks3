@@ -1,6 +1,8 @@
 import { useState, useMemo, useEffect } from "react";
 import confetti from "canvas-confetti";
 import { Panel } from "@/components/layout";
+import InfoToolTip from "@/components/advanced/InfoTooltip";
+import StatBox from "@/components/ui/StatBox";
 
 interface AgeResult {
   years: number;
@@ -13,7 +15,7 @@ interface AgeResult {
   nextBirthdayDate: Date;
   nextBirthdayText: string;
   dayOfWeek: string;
-  zodiac: string;
+  zodiac: { name: string; emoji: string };
   chineseZodiac: string;
 }
 
@@ -21,26 +23,28 @@ function isLeapYear(year: number) {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }
 
-function getZodiacSign(date: Date) {
+function getZodiacSign(date: Date): { name: string; emoji: string } {
   const d = date.getDate();
   const m = date.getMonth() + 1;
-  if ((m === 3 && d >= 21) || (m === 4 && d <= 19)) return "♈ Aries";
-  if ((m === 4 && d >= 20) || (m === 5 && d <= 20)) return "♉ Taurus";
-  if ((m === 5 && d >= 21) || (m === 6 && d <= 20)) return "♊ Gemini";
-  if ((m === 6 && d >= 21) || (m === 7 && d <= 22)) return "♋ Cancer";
-  if ((m === 7 && d >= 23) || (m === 8 && d <= 22)) return "♌ Leo";
-  if ((m === 8 && d >= 23) || (m === 9 && d <= 22)) return "♍ Virgo";
-  if ((m === 9 && d >= 23) || (m === 10 && d <= 22)) return "♎ Libra";
-  if ((m === 10 && d >= 23) || (m === 11 && d <= 21)) return "♏ Scorpio";
-  if ((m === 11 && d >= 22) || (m === 12 && d <= 21)) return "♐ Sagittarius";
-  if ((m === 12 && d >= 22) || (m === 1 && d <= 19)) return "♑ Capricorn";
-  if ((m === 1 && d >= 20) || (m === 2 && d <= 18)) return "♒ Aquarius";
-  return "♓ Pisces";
+
+  if ((m === 3 && d >= 21) || (m === 4 && d <= 19)) return { name: "Aries", emoji: "♈" };
+  if ((m === 4 && d >= 20) || (m === 5 && d <= 20)) return { name: "Taurus", emoji: "♉" };
+  if ((m === 5 && d >= 21) || (m === 6 && d <= 20)) return { name: "Gemini", emoji: "♊" };
+  if ((m === 6 && d >= 21) || (m === 7 && d <= 22)) return { name: "Cancer", emoji: "♋" };
+  if ((m === 7 && d >= 23) || (m === 8 && d <= 22)) return { name: "Leo", emoji: "♌" };
+  if ((m === 8 && d >= 23) || (m === 9 && d <= 22)) return { name: "Virgo", emoji: "♍" };
+  if ((m === 9 && d >= 23) || (m === 10 && d <= 22)) return { name: "Libra", emoji: "♎" };
+  if ((m === 10 && d >= 23) || (m === 11 && d <= 21)) return { name: "Scorpio", emoji: "♏" };
+  if ((m === 11 && d >= 22) || (m === 12 && d <= 21)) return { name: "Sagittarius", emoji: "♐" };
+  if ((m === 12 && d >= 22) || (m === 1 && d <= 19)) return { name: "Capricorn", emoji: "♑" };
+  if ((m === 1 && d >= 20) || (m === 2 && d <= 18)) return { name: "Aquarius", emoji: "♒" };
+
+  return { name: "Pisces", emoji: "♓" };
 }
 
 function getChineseZodiac(year: number) {
   const animals = [
-    { name: "Rat", emoji: "🐀", traits: "Clever & resourceful" },
+    { name: "Rat", emoji: "🐀", traits: "Clever & resourceful", },
     { name: "Ox", emoji: "🐂", traits: "Diligent & dependable" },
     { name: "Tiger", emoji: "🐅", traits: "Brave & unpredictable" },
     { name: "Rabbit", emoji: "🐇", traits: "Gentle & elegant" },
@@ -114,60 +118,6 @@ function calculateAge(birthDate: Date, toDate: Date): AgeResult {
   };
 }
 
-/* ---------------- INFO TOOLTIP ---------------- */
-function InfoTip({ url, text }: { url?: string; text: string }) {
-  const [show, setShow] = useState(false);
-  return (
-    <span className="relative inline-flex items-center ml-1">
-      <button
-        onMouseEnter={() => setShow(true)}
-        onMouseLeave={() => setShow(false)}
-        onFocus={() => setShow(true)}
-        onBlur={() => setShow(false)}
-        onClick={() => {
-          if (url) window.open(url, "_blank");
-        }}
-        className="w-4 h-4 rounded-full cursor-pointer flex items-center justify-center shrink-0 text-[9px] font-bold leading-none transition-opacity opacity-50 hover:opacity-100 bg-[var(--text-tertiary)] text-[var(--surface-primary)]"
-        aria-label="Source info"
-      >
-        i
-      </button>
-      {show && (
-        <div
-          className="absolute z-50 rounded-xl shadow-lg text-xs p-3 w-60 pointer-events-none"
-          style={{
-            bottom: "calc(100% + 8px)",
-            left: "50%",
-            transform: "translateX(-50%)",
-            background: "var(--surface-elevated)",
-            color: "var(--text-secondary)",
-            border: "1px solid var(--border-default)",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-          }}
-        >
-          <p className="leading-relaxed">{text}</p>
-          {url && (
-            <span
-              className="inline-flex items-center gap-1 mt-2 text-[var(--color-primary-500)] hover:underline pointer-events-auto"
-            >
-              Click to Open Source
-            </span>
-          )}
-          {/* Arrow */}
-          <span
-            className="absolute left-1/2 -translate-x-1/2 -bottom-[5px] w-2.5 h-2.5 rotate-45"
-            style={{
-              background: "var(--surface-elevated)",
-              borderRight: "1px solid var(--border-default)",
-              borderBottom: "1px solid var(--border-default)",
-            }}
-          />
-        </div>
-      )}
-    </span>
-  );
-}
-
 /* ---------------- FUN STAT CARD ---------------- */
 function FunStat({
   emoji,
@@ -193,14 +143,14 @@ function FunStat({
       style={
         highlight
           ? {
-              background: "var(--color-primary-500)",
-              color: "white",
-            }
+            background: "var(--color-primary-500)",
+            color: "white",
+          }
           : {
-              background: "var(--surface-secondary)",
-              border: "1px solid var(--border-default)",
-              color: "inherit",
-            }
+            background: "var(--surface-secondary)",
+            border: "1px solid var(--border-default)",
+            color: "inherit",
+          }
       }
     >
       <div className="flex items-center gap-2">
@@ -212,7 +162,7 @@ function FunStat({
           {label}
         </span>
         <span className="ml-auto">
-          <InfoTip text={infoText} url={infoUrl} />
+          <InfoToolTip text={infoText} url={infoUrl} />
         </span>
       </div>
 
@@ -235,21 +185,11 @@ function FunStat({
   );
 }
 
-/* ---------------- STAT BOX ---------------- */
-function StatBox({ label, value }: { label: string; value: string | number }) {
-  return (
-    <div className="flex flex-col items-center justify-center gap-1 p-4 rounded-2xl bg-(--surface-secondary) border border-(--border-default)">
-      <span className="text-2xl font-bold text-(--color-primary-500) tabular-nums">{value}</span>
-      <span className="text-xs text-(--text-tertiary)">{label}</span>
-    </div>
-  );
-}
-
 /* ================= COMPONENT ================= */
 
 export default function AgeCalculatorTool() {
   const today = new Date().toISOString().split("T")[0];
-  const [birthDate, setBirthDate] = useState("");
+  const [birthDate, setBirthDate] = useState("1999-10-24");
   const [toDate, setToDate] = useState(today);
   const [liveNow, setLiveNow] = useState(new Date());
   const [countdown, setCountdown] = useState("");
@@ -333,7 +273,7 @@ export default function AgeCalculatorTool() {
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
               max={toDate}
-              className="px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-sm"
+              className="px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-sm"
             />
           </div>
           <div className="flex flex-col gap-1.5">
@@ -342,7 +282,7 @@ export default function AgeCalculatorTool() {
               type="date"
               value={toDate}
               onChange={(e) => setToDate(e.target.value)}
-              className="px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-sm"
+              className="px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-sm"
             />
           </div>
         </div>
@@ -354,36 +294,16 @@ export default function AgeCalculatorTool() {
           <Panel>
             <div className="text-center py-4 space-y-3">
               <p className="text-4xl md:text-5xl font-bold">
-                <span className="text-[var(--color-primary-500)]">{result.years}</span>{" "}
+                <span className="text-primary-500">{result.years}</span>{" "}
                 years{" "}
-                <span className="text-[var(--color-primary-500)]">{result.months}</span>{" "}
+                <span className="text-primary-500">{result.months}</span>{" "}
                 months{" "}
-                <span className="text-[var(--color-primary-500)]">{result.days}</span>{" "}
+                <span className="text-primary-500">{result.days}</span>{" "}
                 days
               </p>
 
-              <div className="flex items-center justify-center gap-2">
-                <button
-                  onClick={() => setZodiacMode(zodiacMode === "western" ? "chinese" : "western")}
-                  className="px-3 py-1 rounded-full text-xs font-semibold border border-[var(--border-default)] bg-[var(--surface-secondary)] text(--text-secondary) hover:text(--text-primary) hover:border-[var(--color-primary-300)] transition-colors"
-                >
-                  {zodiacMode === "western" ? "Switch to 🐉 Chinese Zodiac" : "Switch to ✨ Western Zodiac"}
-                </button>
-              </div>
-
-              {zodiacMode === "western" ? (
-                <p className="text-sm text(--text-secondary)">✨ {result.zodiac}</p>
-              ) : (
-                <div className="text-center">
-                  <p className="text-sm font-semibold text-[var(--color-primary-500)]">
-                    {chineseInfo?.emoji} Year of the {chineseInfo?.name}
-                  </p>
-                  <p className="text-xs text-[var(--text-tertiary)]">{chineseInfo?.traits}</p>
-                </div>
-              )}
-
               {liveAge && (
-                <p className="text-xs text-[var(--text-tertiary)]">⏱ Live age: {liveAge}</p>
+                <p className="text-xs text-(--text-tertiary) tabular-nums">⏱ Live age: {liveAge}</p>
               )}
             </div>
           </Panel>
@@ -396,24 +316,16 @@ export default function AgeCalculatorTool() {
             <StatBox label="Total Hours" value={result.totalHours} />
           </div>
 
-          {/* Next birthday */}
-          <Panel>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <span className="text-xs text-[var(--text-tertiary)]">Born on</span>
-                <p className="text-sm font-medium text(--text-primary)">{result.dayOfWeek}</p>
-              </div>
-              <div>
-                <span className="text-xs text-[var(--text-tertiary)]">Next birthday</span>
-                <p className="text-sm font-medium text(--text-primary)">{result.nextBirthdayText}</p>
-                <p className="text-xs text-[var(--color-primary-500)] mt-1 tabular-nums">⏳ {countdown}</p>
-              </div>
-            </div>
-          </Panel>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <StatBox label="Born On" value={result.dayOfWeek} />
+            <StatBox label="Next Birthday" value={result.nextBirthdayText} tooltip={`Next birthday in\n${countdown}`} />
+            <StatBox label={`${result.zodiac.name}`} value={result.zodiac.emoji} tooltip="Zodiac Sign" url={`https://www.zodiacsign.com/zodiac-signs/${result.zodiac.name.toLowerCase()}/`} />
+            <StatBox label={`Year of the ${chineseInfo?.name}`} value={`${chineseInfo?.emoji}`} tooltip={`Chinese Zodiac\n${chineseInfo?.traits}`} url={`https://chinesenewyear.net/zodiac/${chineseInfo?.name.toLowerCase()}/`} />
+          </div>
 
           {/* Fun cosmic stats */}
           <div>
-            <h3 className="text-[10px] font-semibold uppercase tracking-widest text-[var(--text-tertiary)] mb-3">
+            <h3 className="text-[10px] font-semibold uppercase tracking-widest text-(--text-tertiary) mb-3">
               🌌 Your Life, By The Numbers
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
