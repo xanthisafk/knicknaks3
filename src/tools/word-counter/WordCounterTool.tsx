@@ -60,11 +60,11 @@ function analyzeText(text: string): TextStats {
 
 function StatCard({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="flex flex-col items-center justify-center p-4 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)]">
-      <span className="text-2xl md:text-3xl font-bold text-[var(--color-primary-500)] tabular-nums">
+    <div className="flex flex-col items-center justify-center p-4 rounded-md bg-(--surface-secondary) border border-(--border-default)">
+      <span className="text-2xl md:text-3xl font-bold text-primary-500 tabular-nums">
         {value}
       </span>
-      <span className="text-xs text-[var(--text-tertiary)] mt-1 text-center">{label}</span>
+      <span className="text-xs text-(--text-tertiary) mt-1 text-center">{label}</span>
     </div>
   );
 }
