@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Age Calculator",
   slug: "age-calculator",
-  description: "Calculate precise age between two dates in years, months, and days with our free online age calculator.",
+  description: "Calculate precise age and get some fun stats!",
   longDescription: "Our free online Age Calculator helps you determine your exact age in years, months, and days between your birth date and any target date. Perfect for calculating age for forms, events, or tracking milestones.",
   category: "calculators",
   icon: "🎂",

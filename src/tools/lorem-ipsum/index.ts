@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Lorem Ipsum Generator",
   slug: "lorem-ipsum",
-  description: "Generate classic Lorem Ipsum placeholder text by paragraphs, sentences, or word count.",
+  description: "Generate classic Lorem Ipsum placeholder",
   longDescription:
     "Instantly generate standard professional placeholder text for your website mockups, print layouts, and graphic designs. Customize your output exactly by strictly defining the desired number of paragraphs, " +
     "sentences, or individual words. Easily copy the generated Latin text to your clipboard with a single click.",

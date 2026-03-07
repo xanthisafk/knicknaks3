@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Markdown to PDF",
   slug: "markdown-to-pdf",
-  description: "Seamlessly convert Markdown text into a cleanly formatted, downloadable PDF entirely in your browser.",
+  description: "Convert Markdown text into formatted PDF file",
   longDescription:
     "Write in standard Markdown format, verify the output in a live preview pane, and instantly export the final document as a high-quality PDF. " +
     "This robust tool bridges marked.js for rapid HTML rendering with pdf-lib for strict PDF generation. Fully localized zero-server architecture guarantees total privacy.",

@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Text Sorter",
   slug: "text-sorter",
-  description: "Instantly organize lists by sorting lines alphabetically, numerically, or by string length.",
+  description: "Sort lines alphabetically, numerically, or by string length",
   longDescription: "Bring order to chaotic data. Simply paste a messy vertical list of names, items, or numbers into our Text Sorter. With a single click, perfectly organize your data alphabetically (A-Z), reverse-alphabetically (Z-A), numerically, or even by character length. Works locally without server uploads.",
   category: "text",
   icon: "🔃",

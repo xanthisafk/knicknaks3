@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Calorie Calculator",
   slug: "calorie-calculator",
-  description: "Calculate your daily calorie needs for weight loss, maintenance, or muscle gain.",
+  description: "Calculate your daily calorie needs",
   longDescription: "Our free Calorie Calculator provides an accurate estimate of the exact number of calories you need to consume each day to maintain your current weight, lose fat, or gain muscle. A crucial first step for any diet or fitness journey.",
   category: "health",
   icon: "🔥",

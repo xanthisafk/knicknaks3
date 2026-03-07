@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Chmod Calculator",
   slug: "chmod-calculator",
-  description: "Visual checkbox UI for calculating Unix file permissions. Converts between symbolic, octal, and numeric modes.",
+  description: "Easily calculate Unix file permissions",
   longDescription: "Ditch the command line confusion with our interactive Chmod Calculator. This visual GUI tool lets you effortlessly check permission boxes for owner, group, and public scopes, instantly generating the exact octal number and full chmod command required for your Linux or Unix server.",
   category: "dev",
   icon: "🔒",

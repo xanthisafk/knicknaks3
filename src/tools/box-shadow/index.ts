@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Box Shadow Generator",
   slug: "box-shadow",
-  description: "Visual CSS box-shadow generator. Adjust sliders for offset, blur, spread, and copy the CSS instantly.",
+  description: "Visual CSS box-shadow generator",
   longDescription: "Create beautiful, complex drop shadows for your web projects with our CSS Box Shadow Generator. Use intuitive visual sliders to dial in the perfect X/Y offset, blur radius, spread, and exact color opacity. Copy the cross-browser compatible CSS code snippet right to your clipboard.",
   category: "dev",
   icon: "🟫",

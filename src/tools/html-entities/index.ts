@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "HTML Entity Converter",
   slug: "html-entities",
-  description: "Securely escape or unescape HTML entities (&lt;, &gt;, &amp;, etc.) for safe web embedding.",
+  description: "Securely escape or unescape HTML entities",
   longDescription: "Protect your web applications from XSS formatting errors with our HTML Entity Converter. Safely encode special characters (like `<`, `>`, `&`, `\"`) into browser-safe HTML entities, or paste entity-encoded strings to instantly decode them back to readable characters.",
   category: "encoders",
   icon: "🏷️",

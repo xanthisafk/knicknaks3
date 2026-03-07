@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Protect PDF",
   slug: "protect-pdf",
-  description: "Secure your PDF documents with strong encryption passwords and restrict viewing permissions.",
+  description: "Secure your PDF documents with passwords and permissions",
   longDescription:
     "Lock down sensitive data strictly inside your browser. Apply secure user passwords (required to even open the file) and owner passwords (used to manage restriction flags). " +
     "Selectively block unauthorized printing, text copying, and document modifications. The heavy cryptographic lifting is entirely handled locally via pdf-lib.",

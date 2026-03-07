@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "HTTP Status Code Reference",
   slug: "http-status-codes",
-  description: "Searchable reference guide for all HTTP status codes, complete with descriptions and API usage tips.",
+  description: "Searchable reference guide for all HTTP status codes",
   longDescription: "Stop guessing what '409 Conflict' means. Access a comprehensive, searchable, and fully filterable cheat sheet of every standard HTTP status code. Learn exactly when to use 200 vs 201, investigate obscure 5xx server errors, and improve your REST API design.",
   category: "dev",
   icon: "📋",

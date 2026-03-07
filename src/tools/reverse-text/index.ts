@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Reverse Text",
   slug: "reverse-text",
-  description: "Instantly flip your text backwards. Reverse letter order, flip entire words, or reverse lines.",
+  description: "Reverse your text order",
   longDescription: "Easily manipulate string orientation with the local Reverse Text tool. Instantly mirror block text character-by-character (for puzzles or passwords), flip the sequence of entire words within a sentence (Yoda speak), or completely invert the vertical order of a multi-line list.",
   category: "text",
   icon: "🔀",

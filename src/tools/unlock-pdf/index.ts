@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Unlock PDF",
   slug: "unlock-pdf",
-  description: "Remove passwords from your protected PDF documents natively inside your web browser.",
+  description: "Remove passwords from your PDF files",
   longDescription:
     "Strip encryption and permission restrictions from any locked PDF without taking the risk of uploading it to an unknown server. If you currently possess the password, our Unlock PDF tool utilizes the local WebAssembly power of pdf-lib to rip off the encryption sheath, providing you with a clean, unencumbered file.",
   category: "pdf",

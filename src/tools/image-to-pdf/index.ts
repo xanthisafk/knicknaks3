@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Image to PDF",
   slug: "image-to-pdf",
-  description: "Securely convert multiple images (JPG, PNG, WebP) into a single PDF document in your browser.",
+  description: "Convert images to PDF securely in your browser",
   longDescription:
     "Instantly compile multiple photos or graphics into a clean, shareable PDF document. Upload high-resolution images (PNG, JPG, WebP), easily drag-and-drop to reorder them, and generate a multi-page PDF with exactly one image per page. " +
     "Processing is handled entirely locally using WebAssembly and pdf-lib, ensuring your personal photos are never uploaded or stored on external servers.",

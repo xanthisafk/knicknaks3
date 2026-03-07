@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Text to Speech (Kokoro)",
   slug: "kokoro-tts",
-  description: "Locally generate ultra-realistic AI speech from text utilizing WebAssembly and the Kokoro TTS model.",
+  description: "Locally generate ultra-realistic AI speech from text",
   longDescription: "Turn any script into studio-quality audio directly on your device. Unlike traditional robotic-sounding browser APIs which rely heavily on massive corporate servers, this Text-to-Speech tool executes a heavily optimized, quantized AI voice model (Kokoro) completely offline. Enjoy zero API costs and total data privacy while generating incredibly lifelike spoken audio.",
   category: "ai",
   icon: "🗣️",

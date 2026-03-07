@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Ideal Weight Calculator",
   slug: "ideal-weight-calculator",
-  description: "Calculate your ideal body weight accurately based on height, gender, and scientifically-backed formulas.",
+  description: "Calculate your ideal body weight based on scientific formulas",
   longDescription: "Determine a healthy weight target tailored to your specific body type. Our Ideal Weight Calculator instantly processes your height and gender through four widely-recognized scientific formulas (Robinson, Miller, Devine, and Hamwi) to provide you with a comprehensive and realistic ideal weight range.",
   category: "health",
   icon: "⚖️",

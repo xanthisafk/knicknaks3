@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Unix Timestamp Converter",
   slug: "unix-timestamp",
-  description: "Convert raw Unix epoch timestamps into formatted human-readable dates and exact times instantly.",
+  description: "Convert raw Unix timestamps into human-readable times",
   longDescription: "A crucial daily utility for backend engineers and database administrators. Seamlessly translate meaningless 10-digit UNIX Epoch timestamps back into readable ISO dates, or select a date on a visual calendar to instantly generate its corresponding timestamp. Features a live epoch clock and automatic local time-zone adjustments.",
   category: "calculators",
   icon: "⏱️",

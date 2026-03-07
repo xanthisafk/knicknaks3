@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Text to ASCII Codes",
   slug: "text-to-ascii",
-  description: "Instantly translate text characters to their decimal ASCII or Unicode code point values and back.",
+  description: "Translate text characters to and from ASCII and Unicode",
   longDescription: "Dive into the fundamental mathematical representation of typography. Our bidirectional Text-to-ASCII tool instantly maps standard alphabetical strings into their underlying decimal numerical codes. It effectively supports the classic 128-character ASCII table, but extends seamlessly into full Unicode map points (supporting complex symbols and emojis).",
   category: "encoders",
   icon: "🔤",

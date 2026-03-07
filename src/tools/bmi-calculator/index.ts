@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "BMI Calculator",
   slug: "bmi-calculator",
-  description: "Calculate your Body Mass Index (BMI) instantly. Find out your weight category based on WHO guidelines.",
+  description: "Calculate your Body Mass Index (BMI)",
   longDescription: "Our free BMI (Body Mass Index) Calculator provides an immediate and accurate assessment of your body weight relative to your height. Use it to determine whether you are underweight, normal weight, overweight, or obese according to standard World Health Organization (WHO) categories.",
   category: "health",
   icon: "⚖️",

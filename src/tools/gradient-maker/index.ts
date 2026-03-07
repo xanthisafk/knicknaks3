@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Gradient Maker",
   slug: "gradient-maker",
-  description: "Visual CSS gradient builder. Create multi-stop linear, radial, and conic backgrounds instantly.",
+  description: "Visual CSS gradient builder. Select stops, angle and type",
   longDescription: "Design beautiful, responsive CSS backgrounds with our interactive Gradient Maker. Seamlessly generate complex, multi-stop linear, radial, and conic gradients using a live visual editor. Perfect for UI developers looking to export clean, cross-browser compatible CSS code.",
   category: "color",
   icon: "🌈",

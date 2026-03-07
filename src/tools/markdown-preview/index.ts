@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Markdown Previewer",
   slug: "markdown-preview",
-  description: "Live side-by-side Markdown editor with instant HTML rendering and copy functionality.",
+  description: "Live side-by-side Markdown editor",
   longDescription: "Write and format documentation rapidly with our real-time Markdown Previewer. Utilizing the highly-performant marked.js library, this tool provides a seamless side-by-side editing experience where raw Markdown syntax is instantly translated into beautifully rendered HTML. Perfect for drafting GitHub READMEs or blog content.",
   category: "text",
   icon: "📄",

@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Case Converter",
   slug: "case-converter",
-  description: "Transform text between UPPERCASE, lowercase, Title Case, camelCase, snake_case, and more.",
+  description: "Convert text between UPPERCASE, lowercase, and more",
   longDescription:
     "Convert text between multiple casing styles instantly with our versatile Case Converter. Supports regular UPPERCASE and lowercase, as well as developer-friendly formats like Title Case, " +
     "Sentence case, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, and dot.case.",

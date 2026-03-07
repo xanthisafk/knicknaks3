@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Delete PDF Pages",
   slug: "delete-pdf-pages",
-  description: "Securely remove selected pages from a PDF document entirely in your browser.",
+  description: "Remove selected pages from a PDF securely in your browser",
   longDescription:
     "Edit your PDFs securely by removing unwanted pages locally. Just upload your PDF and define the precise pages or ranges you want to eliminate. The streamlined document is saved as a new PDF file immediately. " +
     "All processing is executed safely on your device using pdf-lib; your files are never uploaded.",

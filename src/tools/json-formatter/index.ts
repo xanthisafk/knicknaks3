@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "JSON Formatter",
   slug: "json-formatter",
-  description: "Instantly beautify, minify, and strictly validate JSON code with custom syntax highlighting.",
+  description: "Beautify, minify, and strictly validate JSON",
   longDescription:
     "Transform unreadable, minified JSON strings into perfectly indented, human-readable data trees. Customizable output lets you dictate exact indentation formatting (2 spaces, 4 spaces, or tabs). " +
     "Conversely, compress bloated JSON into a single line for lightweight production use. Includes robust, real-time syntax validation with highly detailed, pinpointed error messages.",

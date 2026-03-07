@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Find & Replace",
   slug: "find-replace",
-  description: "Advanced text Find & Replace tool with support for Regex, live matching, and capture groups.",
+  description: "Find and replace text with Regex, live matching, and capture groups",
   longDescription: "Quickly scan and modify large blocks of text with our advanced Find & Replace utility. Easily perform simple text substitutions or leverage the immense power of full JavaScript Regular Expressions (Regex) complete with capture group replacements in a live preview environment.",
   category: "text",
   icon: "🔎",

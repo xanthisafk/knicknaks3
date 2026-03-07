@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Contrast Checker",
   slug: "contrast-checker",
-  description: "Validate foreground/background color accessibility against strict WCAG AA and AAA standards.",
+  description: "Validate color accessibility against WCAG AA and AAA standards",
   longDescription: "Ensure your website design is accessible to all users visually. Our comprehensive Contrast Checker instantly calculates the contrast ratio between text and background colors, verifying compliance with the Web Content Accessibility Guidelines (WCAG) 2.1 AA and AAA standards for normal, large, and graphical elements.",
   category: "color",
   icon: "♿",

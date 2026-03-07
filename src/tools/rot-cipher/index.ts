@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "ROT-N Cipher",
   slug: "rot-cipher",
-  description: "Encrypt and decrypt text using a customizable Caesar cipher (ROT13) instantly.",
+  description: "Encrypt and decrypt text using a customizable Caesar cipher",
   longDescription: "Protect message spoilers or solve geocaching puzzles using our classic ROT-N Cipher tool. By default, it applies the standard ROT13 algorithm (shifting each letter exactly halfway across the 26-letter alphabet), meaning the exact same tool is used for both encoding and decoding. You can also customize the 'N' shift value to create a custom Caesar cipher.",
   category: "encoders",
   icon: "🔢",

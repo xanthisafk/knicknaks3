@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "String Escaper",
   slug: "string-escaper",
-  description: "Quickly escape and unescape text strings for safe use inside JavaScript, JSON, HTML, CSV, and SQL.",
+  description: "Quickly escape and unescape text strings for safe use",
   longDescription: "Prevent syntax errors and syntax injection vulnerabilities with our multi-language String Escaper. This tool automatically sanitizes raw text by escaping problematic characters (like quotes, backslashes, and newlines) specifically formatted for JS string literals, JSON values, HTML payloads, CSV data, or SQL database queries.",
   category: "dev",
   icon: "🛡️",

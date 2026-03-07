@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "RegEx Tester",
   slug: "regex-tester",
-  description: "Interactive RegEx playground to test, debug, and highlight matching regular expressions in real-time.",
+  description: "Interactive Regular Expression playground",
   longDescription: "Master pattern matching with our interactive RegEx Tester. Build, debug, and validate complex Regular Expressions (RegEx) against custom text strings. The tool provides immediate, color-coded visual feedback highlighting exact matches and isolating specific capture groups to eliminate endless trial-and-error programming.",
   category: "dev",
   icon: "🔍",

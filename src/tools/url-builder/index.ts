@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "URL Builder",
   slug: "url-builder",
-  description: "Interactively construct and test complex URLs from individual components like host, path, and queries.",
+  description: "Construct URL from individual components",
   longDescription: "A visual playground for constructing perfectly formatted API endpoints and web links. Our interactive URL Builder allows developers to break down web addresses into their raw structural components—Protocol, Hostname, Port, Path, and Query Parameters. It automatically handles the tricky percent-encoding of special characters and provides a live preview of the final assembled URL string.",
   category: "dev",
   icon: "🏗️",

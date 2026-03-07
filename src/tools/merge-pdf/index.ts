@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Merge PDF",
   slug: "merge-pdf",
-  description: "Securely combine multiple PDF files into a single, continuous document directly in your browser.",
+  description: "Combine multiple PDFs into one in your browser",
   longDescription:
     "Effortlessly consolidate your documents by uploading two or more PDF files and merging them together into one unified file. " +
     "Utilize our drag-and-drop interface to manually reorder files before executing the merge. All processing happens 100% locally using pdf-lib—ensuring strict privacy since no data ever leaves your device.",

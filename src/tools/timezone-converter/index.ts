@@ -3,9 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Timezone Converter",
   slug: "timezone-converter",
-  description:
-    "Convert times across multiple timezones instantly with automatic daylight saving adjustments.",
-
+  description: "Convert times across multiple timezones",
   longDescription:
     "Easily convert times between different timezones with automatic daylight saving awareness. Perfect for scheduling meetings, planning international calls, or coordinating remote teams across different regions.",
 

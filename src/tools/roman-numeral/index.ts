@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Roman Numeral Converter",
   slug: "roman-numeral",
-  description: "Instantly convert modern numbers to classic Roman numerals (and vice versa) accurately.",
+  description: "Convert numbers to and from Roman neumrals",
   longDescription: "Translate standard Arabic digits into historic Roman numerals automatically. Ideal for academic work, styling copyright dates (e.g., MMXXI), or designing clock faces. Our bidirectional Roman Numeral Converter instantly processes modern integers and validates ancient numeral syntax.",
   category: "converters",
   icon: "🏛️",

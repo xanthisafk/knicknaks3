@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Pace Calculator",
   slug: "pace-calculator",
-  description: "Calculate your exact running pace, total time, or race distance for effective marathon training.",
+  description: "Calculate your exact running pace for effective marathon training",
   longDescription: "Take the mathematical guesswork out of your race day preparation. Our advanced Pace Calculator allows runners and cyclists to input two known variables (like distance and finish time) to instantly solve for the missing metric (required pace). Optimize your training splits for 5Ks, half-marathons, and full marathons.",
   category: "health",
   icon: "🏃",

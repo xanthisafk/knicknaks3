@@ -3,10 +3,10 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Hash Generator",
   slug: "hash-generator",
-  description: "Securely generate SHA-1, SHA-256, SHA-384, SHA-512, and MD5 hashes from text or files locally.",
+  description: "Securely generate SHA-1 to SHA-512 locally",
   longDescription:
     "Compute cryptographic data hashes securely using your browser's native SubtleCrypto API. Instantly generate standard SHA-1, SHA-256, " +
-    "SHA-384, SHA-512, and MD5 checksums. Supports both raw text input and direct binary file hashing. All processing guarantees zero-knowledge local execution.",
+    "SHA-384 and SHA-512. Supports both raw text input and direct binary file hashing. All processing guarantees zero-knowledge local execution.",
   category: "crypto",
   icon: "🔐",
   keywords: ["hash generator online", "sha256 hash calculator", "md5 checksum generator", "text to sha512", "secure file hashing", "crypto digest generation", "local cryptography tool"],

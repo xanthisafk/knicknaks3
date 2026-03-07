@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Word & Character Counter",
   slug: "word-counter",
-  description: "Accurately count words, characters, sentences, paragraphs, and estimate reading time in real-time.",
+  description: "Count word, characters, sentences and reading time",
   longDescription:
     "A powerful, real-time typography analytics dashboard designed for writers, students, and SEO marketers. Beyond basic word and character counting (with or without spaces), this tool instantly calculates paragraph density, sentence boundaries, estimated human reading time, and theoretical speaking time based on standardized adult reading metrics.",
   category: "text",

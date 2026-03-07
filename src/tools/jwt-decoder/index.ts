@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "JWT Decoder",
   slug: "jwt-decoder",
-  description: "Safely decode and inspect JSON Web Tokens (JWT) natively without sending data to servers.",
+  description: "Decode and inspect JSON Web Tokens in your browser",
   longDescription: "Debug authentication issues efficiently with our secure JWT Decoder. Instantly unpack Base64Url-encoded tokens to read their header metadata algorithms and inspect sensitive payload claims. All decoding is processed strictly client-side to guarantee your session tokens remain private.",
   category: "dev",
   icon: "🎫",

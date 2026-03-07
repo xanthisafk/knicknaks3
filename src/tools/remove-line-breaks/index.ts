@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Remove Line Breaks",
   slug: "remove-line-breaks",
-  description: "Instantly strip all line breaks and hard returns from your text to collapse it into a single paragraph.",
+  description: "Remove line breaks and make the sentence whole again",
   longDescription: "Clean up messy copy-pasted text effortlessly. Our Remove Line Breaks tool automatically scans your text to identify and completely erase unwanted hard returns, carriage returns, and line breaks. Compress fragmented sentences into a single, continuous paragraph, or join lines using a custom separator.",
   category: "text",
   icon: "📏",

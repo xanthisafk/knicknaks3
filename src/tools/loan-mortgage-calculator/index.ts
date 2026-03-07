@@ -4,7 +4,7 @@ export const definition: ToolDefinition = {
   name: "Loan / Mortgage Calculator",
   slug: "loan-mortgage-calculator",
   description:
-    "Calculate monthly loan payments, total interest, and generate an amortisation schedule for mortgages or personal loans.",
+    "Calculate monthly payments, interest for loans",
 
   longDescription:
     "Estimate monthly loan repayments quickly using this loan and mortgage calculator. Enter the loan amount, interest rate, and repayment term to see your monthly payment, total interest paid, and a full amortisation breakdown. " +

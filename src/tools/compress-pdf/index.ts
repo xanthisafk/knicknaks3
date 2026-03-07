@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Compress PDF",
   slug: "compress-pdf",
-  description: "Reduce PDF file size securely directly in your browser without uploading to external servers.",
+  description: "Reduce PDF file size securely in your browser",
   longDescription:
     "Compress and optimize your PDF files instantly with our secure, client-side PDF compressor. By running entirely in your browser using WebAssembly and pdf-lib, this tool significantly reduces file sizes by stripping redundant objects and re-serializing documents. " +
     "Perfect for preparing large PDFs for email attachments or web hosting without compromising privacy.",

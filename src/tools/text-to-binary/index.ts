@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Text to Binary",
   slug: "text-to-binary",
-  description: "Convert text strings to formatted 8-bit binary code accurately (0s and 1s) and back.",
+  description: "Convert text strings to binary and back",
   longDescription: "Translate human-readable phrases into pure machine language. This bidirectional text-to-binary tool perfectly transforms characters into standard 8-bit binary byte blocks padded with zeros. Ideal for developers debugging raw data, students studying computer science, or creating encoded puzzle messages.",
   category: "encoders",
   icon: "💾",

@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Text Repeater",
   slug: "text-repeater",
-  description: "Duplicate any string of text instantly. Set your repetition count and custom separator.",
+  description: "Duplicate any string of text with custom separator",
   longDescription: "Quickly generate dummy data, testing patterns, or repetitive code blocks. Provide a base string, specify the exact number of times you want it to be repeated (up to thousands), and assign a custom separator (like a space or a newline). The Text Repeater outputs the massive string instantly.",
   category: "text",
   icon: "🔃",

@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "User Agent Parser",
   slug: "user-agent-parser",
-  description: "Analyze User-Agent strings to detect browser version, operating system, layout engine, and device type.",
+  description: "Turn user agent string into readable data",
   longDescription: "Uncover the precise details of internet traffic headers. Our extensive User Agent string parser deeply analyzes complex UA headers to reliably identify the specific Web Browser (e.g., Chrome, Safari), underlying Engine (e.g., WebKit, Gecko), Operating System, and physical Device Category (Mobile, Tablet, Desktop) making the network request.",
   category: "dev",
   icon: "🕵️",

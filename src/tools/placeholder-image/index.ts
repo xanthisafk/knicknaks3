@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Placeholder Image Generator",
   slug: "placeholder-image",
-  description: "Instantly generate custom SVG placeholder images offline with no external CDN dependency.",
+  description: "Instantly generate custom SVG placeholder images",
   longDescription: "Build resilient web layouts exactly simulating final asset delivery without relying on third-party dummy image servers (which occasionally go offline). Our local Placeholder Image Generator creates pure SVG data URIs or downloadable files tailored exactly to your specified dimension, text label, and color schemes.",
   category: "generators",
   icon: "🖼️",

@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "UUID Generator",
   slug: "uuid-generator",
-  description: "Generate cryptographically secure v4 (random) and v7 (timestamp-ordered) UUIDs instantly.",
+  description: "Generate cryptographically secure v4 and v7 UUIDs",
   longDescription:
     "Generate universally unique identifiers (UUIDs) using cryptographically secure random values. " +
     "Supports both classic completely randomized v4 keys, and the modern timestamp-ordered v7 keys. Generate up to 100 UUIDs simultaneously in a fast, robust offline batch.",

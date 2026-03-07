@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Deduplicate Lines",
   slug: "deduplicate-lines",
-  description: "Instantly remove duplicate lines from text lists while preserving their original order.",
+  description: "Remove duplicate lines from text lists",
   longDescription: "Clean up your data effortlessly with the Deduplicate Lines tool. Simply paste any list or text block, and our algorithm will instantly strip out repetitive lines while maintaining the exact original order of the remaining unique items. Ideal for processing CSVs, cleaning email lists, and formatting code.",
   category: "text",
   icon: "🧹",

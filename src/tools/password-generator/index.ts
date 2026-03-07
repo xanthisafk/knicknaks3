@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Password Generator",
   slug: "password-generator",
-  description: "Generate cryptographically secure, random passwords locally in your browser.",
+  description: "Generate cryptographically secure random passwords",
   longDescription:
     "Protect your digital identity with an unbreakable password. This generator utilizes the browser's native Web Crypto API to guarantee true cryptographic randomness. " +
     "Customize the exact length, enforce specific character sets (uppercase, numbers, symbols), and analyze your password's entropy strength in real-time. Completely private offline processing.",

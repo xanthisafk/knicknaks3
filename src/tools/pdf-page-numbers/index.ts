@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Add Page Numbers",
   slug: "pdf-page-numbers",
-  description: "Automatically stamp sequential page numbers onto any PDF document securely in your browser.",
+  description: "Automatically add page numbers onto any PDF document",
   longDescription:
     "Properly format long documents by overlaying cleanly styled page numbers directly onto every page of your PDF file. " +
     "You hold full control: choose precise number positioning (headers or footers, left/center/right alignment), configure font sizing, and dictate the exact starting integer. Engineered securely using local browser processing via pdf-lib.",

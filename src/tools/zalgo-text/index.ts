@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Zalgo Text Generator",
   slug: "zalgo-text",
-  description: "Corrupt your text by adding creepy, glitchy Zalgo combining Unicode diacritic marks instantly.",
+  description: "Currupt your text and make it look weird!",
   longDescription: "Summon the void into your standard text box. The Zalgo Text Generator overlays your standard alphabetic text input with chaotic, random layers of invisible Unicode combining algorithms. It simulates extreme graphical glitches, horror aesthetics, and 'cursed' computer crashes. Perfect for Halloween, gaming usernames, and disturbing Discord messages.",
   category: "text",
   icon: "👾",

@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "PDF Metadata Editor",
   slug: "pdf-metadata",
-  description: "Securely view and edit PDF metadata tags like title, author, and keywords in your browser.",
+  description: "View and edit PDF metadata like title, and author",
   longDescription:
     "Gain complete control over your document's hidden properties. Upload a PDF file to instantly expose and modify underlying metadata fields including the Title, Author, Subject, Creator, Producer tool, and searchable Keywords. " +
     "This tool relies entirely on local WebAssembly processing via pdf-lib, meaning your sensitive documents are securely modified without ever hitting a remote server.",

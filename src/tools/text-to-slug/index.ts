@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Text to Slug",
   slug: "text-to-slug",
-  description: "Instantly auto-generate clean, SEO-friendly URL slugs by removing spaces and special characters.",
+  description: "Generate clean, SEO-friendly URL",
   longDescription: "Prepare blog post titles and page names for the web. Our Text-to-Slug converter automatically sanitizes messy text inputs into perfectly formatted URL perma-links. It intelligently strips out illegal special characters, collapses continuous white-space into single hyphens, normalizes accented characters, and lowercases the entire string for maximum server compatibility.",
   category: "text",
   icon: "🔗",

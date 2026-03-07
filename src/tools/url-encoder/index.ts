@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "URL Encoder / Decoder",
   slug: "url-encoder",
-  description: "Instantly encode or decode URL components using percent-encoding for safe web links.",
+  description: "Encode or decode any web URL",
   longDescription:
     "Safely construct robust web addresses by encoding special characters in your URLs with standard percent-encoding (like %20 for spaces). Alternatively, paste messy encoded strings to instantly decode them back to readable human text. The tool simultaneously supports both full `encodeURI` operations and stricter `encodeURIComponent` functions for query parameters.",
   category: "encoders",

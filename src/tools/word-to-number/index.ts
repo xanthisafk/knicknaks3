@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Word to Number",
   slug: "word-to-number",
-  description: "Instantly convert English number words into digits and digits back to written words.",
+  description: "Convert words to numbers and numbers to words",
   longDescription: "Effortlessly bridge the gap between mathematics and linguistics. Our bidirectional Word-to-Number translator takes written phrases (like 'three hundred forty two') and mathematically converts them into integers ('342'), and vice versa. Perfect for data entry normalization, students learning English numerical grammar, and programming string manipulation.",
   category: "converters",
   icon: "🔢",

@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Upside Down Text",
   slug: "upside-down-text",
-  description: "Instantly flip your text upside down using specialized Unicode character equivalents.",
+  description: "Flip your text!",
   longDescription: "Create engaging social media posts, fun jokes, or unique gaming usernames. The Upside Down Text generator maps your standard alphabetical input to visually inverted Unicode character equivalents, giving the perfect optical illusion of an inverted string. Guaranteed to make your friends tilt their phones.",
   category: "text",
   icon: "🙃",

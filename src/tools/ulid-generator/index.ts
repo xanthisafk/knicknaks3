@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "ULID Generator",
   slug: "ulid-generator",
-  description: "Generate sortable, universally unique identifiers (ULIDs) instantly in your browser.",
+  description: "Generate ULIDs securely in your browser",
   longDescription: "Create robust database primary keys with our local ULID Generator. Unlike random UUIDs, ULIDs natively embed a millisecond-precision UNIX timestamp, ensuring they can be naturally sorted chronologically. This tool generates mathematically valid, 26-character Crockford Base32 encoded identifiers entirely offline, meaning zero server round-trips for your IDs.",
   category: "generators",
   icon: "🆔",

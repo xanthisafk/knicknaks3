@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Unicode Inspector",
   slug: "unicode-inspector",
-  description: "Analyze individual text characters to reveal their exact Unicode point, official name, and hex bytes.",
+  description: "Analyze and learn more about Unicode characters",
   longDescription: "Peel back the layer of modern typography. Our deep-dive Unicode Inspector instantly analyzes any pasted string or emoji, breaking it down character-by-character. Discover the official mathematical code point, the designated Unicode Block category, and the precise UTF-8 byte distribution used to render the glyph on screen.",
   category: "encoders",
   icon: "🔬",

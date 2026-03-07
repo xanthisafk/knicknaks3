@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Universal Base Converter",
   slug: "base-converter",
-  description: "Convert numbers across any base (binary, octal, decimal, hex) instantly with our universal base converter.",
+  description: "Convert numbers across any base (binary, octal, decimal, hex)",
   longDescription: "The Universal Base Converter allows you to seamlessly translate numbers between any numeral bases from 2 up to 36. Easily convert binary to hexadecimal, decimal to octal, or use completely custom bases for computer science and programming tasks.",
   category: "encoders",
   icon: "🔢",

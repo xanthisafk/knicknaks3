@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Tailwind Color Reference",
   slug: "tailwind-colors",
-  description: "Searchable reference cheat sheet for all Tailwind CSS v3 and v4 default color palettes.",
+  description: "Searchable reference cheat sheet for all Tailwind CSS",
   longDescription: "Speed up your web design workflow with our interactive Tailwind Color Reference. Instantly browse, search, and copy hex codes or utility class names for every single color swatch in the official Tailwind CSS default palette. Supports both legacy v3 and the latest v4 design systems.",
   category: "color",
   icon: "🐦",

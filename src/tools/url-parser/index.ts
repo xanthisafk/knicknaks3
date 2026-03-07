@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "URL Parser",
   slug: "url-parser",
-  description: "Instantly deconstruct complex URLs into parts: protocol, host, port, path, and queries.",
+  description: "Deconstruct URL into components",
   longDescription: "Understand precisely where a web link leads. The visual URL Parser breaks down massive, chaotic web addresses into their distinct structural properties. Instantly isolate the Protocol scheme, the core Hostname domain, specific Ports, folder Paths, nested Query string parameters, and Fragment hashes. Perfect for debugging API integrations and redirect chains.",
   category: "dev",
   icon: "🔗",

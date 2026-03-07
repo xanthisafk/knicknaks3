@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Color Blindness Simulator",
   slug: "color-blindness-simulator",
-  description: "Preview images and colors as they appear to people with different types of color vision deficiencies.",
+  description: "See colors like people with vision deficiencies",
   longDescription:
     "Evaluate how accessible your visuals truly are by simulating common forms of color blindness directly in your browser. " +
     "Upload images, UI screenshots, charts, or graphics and instantly preview them through multiple vision deficiency filters such as Protanopia, Deuteranopia, and Tritanopia. " +

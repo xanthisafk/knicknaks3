@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Rearrange PDF Pages",
   slug: "rearrange-pdf",
-  description: "Visually reorder and move individual pages within a PDF file safely within your browser.",
+  description: "Reorder PDF pages",
   longDescription:
     "Fix scrambled documents quickly. Upload your PDF to generate visual page thumbnails, allowing you to seamlessly drag and drop individual pages into a perfectly sequential order. " +
     "This zero-server tool writes the new structural arrangement exclusively utilizing your local device resources via pdf-lib.",

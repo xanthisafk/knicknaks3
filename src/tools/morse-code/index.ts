@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Text to Morse Code",
   slug: "morse-code",
-  description: "Accurately encode or decode text to Morse code with built-in Web Audio API tone playback.",
+  description: "Convert and listen to morse code",
   longDescription: "Learn, translate, and listen to authentic Morse code right in your browser. Our Text to Morse Code converter translates standard English text into classic dots and dashes (and vice versa). Click 'Play' to hear your translated message transmitted audibly via the browser's Web Audio API.",
   category: "encoders",
   icon: "📡",

@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Number to Words",
   slug: "number-to-words",
-  description: "Instantly spell out numbers into written English text. Perfect for legal documents and writing checks.",
+  description: "Convert numbers into text",
   longDescription: "Avoid formatting mistakes on important paperwork. The Number to Words converter instantly transcribes any numerical digit string (e.g., '1542') into its fully spelled-out English equivalent ('one thousand five hundred forty-two'). Seamlessly supports decimal points and features a dedicated currency mode for writing formal checks.",
   category: "converters",
   icon: "🔤",

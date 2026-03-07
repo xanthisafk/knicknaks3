@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Palindrome & Anagram Checker",
   slug: "palindrome-anagram",
-  description: "Detect text palindromes and check if multiple phrases are perfect anagrams instantly.",
+  description: "Detect if text is palindromes or anagrams",
   longDescription: "Solve word puzzles or validate string logic quickly. Our Palindrome & Anagram Checker analyzes your text to determine if it reads the exact same forwards and backwards (a palindrome), or if two distinct phrases use the exact same letters in a different order (an anagram). Perfect for linguistic students and developers.",
   category: "text",
   icon: "🔁",

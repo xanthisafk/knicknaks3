@@ -3,13 +3,13 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Image Color Picker",
   slug: "image-color-picker",
-  description: "Extract dominant colors and generate a palette from any uploaded image directly in your browser.",
+  description: "Extract dominant colors and generate a palette from image",
   longDescription:
     "Instantly discover the color palette hidden inside any image. Upload a photo, illustration, logo, or screenshot and automatically extract dominant colors and complementary shades. " +
     "The tool generates usable palettes with HEX and RGB values that designers and developers can immediately copy. All color analysis runs locally in your browser for maximum speed and privacy.",
 
   category: "color",
-  status: "alpha",
+  status: "beta",
   icon: "🖌️",
   keywords: [
     "image color picker online",

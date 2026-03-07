@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Text Diff",
   slug: "text-diff",
-  description: "Compare two text documents side-by-side to highlight additions, deletions, and differences instantly.",
+  description: "Compare two text documents side-by-side",
   longDescription: "A powerful visual file comparison utility right in your browser. Paste two versions of a document, configuration file, or script into the Text Diff tool to instantly identify what changed. It highlights exact line additions (green), deletions (red), and unchanged context (white), perfectly replicating developer diff workflows.",
   category: "text",
   icon: "📊",

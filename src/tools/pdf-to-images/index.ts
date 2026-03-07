@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "PDF to Images",
   slug: "pdf-to-images",
-  description: "Securely convert PDF pages into high-resolution PNG or JPG image files directly in your browser.",
+  description: "Convert PDF files to images in your browser",
   longDescription:
     "Extract and save individual pages from any PDF document as standard image files. Choose your preferred output extension (crisp PNG or compressed JPG) and dictate the exact rendering resolution scale. " +
     "This tool leverages the powerful pdfjs-dist library to render vector pages into pixels entirely locally. Your confidential documents are never uploaded to any external server.",

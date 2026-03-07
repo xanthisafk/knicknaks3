@@ -4,13 +4,12 @@ export const definition: ToolDefinition = {
   name: "Date Difference Calculator",
   slug: "date-difference-calculator",
   description:
-    "Calculate the exact difference between two dates in days, weeks, months, or years instantly.",
+    "Calculate the exact difference between two dates",
 
   longDescription:
     "Quickly determine the exact time between two dates using this date difference calculator. Whether you're calculating age, project durations, deadlines, or historical time spans, this tool provides precise results in days, weeks, months, and years.",
 
   category: "calculators",
-  status: "alpha",
   icon: "📅",
 
   keywords: [

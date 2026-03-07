@@ -3,8 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Tip Calculator",
   slug: "tip-calculator",
-  description:
-    "Quickly calculate tips and split restaurant bills between multiple people with an automatic per-person breakdown.",
+  description: "Calculate tips and split restaurant bills between multiple people",
 
   longDescription:
     "Easily calculate restaurant tips and split bills with friends using this fast tip calculator. Enter the bill amount, choose a tip percentage, and instantly see the total including tip and the exact amount each person should pay. " +

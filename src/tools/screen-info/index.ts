@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Screen Info",
   slug: "screen-info",
-  description: "Instantly detect your exact screen resolution, viewport size, and device pixel ratio (DPR).",
+  description: "Get local screen info of device",
   longDescription: "A vital diagnostic tool for frontend web developers and UI designers. Instantly view critical hardware and browser rendering metrics including raw Screen Resolution, active CSS Viewport width/height, Device Pixel Ratio (Retina scaling), Color Depth, and hardware concurrency threads. Values update live as you resize your browser window.",
   category: "dev",
   icon: "📱",

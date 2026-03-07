@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Rotate PDF Pages",
   slug: "rotate-pdf",
-  description: "Fix upside-down PDF documents by rotating pages 90°, 180°, or 270° directly in your browser.",
+  description: "Rotate your PDF, right in your browser!",
   longDescription:
     "Instantly correct the orientation of scanned documents without complex software. Upload a PDF to visually rotate all pages globally, or selectively target specific individual pages to turn 90, 180, or 270 degrees. " +
     "This tool utilizes a local WebAssembly port of pdf-lib to process the rotation natively on your device, guaranteeing total privacy for sensitive legal or personal forms.",

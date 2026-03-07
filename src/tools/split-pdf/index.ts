@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Split PDF",
   slug: "split-pdf",
-  description: "Extract specific pages or split a large PDF into individual files securely within your browser.",
+  description: "Split a large PDF into smaller ones",
   longDescription:
     "Divide massive PDF documents into smaller, manageable files without relying on external cloud servers. Upload your PDF and specify exactly which pages or page ranges you wish to extract. " +
     "You can save the precise selection as one new merged PDF, or explode it into a ZIP file of individual pages. Completely private and powered by local WebAssembly.",

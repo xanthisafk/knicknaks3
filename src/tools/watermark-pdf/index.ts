@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Watermark PDF",
   slug: "watermark-pdf",
-  description: "Secure your documents by adding custom text or image watermarks to PDF pages locally.",
+  description: "Add a watermark to your PDF file",
   longDescription:
     "Protect your intellectual property or label document drafts easily. Upload a standard PDF and overlay a heavily customized text watermark on every single page. You have total creative control over the font opacity, diagonal rotation, sizing, and color. All operations execute directly inside your browser.",
   category: "pdf",

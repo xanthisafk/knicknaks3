@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Percentage Calculator",
   slug: "percentage-calc",
-  description: "Perform quick and accurate percentage math for discounts, growth margins, and ratios.",
+  description: "Perform accurate percentage math",
   longDescription: "Eliminate math errors with our comprehensive Percentage Calculator. Instantly solve everyday percentage problems including finding X% of Y, calculating percentage increase/decrease, resolving reverse percentages, and determining profit margins. Essential for shopping discounts, finance, and academic math.",
   category: "calculators",
   icon: "📊",

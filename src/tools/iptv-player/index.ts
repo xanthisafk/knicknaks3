@@ -3,9 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "IPTV Player",
   slug: "iptv-player",
-  description:
-    "Play IPTV streams directly in your browser by loading your own M3U or M3U8 playlists. Fast, private, and fully client-side.",
-
+  description: "Play IPTV streams directly in your browser",
   longDescription:
     "Watch IPTV streams directly from your browser using your own M3U or M3U8 playlists. This lightweight web IPTV player supports HLS streams and allows you to load local or remote playlists without installing any software. " +
     "All processing happens entirely within your browser, ensuring maximum privacy and zero server uploads. Ideal for testing IPTV playlists, previewing channels, or watching personal IPTV streams quickly and securely.",

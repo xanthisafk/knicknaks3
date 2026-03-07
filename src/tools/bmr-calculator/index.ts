@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "BMR Calculator",
   slug: "bmr-calculator",
-  description: "Calculate your Basal Metabolic Rate (BMR) accurately to determine how many calories your body burns at rest.",
+  description: "Calculate your Basal Metabolic Rate (BMR)",
   longDescription: "The BMR (Basal Metabolic Rate) Calculator helps you discover the exact number of calories your body requires to maintain basic life-sustaining functions while completely at rest. Essential for diet planning, weight loss, and muscle gain.",
   category: "health",
   icon: "🔋",
