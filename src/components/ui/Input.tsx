@@ -28,7 +28,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             "bg-(--surface-elevated) text(--text-primary)",
             "border border-(--border-default)",
             "placeholder:text-(--text-tertiary)",
-            "transition-colors duration-(--duration-fast)",
             "hover:border-(--border-hover)",
             "focus:outline-none focus:border-(--border-focus) focus:ring-2 focus:ring-(--ring-color)",
             error && "border-error focus:border-error focus:ring-error/30",
