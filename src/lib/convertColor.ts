@@ -1,3 +1,5 @@
+export interface HSL { h: number; s: number; l: number }
+
 /** Parse any supported CSS color string into {r,g,b,a} with components 0-255 / 0-1. */
 function parseColor(input: string): { r: number; g: number; b: number; a: number } | null {
   const s = input.trim();
@@ -98,9 +100,57 @@ function oklchToRgb(L: number, C: number, H: number): { r: number; g: number; b:
   };
 }
 
+function hexToHsl(hex: string): HSL | null {
+  const c = hex.replace("#", "");
+  if (!/^[0-9a-fA-F]{6}$/.test(c)) return null;
+  const r = parseInt(c.slice(0, 2), 16) / 255;
+  const g = parseInt(c.slice(2, 4), 16) / 255;
+  const b = parseInt(c.slice(4, 6), 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  if (max === min) return { h: 0, s: 0, l: l * 100 };
+  const d = max - min;
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  let h = 0;
+  if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+  else if (max === g) h = ((b - r) / d + 2) / 6;
+  else h = ((r - g) / d + 4) / 6;
+  return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+function hslToHex(h: number, s: number, l: number): string {
+  const _h = h / 360, _s = s / 100, _l = l / 100;
+  if (_s === 0) { const v = Math.round(_l * 255); return rgbHex(v, v, v); }
+  const hue2rgb = (p: number, q: number, t: number) => {
+    if (t < 0) t += 1; if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  };
+  const q = _l < 0.5 ? _l * (1 + _s) : _l + _s - _l * _s;
+  const p = 2 * _l - q;
+  return rgbHex(
+    Math.round(hue2rgb(p, q, _h + 1 / 3) * 255),
+    Math.round(hue2rgb(p, q, _h) * 255),
+    Math.round(hue2rgb(p, q, _h - 1 / 3) * 255),
+  );
+}
+
+function rgbHex(r: number, g: number, b: number): string {
+  const hex = (n: number) => Math.max(0, Math.min(255, n)).toString(16).padStart(2, "0");
+  return `#${hex(r)}${hex(g)}${hex(b)}`;
+}
+
+function wrapHue(h: number) { return ((h % 360) + 360) % 360; }
+
 export {
     parseColor,
     hslToRgb,
     hue2rgb,
-    oklchToRgb
+    oklchToRgb,
+    hexToHsl,
+    hslToHex,
+    rgbHex,
+    wrapHue,
 }
