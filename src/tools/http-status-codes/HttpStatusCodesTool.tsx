@@ -110,7 +110,7 @@ export default function HttpStatusCodesTool() {
           <select
             value={category}
             onChange={e => setCategory(e.target.value)}
-            className="px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm"
+            className="px-3 py-2 rounded-md bg-(--surface-elevated) text(--text-primary) border border-(--border-default) text-sm"
           >
             {CATEGORIES.map(c => <option key={c}>{c}</option>)}
           </select>
@@ -122,8 +122,8 @@ export default function HttpStatusCodesTool() {
           <h3 className="text-sm font-semibold text(--text-primary) mb-3">{cat}</h3>
           <div className="space-y-2">
             {codes.map(c => (
-              <div key={c.id} className="flex gap-3 px-3 py-2.5 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] hover:bg-[var(--surface-elevated)] transition-colors">
-                <span className={`font-bold font-[family-name:var(--font-mono)] text-sm w-10 shrink-0 ${c.color}`}>{c.id}</span>
+              <div key={c.id} className="flex gap-3 px-3 py-2.5 rounded-md bg-(--surface-secondary) hover:bg-(--surface-elevated) transition-colors">
+                <span className={`font-bold font-mono text-sm w-10 shrink-0 ${c.color}`}>{c.id}</span>
                 <span className="text-sm text(--text-secondary)">{c.description}</span>
               </div>
             ))}
@@ -132,7 +132,7 @@ export default function HttpStatusCodesTool() {
       ))}
 
       {filtered.length === 0 && (
-        <p className="text-center text-sm text-[var(--text-tertiary)]">No matching status codes</p>
+        <p className="text-center text-sm text-(--text-tertiary)">No matching status codes</p>
       )}
     </div>
   );
