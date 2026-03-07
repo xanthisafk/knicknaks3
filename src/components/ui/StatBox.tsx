@@ -15,7 +15,7 @@ export default function StatBox({
 
     return (
         <div
-            className={"relative flex flex-col items-center justify-center gap-1 p-4 rounded-xl bg-(--surface-secondary) border border-(--border-default)" + ((tooltip || url) ? " cursor-pointer" : "")}
+            className={"relative flex flex-col items-center justify-center gap-1 p-4 rounded-xl bg-(--surface-secondary) border border-(--border-default)" + (url ? " cursor-pointer" : tooltip ? " cursor-help" : "")}
             onMouseEnter={() => {
                 if (tooltip) setVisible(true);
             }}
