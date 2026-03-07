@@ -1,6 +1,10 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { ColorCard } from "../../components/advanced/ColorCard";
-import type { ColorFormat } from "../../components/advanced/ColorCard";
+import { ColorCard } from "@/components/advanced/ColorCard";
+import Spinner from "@/components/ui/Spinner";
+import type { ColorFormat } from "@/lib/formatColor";
+import { rgbToHex } from "@/lib/convertColor";
+import { Panel } from "@/components/layout";
+import FileDropZone from "@/components/advanced/FileDropZone";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -10,10 +14,6 @@ interface ColorSwatch {
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function rgbToHex(r: number, g: number, b: number): string {
-  return "#" + [r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("").toUpperCase();
-}
 
 function colorDistance(a: [number, number, number], b: [number, number, number]): number {
   return Math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2);
@@ -45,7 +45,7 @@ function quantizeColors(imageData: ImageData, maxColors = 10): ColorSwatch[] {
   }
   const sampledPixels = data.length / 16;
   return palette.map((c) => ({
-    hex: rgbToHex(c.r, c.g, c.b),
+    hex: rgbToHex({ r: c.r, g: c.g, b: c.b }),
     percentage: Math.round((c.count / sampledPixels) * 100 * 10) / 10,
   }));
 }
@@ -56,25 +56,6 @@ function normaliseHex(raw: string): string {
   if (hex.length === 6) return "#" + hex;
   if (hex.length === 8) return "#" + hex.slice(0, 6); // drop alpha
   return "#" + hex.padEnd(6, "0");
-}
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
-
-function Panel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] p-5 ${className}`}>
-      {children}
-    </div>
-  );
-}
-
-function Spinner() {
-  return (
-    <svg className="animate-spin w-5 h-5 text-[var(--color-primary-500)]" viewBox="0 0 24 24" fill="none">
-      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
-      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-    </svg>
-  );
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
@@ -91,7 +72,6 @@ export default function ImageColorPickerTool() {
   const [imageName, setImageName] = useState("");
   const [swatches, setSwatches] = useState<ColorSwatch[]>([]);
   const [loading, setLoading] = useState(false);
-  const [dragging, setDragging] = useState(false);
   const [colorCount, setColorCount] = useState(10);
   const [copiedAll, setCopiedAll] = useState(false);
   const [globalFormat, setGlobalFormat] = useState<ColorFormat>("hex");
@@ -153,13 +133,6 @@ export default function ImageColorPickerTool() {
     processImage(url);
   };
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setDragging(false);
-    const file = e.dataTransfer.files[0];
-    if (file) handleFile(file);
-  };
-
   // ── Native EyeDropper API ──────────────────────────────────────────────────
   const activateEyedropper = async () => {
     if (!window.EyeDropper) return;
@@ -198,170 +171,138 @@ export default function ImageColorPickerTool() {
       <canvas ref={analysisCanvasRef} className="hidden" />
 
       {/* Upload zone */}
-      {!imageUrl ? (
-        <Panel>
-          <div
-            onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-            onDragLeave={() => setDragging(false)}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-            className={`border-2 border-dashed rounded-[var(--radius-lg)] p-14 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all select-none ${
-              dragging
-                ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/5"
-                : "border-[var(--border-default)] hover:border-[var(--color-primary-500)]/60 hover:bg-[var(--surface-bg)]"
-            }`}
-          >
-            <span className="text-5xl">🖌️</span>
-            <div className="text-center">
-              <p className="text-sm font-medium text-[var(--text-primary)]">Drop an image here, or click to browse</p>
-              <p className="text-xs text-[var(--text-tertiary)] mt-1">PNG, JPG, GIF, WEBP — processed entirely in your browser</p>
-            </div>
-            <input ref={fileInputRef} type="file" accept="image/*" className="hidden"
-              onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
-          </div>
-        </Panel>
-      ) : (
-        <>
-          {/* Toolbar */}
-          <Panel className="py-3">
-            <div className="flex items-center gap-3 flex-wrap">
-              <span className="text-sm text-[var(--text-secondary)] truncate max-w-[200px]">{imageName}</span>
+      {!imageUrl ? <FileDropZone accepts="image/*" emoji="🖼️" onUpload={e => handleFile(e.file)} />
+        : (
+          <>
+            {/* Toolbar */}
+            <Panel className="py-3">
+              <div className="flex items-center gap-3 flex-wrap">
+                <span className="text-sm text-(--text-secondary) truncate max-w-[200px]">{imageName}</span>
 
-              <div className="flex-1" />
+                <div className="flex-1" />
 
-              {/* Max colors slider */}
-              <div className="flex items-center gap-2">
-                <label className="text-xs text-[var(--text-secondary)] whitespace-nowrap">Colors</label>
-                <input type="range" min={4} max={16} value={colorCount}
-                  onChange={(e) => setColorCount(Number(e.target.value))}
-                  className="w-24 accent-[var(--color-primary-500)]" />
-                <span className="text-xs font-mono text-[var(--text-primary)] w-4">{colorCount}</span>
-              </div>
+                {/* Global format selector */}
+                <div className="flex items-center gap-1.5">
+                  <label className="text-xs text-(--text-secondary)">Format</label>
+                  <select
+                    value={globalFormat}
+                    onChange={(e) => setGlobalFormat(e.target.value as ColorFormat)}
+                    className="text-xs rounded-sm border border-(--border-default) bg-(--surface-bg) text-(--text-primary) px-2 py-1 cursor-pointer"
+                  >
+                    {(["hex", "rgb", "rgba", "hsl", "hsla", "oklch"] as ColorFormat[]).map((f) => (
+                      <option key={f} value={f}>{f.toUpperCase()}</option>
+                    ))}
+                  </select>
+                </div>
 
-              {/* Global format selector */}
-              <div className="flex items-center gap-1.5">
-                <label className="text-xs text-[var(--text-secondary)]">Format</label>
-                <select
-                  value={globalFormat}
-                  onChange={(e) => setGlobalFormat(e.target.value as ColorFormat)}
-                  className="text-xs rounded-[var(--radius-sm)] border border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-primary)] px-2 py-1 cursor-pointer"
-                >
-                  {(["hex","rgb","rgba","hsl","hsla","oklch"] as ColorFormat[]).map((f) => (
-                    <option key={f} value={f}>{f.toUpperCase()}</option>
-                  ))}
-                </select>
-              </div>
+                {/* Eyedropper button — uses native EyeDropper API */}
+                {eyedropperSupported && (
+                  <button
+                    onClick={activateEyedropper}
+                    disabled={eyedropperPicking}
+                    title="Pick any colour from anywhere on screen using the browser eyedropper"
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-md border transition-all ${eyedropperPicking
+                      ? "border-primary-500 bg-primary-500/10 text-(--text-primary) opacity-70 cursor-wait"
+                      : "border-(--border-default) bg-(--surface-bg) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-500/60"
+                      }`}
+                  >
+                    <span>{eyedropperPicking ? "🧿" : "👁️"}</span>
+                    <span>{eyedropperPicking ? "Picking…" : "Eyedropper"}</span>
+                  </button>
+                )}
 
-              {/* Eyedropper button — uses native EyeDropper API */}
-              {eyedropperSupported && (
-                <button
-                  onClick={activateEyedropper}
-                  disabled={eyedropperPicking}
-                  title="Pick any colour from anywhere on screen using the browser eyedropper"
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-[var(--radius-md)] border transition-all ${
-                    eyedropperPicking
-                      ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/10 text-[var(--text-primary)] opacity-70 cursor-wait"
-                      : "border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-primary-500)]/60"
-                  }`}
-                >
-                  <span>🔬</span>
-                  <span>{eyedropperPicking ? "Picking…" : "Eyedropper"}</span>
+                {/* Max colors slider */}
+                <div className="flex items-center gap-2">
+                  <label className="text-xs text-(--text-secondary) whitespace-nowrap">Colors</label>
+                  <input type="range" min={4} max={16} value={colorCount}
+                    onChange={(e) => setColorCount(Number(e.target.value))}
+                    className="w-24 accent-primary-500" />
+                  <span className="text-xs font-mono text-(--text-primary) w-4">{colorCount}</span>
+                </div>
+
+                {swatches.length > 0 && (
+                  <button onClick={copyAll}
+                    className="px-3 py-1.5 text-xs rounded-md border border-(--border-default) bg-(--surface-bg) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-500 transition-colors">
+                    {copiedAll ? "✓ Copied" : "Copy all"}
+                  </button>
+                )}
+
+                <button onClick={reset}
+                  className="px-3 py-1.5 text-xs rounded-md border border-(--border-default) bg-(--surface-bg) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-500 transition-colors">
+                  ↩ New image
                 </button>
-              )}
-
-              {swatches.length > 0 && (
-                <button onClick={copyAll}
-                  className="px-3 py-1.5 text-xs rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-primary-500)] transition-colors">
-                  {copiedAll ? "✓ Copied" : "Copy all"}
-                </button>
-              )}
-
-              <button onClick={reset}
-                className="px-3 py-1.5 text-xs rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-primary-500)] transition-colors">
-                ↩ New image
-              </button>
-            </div>
-          </Panel>
-
-          {/* Image preview */}
-          <Panel className="p-0 overflow-hidden">
-            <canvas
-              ref={displayCanvasRef}
-              className="w-full h-auto block"
-              style={{ maxHeight: "72vh", objectFit: "contain" }}
-            />
-          </Panel>
-
-          {/* Loading */}
-          {loading && (
-            <Panel>
-              <div className="flex items-center justify-center gap-3 py-4">
-                <Spinner />
-                <span className="text-sm text-[var(--text-secondary)]">Analysing pixels…</span>
               </div>
             </Panel>
-          )}
 
-          {/* Extracted palette */}
-          {!loading && swatches.length > 0 && (
-            <Panel>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">
-                  Extracted Palette
-                </h3>
-                <div className="flex rounded-full overflow-hidden h-4 w-40 border border-[var(--border-default)]">
-                  {swatches.map((s) => (
-                    <div key={s.hex} style={{ backgroundColor: s.hex, flex: s.percentage }} />
+            {/* Image preview */}
+            <Panel className="p-0 overflow-hidden">
+              <canvas
+                ref={displayCanvasRef}
+                className="w-full h-auto block"
+                style={{ maxHeight: "72vh", objectFit: "contain" }}
+              />
+            </Panel>
+
+            {/* Loading */}
+            {loading && (
+              <Panel>
+                <div className="flex items-center justify-center gap-3 py-4">
+                  <Spinner />
+                  <span className="text-sm text-(--text-secondary)">Analysing pixels…</span>
+                </div>
+              </Panel>
+            )}
+
+            {/* Extracted palette */}
+            {!loading && swatches.length > 0 && (
+              <Panel>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
+                    Extracted Palette
+                  </h3>
+                  <div className="flex rounded-full overflow-hidden h-4 w-40 border border-(--border-default)">
+                    {swatches.map((s) => (
+                      <div key={s.hex} style={{ backgroundColor: s.hex, flex: s.percentage }} />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                  {swatches.map((swatch, i) => (
+                    <ColorCard
+                      key={swatch.hex + i}
+                      color={swatch.hex}
+                      label={`${swatch.percentage}%`}
+                      defaultFormat={globalFormat}
+                    />
                   ))}
                 </div>
-              </div>
+              </Panel>
+            )}
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                {swatches.map((swatch, i) => (
-                  <ColorCard
-                    key={swatch.hex + i}
-                    color={swatch.hex}
-                    label={`${swatch.percentage}%`}
-                    defaultFormat={globalFormat}
-                  />
-                ))}
-              </div>
-            </Panel>
-          )}
-
-          {/* Eyedropper picked colors */}
-          {pickedColors.length > 0 && (
-            <Panel>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">
-                  Picked Colors
-                </h3>
-                <button
-                  onClick={() => setPickedColors([])}
-                  className="text-[11px] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
-                >
-                  Clear
-                </button>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                {pickedColors.map((color, i) => (
-                  <ColorCard key={color + i} color={color} defaultFormat={globalFormat} />
-                ))}
-              </div>
-            </Panel>
-          )}
-        </>
-      )}
-
-      {/* Info */}
-      <Panel>
-        <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">
-          How it works
-        </h3>
-        <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-          Pixels are sampled and grouped into buckets, then similar shades are merged to produce the most visually distinct dominant colors. Use the <strong>Eyedropper</strong> to pick any colour from <em>anywhere on your screen</em> — the browser's native colour picker handles it. Adjust <strong>Colors</strong> to get broader or more granular palettes. All processing runs locally — your image never leaves your device.
-        </p>
-      </Panel>
+            {/* Eyedropper picked colors */}
+            {pickedColors.length > 0 && (
+              <Panel>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
+                    Picked Colors
+                  </h3>
+                  <button
+                    onClick={() => setPickedColors([])}
+                    className="text-[11px] text-(--text-tertiary) hover:text-(--text-primary) transition-colors"
+                  >
+                    Clear
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                  {pickedColors.map((color, i) => (
+                    <ColorCard key={color + i} color={color} defaultFormat={globalFormat} />
+                  ))}
+                </div>
+              </Panel>
+            )}
+          </>
+        )}
     </div>
   );
 }

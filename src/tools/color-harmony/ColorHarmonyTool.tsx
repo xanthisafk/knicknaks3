@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useRef } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { copyToClipboard } from "@/lib/utils";
@@ -22,25 +22,25 @@ function generateHarmony(hsl: HSL, mode: HarmonyMode): string[] {
   const { h, s, l } = hsl;
   switch (mode) {
     case "complementary":
-      return [hslToHex(h, s, l), hslToHex(wrapHue(h + 180), s, l)];
+      return [hslToHex({ h, s, l }), hslToHex({ h: wrapHue(h + 180), s, l })];
     case "analogous":
-      return [hslToHex(wrapHue(h - 30), s, l), hslToHex(h, s, l), hslToHex(wrapHue(h + 30), s, l)];
+      return [hslToHex({ h: wrapHue(h - 30), s, l }), hslToHex({ h, s, l }), hslToHex({ h: wrapHue(h + 30), s, l })];
     case "triadic":
-      return [hslToHex(h, s, l), hslToHex(wrapHue(h + 120), s, l), hslToHex(wrapHue(h + 240), s, l)];
+      return [hslToHex({ h, s, l }), hslToHex({ h: wrapHue(h + 120), s, l }), hslToHex({ h: wrapHue(h + 240), s, l })];
     case "split":
-      return [hslToHex(h, s, l), hslToHex(wrapHue(h + 150), s, l), hslToHex(wrapHue(h + 210), s, l)];
+      return [hslToHex({ h, s, l }), hslToHex({ h: wrapHue(h + 150), s, l }), hslToHex({ h: wrapHue(h + 210), s, l })];
     case "tetradic":
-      return [hslToHex(h, s, l), hslToHex(wrapHue(h + 90), s, l), hslToHex(wrapHue(h + 180), s, l), hslToHex(wrapHue(h + 270), s, l)];
+      return [hslToHex({ h, s, l }), hslToHex({ h: wrapHue(h + 90), s, l }), hslToHex({ h: wrapHue(h + 180), s, l }), hslToHex({ h: wrapHue(h + 270), s, l })];
     case "monochromatic":
       return [
-        hslToHex(h, s, Math.max(l - 30, 10)),
-        hslToHex(h, s, Math.max(l - 15, 15)),
-        hslToHex(h, s, l),
-        hslToHex(h, s, Math.min(l + 15, 85)),
-        hslToHex(h, s, Math.min(l + 30, 95)),
+        hslToHex({ h, s, l: Math.max(l - 30, 10) }),
+        hslToHex({ h, s, l: Math.max(l - 15, 15) }),
+        hslToHex({ h, s, l }),
+        hslToHex({ h, s, l: Math.min(l + 15, 85) }),
+        hslToHex({ h, s, l: Math.min(l + 30, 95) }),
       ];
     default:
-      return [hslToHex(h, s, l)];
+      return [hslToHex({ h, s, l })];
   }
 }
 

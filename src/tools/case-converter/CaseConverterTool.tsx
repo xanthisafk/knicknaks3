@@ -152,7 +152,7 @@ export default function CaseConverterTool() {
             <Textarea
               value={output}
               readOnly
-              className="h-36 text-sm font-[family-name:var(--font-mono)]"
+              className="h-36 text-sm font-mono"
             />
           </div>
         </Panel>

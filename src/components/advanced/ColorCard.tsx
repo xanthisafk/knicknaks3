@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatColor, toHex, getLuminance } from "../../lib/formatColor";
-import type { ColorFormat } from "../../lib/formatColor";
-import { parseColor } from "../../lib/convertColor";
+import type { ColorFormat } from "@/lib/formatColor";
+import { parseColor } from "@/lib/convertColor";
 
 // Types
 export interface ColorCardProps {
@@ -30,9 +30,10 @@ const FORMAT_LABELS: Record<ColorFormat, string> = {
 
 export function ColorCard({ color, label, defaultFormat = "hex", className = "" }: ColorCardProps) {
   const parsed = parseColor(color);
-
   const [format, setFormat] = useState<ColorFormat>(defaultFormat);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => setFormat(defaultFormat), [defaultFormat])
 
   if (!parsed) {
     return (
