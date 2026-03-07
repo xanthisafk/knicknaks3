@@ -24,14 +24,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full px-3 py-2 rounded-[var(--radius-md)]",
-            "bg-[var(--surface-elevated)] text(--text-primary)",
-            "border border-[var(--border-default)]",
-            "placeholder:text-[var(--text-tertiary)]",
-            "transition-colors duration-[var(--duration-fast)]",
-            "hover:border-[var(--border-hover)]",
-            "focus:outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-color)]",
-            error && "border-[var(--color-error)] focus:border-[var(--color-error)] focus:ring-[var(--color-error)]/30",
+            "w-full px-3 py-2 rounded-md",
+            "bg-(--surface-elevated) text(--text-primary)",
+            "border border-(--border-default)",
+            "placeholder:text-(--text-tertiary)",
+            "transition-colors duration-(--duration-fast)",
+            "hover:border-(--border-hover)",
+            "focus:outline-none focus:border-(--border-focus) focus:ring-2 focus:ring-(--ring-color)",
+            error && "border-error focus:border-error focus:ring-error/30",
             className
           )}
           aria-invalid={!!error}
@@ -39,12 +39,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {error && (
-          <p id={`${inputId}-error`} className="text-sm text-[var(--color-error)]" role="alert">
+          <p id={`${inputId}-error`} className="text-sm text-error" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p id={`${inputId}-helper`} className="text-sm text-[var(--text-tertiary)]">
+          <p id={`${inputId}-helper`} className="text-sm text-(--text-tertiary)">
             {helperText}
           </p>
         )}
@@ -78,24 +78,24 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full px-3 py-2 rounded-[var(--radius-md)] min-h-[100px] resize-y",
-            "bg-[var(--surface-elevated)] text(--text-primary)",
-            "border border-[var(--border-default)]",
-            "placeholder:text-[var(--text-tertiary)]",
-            "transition-colors duration-[var(--duration-fast)]",
-            "hover:border-[var(--border-hover)]",
-            "focus:outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-color)]",
-            error && "border-[var(--color-error)]",
+            "w-full px-3 py-2 rounded-md min-h-[100px] resize-y",
+            "bg-(--surface-elevated) text(--text-primary)",
+            "border border-(--border-default)",
+            "placeholder:text-(--text-tertiary)",
+            "transition-colors duration-(--duration-fast)",
+            "hover:border-(--border-hover)",
+            "focus:outline-none focus:border-(--border-focus) focus:ring-2 focus:ring-(--ring-color)",
+            error && "border-error",
             className
           )}
           aria-invalid={!!error}
           {...props}
         />
         {error && (
-          <p className="text-sm text-[var(--color-error)]" role="alert">{error}</p>
+          <p className="text-sm text-error" role="alert">{error}</p>
         )}
         {helperText && !error && (
-          <p className="text-sm text-[var(--text-tertiary)]">{helperText}</p>
+          <p className="text-sm text-(--text-tertiary)">{helperText}</p>
         )}
       </div>
     );

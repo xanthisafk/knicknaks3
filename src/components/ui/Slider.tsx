@@ -54,18 +54,18 @@ export function Slider({
         onChange={(e) => onChange(Number(e.target.value))}
         className={cn(
           "w-full h-2 rounded-full appearance-none cursor-pointer",
-          "bg-[var(--surface-secondary)]",
+          "bg-(--surface-secondary)",
           "[&::-webkit-slider-thumb]:appearance-none",
           "[&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5",
           "[&::-webkit-slider-thumb]:rounded-full",
-          "[&::-webkit-slider-thumb]:bg-[var(--color-primary-500)]",
+          "[&::-webkit-slider-thumb]:bg-primary-500",
           "[&::-webkit-slider-thumb]:shadow-md",
           "[&::-webkit-slider-thumb]:cursor-pointer",
-          "[&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-[var(--duration-fast)]",
+          "[&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-(--duration-fast)",
           "[&::-webkit-slider-thumb]:hover:scale-110",
           "[&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5",
           "[&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0",
-          "[&::-moz-range-thumb]:bg-[var(--color-primary-500)]",
+          "[&::-moz-range-thumb]:bg-primary-500",
           "[&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:cursor-pointer",
         )}
         style={{

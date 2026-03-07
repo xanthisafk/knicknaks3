@@ -49,7 +49,7 @@ export function Tabs({ tabs, defaultTab, className, onChange }: TabsProps) {
       <div
         role="tablist"
         aria-orientation="horizontal"
-        className="flex gap-1 border-b border-[var(--border-default)] mb-4"
+        className="flex gap-1 border-b border-(--border-default) mb-4"
       >
         {tabs.map((tab, index) => (
           <button
@@ -63,12 +63,12 @@ export function Tabs({ tabs, defaultTab, className, onChange }: TabsProps) {
             onClick={() => handleTabChange(tab.id)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             className={cn(
-              "px-4 py-2 text-sm font-medium -mb-px border-b-2 transition-colors duration-[var(--duration-fast)]",
+              "px-4 py-2 text-sm font-medium -mb-px border-b-2 transition-colors duration-(--duration-fast)",
               "hover:text(--text-primary)",
-              "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--border-focus)]",
+              "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-(--border-focus)",
               activeTab === tab.id
-                ? "border-[var(--color-primary-500)] text-[var(--color-primary-600)]"
-                : "border-transparent text-[var(--text-tertiary)]"
+                ? "border-primary-500 text-primary-600"
+                : "border-transparent text-(--text-tertiary)"
             )}
           >
             {tab.label}

@@ -10,7 +10,7 @@ interface TooltipProps {
 
 export function Tooltip({ content, children, position = "top", delay = 300 }: TooltipProps) {
   const [visible, setVisible] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const show = () => {
     timerRef.current = setTimeout(() => setVisible(true), delay);
@@ -42,10 +42,10 @@ export function Tooltip({ content, children, position = "top", delay = 300 }: To
           role="tooltip"
           className={cn(
             "absolute z-50 px-2.5 py-1.5 text-xs font-medium whitespace-nowrap",
-            "bg-[var(--text-primary)] text-[var(--text-inverse)]",
-            "rounded-[var(--radius-md)] shadow-lg",
+            "bg-(--text-primary) text-(--text-inverse)",
+            "rounded-md shadow-lg",
             "pointer-events-none",
-            "animate-in fade-in duration-[var(--duration-fast)]",
+            "animate-in fade-in duration-(--duration-fast)",
             positionClasses[position]
           )}
         >

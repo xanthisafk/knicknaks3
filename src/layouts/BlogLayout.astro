@@ -54,7 +54,7 @@ const formattedDate = publishDate
               {tags.map((tag) => (
                 <a
                   href={`/blog/tag/${tag}`}
-                  class="px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-[var(--surface-secondary)] text-[var(--text-secondary)] border border-[var(--border-default)] rounded-[var(--radius-sm)] hover:border-[var(--border-hover)] hover:text-[var(--text-primary)] transition-all"
+                  class="px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-(--surface-secondary) text-(--text-secondary) border border-(--border-default) rounded-sm hover:border-(--border-hover) hover:text-(--text-primary) transition-all"
                 >
                   {tag}
                 </a>
@@ -64,19 +64,19 @@ const formattedDate = publishDate
         }
 
         <h1
-          class="text-4xl md:text-6xl font-extrabold font-[family-name:var(--font-heading)] leading-tight text-[var(--text-primary)] mb-8"
+          class="text-4xl md:text-6xl font-extrabold font-heading leading-tight text-(--text-primary) mb-8"
         >
           <span class="doodle-underline">{title}</span>
         </h1>
 
         <div
-          class="flex flex-wrap items-center justify-center gap-4 text-sm text-[var(--text-secondary)]"
+          class="flex flex-wrap items-center justify-center gap-4 text-sm text-(--text-secondary)"
         >
           {
             author && (
               <div class="flex items-center gap-2">
                 <span class="opacity-70 italic text-xs">by</span>
-                <span class="font-bold text-[var(--text-primary)] tracking-tight">
+                <span class="font-bold text-(--text-primary) tracking-tight">
                   {author}
                 </span>
               </div>
@@ -98,8 +98,8 @@ const formattedDate = publishDate
       {
         coverImage && (
           <div class="mb-16 group relative">
-            <div class="absolute -inset-2 bg-[var(--surface-secondary)] rotate-1 rounded-[var(--radius-xl)] -z-10 group-hover:rotate-0 transition-transform" />
-            <div class="overflow-hidden rounded-[var(--radius-xl)] border-2 border-[var(--border-default)] shadow-xl bg-[var(--surface-elevated)]">
+            <div class="absolute -inset-2 bg-(--surface-secondary) rotate-1 rounded-xl -z-10 group-hover:rotate-0 transition-transform" />
+            <div class="overflow-hidden rounded-xl border-2 border-(--border-default) shadow-xl bg-(--surface-elevated)">
               <img
                 src={coverImage}
                 alt={title}
@@ -112,15 +112,15 @@ const formattedDate = publishDate
 
       <article
         class="prose prose-lg dark:prose-invert max-w-none
-        prose-headings:font-[family-name:var(--font-heading)]
-        prose-headings:text-[var(--text-primary)]
+        prose-headings:font-heading
+        prose-headings:text-(--text-primary)
         prose-headings:tracking-tight
-        prose-p:text-[var(--text-secondary)]
+        prose-p:text-(--text-secondary)
         prose-p:leading-relaxed
-        prose-a:text-[var(--color-primary-600)] prose-a:font-bold prose-a:no-underline hover:prose-a:underline
-        prose-strong:text-[var(--text-primary)]
-        prose-img:rounded-[var(--radius-lg)] prose-img:border-2 prose-img:border-[var(--border-default)]
-        prose-hr:border-[var(--border-default)] prose-hr:my-12"
+        prose-a:text-primary-600 prose-a:font-bold prose-a:no-underline hover:prose-a:underline
+        prose-strong:text-(--text-primary)
+        prose-img:rounded-lg prose-img:border-2 prose-img:border-(--border-default)
+        prose-hr:border-(--border-default) prose-hr:my-12"
       >
         <slot />
       </article>
@@ -132,7 +132,7 @@ const formattedDate = publishDate
       <footer class="text-center">
         <a
           href="/blog"
-          class="inline-flex items-center gap-2 px-6 py-3 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--color-primary-600)] font-bold hover:border-[var(--border-hover)] hover:shadow-md transition-all active:translate-y-0.5"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-(--surface-elevated) border border-(--border-default) text-primary-600 font-bold hover:border-(--border-hover) hover:shadow-md transition-all active:translate-y-0.5"
         >
           ← Back to the Toolbox blog
         </a>

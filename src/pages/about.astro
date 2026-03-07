@@ -16,20 +16,20 @@ import Footer from "@/components/layout/Footer.astro";
         <header class="text-center mb-16">
           <span class="text-5xl mb-6 inline-block">🪀</span>
           <h1
-            class="text-4xl md:text-5xl font-extrabold mb-6 font-[family-name:var(--font-heading)] text-[var(--text-primary)]"
+            class="text-4xl md:text-5xl font-extrabold mb-6 font-heading text-(--text-primary)"
           >
             About <span class="doodle-underline">Our Philosophy</span>
           </h1>
-          <p class="text-xl text-[var(--text-secondary)] italic">
+          <p class="text-xl text-(--text-secondary) italic">
             "A toolbox shouldn't spy on the carpenter."
           </p>
         </header>
 
         <div
-          class="prose prose-lg dark:prose-invert max-w-none text-[var(--text-secondary)]
-          prose-headings:font-[family-name:var(--font-heading)]
-          prose-headings:text-[var(--text-primary)]
-          prose-strong:text-[var(--text-primary)]"
+          class="prose prose-lg dark:prose-invert max-w-none text-(--text-secondary)
+          prose-headings:font-heading
+          prose-headings:text-(--text-primary)
+          prose-strong:text-(--text-primary)"
         >
           <p>
             The modern web is exhausted. You go to format a simple block of
@@ -84,9 +84,9 @@ import Footer from "@/components/layout/Footer.astro";
           </p>
 
           <div
-            class="bg-[var(--surface-secondary)] p-6 rounded-[var(--radius-lg)] border border-[var(--border-default)] mt-12 text-center"
+            class="bg-(--surface-secondary) p-6 rounded-lg border border-(--border-default) mt-12 text-center"
           >
-            <p class="font-bold text-[var(--text-primary)] mb-2 mt-0">
+            <p class="font-bold text-(--text-primary) mb-2 mt-0">
               Support the Vision
             </p>
             <p class="text-sm mb-0">

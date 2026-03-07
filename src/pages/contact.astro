@@ -2,6 +2,11 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
+
+const emails = [{ icon: "📧", email: "hello@xanthis.xyz" }];
+
+const twitter = "xxanthiss";
+const discord = "@cupmoodle";
 ---
 
 <BaseLayout
@@ -14,86 +19,74 @@ import Footer from "@/components/layout/Footer.astro";
     <main class="flex-1 doodle-paper py-16 md:py-24">
       <div class="max-w-3xl mx-auto px-4 md:px-6">
         <div
-          class="bg-[var(--surface-elevated)] p-8 md:p-12 rounded-[var(--radius-xl)] border-2 border-[var(--border-default)] doodle-border relative overflow-hidden shadow-lg"
+          class="bg-(--surface-elevated) p-8 md:p-12 rounded-xl border-2 border-(--border-default) doodle-border relative overflow-hidden shadow-lg"
         >
           <div class="absolute -right-10 -top-10 opacity-10 text-9xl">📬</div>
 
           <h1
-            class="text-4xl md:text-5xl font-extrabold mb-6 font-[family-name:var(--font-heading)] text-[var(--text-primary)]"
+            class="text-4xl md:text-5xl font-extrabold mb-6 font-heading text-(--text-primary)"
           >
-            Let's <span class="doodle-underline">Connect</span>
+            Let's <span class="doodle-underline text-primary-500">Connect</span>
           </h1>
 
-          <p class="text-lg text-[var(--text-secondary)] mb-10">
+          <p class="text-lg text-(--text-secondary) my-10">
             Have a feature request, found a weird edge-case bug, or just want to
             say hi? I'd love to hear from you. Because Knicknaks operates
             without a backend database, we don't use complex ticketing systems.
             Just send an email.
           </p>
 
-          <div class="space-y-6">
+          <div class="space-y-2">
             <h3
-              class="font-bold text-xl font-[family-name:var(--font-heading)] text-[var(--text-primary)] mb-4"
+              class="font-bold text-xl font-heading text-(--text-primary) mb-4"
             >
-              Direct Email Addresses
             </h3>
-
-            <a
-              href="mailto:hello@xanthis.xyz"
-              class="flex items-center gap-4 p-4 rounded-[var(--radius-lg)] border border-[var(--border-default)] hover:border-[var(--color-primary-500)] bg-[var(--surface-bg)] group transition-all"
-            >
-              <span class="text-2xl group-hover:scale-110 transition-transform"
-                >✨</span
-              >
-              <span
-                class="font-mono text-[var(--text-primary)] group-hover:text-[var(--color-primary-600)] transition-colors"
-                >hello@xanthis.xyz</span
-              >
-            </a>
-
-            <a
-              href="mailto:xanthisafk@gmail.com"
-              class="flex items-center gap-4 p-4 rounded-[var(--radius-lg)] border border-[var(--border-default)] hover:border-[var(--color-primary-500)] bg-[var(--surface-bg)] group transition-all"
-            >
-              <span class="text-2xl group-hover:scale-110 transition-transform"
-                >🎮</span
-              >
-              <span
-                class="font-mono text-[var(--text-primary)] group-hover:text-[var(--color-primary-600)] transition-colors"
-                >xanthisafk@gmail.com</span
-              >
-            </a>
-
-            <a
-              href="mailto:abhinav.ranger@gmail.com"
-              class="flex items-center gap-4 p-4 rounded-[var(--radius-lg)] border border-[var(--border-default)] hover:border-[var(--color-primary-500)] bg-[var(--surface-bg)] group transition-all"
-            >
-              <span class="text-2xl group-hover:scale-110 transition-transform"
-                >👨‍💻</span
-              >
-              <span
-                class="font-mono text-[var(--text-primary)] group-hover:text-[var(--color-primary-600)] transition-colors"
-                >abhinav.ranger@gmail.com</span
-              >
-            </a>
+            {
+              emails.map((item) => (
+                <a
+                  href={`mailto:${item.email}`}
+                  class="flex items-center gap-4 p-4 rounded-lg border border-(--border-default) hover:border-primary-500 bg-(--surface-bg) group transition-all"
+                >
+                  <span class="text-2xl group-hover:scale-110 transition-transform">
+                    {item.icon}
+                  </span>
+                  <span class="font-mono text-(--text-primary) group-hover:text-primary-600 transition-colors">
+                    {item.email}
+                  </span>
+                </a>
+              ))
+            }
           </div>
           <br />
-          <p class="text-lg text-[var(--text-secondary)] mb-10">
-            I do have a Twitter but I do not use it.
+          <p class="text-lg text-(--text-secondary) mb-10">
+            I do have a Twitter & a Discord account, but, I do not use them as
+            much.
           </p>
-
-          <a
-            href="https://x.com/xxanthiss"
-            class="flex items-center gap-4 p-4 rounded-[var(--radius-lg)] border border-[var(--border-default)] hover:border-[var(--color-primary-500)] bg-[var(--surface-bg)] group transition-all"
-          >
-            <span class="text-2xl group-hover:scale-110 transition-transform"
-              >🐦</span
+          <div class="space-y-2">
+            <a
+              href={`https://x.com/${twitter}`}
+              class="flex items-center gap-4 p-4 rounded-lg border border-(--border-default) hover:border-primary-500 bg-(--surface-bg) group transition-all"
             >
-            <span
-              class="font-mono text-[var(--text-primary)] group-hover:text-[var(--color-primary-600)] transition-colors"
-              >@xxanthiss</span
+              <span class="text-2xl group-hover:scale-110 transition-transform"
+                >🐦</span
+              >
+              <span
+                class="font-mono text-(--text-primary) group-hover:text-primary-600 transition-colors"
+                >@xxanthiss</span
+              >
+            </a>
+            <div
+              class="flex items-center gap-4 p-4 rounded-lg border border-(--border-default) hover:border-primary-500 bg-(--surface-bg) group transition-all"
             >
-          </a>
+              <span class="text-2xl group-hover:scale-110 transition-transform"
+                >🗯</span
+              >
+              <span
+                class="font-mono text-(--text-primary) group-hover:text-primary-600 transition-colors"
+                >{discord}</span
+              >
+            </div>
+          </div>
         </div>
       </div>
     </main>

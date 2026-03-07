@@ -79,6 +79,7 @@ export const definition: ToolDefinition = {
   description: "${description}",
   category: "${category}",
   icon: "${icon}",
+  status: "alpha",
   keywords: ${JSON.stringify(keywords)},
 
   component: () => import("./${componentName}Tool"),

@@ -48,28 +48,28 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
       ref={dialogRef}
       onClick={handleBackdropClick}
       className={cn(
-        "backdrop:bg-[var(--surface-overlay)] backdrop:backdrop-blur-sm",
-        "bg-[var(--surface-elevated)] text(--text-primary)",
-        "rounded-[var(--radius-xl)] shadow-2xl",
+        "backdrop:bg-(--surface-overlay) backdrop:backdrop-blur-sm",
+        "bg-(--surface-elevated) text(--text-primary)",
+        "rounded-xl shadow-2xl",
         "p-0 m-auto w-full max-w-lg",
-        "border border-[var(--border-default)]",
-        "animate-in fade-in slide-in-from-bottom-4 duration-[var(--duration-normal)]",
+        "border border-(--border-default)",
+        "animate-in fade-in slide-in-from-bottom-4 duration-(--duration-normal)",
         className
       )}
     >
       <div className="p-6">
         {title && (
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold font-[var(--font-heading)]">{title}</h2>
+            <h2 className="text-lg font-semibold">{title}</h2>
             <button
               type="button"
               onClick={onClose}
               aria-label="Close dialog"
               className={cn(
-                "w-8 h-8 flex items-center justify-center rounded-[var(--radius-md)]",
-                "text-[var(--text-tertiary)] hover:text(--text-primary)",
-                "hover:bg-[var(--surface-secondary)]",
-                "transition-colors duration-[var(--duration-fast)]"
+                "w-8 h-8 flex items-center justify-center rounded-md",
+                "text-(--text-tertiary) hover:text(--text-primary)",
+                "hover:bg-(--surface-secondary)",
+                "transition-colors duration-(--duration-fast)"
               )}
             >
               ✕

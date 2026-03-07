@@ -28,15 +28,15 @@ export function Toggle({ label, checked, onChange, disabled = false, id }: Toggl
         disabled={disabled}
         onClick={() => onChange(!checked)}
         className={cn(
-          "relative w-11 h-6 rounded-full transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]",
-          checked ? "bg-[var(--color-primary-500)]" : "bg-[var(--border-default)]"
+          "relative w-11 h-6 rounded-full transition-colors duration-(--duration-fast) ease-out",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--border-focus)",
+          checked ? "bg-primary-500" : "bg-(--border-default)"
         )}
       >
         <span
           className={cn(
             "absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm",
-            "transition-transform duration-[var(--duration-fast)] ease-[var(--ease-out)]",
+            "transition-transform duration-(--duration-fast) ease-out",
             checked && "translate-x-5"
           )}
         />
