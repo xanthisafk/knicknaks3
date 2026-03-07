@@ -43,6 +43,12 @@ function shadowsToCSS(layers: ShadowLayer[]): string {
   return layers.map(layerToCSS).join(",\n       ");
 }
 
+function shadowsToTailwind(layers: ShadowLayer[]): string {
+  const raw = layers.map(layerToCSS).join(", ");
+  const safe = raw.replace(/\s+/g, "_");
+  return `shadow-[${safe}]`;
+}
+
 interface SliderRowProps {
   label: string;
   value: number;
@@ -55,16 +61,16 @@ interface SliderRowProps {
 function SliderRow({ label, value, min, max, unit = "px", onChange }: SliderRowProps) {
   return (
     <div className="grid grid-cols-[90px_1fr_52px] items-center gap-3">
-      <span className="text-xs text-[var(--text-tertiary)] font-medium uppercase tracking-wider">{label}</span>
+      <span className="text-xs text-(--text-tertiary) font-medium uppercase tracking-wider">{label}</span>
       <input
         type="range"
         min={min}
         max={max}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-1.5 rounded-full appearance-none bg-[var(--border-default)] accent-[var(--color-primary-500)] cursor-pointer"
+        className="w-full h-1.5 rounded-full appearance-none bg-(--border-default) accent-primary-500 cursor-pointer"
       />
-      <div className="rounded-[var(--radius-sm)] bg-[var(--surface-secondary)] border border-[var(--border-default)] px-1.5 py-0.5 text-xs font-mono text-[var(--text-primary)] text-center">
+      <div className="rounded-sm bg-(--surface-secondary) border border-(--border-default) px-1.5 py-0.5 text-xs font-mono text-(--text-primary) text-center">
         {value}{unit}
       </div>
     </div>
@@ -75,6 +81,7 @@ export default function BoxShadowTool() {
   const [layers, setLayers] = useState<ShadowLayer[]>([makeLayer()]);
   const [activeId, setActiveId] = useState<number>(layers[0].id);
   const [copied, setCopied] = useState(false);
+  const [copiedTailwind, setCopiedTailwind] = useState(false);
 
   const active = layers.find((l) => l.id === activeId) ?? layers[0];
 
@@ -93,11 +100,12 @@ export default function BoxShadowTool() {
   const removeLayer = (id: number) => {
     if (layers.length === 1) return;
     const next = layers.filter((l) => l.id !== id);
-    setLayers((prev) => next);
+    setLayers((_) => next);
     if (activeId === id) setActiveId(next[next.length - 1].id);
   };
 
   const cssValue = shadowsToCSS(layers);
+  const tailwindValue = shadowsToTailwind(layers);
   const fullCSS = `box-shadow: ${cssValue};`;
 
   const handleCopy = async () => {
@@ -106,15 +114,21 @@ export default function BoxShadowTool() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleCopyTailwind = async () => {
+    await navigator.clipboard.writeText(tailwindValue);
+    setCopiedTailwind(true);
+    setTimeout(() => setCopiedTailwind(false), 2000);
+  };
+
   return (
     <div className="space-y-6">
       {/* Preview */}
       <Panel>
-        <div className="flex items-center justify-center py-12 rounded-[var(--radius-lg)] bg-[var(--surface-secondary)] border border-[var(--border-default)] relative overflow-hidden"
+        <div className="flex items-center justify-center py-12 rounded-lg bg-(--surface-secondary) border border-(--border-default) relative overflow-hidden"
           style={{ background: "repeating-conic-gradient(var(--border-default) 0% 25%, transparent 0% 50%) 0 0 / 20px 20px" }}>
-            <div className="absolute inset-0 bg-white/20 dark:bg-black/20 backdrop-blur-[1px]"></div>
+          <div className="absolute inset-0 bg-white/20 dark:bg-black/20 backdrop-blur-[1px]"></div>
           <div
-            className="w-40 h-40 rounded-[var(--radius-lg)] bg-white dark:bg-[var(--surface-primary)] transition-shadow duration-200 ease-out relative z-10"
+            className="w-40 h-40 rounded-lg bg-white dark:bg-(--surface-primary) transition-shadow duration-200 ease-out relative z-10"
             style={{ boxShadow: cssValue }}
           />
         </div>
@@ -124,10 +138,10 @@ export default function BoxShadowTool() {
       <Panel>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">Shadow Layers</h3>
+            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Shadow Layers</h3>
             <button
               onClick={addLayer}
-              className="text-xs text-[var(--color-primary-500)] hover:text-[var(--color-primary-600)] hover:underline transition-colors cursor-pointer font-medium flex items-center gap-1"
+              className="text-xs text-primary-500 hover:text-primary-600 hover:underline transition-colors cursor-pointer font-medium flex items-center gap-1"
             >
               <span>+</span> Add Layer
             </button>
@@ -137,18 +151,17 @@ export default function BoxShadowTool() {
               <div key={l.id} className="flex items-center gap-1 group">
                 <button
                   onClick={() => setActiveId(l.id)}
-                  className={`px-4 py-2 rounded-[var(--radius-md)] text-xs font-medium border transition-all duration-200 cursor-pointer ${
-                    l.id === activeId
-                      ? "bg-[var(--color-primary-50)] dark:bg-[var(--color-primary-900)] text-[var(--color-primary-600)] dark:text-[var(--color-primary-300)] border-[var(--color-primary-400)] shadow-sm"
-                      : "bg-[var(--surface-secondary)] text-[var(--text-secondary)] border-[var(--border-default)] hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] hover:bg-[var(--surface-elevated)]"
-                  }`}
+                  className={`px-4 py-2 rounded-md text-xs font-medium border transition-all duration-200 cursor-pointer ${l.id === activeId
+                    ? "bg-primary-50 dark:bg-primary-900 text-primary-600 dark:text-primary-300 border-primary-400 shadow-sm"
+                    : "bg-(--surface-secondary) text-(--text-secondary) border-(--border-default) hover:text-(--text-primary) hover:border-(--border-hover) hover:bg-(--surface-elevated)"
+                    }`}
                 >
                   Layer {i + 1}
                 </button>
                 {layers.length > 1 && (
                   <button
                     onClick={() => removeLayer(l.id)}
-                    className={`p-2 rounded-full text-[var(--text-tertiary)] hover:bg-[var(--color-error)]/10 hover:text-[var(--color-error)] transition-colors cursor-pointer text-xs ${l.id === activeId ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
+                    className={`p-2 rounded-full text-(--text-tertiary) hover:bg-error/10 hover:text-error transition-colors cursor-pointer text-xs ${l.id === activeId ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
                     title="Remove Layer"
                   >
                     ✕
@@ -163,7 +176,7 @@ export default function BoxShadowTool() {
       {/* Controls */}
       <Panel>
         <div className="space-y-6">
-          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">Controls</h3>
+          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-4">Controls</h3>
 
           <div className="space-y-4">
             <SliderRow label="Offset X" value={active.x} min={-60} max={60} onChange={(v) => updateActive({ x: v })} />
@@ -173,34 +186,33 @@ export default function BoxShadowTool() {
             <SliderRow label="Opacity" value={active.opacity} min={0} max={100} unit="%" onChange={(v) => updateActive({ opacity: v })} />
           </div>
 
-          <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[var(--border-default)]">
+          <div className="grid grid-cols-2 gap-4 pt-4 border-t border-(--border-default)">
             <div className="space-y-2">
-              <label className="text-xs text-[var(--text-tertiary)] font-medium uppercase tracking-wider block">Color</label>
-              <div className="flex items-center gap-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] px-3 py-2.5 focus-within:ring-2 focus-within:ring-[var(--color-primary-500)] focus-within:border-[var(--color-primary-500)] transition-shadow">
-                <div className="w-8 h-8 rounded-full shadow-sm overflow-hidden relative cursor-pointer border border-[var(--border-default)]">
-                     <input
-                        type="color"
-                        value={active.color}
-                        onChange={(e) => updateActive({ color: e.target.value })}
-                        className="absolute -inset-4 w-[200%] h-[200%] cursor-pointer border-0 p-0"
-                    />
+              <label className="text-xs text-(--text-tertiary) font-medium uppercase tracking-wider block">Color</label>
+              <div className="flex items-center gap-3 rounded-md bg-(--surface-secondary) border border-(--border-default) px-3 py-2.5 focus-within:ring-2 focus-within:ring-primary-500 focus-within:border-primary-500 transition-shadow">
+                <div className="w-8 h-8 rounded-full shadow-sm overflow-hidden relative cursor-pointer border border-(--border-default)">
+                  <input
+                    type="color"
+                    value={active.color}
+                    onChange={(e) => updateActive({ color: e.target.value })}
+                    className="absolute -inset-4 w-[200%] h-[200%] cursor-pointer border-0 p-0"
+                  />
                 </div>
-                <span className="text-sm font-mono text-[var(--text-primary)] font-medium">{active.color.toUpperCase()}</span>
+                <span className="text-sm font-mono text-(--text-primary) font-medium">{active.color.toUpperCase()}</span>
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs text-[var(--text-tertiary)] font-medium uppercase tracking-wider block">Type</label>
-              <div className="flex gap-1 p-1 bg-[var(--surface-secondary)] rounded-[var(--radius-lg)] border border-[var(--border-default)]">
+              <label className="text-xs text-(--text-tertiary) font-medium uppercase tracking-wider block">Type</label>
+              <div className="flex gap-1 p-1 bg-(--surface-secondary) rounded-lg border border-(--border-default)">
                 {(["outset", "inset"] as const).map((type) => (
                   <button
                     key={type}
                     onClick={() => updateActive({ inset: type === "inset" })}
-                    className={`flex-1 py-2 px-3 rounded-[var(--radius-md)] text-sm font-medium transition-all duration-200 cursor-pointer capitalize ${
-                      active.inset === (type === "inset")
-                        ? "bg-white dark:bg-[var(--surface-primary)] text-[var(--text-primary)] shadow-sm border border-[var(--border-default)]"
-                        : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-elevated)] border border-transparent"
-                    }`}
+                    className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer capitalize ${active.inset === (type === "inset")
+                      ? "bg-white dark:bg-(--surface-primary) text-(--text-primary) shadow-sm border border-(--border-default)"
+                      : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface-elevated) border border-transparent"
+                      }`}
                   >
                     {type}
                   </button>
@@ -215,13 +227,28 @@ export default function BoxShadowTool() {
       <Panel>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-              <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">CSS Output</h3>
-               <Button onClick={handleCopy} size="sm" variant={copied ? "primary" : "secondary"}>
-                {copied ? "✓ Copied!" : "Copy CSS"}
-              </Button>
+            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">CSS Output</h3>
+            <Button onClick={handleCopy} size="sm" variant={copied ? "primary" : "secondary"}>
+              {copied ? "✓ Copied!" : "Copy CSS"}
+            </Button>
           </div>
-          <pre className="rounded-[var(--radius-lg)] bg-[var(--surface-secondary)] border border-[var(--border-default)] p-4 text-sm font-mono text-[var(--text-primary)] whitespace-pre-wrap break-all select-all leading-relaxed relative overflow-x-auto">
+          <pre className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 text-sm font-mono text-(--text-primary) whitespace-pre-wrap break-all select-all leading-relaxed relative overflow-x-auto">
             {fullCSS}
+          </pre>
+        </div>
+      </Panel>
+
+      {/* Tailwind Output */}
+      <Panel>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Tailwind Output</h3>
+            <Button onClick={handleCopyTailwind} size="sm" variant={copiedTailwind ? "primary" : "secondary"}>
+              {copiedTailwind ? "✓ Copied!" : "Copy Tailwind"}
+            </Button>
+          </div>
+          <pre className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 text-sm font-mono text-(--text-primary) whitespace-pre-wrap break-all select-all leading-relaxed relative overflow-x-auto">
+            {tailwindValue}
           </pre>
         </div>
       </Panel>
