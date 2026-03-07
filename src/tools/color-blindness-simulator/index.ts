@@ -11,7 +11,7 @@ export const definition: ToolDefinition = {
 
   category: "color",
   status: "beta",
-  icon: "🎨",
+  icon: "👩‍🦯",
   keywords: [
     "color blindness simulator online",
     "simulate color blindness",
