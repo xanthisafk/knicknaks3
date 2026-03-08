@@ -1,8 +1,10 @@
 import { useState, useMemo, useEffect } from "react";
 import confetti from "canvas-confetti";
 import { Panel } from "@/components/layout";
-import InfoToolTip from "@/components/advanced/InfoTooltip";
 import StatBox from "@/components/ui/StatBox";
+import FunStat from "@/components/advanced/FunStatCard";
+import { getZodiacSign, getChineseZodiac } from "@/lib/zodiac";
+import { countLeapDays, isLeapYear } from "@/lib/date";
 
 interface AgeResult {
   years: number;
@@ -17,59 +19,6 @@ interface AgeResult {
   dayOfWeek: string;
   zodiac: { name: string; emoji: string };
   chineseZodiac: string;
-}
-
-function isLeapYear(year: number) {
-  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-}
-
-function getZodiacSign(date: Date): { name: string; emoji: string } {
-  const d = date.getDate();
-  const m = date.getMonth() + 1;
-
-  if ((m === 3 && d >= 21) || (m === 4 && d <= 19)) return { name: "Aries", emoji: "♈" };
-  if ((m === 4 && d >= 20) || (m === 5 && d <= 20)) return { name: "Taurus", emoji: "♉" };
-  if ((m === 5 && d >= 21) || (m === 6 && d <= 20)) return { name: "Gemini", emoji: "♊" };
-  if ((m === 6 && d >= 21) || (m === 7 && d <= 22)) return { name: "Cancer", emoji: "♋" };
-  if ((m === 7 && d >= 23) || (m === 8 && d <= 22)) return { name: "Leo", emoji: "♌" };
-  if ((m === 8 && d >= 23) || (m === 9 && d <= 22)) return { name: "Virgo", emoji: "♍" };
-  if ((m === 9 && d >= 23) || (m === 10 && d <= 22)) return { name: "Libra", emoji: "♎" };
-  if ((m === 10 && d >= 23) || (m === 11 && d <= 21)) return { name: "Scorpio", emoji: "♏" };
-  if ((m === 11 && d >= 22) || (m === 12 && d <= 21)) return { name: "Sagittarius", emoji: "♐" };
-  if ((m === 12 && d >= 22) || (m === 1 && d <= 19)) return { name: "Capricorn", emoji: "♑" };
-  if ((m === 1 && d >= 20) || (m === 2 && d <= 18)) return { name: "Aquarius", emoji: "♒" };
-
-  return { name: "Pisces", emoji: "♓" };
-}
-
-function getChineseZodiac(year: number) {
-  const animals = [
-    { name: "Rat", emoji: "🐀", traits: "Clever & resourceful", },
-    { name: "Ox", emoji: "🐂", traits: "Diligent & dependable" },
-    { name: "Tiger", emoji: "🐅", traits: "Brave & unpredictable" },
-    { name: "Rabbit", emoji: "🐇", traits: "Gentle & elegant" },
-    { name: "Dragon", emoji: "🐉", traits: "Confident & intelligent" },
-    { name: "Snake", emoji: "🐍", traits: "Enigmatic & wise" },
-    { name: "Horse", emoji: "🐎", traits: "Animated & active" },
-    { name: "Goat", emoji: "🐐", traits: "Calm & gentle" },
-    { name: "Monkey", emoji: "🐒", traits: "Quick-witted & curious" },
-    { name: "Rooster", emoji: "🐓", traits: "Observant & confident" },
-    { name: "Dog", emoji: "🐕", traits: "Loyal & honest" },
-    { name: "Pig", emoji: "🐖", traits: "Compassionate & generous" },
-  ];
-  const idx = (year - 1900) % 12;
-  return animals[((idx % 12) + 12) % 12];
-}
-
-function countLeapDays(birthDate: Date, toDate: Date): number {
-  let count = 0;
-  for (let y = birthDate.getFullYear(); y <= toDate.getFullYear(); y++) {
-    if (isLeapYear(y)) {
-      const leapDay = new Date(y, 1, 29);
-      if (leapDay >= birthDate && leapDay <= toDate) count++;
-    }
-  }
-  return count;
 }
 
 function calculateAge(birthDate: Date, toDate: Date): AgeResult {
@@ -118,82 +67,14 @@ function calculateAge(birthDate: Date, toDate: Date): AgeResult {
   };
 }
 
-/* ---------------- FUN STAT CARD ---------------- */
-function FunStat({
-  emoji,
-  label,
-  value,
-  subLabel,
-  infoText,
-  infoUrl,
-  highlight,
-}: {
-  emoji: string;
-  label: string;
-  value: string;
-  subLabel?: string;
-  infoText: string;
-  infoUrl?: string;
-  highlight?: boolean;
-}) {
-  highlight = false;
-  return (
-    <div
-      className="flex flex-col gap-2 p-4 rounded-2xl"
-      style={
-        highlight
-          ? {
-            background: "var(--color-primary-500)",
-            color: "white",
-          }
-          : {
-            background: "var(--surface-secondary)",
-            border: "1px solid var(--border-default)",
-            color: "inherit",
-          }
-      }
-    >
-      <div className="flex items-center gap-2">
-        <span className="text-lg leading-none hover:animate-pulse cursor-default">{emoji}</span>
-        <span
-          className="text-[10px] font-semibold tracking-widest uppercase"
-          style={{ color: highlight ? "rgba(255,255,255,0.65)" : "var(--text-tertiary)" }}
-        >
-          {label}
-        </span>
-        <span className="ml-auto">
-          <InfoToolTip text={infoText} url={infoUrl} />
-        </span>
-      </div>
-
-      <span
-        className="text-2xl font-bold tabular-nums leading-none"
-        style={{ color: highlight ? "white" : "var(--color-primary-500)" }}
-      >
-        {value}
-      </span>
-
-      {subLabel && (
-        <span
-          className="text-[10px] leading-snug"
-          style={{ color: highlight ? "rgba(255,255,255,0.5)" : "var(--text-tertiary)" }}
-        >
-          {subLabel}
-        </span>
-      )}
-    </div>
-  );
-}
-
 /* ================= COMPONENT ================= */
 
 export default function AgeCalculatorTool() {
   const today = new Date().toISOString().split("T")[0];
-  const [birthDate, setBirthDate] = useState("1999-10-24");
+  const [birthDate, setBirthDate] = useState("1999-08-16");
   const [toDate, setToDate] = useState(today);
   const [liveNow, setLiveNow] = useState(new Date());
   const [countdown, setCountdown] = useState("");
-  const [zodiacMode, setZodiacMode] = useState<"western" | "chinese">("western");
 
   useEffect(() => {
     const interval = setInterval(() => setLiveNow(new Date()), 1000);
@@ -325,7 +206,7 @@ export default function AgeCalculatorTool() {
 
           {/* Fun cosmic stats */}
           <div>
-            <h3 className="text-[10px] font-semibold uppercase tracking-widest text-(--text-tertiary) mb-3">
+            <h3 className="text-xs font-semibold uppercase tracking-widest text-(--text-tertiary) mb-6">
               🌌 Your Life, By The Numbers
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -336,7 +217,6 @@ export default function AgeCalculatorTool() {
                 subLabel="~60 beats per minute"
                 infoText="Based on average resting heart rate of 60 beats per minute (bpm) for adults."
                 infoUrl="https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/all-about-heart-rate-pulse"
-                highlight
               />
               <FunStat
                 emoji="💨"
@@ -369,7 +249,6 @@ export default function AgeCalculatorTool() {
                 subLabel="Earth's orbital speed ~107,226 km/h"
                 infoText="Earth travels at approximately 107,226 km/h (66,627 mph) in its orbit around the Sun, per NASA."
                 infoUrl="https://en.wikipedia.org/wiki/Earth's_orbit"
-                highlight
               />
               <FunStat
                 emoji="🌍"
