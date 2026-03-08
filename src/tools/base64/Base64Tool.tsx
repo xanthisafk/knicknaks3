@@ -1,7 +1,8 @@
 import { useState, useCallback } from "react";
-import { Button, Input, Textarea, Toggle, Tabs } from "@/components/ui";
+import { Button, Textarea, Toggle } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { copyToClipboard } from "@/lib/utils";
+import { Tabs, TabList, Tab, } from "@/components/ui/tab";
 
 export default function Base64Tool() {
   const [input, setInput] = useState("");
@@ -41,7 +42,7 @@ export default function Base64Tool() {
           const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
           setOutput(new TextDecoder().decode(bytes));
         }
-      } catch (e) {
+      } catch {
         setError(
           processMode === "decode"
             ? "Invalid Base64 input. Check your text and try again."
@@ -52,6 +53,11 @@ export default function Base64Tool() {
     },
     []
   );
+
+  const handleModeChange = (newMode: string) => {
+    setMode(newMode as "encode" | "decode");
+    if (liveMode && input) processInput(input, newMode as "encode" | "decode", urlSafe);
+  };
 
   const handleInputChange = (text: string) => {
     setInput(text);
@@ -82,18 +88,13 @@ export default function Base64Tool() {
       {/* Controls */}
       <Panel>
         <div className="flex flex-wrap items-center gap-4">
-          <Tabs
-            tabs={[
-              { id: "encode", label: "Encode", content: null },
-              { id: "decode", label: "Decode", content: null },
-            ]}
-            defaultTab={mode}
-            onChange={(id) => {
-              const newMode = id as "encode" | "decode";
-              setMode(newMode);
-              if (liveMode && input) processInput(input, newMode, urlSafe);
-            }}
-          />
+          <Tabs value={mode} onValueChange={handleModeChange}>
+            <TabList>
+              <Tab value="encode">Encode</Tab>
+              <Tab value="decode">Decode</Tab>
+            </TabList>
+          </Tabs>
+
           <div className="flex items-center gap-4 ml-auto">
             <Toggle
               label="URL-safe"
@@ -113,13 +114,13 @@ export default function Base64Tool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Input</label>
+              <label className="text-sm font-medium text-(--text-primary)">Input</label>
               <span className="text-xs text-(--text-tertiary)">{input.length} chars</span>
             </div>
             <Textarea
               value={input}
               onChange={(e) => handleInputChange(e.target.value)}
-              placeholder={mode === "encode" ? "Enter text to encode..." : "Enter Base64 to decode..."}
+              placeholder={mode === "encode" ? "Enter text to encode…" : "Enter Base64 to decode…"}
               className="h-48 font-mono text-sm"
             />
           </div>
@@ -128,7 +129,7 @@ export default function Base64Tool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Output</label>
+              <label className="text-sm font-medium text-(--text-primary)">Output</label>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-(--text-tertiary)">{output.length} chars</span>
                 {output && (
@@ -141,7 +142,7 @@ export default function Base64Tool() {
             <Textarea
               value={output}
               readOnly
-              placeholder="Output will appear here..."
+              placeholder="Output will appear here…"
               className="h-48 font-mono text-sm"
             />
           </div>
@@ -162,7 +163,7 @@ export default function Base64Tool() {
           </Button>
         )}
         <Button variant="secondary" onClick={handleSwap}>
-          🔄 Swap Input ↔ Output
+          Swap Input ↔ Output
         </Button>
         <Button
           variant="ghost"
