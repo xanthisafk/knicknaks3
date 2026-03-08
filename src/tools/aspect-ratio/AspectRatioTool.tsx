@@ -1,10 +1,8 @@
 import { useState, useCallback } from "react";
 import { Input, Button } from "@/components/ui";
 import { Panel } from "@/components/layout";
+import { gcd } from "@/lib/maths";
 
-function gcd(a: number, b: number): number {
-  return b === 0 ? a : gcd(b, a % b);
-}
 
 function parseRatio(str: string): [number, number] | null {
   const parts = str.split(":").map((s) => parseFloat(s.trim()));
@@ -95,8 +93,8 @@ export default function AspectRatioTool() {
               key={m}
               onClick={() => setMode(m)}
               className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer ${mode === m
-                  ? "bg-white dark:bg-(--surface-primary) text-(--text-primary) shadow-sm border border-(--border-default)"
-                  : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface-elevated) border border-transparent"
+                ? "bg-white dark:bg-(--surface-primary) text-(--text-primary) shadow-sm border border-(--border-default)"
+                : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface-elevated) border border-transparent"
                 }`}
             >
               {m === "detect" ? "Detect Ratio" : "Scale Dimensions"}
@@ -207,8 +205,8 @@ export default function AspectRatioTool() {
                       key={p.label}
                       onClick={() => applyPreset(p.w, p.h)}
                       className={`px-3 py-1.5 rounded-md text-xs font-mono border transition-all duration-200 cursor-pointer ${ratioStr === `${p.w / gcd(p.w, p.h)}:${p.h / gcd(p.w, p.h)}`
-                          ? "bg-primary-500 text-white border-primary-500 shadow-sm font-semibold"
-                          : "bg-(--surface-secondary) border-(--border-default) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-400 hover:bg-(--surface-elevated)"
+                        ? "bg-primary-500 text-white border-primary-500 shadow-sm font-semibold"
+                        : "bg-(--surface-secondary) border-(--border-default) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-400 hover:bg-(--surface-elevated)"
                         }`}
                     >
                       {p.label}
