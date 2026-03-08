@@ -1,14 +1,19 @@
 import { useState, useMemo } from "react";
 import { Panel } from "@/components/layout";
+import { Tab, TabList, Tabs } from "@/components/ui/tab";
+import { Input } from "@/components/ui";
+import StatBox from "@/components/ui/StatBox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toTitleCase } from "@/lib";
 
 export default function BodyFatCalculatorTool() {
   const [unit, setUnit] = useState<"metric" | "imperial">("metric");
-  const [gender, setGender] = useState<"male" | "female">("male");
+  const [gender, setGender] = useState<"male" | "female">("female");
   const [age, setAge] = useState("30");
-  
+
   const [cm, setCm] = useState("170");
   const [neckCm, setNeckCm] = useState("40");
-  const [waistCm, setWaistCm] = useState("90");
+  const [waistCm, setWaistCm] = useState("50");
   const [hipCm, setHipCm] = useState("105");
 
   const [inches, setInches] = useState("67");
@@ -75,78 +80,51 @@ export default function BodyFatCalculatorTool() {
     <div className="space-y-6">
       <Panel>
         <div className="flex justify-center mb-6">
-          <div className="flex bg-(--surface-secondary) rounded-xl p-1 border border-(--border-default)">
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                unit === "metric"
-                  ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
-                  : "text-(--text-secondary) hover:text-(--text-primary)"
-              }`}
-              onClick={() => setUnit("metric")}
-            >
-              Metric
-            </button>
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                unit === "imperial"
-                  ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
-                  : "text-(--text-secondary) hover:text-(--text-primary)"
-              }`}
-              onClick={() => setUnit("imperial")}
-            >
-              US/Imperial
-            </button>
-          </div>
+          <Tabs value={unit} onValueChange={v => setUnit(v === "metric" ? "metric" : "imperial")}>
+            <TabList>
+              <Tab value="metric">Metric</Tab>
+              <Tab value="imperial">US/Imperial</Tab>
+            </TabList>
+          </Tabs>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-4">
             <label className="block text-sm font-medium text-(--text-primary) mb-1">Gender</label>
-            <div className="flex bg-(--surface-elevated) rounded-xl p-1 border border-(--border-default)">
-              <button
-                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  gender === "male"
-                    ? "bg-primary-500 text-white shadow-sm"
-                    : "text-(--text-secondary) hover:text-(--text-primary)"
-                }`}
-                onClick={() => setGender("male")}
-              >
-                Male
-              </button>
-              <button
-                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  gender === "female"
-                    ? "bg-primary-500 text-white shadow-sm"
-                    : "text-(--text-secondary) hover:text-(--text-primary)"
-                }`}
-                onClick={() => setGender("female")}
-              >
-                Female
-              </button>
+            <div className="flex items-center gap-2">
+              <Select value={toTitleCase(gender)} onValueChange={v => setGender(v === "male" ? "male" : "female")}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="male">Male</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-            
+
             <label className="block text-sm font-medium text(--text-primary) mb-1">Age</label>
             <div className="flex items-center gap-2">
-              <input
+              <Input
                 type="number"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                className="w-full"
                 placeholder="years"
                 min="1"
                 max="120"
               />
               <span className="text-sm text-(--text-secondary)">years</span>
             </div>
-            
+
             <label className="block text-sm font-medium text(--text-primary) mb-1">Height</label>
             {unit === "metric" ? (
               <div className="flex items-center gap-2">
-                <input
+                <Input
                   type="number"
                   value={cm}
                   onChange={(e) => setCm(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                  className="w-full"
                   placeholder="cm"
                   min="0"
                 />
@@ -154,11 +132,11 @@ export default function BodyFatCalculatorTool() {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <input
+                <Input
                   type="number"
                   value={inches}
                   onChange={(e) => setInches(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                  className="w-full"
                   placeholder="in"
                   min="0"
                 />
@@ -171,11 +149,11 @@ export default function BodyFatCalculatorTool() {
             <label className="block text-sm font-medium text(--text-primary) mb-1">Neck Circumference</label>
             {unit === "metric" ? (
               <div className="flex items-center gap-2">
-                <input
+                <Input
                   type="number"
                   value={neckCm}
                   onChange={(e) => setNeckCm(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                  className="w-full"
                   placeholder="cm"
                   min="0"
                 />
@@ -183,11 +161,11 @@ export default function BodyFatCalculatorTool() {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <input
+                <Input
                   type="number"
                   value={neckInches}
                   onChange={(e) => setNeckInches(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                  className="w-full"
                   placeholder="in"
                   min="0"
                 />
@@ -198,11 +176,11 @@ export default function BodyFatCalculatorTool() {
             <label className="block text-sm font-medium text(--text-primary) mb-1">Waist Circumference</label>
             {unit === "metric" ? (
               <div className="flex items-center gap-2">
-                <input
+                <Input
                   type="number"
                   value={waistCm}
                   onChange={(e) => setWaistCm(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                  className="w-full"
                   placeholder="cm"
                   min="0"
                 />
@@ -210,11 +188,11 @@ export default function BodyFatCalculatorTool() {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <input
+                <Input
                   type="number"
                   value={waistInches}
                   onChange={(e) => setWaistInches(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                  className="w-full"
                   placeholder="in"
                   min="0"
                 />
@@ -227,11 +205,11 @@ export default function BodyFatCalculatorTool() {
                 <label className="block text-sm font-medium text(--text-primary) mb-1">Hip Circumference</label>
                 {unit === "metric" ? (
                   <div className="flex items-center gap-2">
-                    <input
+                    <Input
                       type="number"
                       value={hipCm}
                       onChange={(e) => setHipCm(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                      className="w-full"
                       placeholder="cm"
                       min="0"
                     />
@@ -239,11 +217,11 @@ export default function BodyFatCalculatorTool() {
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <input
+                    <Input
                       type="number"
                       value={hipInches}
                       onChange={(e) => setHipInches(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                      className="w-full"
                       placeholder="in"
                       min="0"
                     />
@@ -257,19 +235,15 @@ export default function BodyFatCalculatorTool() {
       </Panel>
 
       {result && (
+
         <Panel>
-          <div className="text-center py-6 space-y-4">
-            <h3 className="text-sm font-medium text-(--text-secondary)">Your Estimated Body Fat</h3>
-            <div className="text-5xl font-bold" style={{ color: result.color }}>
-              {result.value}%
-            </div>
-            <div className="inline-block px-4 py-1.5 rounded-full text-sm font-bold" style={{ backgroundColor: `${result.color}20`, color: result.color }}>
-              {result.category}
-            </div>
-          </div>
-          <p className="text-xs text-(--text-tertiary) text-center max-w-lg mx-auto mt-4 px-4 bg-(--surface-secondary) p-3 rounded-lg border border-(--border-default)">
-            This estimation uses the U.S. Navy Method based on anatomical circumferences. It is a widely used and mostly accurate measurement, though no estimation method is 100% precise without clinical tools like a DEXA scan.
-          </p>
+          <label className="block text-xs text-center font-semibold uppercase tracking-widest text-(--text-tertiary) mb-2">Your estimated body fat</label>
+          <StatBox
+            label={result.category}
+            value={`${result.value}%`}
+            textSize="6xl"
+            tooltip="This estimation uses the U.S. Navy Method based on anatomical circumferences. It is a widely used and mostly accurate measurement, though no estimation method is 100% precise without clinical tools like a DEXA scan."
+          />
         </Panel>
       )}
     </div>

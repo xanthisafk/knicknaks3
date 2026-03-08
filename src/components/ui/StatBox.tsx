@@ -1,4 +1,6 @@
-import { stringHasEmoji } from "@/lib/emojiHelper";
+import { cn } from "@/lib";
+import { stringHasEmoji, wrapEmojisWithSpan } from "@/lib/emojiHelper";
+import { BadgeQuestionMark, ExternalLink } from "lucide-react";
 import { useState } from "react";
 
 export default function StatBox({
@@ -6,11 +8,13 @@ export default function StatBox({
     value,
     tooltip,
     url,
+    textSize
 }: {
     label: string;
     value: string | number;
     tooltip?: string;
     url?: string;
+    textSize?: string
 }) {
     const [visible, setVisible] = useState(false);
 
@@ -27,14 +31,23 @@ export default function StatBox({
                 if (url) window.open(url, "_blank");
             }}
         >
-            {visible && tooltip && (
-                <div className="absolute bottom-full mb-2 w-max px-3 py-2 rounded-xl bg-(--surface-primary) border border-(--border-default) text-xs text-(--text-secondary) text-center shadow-lg z-10 pointer-events-none whitespace-pre-line">
+            {tooltip && (
+                <div className={cn(
+                    "absolute bottom-full transition-opacity duration-200 mb-2 max-w-80 px-3 py-2 rounded-xl bg-(--surface-primary) border border-(--border-default) text-xs text-(--text-secondary) text-center shadow-lg z-10 pointer-events-none whitespace-pre-line",
+                    !visible ? "opacity-0" : "opacity-100"
+                )}>
                     {tooltip}
                 </div>
             )}
 
-            <span className={`text-2xl font-bold text-primary-500 tabular-nums ${(typeof value === "string" && stringHasEmoji(value)) && "font-emoji"}`}>{value}</span>
-            <span className="text-xs text-(--text-tertiary)">{label}</span>
+            <span className={`text-${textSize ? textSize : "2xl"} font-bold text-primary-500 tabular-nums`} dangerouslySetInnerHTML={{ __html: wrapEmojisWithSpan(`${value}`) }} />
+            <span className="text-xs text-(--text-tertiary) mt-2">{label}</span>
+            {url
+                ? <ExternalLink className="absolute right-2 top-2 opacity-30 size-3" />
+                : tooltip
+                    ? <BadgeQuestionMark className="absolute right-2 top-2 opacity-30 size-3" />
+                    : ""
+            }
         </div>
     );
 }

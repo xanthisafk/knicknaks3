@@ -3,6 +3,8 @@ import { Panel } from "@/components/layout";
 import { Input } from "@/components/ui";
 import { Tabs, Tab, TabList } from "@/components/ui/tab";
 import StatBox from "@/components/ui/StatBox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toTitleCase } from "@/lib";
 
 export default function BmrCalculatorTool() {
   const [unit, setUnit] = useState<"metric" | "imperial">("metric");
@@ -60,12 +62,15 @@ export default function BmrCalculatorTool() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-4">
             <label className="block text-sm font-medium text-(--text-primary) mb-1">Gender</label>
-            <Tabs value={gender} onValueChange={v => setGender(v === "male" ? "male" : "female")}>
-              <TabList>
-                <Tab value="female"><span className="font-emoji">♀️</span>Female</Tab>
-                <Tab value="male"><span className="font-emoji">♂️</span>Male</Tab>
-              </TabList>
-            </Tabs>
+            <Select value={toTitleCase(gender)} onValueChange={v => setGender(v === "male" ? "male" : "female")}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="female">Female</SelectItem>
+                <SelectItem value="male">Male</SelectItem>
+              </SelectContent>
+            </Select>
 
             <label className="block text-sm font-medium text-(--text-primary) mb-1">Age</label>
             <div className="flex items-center gap-2">
@@ -157,6 +162,7 @@ export default function BmrCalculatorTool() {
             <StatBox
               label="Calories / day"
               value={bmr.toLocaleString()}
+              textSize="6xl"
               tooltip="Your Basal Metabolic Rate (BMR) is the amount of energy expended while at complete rest. It's the number of calories you'd burn if you stayed in bed all day doing absolutely nothing."
             />
           </Panel>

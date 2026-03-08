@@ -137,25 +137,29 @@ export default function BmiCalculatorTool() {
       </Panel>
 
       {result && (
-        <Panel>
-          <div className="text-center py-6 space-y-4">
-            <h3 className="text-sm font-medium text-(--text-secondary)">Your BMI</h3>
-            <div className="text-5xl font-bold" style={{ color: result.color }}>
-              {result.value}
+        <>
+          <Panel>
+            <div className="text-center py-6 space-y-4">
+              <h3 className="text-sm font-medium text-(--text-secondary)">Your BMI</h3>
+              <div className="text-5xl font-bold" style={{ color: result.color }}>
+                {result.value}
+              </div>
+              <div className="inline-block px-4 py-1.5 rounded-full text-sm font-bold" style={{ backgroundColor: `${result.color}20`, color: result.color }}>
+                {result.category}
+              </div>
             </div>
-            <div className="inline-block px-4 py-1.5 rounded-full text-sm font-bold" style={{ backgroundColor: `${result.color}20`, color: result.color }}>
-              {result.category}
+          </Panel>
+          <Panel>
+            <div className="mt-6 border-t border-(--border-default) pt-4">
+              <div className="text-xs text-(--text-secondary) space-y-2">
+                <div className="flex justify-between"><span>Less than 18.5</span> <span>Underweight</span></div>
+                <div className="flex justify-between"><span>18.5 - 24.9</span> <span>Normal weight</span></div>
+                <div className="flex justify-between"><span>25 - 29.9</span> <span>Overweight</span></div>
+                <div className="flex justify-between"><span>30 or greater</span> <span>Obesity</span></div>
+              </div>
             </div>
-          </div>
-          <div className="mt-6 border-t border-(--border-default) pt-4">
-            <div className="text-xs text-(--text-secondary) space-y-2">
-              <div className="flex justify-between"><span>Less than 18.5</span> <span>Underweight</span></div>
-              <div className="flex justify-between"><span>18.5 - 24.9</span> <span>Normal weight</span></div>
-              <div className="flex justify-between"><span>25 - 29.9</span> <span>Overweight</span></div>
-              <div className="flex justify-between"><span>30 or greater</span> <span>Obesity</span></div>
-            </div>
-          </div>
-        </Panel>
+          </Panel>
+        </>
       )}
     </div>
   );
