@@ -50,7 +50,7 @@ export default function DeduplicateLinesTool() {
           <Toggle label="Ignore case" checked={ignoreCase} onChange={setIgnoreCase} />
           <Toggle label="Trim whitespace" checked={trimWhitespace} onChange={setTrimWhitespace} />
           {removed > 0 && (
-            <span className="text-sm text-[var(--color-primary-600)] font-medium ml-auto">
+            <span className="text-sm text-primary-600 font-medium ml-auto">
               🧹 {removed} duplicate{removed > 1 ? "s" : ""} removed ({totalLines} → {totalLines - removed} lines)
             </span>
           )}
