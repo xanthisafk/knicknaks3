@@ -2,6 +2,8 @@ import { useState, useCallback } from "react";
 import { Input, Button } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { gcd } from "@/lib/maths";
+import { Radio, RadioGroup } from "@/components/ui/radio";
+import { Tabs, Tab, TabList, TabPanels, TabPanel } from "@/components/ui/tab";
 
 
 function parseRatio(str: string): [number, number] | null {
@@ -87,211 +89,207 @@ export default function AspectRatioTool() {
     <div className="space-y-6">
       {/* Mode tabs */}
       <Panel>
-        <div className="flex p-1 bg-(--surface-secondary) rounded-lg border border-(--border-default)">
-          {(["detect", "scale"] as Mode[]).map((m) => (
-            <button
-              key={m}
-              onClick={() => setMode(m)}
-              className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer ${mode === m
-                ? "bg-white dark:bg-(--surface-primary) text-(--text-primary) shadow-sm border border-(--border-default)"
-                : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface-elevated) border border-transparent"
-                }`}
-            >
-              {m === "detect" ? "Detect Ratio" : "Scale Dimensions"}
-            </button>
-          ))}
-        </div>
-      </Panel>
+        <Tabs value={mode} onValueChange={(v) => setMode(v as Mode)}>
+          <TabList>
+            {(["detect", "scale"] as Mode[]).map((m) => (
+              <Tab key={m} value={m}>
+                {m === "detect" ? "Detect Ratio" : "Scale Dimensions"}
+              </Tab>
+            ))}
+          </TabList>
+          <TabPanels>
+            <TabPanel value="detect">
+              <>
+                <Panel>
+                  <div className="space-y-5">
+                    <div className="grid grid-cols-2 gap-4">
+                      <Input
+                        label="Width (px)"
+                        type="number"
+                        value={detectW}
+                        onChange={(e) => setDetectW(e.target.value)}
+                        placeholder="e.g. 1920"
+                        min={1}
+                      />
+                      <Input
+                        label="Height (px)"
+                        type="number"
+                        value={detectH}
+                        onChange={(e) => setDetectH(e.target.value)}
+                        placeholder="e.g. 1080"
+                        min={1}
+                      />
+                    </div>
 
-      {mode === "detect" && (
-        <>
-          <Panel>
-            <div className="space-y-5">
-              <div className="grid grid-cols-2 gap-4">
-                <Input
-                  label="Width (px)"
-                  type="number"
-                  value={detectW}
-                  onChange={(e) => setDetectW(e.target.value)}
-                  placeholder="e.g. 1920"
-                  min={1}
-                />
-                <Input
-                  label="Height (px)"
-                  type="number"
-                  value={detectH}
-                  onChange={(e) => setDetectH(e.target.value)}
-                  placeholder="e.g. 1080"
-                  min={1}
-                />
-              </div>
-
-              {/* Presets */}
-              <div className="space-y-2">
-                <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Quick presets</h3>
-                <div className="flex flex-wrap gap-2">
-                  {PRESETS.map((p) => (
-                    <button
-                      key={p.label}
-                      onClick={() => handleDetectPreset(p.w, p.h)}
-                      className="px-3 py-1.5 rounded-md text-xs font-mono bg-(--surface-secondary) border border-(--border-default) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-400 hover:bg-(--surface-elevated) transition-colors cursor-pointer"
-                    >
-                      {p.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </Panel>
-
-          {canDetect && (
-            <Panel>
-              <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-4">Result</h3>
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-linear-to-br from-primary-50 to-transparent dark:from-primary-900 opacity-20 transition-opacity group-hover:opacity-40"></div>
-                    <p className="text-xs text-(--text-tertiary) font-medium mb-1 relative z-10">Aspect Ratio</p>
-                    <p className="text-3xl font-bold text-(--text-primary) font-mono tracking-tight relative z-10">{detectedRatio}</p>
+                    {/* Presets */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase">Quick presets</label>
+                      <div className="flex flex-wrap gap-2">
+                        <RadioGroup orientation="horizontal" value={ratioStr} onValueChange={setRatioStr}>
+                          {PRESETS.map((p) => (
+                            <Radio
+                              key={p.label}
+                              value={p.label}
+                              label={p.label}
+                              onClick={() => handleDetectPreset(p.w, p.h)}
+                            />
+                          ))}
+                        </RadioGroup>
+                      </div>
+                    </div>
                   </div>
-                  <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center">
-                    <p className="text-xs text-(--text-tertiary) font-medium mb-1">Decimal</p>
-                    <p className="text-3xl font-bold text-(--text-primary) font-mono tracking-tight">{decimalRatio}</p>
-                  </div>
-                </div>
+                </Panel>
 
-                {/* Visual preview */}
-                <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-6 flex items-center justify-center min-h-[160px] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-(--border-default) opacity-10" style={{ backgroundImage: "radial-gradient(var(--border-primary) 1px, transparent 1px)", backgroundSize: "16px 16px" }}></div>
-                  <div
-                    className="bg-linear-to-br from-primary-400 to-primary-600 rounded-md shadow-md flex items-center justify-center transition-all duration-300 ease-out relative z-10 ring-4 ring-(--surface-primary) dark:ring-(--surface-secondary)"
-                    style={{
-                      width: `${Math.min(260, (dw / dh) * 140)}px`,
-                      height: `${Math.min(140, (dh / dw) * 260)}px`,
-                    }}
-                  >
-                    <div className="absolute inset-0 rounded-md ring-1 ring-black/10 dark:ring-white/10 inset-ring inset-ring-white/20"></div>
-                    <span className="text-white text-xs font-mono font-bold tracking-wider drop-shadow-md relative z-20">
-                      {detectedRatio}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 flex justify-end">
-                <Button variant="ghost" onClick={clearDetect} className="text-sm px-4">Clear Results</Button>
-              </div>
-            </Panel>
-          )}
-        </>
-      )}
+                {canDetect && (
+                  <Panel>
+                    <h3 className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase mb-4">Result</h3>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center relative overflow-hidden group">
+                          <div className="absolute inset-0 opacity-20"></div>
+                          <p className="text-xs text-(--text-tertiary) font-medium mb-1 relative z-10">Aspect Ratio</p>
+                          <p className="text-3xl font-bold text-(--text-primary) font-mono tracking-tight relative z-10">{detectedRatio}</p>
+                        </div>
+                        <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center">
+                          <p className="text-xs text-(--text-tertiary) font-medium mb-1">Decimal</p>
+                          <p className="text-3xl font-bold text-(--text-primary) font-mono tracking-tight">{decimalRatio}</p>
+                        </div>
+                      </div>
 
-      {mode === "scale" && (
-        <>
-          <Panel>
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <Input
-                  label="Aspect Ratio"
-                  value={ratioStr}
-                  onChange={(e) => { setRatioStr(e.target.value); clearScale(); }}
-                  placeholder="e.g. 16:9"
-                  helperText={scaleError || "Enter as W:H, e.g. 16:9 or 4:3"}
-                  className="font-mono text-lg"
-                />
-
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {PRESETS.map((p) => (
-                    <button
-                      key={p.label}
-                      onClick={() => applyPreset(p.w, p.h)}
-                      className={`px-3 py-1.5 rounded-md text-xs font-mono border transition-all duration-200 cursor-pointer ${ratioStr === `${p.w / gcd(p.w, p.h)}:${p.h / gcd(p.w, p.h)}`
-                        ? "bg-primary-500 text-white border-primary-500 shadow-sm font-semibold"
-                        : "bg-(--surface-secondary) border-(--border-default) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-400 hover:bg-(--surface-elevated)"
-                        }`}
-                    >
-                      {p.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <Input
-                  label="Width (px)"
-                  type="number"
-                  value={scaleW || (scaledW && scaleH ? scaledW : scaleW)}
-                  onChange={(e) => { setScaleW(e.target.value); setScaleH(""); }}
-                  placeholder="Enter width…"
-                  min={1}
-                />
-                <Input
-                  label="Height (px)"
-                  type="number"
-                  value={scaleH || (scaledH && scaleW ? scaledH : scaleH)}
-                  onChange={(e) => { setScaleH(e.target.value); setScaleW(""); }}
-                  placeholder="Enter height…"
-                  min={1}
-                />
-              </div>
-            </div>
-          </Panel>
-
-          {ratio && (scaleW || scaleH) && (scaledW || scaledH) && (
-            <Panel>
-              <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-4">Calculated Dimensions</h3>
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-linear-to-br from-primary-50 to-transparent dark:from-primary-900 opacity-20 transition-opacity group-hover:opacity-40"></div>
-                    <p className="text-xs text-(--text-tertiary) font-medium mb-1 relative z-10">Width</p>
-                    <p className="text-3xl font-bold text-(--text-primary) font-mono tracking-tight relative z-10">
-                      {scaleW || scaledW}
-                      <span className="text-sm font-medium text-(--text-tertiary) ml-1">px</span>
-                    </p>
-                  </div>
-                  <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-linear-to-br from-primary-50 to-transparent dark:from-primary-900 opacity-20 transition-opacity group-hover:opacity-40"></div>
-                    <p className="text-xs text-(--text-tertiary) font-medium mb-1 relative z-10">Height</p>
-                    <p className="text-3xl font-bold text-(--text-primary) font-mono tracking-tight relative z-10">
-                      {scaleH || scaledH}
-                      <span className="text-sm font-medium text-(--text-tertiary) ml-1">px</span>
-                    </p>
-                  </div>
-                </div>
-
-                {/* Visual preview */}
-                {(() => {
-                  const w = parseFloat(scaleW || scaledW);
-                  const h = parseFloat(scaleH || scaledH);
-                  if (!isNaN(w) && !isNaN(h) && w > 0 && h > 0) {
-                    return (
+                      {/* Visual preview */}
                       <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-6 flex items-center justify-center min-h-[160px] relative overflow-hidden">
                         <div className="absolute inset-0 bg-(--border-default) opacity-10" style={{ backgroundImage: "radial-gradient(var(--border-primary) 1px, transparent 1px)", backgroundSize: "16px 16px" }}></div>
                         <div
                           className="bg-linear-to-br from-primary-400 to-primary-600 rounded-md shadow-md flex items-center justify-center transition-all duration-300 ease-out relative z-10 ring-4 ring-(--surface-primary) dark:ring-(--surface-secondary)"
                           style={{
-                            width: `${Math.min(260, (w / h) * 140)}px`,
-                            height: `${Math.min(140, (h / w) * 260)}px`,
+                            width: `${Math.min(260, (dw / dh) * 140)}px`,
+                            height: `${Math.min(140, (dh / dw) * 260)}px`,
                           }}
                         >
                           <div className="absolute inset-0 rounded-md ring-1 ring-black/10 dark:ring-white/10 inset-ring inset-ring-white/20"></div>
                           <span className="text-white text-xs font-mono font-bold tracking-wider drop-shadow-md relative z-20">
-                            {ratioStr}
+                            {detectedRatio}
                           </span>
                         </div>
                       </div>
-                    );
-                  }
-                  return null;
-                })()}
-              </div>
-              <div className="mt-4 flex justify-end">
-                <Button variant="ghost" onClick={clearScale} className="text-sm px-4">Clear Results</Button>
-              </div>
-            </Panel>
-          )}
-        </>
-      )}
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <Button variant="ghost" onClick={clearDetect} className="text-sm px-4">Clear Results</Button>
+                    </div>
+                  </Panel>
+                )}
+              </>
+            </TabPanel>
+
+            {/* Scale mode */}
+            <TabPanel value="scale">
+              <>
+                <Panel>
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <Input
+                        label="Aspect Ratio"
+                        value={ratioStr}
+                        onChange={(e) => { setRatioStr(e.target.value); clearScale(); }}
+                        placeholder="e.g. 16:9"
+                        helperText={scaleError || "Enter as W:H, e.g. 16:9 or 4:3"}
+                        className="font-mono"
+                      />
+
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        <RadioGroup orientation="horizontal" value={ratioStr} onValueChange={setRatioStr}>
+                          {PRESETS.map((p) => (
+                            <Radio
+                              key={p.label}
+                              value={p.label}
+                              label={p.label}
+                              onClick={() => applyPreset(p.w, p.h)}
+                            />
+                          ))}
+                        </RadioGroup>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <Input
+                        label="Width (px)"
+                        type="number"
+                        value={scaleW || (scaledW && scaleH ? scaledW : scaleW)}
+                        onChange={(e) => { setScaleW(e.target.value); setScaleH(""); }}
+                        placeholder="Enter width…"
+                        min={1}
+                      />
+                      <Input
+                        label="Height (px)"
+                        type="number"
+                        value={scaleH || (scaledH && scaleW ? scaledH : scaleH)}
+                        onChange={(e) => { setScaleH(e.target.value); setScaleW(""); }}
+                        placeholder="Enter height…"
+                        min={1}
+                      />
+                    </div>
+                  </div>
+                </Panel>
+
+                {ratio && (scaleW || scaleH) && (scaledW || scaledH) && (
+                  <Panel>
+                    <h3 className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase mb-4">Calculated Dimensions</h3>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center relative overflow-hidden group">
+                          <div className="absolute inset-0 opacity-20 transition-opacity group-hover:opacity-40"></div>
+                          <p className="text-xs text-(--text-tertiary) font-medium mb-1 relative z-10">Width</p>
+                          <p className="text-3xl font-bold text-(--text-primary) font-mono tracking-tight relative z-10">
+                            {scaleW || scaledW}
+                            <span className="text-sm font-medium text-(--text-tertiary) ml-1">px</span>
+                          </p>
+                        </div>
+                        <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center relative overflow-hidden group">
+                          <div className="absolute inset-0 opacity-20 transition-opacity group-hover:opacity-40"></div>
+                          <p className="text-xs text-(--text-tertiary) font-medium mb-1 relative z-10">Height</p>
+                          <p className="text-3xl font-bold text-(--text-primary) font-mono tracking-tight relative z-10">
+                            {scaleH || scaledH}
+                            <span className="text-sm font-medium text-(--text-tertiary) ml-1">px</span>
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Visual preview */}
+                      {(() => {
+                        const w = parseFloat(scaleW || scaledW);
+                        const h = parseFloat(scaleH || scaledH);
+                        if (!isNaN(w) && !isNaN(h) && w > 0 && h > 0) {
+                          return (
+                            <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-6 flex items-center justify-center min-h-[160px] relative overflow-hidden">
+                              <div className="absolute inset-0 bg-(--border-default) opacity-10" style={{ backgroundImage: "radial-gradient(var(--border-primary) 1px, transparent 1px)", backgroundSize: "16px 16px" }}></div>
+                              <div
+                                className="bg-linear-to-br from-primary-400 to-primary-600 rounded-md shadow-md flex items-center justify-center transition-all duration-300 ease-out relative z-10 ring-4 ring-(--surface-primary) dark:ring-(--surface-secondary)"
+                                style={{
+                                  width: `${Math.min(260, (w / h) * 140)}px`,
+                                  height: `${Math.min(140, (h / w) * 260)}px`,
+                                }}
+                              >
+                                <div className="absolute inset-0 rounded-md ring-1 ring-black/10 dark:ring-white/10 inset-ring inset-ring-white/20"></div>
+                                <span className="text-white text-xs font-mono font-bold tracking-wider drop-shadow-md relative z-20">
+                                  {ratioStr}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        }
+                        return null;
+                      })()}
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <Button variant="ghost" onClick={clearScale} className="text-sm px-4">Clear Results</Button>
+                    </div>
+                  </Panel>
+                )}
+              </>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Panel>
     </div>
   );
 }
