@@ -1,7 +1,22 @@
 ---
 import pkg from "../../../package.json";
+import { execSync } from "node:child_process";
 
 const currentYear = new Date().getFullYear();
+
+let gitHash = "0";
+try {
+  gitHash = execSync("git rev-parse --short HEAD").toString().trim();
+} catch {
+  gitHash = "0";
+}
+
+const gitDecimal = parseInt(gitHash, 16);
+const buildNumber =
+  parseInt(pkg.version.split(".")[0]) * 1000 +
+  parseInt(pkg.version.split(".")[1]);
+
+const buildVersion = `${buildNumber}.${gitDecimal}`;
 ---
 
 <style>
@@ -92,12 +107,7 @@ const currentYear = new Date().getFullYear();
       </div>
 
       <div class="flex items-center gap-4">
-        <span class="font-mono text-xs opacity-50"
-          >Build {
-            parseInt(pkg.version.split(".")[0]) * 1000 +
-              parseInt(pkg.version.split(".")[1])
-          }</span
-        >
+        <span class="font-mono text-xs opacity-50">Build {buildVersion}</span>
         <button
           onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
           class="w-8 h-8 flex items-center justify-center rounded-full bg-(--surface-secondary) hover:bg-(--surface-elevated) transition-colors border border-transparent hover:border-(--border-default) hover:text-primary-600"
