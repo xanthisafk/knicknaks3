@@ -1,19 +1,21 @@
 import { useState, useMemo } from "react";
 import { Panel } from "@/components/layout";
+import { Input } from "@/components/ui";
+import { Tab, Tabs, TabList } from "@/components/ui/tab";
 
 export default function BmiCalculatorTool() {
   const [unit, setUnit] = useState<"metric" | "imperial">("metric");
-  
+
   const [cm, setCm] = useState("170");
   const [kg, setKg] = useState("70");
-  
+
   const [feet, setFeet] = useState("5");
   const [inches, setInches] = useState("7");
   const [lbs, setLbs] = useState("154");
 
   const result = useMemo(() => {
     let bmiValue = 0;
-    
+
     if (unit === "metric") {
       const h = parseFloat(cm) / 100;
       const w = parseFloat(kg);
@@ -32,7 +34,7 @@ export default function BmiCalculatorTool() {
 
     let category = "";
     let color = "";
-    
+
     if (bmiValue < 18.5) {
       category = "Underweight";
       color = "var(--color-blue-500)";
@@ -54,28 +56,12 @@ export default function BmiCalculatorTool() {
     <div className="space-y-6">
       <Panel>
         <div className="flex justify-center mb-6">
-          <div className="flex bg-(--surface-secondary) rounded-xl p-1 border border-(--border-default)">
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                unit === "metric"
-                  ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
-                  : "text-(--text-secondary) hover:text-(--text-primary)"
-              }`}
-              onClick={() => setUnit("metric")}
-            >
-              Metric
-            </button>
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                unit === "imperial"
-                  ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
-                  : "text-(--text-secondary) hover:text-(--text-primary)"
-              }`}
-              onClick={() => setUnit("imperial")}
-            >
-              US/Imperial
-            </button>
-          </div>
+          <Tabs value={unit} onValueChange={v => setUnit(v === "metric" ? "metric" : "imperial")}>
+            <TabList>
+              <Tab value="metric">Metric</Tab>
+              <Tab value="imperial">US/Imperial</Tab>
+            </TabList>
+          </Tabs>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -83,37 +69,38 @@ export default function BmiCalculatorTool() {
             <label className="block text-sm font-medium text-(--text-primary) mb-1">Height</label>
             {unit === "metric" ? (
               <div className="flex items-center gap-2">
-                <input
+                <Input
                   type="number"
                   value={cm}
                   onChange={(e) => setCm(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                  className="flex-1"
                   placeholder="cm"
                   min="0"
                 />
-                <span className="text-sm text-(--text-secondary)">cm</span>
+                <span className="text-sm text-(--text-secondary) shrink-0">cm</span>
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <input
+                <Input
                   type="number"
                   value={feet}
                   onChange={(e) => setFeet(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                  className="flex-1"
                   placeholder="ft"
                   min="0"
                 />
-                <span className="text-sm text-(--text-secondary)">ft</span>
-                <input
+                <span className="text-sm text-(--text-secondary) shrink-0">ft</span>
+
+                <Input
                   type="number"
                   value={inches}
                   onChange={(e) => setInches(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
                   placeholder="in"
+                  className="flex-1"
                   min="0"
                   max="11"
                 />
-                <span className="text-sm text-(--text-secondary)">in</span>
+                <span className="text-sm text-(--text-secondary) shrink-0">in</span>
               </div>
             )}
           </div>
@@ -121,24 +108,24 @@ export default function BmiCalculatorTool() {
           <div className="space-y-4">
             <label className="block text-sm font-medium text-(--text-primary) mb-1">Weight</label>
             {unit === "metric" ? (
-              <div className="flex items-center gap-2">
-                <input
+              <div className="flex items-center gap-1">
+                <Input
                   type="number"
                   value={kg}
                   onChange={(e) => setKg(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                  className="w-full grow"
                   placeholder="kg"
                   min="0"
                 />
                 <span className="text-sm text-(--text-secondary)">kg</span>
               </div>
             ) : (
-              <div className="flex items-center gap-2">
-                <input
+              <div className="flex items-center gap-1">
+                <Input
                   type="number"
                   value={lbs}
                   onChange={(e) => setLbs(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
+                  className="w-full grow"
                   placeholder="lbs"
                   min="0"
                 />
