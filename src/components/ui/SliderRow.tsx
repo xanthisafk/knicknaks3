@@ -1,12 +1,12 @@
 export interface SliderRowProps {
-    label: string;
+    label?: string;
     value: number;
-    min: number;
-    max: number;
-    unit: string;
-    isDefault: boolean;
-    onChange: (v: number) => void;
-    onReset: () => void;
+    min?: number;
+    max?: number;
+    unit?: string;
+    isDefault?: boolean;
+    onChange?: (v: number) => void;
+    onReset?: () => void;
 }
 
 export default function SliderRow({ label, value, min, max, unit, isDefault, onChange, onReset }: SliderRowProps) {
@@ -20,7 +20,7 @@ export default function SliderRow({ label, value, min, max, unit, isDefault, onC
                 min={min}
                 max={max}
                 value={value}
-                onChange={(e) => onChange(Number(e.target.value))}
+                onChange={(e) => onChange?.(Number(e.target.value))}
                 className="w-full h-1.5 rounded-full appearance-none bg-(--border-default) accent-primary-500 cursor-pointer"
             />
             <div className="rounded-sm bg-(--surface-secondary) border border-(--border-default) px-1.5 py-0.5 text-xs font-mono text-(--text-primary) text-center">

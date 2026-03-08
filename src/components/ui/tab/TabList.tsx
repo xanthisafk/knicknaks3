@@ -26,7 +26,7 @@ export function TabList({ children, className }: TabListProps) {
                     "absolute top-1 bottom-1 rounded-md",
                     "bg-white dark:bg-(--surface-primary)",
                     "border border-(--border-default) shadow-sm",
-                    "transition-all duration-200 ease-in-out",
+                    "transition-[left,width] duration-200 ease-in-out",
                     // Use will-change so only transform/width animate, not color
                 )}
                 style={{

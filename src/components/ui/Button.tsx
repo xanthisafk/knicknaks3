@@ -35,7 +35,6 @@ export function Button({
     <button
       className={cn(
         "inline-flex items-center justify-center gap-2 font-medium",
-        "transition-all duration-(--duration-fast) ease-out",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--border-focus)",
         "disabled:opacity-50 disabled:pointer-events-none",
         "cursor-pointer select-none",
