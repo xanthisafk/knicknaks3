@@ -75,7 +75,6 @@ function getLuminance(r: number, g: number, b: number): number {
 export {
     formatColor,
     rgbToOklch,
-    rgbToHsl,
     toHex,
     getLuminance
 }
