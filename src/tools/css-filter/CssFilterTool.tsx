@@ -131,7 +131,7 @@ export default function CssFilterTool() {
 
               <button
                 onClick={() => setShowGradient((v) => !v)}
-                className="text-xs text-primary-500 hover:underline"
+                className="text-xs text-primary-500 hover:underline cursor-pointer"
               >
                 {showGradient ? "Hide Demo BG" : "Show Demo BG"}
               </button>
