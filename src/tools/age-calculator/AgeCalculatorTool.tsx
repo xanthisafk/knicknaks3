@@ -5,6 +5,7 @@ import StatBox from "@/components/ui/StatBox";
 import FunStat from "@/components/advanced/FunStatCard";
 import { getZodiacSign, getChineseZodiac } from "@/lib/zodiac";
 import { countLeapDays, isLeapYear } from "@/lib/date";
+import { DateInput } from "@/components/ui/DateInput";
 
 interface AgeResult {
   years: number;
@@ -148,22 +149,20 @@ export default function AgeCalculatorTool() {
       <Panel>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text(--text-primary)">Date of Birth</label>
-            <input
-              type="date"
+            <DateInput
+              label="Date of Birth"
+              max={toDate}
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
-              max={toDate}
-              className="px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-sm"
             />
+
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text(--text-primary)">Calculate to</label>
-            <input
-              type="date"
+            <DateInput
+              label="Calculate To"
+              min={birthDate}
               value={toDate}
               onChange={(e) => setToDate(e.target.value)}
-              className="px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-sm"
             />
           </div>
         </div>
@@ -206,9 +205,9 @@ export default function AgeCalculatorTool() {
 
           {/* Fun cosmic stats */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-(--text-tertiary) mb-6">
-              🌌 Your Life, By The Numbers
-            </h3>
+            <label className="text-xs font-semibold uppercase tracking-widest text-(--text-tertiary) mb-6">
+              Your Life, By The Numbers
+            </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               <FunStat
                 emoji="❤️"

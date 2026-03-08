@@ -1,3 +1,4 @@
+import { stringHasEmoji } from "@/lib/emojiHelper";
 import { useState } from "react";
 
 export default function StatBox({
@@ -32,7 +33,7 @@ export default function StatBox({
                 </div>
             )}
 
-            <span className="text-2xl font-bold text-primary-500 tabular-nums">{value}</span>
+            <span className={`text-2xl font-bold text-primary-500 tabular-nums ${(typeof value === "string" && stringHasEmoji(value)) && "font-emoji"}`}>{value}</span>
             <span className="text-xs text-(--text-tertiary)">{label}</span>
         </div>
     );

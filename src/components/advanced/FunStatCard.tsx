@@ -35,7 +35,7 @@ export default function FunStat({
             }
         >
             <div className="flex items-center gap-2">
-                <span className="text-lg leading-none hover:animate-pulse cursor-default">{emoji}</span>
+                <span className="text-lg leading-none hover:animate-pulse cursor-default font-emoji">{emoji}</span>
                 <span
                     className="text-[10px] font-semibold tracking-widest uppercase"
                     style={{ color: highlight ? "rgba(255,255,255,0.65)" : "var(--text-tertiary)" }}

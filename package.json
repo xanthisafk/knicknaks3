@@ -1,7 +1,7 @@
 {
   "name": "knicknaks",
   "type": "module",
-  "version": "3.32.0",
+  "version": "3.33.0",
   "description": "Free, offline-capable web app with useful day-to-day tools",
   "scripts": {
     "dev": "npm version minor --no-git-tag-version && astro dev",
@@ -26,6 +26,7 @@
     "cronstrue": "^3.13.0",
     "dexie": "^4.3.0",
     "dexie-react-hooks": "^4.2.0",
+    "emoji-regex": "^10.6.0",
     "exifr": "^7.1.3",
     "fuse.js": "^7.1.0",
     "hls.js": "^1.6.15",
