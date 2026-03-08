@@ -7,6 +7,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { RadioGroup, Radio } from "@/components/ui/radio";
 import { Panel } from "@/components/layout";
 import { ResultRow } from "@/components/advanced/ResultRow";
 
@@ -81,20 +82,18 @@ export default function BaseConverterTool() {
             </div>
           </div>
 
+          <label className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase">Quick presets</label>
           <div className="flex items-center gap-3">
-            <span className="text-sm text(--text-secondary)">Quick:</span>
-            {[2, 8, 10, 16].map((b) => (
-              <button
-                key={b}
-                onClick={() => setFromBase(b)}
-                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${fromBase === b
-                  ? "bg-primary-500 text-white"
-                  : "bg-(--surface-secondary) text(--text-secondary)"
-                  }`}
-              >
-                Base {b}
-              </button>
-            ))}
+            <RadioGroup value={`${fromBase}`} orientation="horizontal" onValueChange={() => null}>
+              {[2, 8, 10, 16].map((b) => (
+                <Radio
+                  key={b}
+                  value={`${b}`}
+                  onClick={() => setFromBase(b)}
+                  label={`Base ${b}`}
+                />
+              ))}
+            </RadioGroup>
           </div>
         </div>
       </Panel>
