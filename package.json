@@ -32,6 +32,7 @@
     "iptv-playlist-parser": "^0.15.2",
     "kokoro-js": "^1.2.1",
     "leaflet": "^1.9.4",
+    "lucide-react": "^0.577.0",
     "marked": "^17.0.3",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^5.5.207",

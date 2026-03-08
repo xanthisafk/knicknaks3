@@ -1,7 +1,14 @@
 import { useState, useMemo } from "react";
-import { Input, Button } from "@/components/ui";
+import { Input } from "@/components/ui";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { ResultRow } from "@/components/advanced/ResultRow";
 
 const COMMON_BASES = [
   { base: 2, label: "Binary (2)" },
@@ -20,30 +27,6 @@ function convertBase(value: string, fromBase: number, toBase: number): string {
   } catch {
     return "";
   }
-}
-
-function ResultRow({ label, value }: { label: string; value: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <div className="flex items-center justify-between py-2 px-3 rounded-md bg-(--surface-secondary)">
-      <span className="text-xs font-medium text(--text-secondary) min-w-[120px]">{label}</span>
-      <span className="text-sm font-mono text(--text-primary) flex-1 ml-3 break-all">
-        {value || "—"}
-      </span>
-      {value && (
-        <button
-          onClick={async () => {
-            await copyToClipboard(value);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 1500);
-          }}
-          className="text-xs text-(--text-tertiary) hover:text(--text-primary) transition-colors cursor-pointer ml-2"
-        >
-          {copied ? "✓" : "Copy"}
-        </button>
-      )}
-    </div>
-  );
 }
 
 export default function BaseConverterTool() {
@@ -82,18 +65,19 @@ export default function BaseConverterTool() {
             </div>
             <div className="flex flex-col gap-1.5">
               <label className="text-sm font-medium text(--text-primary)">From Base</label>
-              <select
-                value={fromBase}
-                onChange={(e) => setFromBase(parseInt(e.target.value))}
-                className="px-3 py-2 rounded-md bg-(--surface-elevated) text(--text-primary) border border-(--border-default) text-sm cursor-pointer"
-              >
-                {COMMON_BASES.map(({ base, label }) => (
-                  <option key={base} value={base}>{label}</option>
-                ))}
-                {!COMMON_BASES.some((b) => b.base === customBase) && (
-                  <option value={customBase}>Custom ({customBase})</option>
-                )}
-              </select>
+              <Select value={String(fromBase)} onValueChange={(v) => setFromBase(parseInt(v))}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {COMMON_BASES.map(({ base, label }) => (
+                    <SelectItem key={base} value={String(base)}>{label}</SelectItem>
+                  ))}
+                  {!COMMON_BASES.some((b) => b.base === customBase) && (
+                    <SelectItem value={String(customBase)}>Custom ({customBase})</SelectItem>
+                  )}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
@@ -104,8 +88,8 @@ export default function BaseConverterTool() {
                 key={b}
                 onClick={() => setFromBase(b)}
                 className={`px-3 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${fromBase === b
-                    ? "bg-primary-500 text-white"
-                    : "bg-(--surface-secondary) text(--text-secondary)"
+                  ? "bg-primary-500 text-white"
+                  : "bg-(--surface-secondary) text(--text-secondary)"
                   }`}
               >
                 Base {b}
