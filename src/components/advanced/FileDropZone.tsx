@@ -105,7 +105,7 @@ export default function FileDropZone({
                         ref.current?.click();
                     }
                 }}
-                className={`border-2 border-dashed rounded-lg p-12 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all select-none ${dragging
+                className={`border-2 border-dashed rounded-lg p-12 flex flex-col items-center justify-center gap-3 cursor-pointer transition-color duration-200 select-none ${dragging
                     ? "border-primary-500 bg-primary-500/5"
                     : "border-(--border-default) hover:border-primary-500/60 hover:bg-(--surface-bg)"
                     } focus:border-primary-500`}

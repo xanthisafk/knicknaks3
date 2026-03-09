@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button, Input } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { PdfDropZone } from "@/components/advanced/PdfDropZone";
 import { PDFDocument } from "pdf-lib";
 import { downloadPdf, formatFileSize } from "@/tools/_pdf-utils";
+import FileDropZone from "@/components/advanced/FileDropZone";
 
 function parsePageNumbers(input: string, max: number): number[] {
   const set = new Set<number>();
@@ -25,20 +25,6 @@ export default function DeletePdfPagesTool() {
   const [deleteInput, setDeleteInput] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState("");
-
-  const handleFile = async (files: File[]) => {
-    const f = files[0];
-    if (!f) return;
-    setFile(f);
-    setStatus("");
-    try {
-      const buffer = await f.arrayBuffer();
-      const pdf = await PDFDocument.load(buffer, { ignoreEncryption: true });
-      setPageCount(pdf.getPageCount());
-    } catch {
-      setStatus("Error: Could not read PDF.");
-    }
-  };
 
   const handleDelete = async () => {
     if (!file || !deleteInput.trim()) return;
@@ -72,30 +58,28 @@ export default function DeletePdfPagesTool() {
 
   return (
     <div className="space-y-6">
-      <Panel>
-        {!file ? (
-          <PdfDropZone onFiles={handleFile} />
-        ) : (
-          <div className="space-y-4">
-            <div className="flex items-center gap-3 px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)]">
-              <span>📄</span>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text(--text-primary) truncate">{file.name}</p>
-                <p className="text-xs text-[var(--text-tertiary)]">{formatFileSize(file.size)} · {pageCount} pages</p>
-              </div>
-              <button onClick={reset} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--color-error)] transition-colors cursor-pointer">✕</button>
-            </div>
+      {!file && <FileDropZone accepts="application/pdf" emoji="📄" onUpload={e => setFile(e.file)} />}
+      {file && <Panel>
 
-            <Input
-              label="Pages to Delete"
-              value={deleteInput}
-              onChange={(e) => setDeleteInput(e.target.value)}
-              placeholder="e.g. 2, 5-7"
-              helperText={`Enter page numbers to remove. Total pages: ${pageCount}`}
-            />
+        <div className="space-y-4">
+          <div className="flex items-center gap-3 px-3 py-2 rounded-md bg-(--surface-secondary) border border-(--border-default)">
+            <span className="font-emoji">📄</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text(--text-primary) truncate">{file.name}</p>
+              <p className="text-xs text-(--text-tertiary)">{formatFileSize(file.size)} · {pageCount} pages</p>
+            </div>
+            <button onClick={reset} className="text-xs text-(--text-tertiary) hover:text-error transition-colors cursor-pointer">✕</button>
           </div>
-        )}
-      </Panel>
+
+          <Input
+            label="Pages to Delete"
+            value={deleteInput}
+            onChange={(e) => setDeleteInput(e.target.value)}
+            placeholder="e.g. 2, 5-7"
+            helperText={`Enter page numbers to remove. Total pages: ${pageCount}`}
+          />
+        </div>
+      </Panel>}
 
       {file && (
         <Panel>
@@ -106,7 +90,7 @@ export default function DeletePdfPagesTool() {
             <Button variant="ghost" onClick={reset}>Choose Another</Button>
           </div>
           {status && (
-            <p className={`mt-3 text-sm ${status.startsWith("Error") || status.startsWith("Can't") ? "text-[var(--color-error)]" : "text(--text-secondary)"}`}>
+            <p className={`mt-3 text-sm ${status.startsWith("Error") || status.startsWith("Can't") ? "text-error" : "text(--text-secondary)"}`}>
               {status}
             </p>
           )}
