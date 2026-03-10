@@ -1,34 +1,36 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Input } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { PDFDocument } from "pdf-lib";
 import { downloadPdf, formatFileSize } from "@/tools/_pdf-utils";
 import FileDropZone from "@/components/advanced/FileDropZone";
-
-function parsePageNumbers(input: string, max: number): number[] {
-  const set = new Set<number>();
-  for (const part of input.split(",").map((s) => s.trim()).filter(Boolean)) {
-    if (part.includes("-")) {
-      const [a, b] = part.split("-").map(Number);
-      for (let i = Math.max(1, a); i <= Math.min(max, b); i++) set.add(i);
-    } else {
-      const n = parseInt(part);
-      if (n >= 1 && n <= max) set.add(n);
-    }
-  }
-  return Array.from(set).sort((a, b) => a - b);
-}
+import { PdfPreviewPanel } from "@/components/advanced/Pdf";
+import { parsePageSelection, pageNumbersToRangeString, getPdfPageCount, isPdf, selectPages, QuickSelect } from "@/lib/pdfHelper";
 
 export default function DeletePdfPagesTool() {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [deleteInput, setDeleteInput] = useState("");
+  const parsedDeleteList = useMemo(
+    () => parsePageSelection(deleteInput, pageCount).pageNumbers,
+    [deleteInput, pageCount]
+  );
+
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState("");
 
+  const handleUpload = async (file: File) => {
+    if (!isPdf(file)) {
+      setStatus("Please upload a valid PDF file.");
+      return;
+    }
+    setFile(file);
+    setPageCount(await getPdfPageCount(file));
+  }
+
   const handleDelete = async () => {
     if (!file || !deleteInput.trim()) return;
-    const toDelete = new Set(parsePageNumbers(deleteInput, pageCount));
+    const toDelete = new Set(parsePageSelection(deleteInput, pageCount).pageNumbers);
     if (toDelete.size === 0) { setStatus("No valid pages selected."); return; }
     if (toDelete.size >= pageCount) { setStatus("Can't delete all pages."); return; }
 
@@ -56,9 +58,22 @@ export default function DeletePdfPagesTool() {
 
   const reset = () => { setFile(null); setPageCount(0); setDeleteInput(""); setStatus(""); };
 
+  const handlePageClick = (num: number) => {
+    const parse = parsePageSelection(deleteInput, pageCount).pageNumbers;
+    if (parse.includes(num)) {
+      const index = parse.indexOf(num);
+      if (index > -1) {
+        parse.splice(index, 1);
+      }
+    } else {
+      parse.push(num);
+    }
+    setDeleteInput(pageNumbersToRangeString(parse));
+  }
+
   return (
     <div className="space-y-6">
-      {!file && <FileDropZone accepts="application/pdf" emoji="📄" onUpload={e => setFile(e.file)} />}
+      {!file && <FileDropZone accepts="application/pdf" emoji="📄" onUpload={e => handleUpload(e.file)} />}
       {file && <Panel>
 
         <div className="space-y-4">
@@ -78,24 +93,58 @@ export default function DeletePdfPagesTool() {
             placeholder="e.g. 2, 5-7"
             helperText={`Enter page numbers to remove. Total pages: ${pageCount}`}
           />
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-medium text(--text-primary)">Quick Select</label>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 py-2 rounded-md">
+              {QuickSelect.map((item) => (
+                <Button
+                  variant="secondary"
+                  key={item.key}
+                  onClick={() => {
+                    setDeleteInput(
+                      pageNumbersToRangeString(item.select(pageCount))
+                    );
+                  }}
+                  className="w-full text-xs"
+                >
+                  {item.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center gap-4">
+              <Button variant="danger" onClick={handleDelete} disabled={isProcessing || !deleteInput.trim()}>
+                {isProcessing ? "Removing…" : "Remove Pages and save file"}
+              </Button>
+              <Button variant="ghost" onClick={reset}>Choose Another</Button>
+            </div>
+            {status && (
+              <p className={`mt-3 text-sm ${status.startsWith("Error") || status.startsWith("Can't") ? "text-error" : "text(--text-secondary)"}`}>
+                {status}
+              </p>
+            )}
+          </div>
         </div>
       </Panel>}
 
-      {file && (
-        <Panel>
-          <div className="flex items-center gap-4">
-            <Button variant="danger" onClick={handleDelete} disabled={isProcessing || !deleteInput.trim()}>
-              {isProcessing ? "Removing…" : "Remove Pages"}
-            </Button>
-            <Button variant="ghost" onClick={reset}>Choose Another</Button>
-          </div>
-          {status && (
-            <p className={`mt-3 text-sm ${status.startsWith("Error") || status.startsWith("Can't") ? "text-error" : "text(--text-secondary)"}`}>
-              {status}
-            </p>
-          )}
-        </Panel>
-      )}
+      {file &&
+        <PdfPreviewPanel
+          file={file}
+          onClear={reset}
+          onPageClick={handlePageClick}
+          renderOverlay={(pageNo, _) => {
+            return parsedDeleteList.includes(pageNo) ? (
+              <div className="absolute inset-0 flex items-center justify-center rounded-sm bg-red-500/40 pointer-events-none">
+                <span className="text-white text-2xl font-bold font-emoji">❌</span>
+              </div>
+            ) : null
+          }
+          }
+        />
+      }
     </div>
   );
 }
