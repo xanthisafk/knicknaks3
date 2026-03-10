@@ -21,10 +21,10 @@ tool-card relative overflow-visible"
     tool.status && (
       <div class="absolute -top-px -right-px flex flex-col items-center pointer-events-none">
         <div class="flex items-center justify-center gap-1 px-2 pt-1.5 pb-0 bg-(--surface-secondary) border border-b-0 border-(--border-default) min-w-[44px]">
-          <span class="text-[10px] leading-none">
+          <span class="text-xs leading-none font-emoji">
             {STATUS_INFO[tool.status].icon}
           </span>
-          <span class="text-[9px] uppercase font-bold tracking-widest text(--text-secondary) leading-none">
+          <span class="text-[10px] uppercase font-bold tracking-widest text(--text-secondary) leading-none">
             {STATUS_INFO[tool.status].label}
           </span>
         </div>

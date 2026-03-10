@@ -47,17 +47,19 @@ export const CATEGORY_INFO: Record<ToolCategory, { label: string; icon: string; 
 export const TOOL_STATUSES = [
   "new",
   "beta",
-  "dev-pick",
+  // "dev-pick",
   "popular",
   "alpha",
+  "updated",
 ] as const;
 
 export type ToolStatus = (typeof TOOL_STATUSES)[number];
 
 export const STATUS_INFO: Record<ToolStatus, { label: string; icon: string; }> = {
-  new: { label: "New", icon: "✨" },
   popular: { label: "Popular", icon: "🔥" },
-  "dev-pick": { label: "Dev Pick", icon: "🛡️" },
+  new: { label: "New", icon: "✨" },
+  updated: { label: "Updated", icon: "🔨" },
+  // "dev-pick": { label: "Dev Pick", icon: "🛡️" },
   beta: { label: "Beta", icon: "🧪" },
   alpha: { label: "Alpha", icon: "🚧" },
 };

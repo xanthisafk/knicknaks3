@@ -70,7 +70,7 @@ const structuredData = {
               class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none"
             >
               <span
-                class="text-xs font-bold text-(--text-tertiary) px-2 py-1 border border-(--border-default) rounded-md bg-(--surface-bg)"
+                class="hidden sm:block text-xs font-bold text-(--text-tertiary) px-2 py-1 border border-(--border-default) rounded-md bg-(--surface-bg)"
                 id="search-hint"
               >
                 ⌘K
@@ -80,20 +80,30 @@ const structuredData = {
 
           <!-- Status Filters -->
           <div
-            class="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto"
+            class="relative flex flex-wrap items-center justify-center gap-1 max-w-2xl mx-auto"
+            id="status-filter-group"
           >
+            {/* Sliding pill — positioned absolutely, moved via JS */}
+            <div
+              id="filter-pill"
+              class="absolute rounded-full bg-white/10 backdrop-blur-sm transition-[left,top,width,height] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] pointer-events-none"
+              aria-hidden="true"
+            >
+            </div>
+
             <button
-              class="status-filter-btn px-3 py-1.5 rounded-full text-sm font-medium border bg-(--surface-elevated) text(--text-primary) border-(--border-default) hover:border-(--border-hover)"
+              class="status-filter-btn relative z-10 px-2 py-1 rounded-full text-xs font-medium cursor-pointer text-(--text-primary)"
               data-status="all"
             >
-              All Tools
+              <span class="mr-1 font-emoji">🌏</span>All Tools
             </button>
+
             {
               TOOL_STATUSES.map((status) => {
                 const info = STATUS_INFO[status];
                 return (
                   <button
-                    class="status-filter-btn px-3 py-1.5 rounded-full text-sm font-medium border bg-transparent text(--text-secondary) border-transparent hover:bg-(--surface-secondary) hover:text(--text-primary)"
+                    class="status-filter-btn relative z-10 px-2 py-1 rounded-full text-xs font-medium cursor-pointer text-(--text-secondary)  "
                     data-status={status}
                   >
                     <span class="mr-1 font-emoji">{info.icon}</span>
@@ -290,20 +300,95 @@ const structuredData = {
       window.addEventListener("keydown", (e) => {
         if ((e.metaKey || e.ctrlKey) && e.key === "k") {
           e.preventDefault();
+          searchInput.scrollIntoView();
           searchInput.focus();
         }
       });
     }
+  </script>
 
-    setInterval(() => {
-      const searchHint = document.getElementById("search-hint");
-      if (searchHint) {
-        if (searchHint.textContent === "Ctrl+K") {
-          searchHint.textContent = "⌘K";
-        } else {
-          searchHint.textContent = "Ctrl+K";
-        }
+  <!-- Search hint platform detection -->
+  <script>
+    const searchHint = document.getElementById("search-hint");
+
+    if (searchHint) {
+      const isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      searchHint.textContent = isMac ? "⌘K" : "Ctrl+K";
+    }
+  </script>
+
+  <!-- Sliding pill effect -->
+  <script>
+    function initStatusFilter(): void {
+      const group = document.getElementById("status-filter-group");
+      const pill = document.getElementById("filter-pill");
+
+      if (!group || !pill) return;
+
+      const buttons = Array.from(
+        group.querySelectorAll<HTMLButtonElement>(".status-filter-btn"),
+      );
+
+      function movePillTo(btn: HTMLButtonElement): void {
+        const groupRect = group!.getBoundingClientRect();
+        const btnRect = btn.getBoundingClientRect();
+
+        pill!.style.left = `${btnRect.left - groupRect.left + group!.scrollLeft}px`;
+        pill!.style.top = `${btnRect.top - groupRect.top + group!.scrollTop}px`;
+        pill!.style.width = `${btnRect.width}px`;
+        pill!.style.height = `${btnRect.height}px`;
       }
-    }, 3000);
+
+      function setActive(btn: HTMLButtonElement): void {
+        buttons.forEach((b) => {
+          b.classList.remove("text-(--text-primary)");
+          b.classList.add("text-(--text-secondary)");
+        });
+        btn.classList.remove("text-(--text-secondary)");
+        btn.classList.add("text-(--text-primary)");
+        movePillTo(btn);
+      }
+
+      // Set initial state (no transition on first paint)
+      pill.style.transition = "none";
+      const initial = buttons[0];
+      if (initial) {
+        setActive(initial);
+      }
+
+      // Re-enable transition after initial placement
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          pill.style.transition =
+            "left 300ms cubic-bezier(0.4,0,0.2,1), top 300ms cubic-bezier(0.4,0,0.2,1), width 300ms cubic-bezier(0.4,0,0.2,1), height 300ms cubic-bezier(0.4,0,0.2,1)";
+        });
+      });
+
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => setActive(btn));
+      });
+
+      // Recalculate on resize so the pill doesn't drift
+      const observer = new ResizeObserver(() => {
+        const active = buttons.find((b) =>
+          b.classList.contains("text-(--text-primary)"),
+        );
+        if (active) {
+          pill!.style.transition = "none";
+          movePillTo(active);
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              pill!.style.transition = "";
+            });
+          });
+        }
+      });
+
+      observer.observe(group);
+    }
+
+    // Works with Astro's view transitions too
+    document.addEventListener("astro:page-load", initStatusFilter);
+    initStatusFilter();
   </script>
 </BaseLayout>

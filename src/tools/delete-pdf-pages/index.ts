@@ -10,6 +10,7 @@ export const definition: ToolDefinition = {
 
   category: "pdf",
   icon: "🗑️",
+  status: "updated",
   keywords: [
     "delete pdf pages online",
     "remove pages from pdf",
