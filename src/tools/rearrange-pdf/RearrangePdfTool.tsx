@@ -94,29 +94,29 @@ export default function RearrangePdfTool() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text(--text-primary)">{file.name}</p>
-                <p className="text-xs text-[var(--text-tertiary)]">{formatFileSize(file.size)} · {pageCount} pages</p>
+                <p className="text-xs text-(--text-tertiary)">{formatFileSize(file.size)} · {pageCount} pages</p>
               </div>
-              <button onClick={reset} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--color-error)] transition-colors cursor-pointer">✕ Clear</button>
+              <button onClick={reset} className="text-xs text-(--text-tertiary) hover:text-error transition-colors cursor-pointer">✕ Clear</button>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
               {pageOrder.map((originalIdx, currentPos) => (
                 <div
                   key={`page-${originalIdx}`}
-                  className="relative flex flex-col items-center gap-1.5 p-2 rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-secondary)]"
+                  className="relative flex flex-col items-center gap-1.5 p-2 rounded-md border border-(--border-default) bg-(--surface-secondary)"
                 >
                   {thumbnails[originalIdx] && (
                     <img
                       src={thumbnails[originalIdx]}
                       alt={`Page ${originalIdx + 1}`}
-                      className="w-full rounded-[var(--radius-sm)] shadow-sm"
+                      className="w-full rounded-sm shadow-sm"
                     />
                   )}
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => movePage(currentPos, "up")}
                       disabled={currentPos === 0}
-                      className="px-1.5 py-0.5 text-xs rounded bg-[var(--surface-elevated)] disabled:opacity-30 hover:bg-[var(--color-primary-500)] hover:text-white transition-colors cursor-pointer disabled:cursor-default"
+                      className="px-1.5 py-0.5 text-xs rounded bg-(--surface-elevated) disabled:opacity-30 hover:bg-primary-500 hover:text-white cursor-pointer disabled:cursor-default"
                     >
                       ←
                     </button>
@@ -126,7 +126,7 @@ export default function RearrangePdfTool() {
                     <button
                       onClick={() => movePage(currentPos, "down")}
                       disabled={currentPos === pageOrder.length - 1}
-                      className="px-1.5 py-0.5 text-xs rounded bg-[var(--surface-elevated)] disabled:opacity-30 hover:bg-[var(--color-primary-500)] hover:text-white transition-colors cursor-pointer disabled:cursor-default"
+                      className="px-1.5 py-0.5 text-xs rounded bg-(--surface-elevated) disabled:opacity-30 hover:bg-primary-500 hover:text-white cursor-pointer disabled:cursor-default"
                     >
                       →
                     </button>
@@ -153,7 +153,7 @@ export default function RearrangePdfTool() {
             </Button>
           </div>
           {status && (
-            <p className={`mt-3 text-sm ${status.startsWith("Error") ? "text-[var(--color-error)]" : "text(--text-secondary)"}`}>
+            <p className={`mt-3 text-sm ${status.startsWith("Error") ? "text-error" : "text(--text-secondary)"}`}>
               {status}
             </p>
           )}

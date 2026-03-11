@@ -25,3 +25,7 @@ pnpm-debug.log*
 priority category
 x
 tools2.md
+
+# AI Agent & Design System
+.agent/
+design-system/

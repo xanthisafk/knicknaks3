@@ -37,171 +37,373 @@ const { activeTab } = Astro.props;
 
         <div class="w-px h-4 bg-[--border-default] mx-1"></div>
 
-        <button
-          id="theme-toggle-btn"
-          type="button"
-          class="w-8 h-8 text-lg flex items-center justify-center rounded-md text-(--text-secondary) hover:text-(--text-primary) transition-colors relative cursor-pointer"
-          aria-label="Toggle theme"
-        >
-          <span
-            class="theme-icon-light absolute transition-all duration-300 font-emoji"
-            >🌞</span
+        <!-- Theme switcher: icon cycles on click, chevron opens picker -->
+        <div class="flex items-center" id="theme-switcher-wrapper">
+          <button
+            id="theme-cycle-btn"
+            type="button"
+            class="w-8 h-8 text-lg flex items-center justify-center rounded-l-md text-(--text-secondary) hover:text-(--text-primary) transition-colors relative cursor-pointer"
+            aria-label="Cycle theme"
+            title="Click to cycle theme"
           >
-          <span
-            class="theme-icon-dark absolute transition-all duration-300 font-emoji"
-            >🌚</span
-          >
-        </button>
+            <span
+              id="theme-current-icon"
+              class="font-emoji transition-all duration-300 absolute">🌞</span
+            >
+          </button>
+
+          <div class="relative">
+            <button
+              id="theme-picker-btn"
+              type="button"
+              class="w-5 h-8 flex items-center justify-center rounded-r-md text-(--text-secondary) hover:text-(--text-primary) transition-colors cursor-pointer opacity-50 hover:opacity-100"
+              aria-label="Pick theme"
+              title="Choose a theme"
+            >
+              <svg
+                width="10"
+                height="6"
+                viewBox="0 0 10 6"
+                fill="currentColor"
+                class="transition-transform duration-200"
+                id="theme-chevron"
+              >
+                <path
+                  d="M0.5 0.5L5 5L9.5 0.5"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </button>
+
+            <!-- Dropdown -->
+            <div
+              id="theme-dropdown"
+              class="absolute right-0 top-full mt-2 hidden"
+              style="z-index: 100;"
+            >
+              <div
+                class="rounded-xl border border-(--border-default) bg-(--surface-bg) shadow-xl backdrop-blur-xl overflow-hidden"
+                style="min-width: 140px;"
+              >
+                <div class="p-1.5" id="theme-options-list">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </header>
 
 <style>
-  html[data-theme="dark"] .theme-icon-dark {
+  /* ── Dropdown animation ── */
+  #theme-dropdown {
     opacity: 0;
-    transform: scale(0.5) rotate(-45deg);
+    transform: translateY(-6px) scale(0.97);
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+    pointer-events: none;
   }
-  html[data-theme="dark"] .theme-icon-light {
+  #theme-dropdown.open {
     opacity: 1;
-    transform: scale(1) rotate(0deg);
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    display: block !important;
   }
 
-  html[data-theme="light"] .theme-icon-dark {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
+  /* Theme option button */
+  .theme-option-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    transition:
+      background 0.1s,
+      color 0.1s;
+    white-space: nowrap;
+    text-align: left;
   }
-  html[data-theme="light"] .theme-icon-light {
-    opacity: 0;
-    transform: scale(0.5) rotate(45deg);
+  .theme-option-btn:hover {
+    background: var(--border-default, rgba(128, 128, 128, 0.12));
+    color: var(--text-primary);
+  }
+  .theme-option-btn.active {
+    background: var(--border-default, rgba(128, 128, 128, 0.18));
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+  .theme-option-icon {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  /* Chevron open state */
+  #theme-chevron.rotated {
+    transform: rotate(180deg);
+  }
+
+  /* ── Current icon bounce-in animation ── */
+  @keyframes iconPop {
+    0% {
+      transform: scale(0.5) rotate(-30deg);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.25) rotate(8deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+  .icon-pop {
+    animation: iconPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
 </style>
 
 <script is:inline>
-  // ── Theme toggle ──────────────────────────────────────────────────────────
-  document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("theme-toggle-btn");
-    if (btn) {
-      btn.addEventListener("click", () => {
-        const current = document.documentElement.getAttribute("data-theme");
-        const next = current === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", next);
-        localStorage.setItem("knicknaks-theme", next);
-      });
+  // ─────────────────────────────────────────────────────────────────────────
+  // THEMES CONFIG — add new entries here to extend theme support
+  // Each key must match a `data-theme` value handled by your CSS.
+  // ─────────────────────────────────────────────────────────────────────────
+  const THEMES = {
+    light: { icon: "🌞", label: "Light" },
+    dark: { icon: "🌚", label: "Dark" },
+    forest: { icon: "🌲", label: "Forest" },
+    ocean: { icon: "🌊", label: "Ocean" },
+    sunset: { icon: "🌅", label: "Sunset" },
+    sakura: { icon: "🌸", label: "Sakura" },
+    midnight: { icon: "🌙", label: "Midnight" },
+    aurora: { icon: "🌌", label: "Aurora" },
+    desert: { icon: "🏜️", label: "Desert" },
+    lavender: { icon: "🪻", label: "Lavender" },
+    arctic: { icon: "🧊", label: "Arctic" },
+    cyberpunk: { icon: "🟣", label: "Cyberpunk" },
+    emerald: { icon: "💚", label: "Emerald" },
+    rose: { icon: "🌹", label: "Rose" },
+    matcha: { icon: "🍵", label: "Matcha" },
+    volcano: { icon: "🌋", label: "Volcano" },
+  };
+
+  const THEME_KEYS = Object.keys(THEMES);
+  const STORAGE_KEY = "knicknaks-theme";
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function getCurrentTheme() {
+    return document.documentElement.getAttribute("data-theme") || THEME_KEYS[0];
+  }
+
+  function applyTheme(key) {
+    document.documentElement.setAttribute("data-theme", key);
+    localStorage.setItem(STORAGE_KEY, key);
+    updateUI(key);
+  }
+
+  function cycleTheme() {
+    const current = getCurrentTheme();
+    const idx = THEME_KEYS.indexOf(current);
+    const next = THEME_KEYS[(idx + 1) % THEME_KEYS.length];
+    applyTheme(next);
+  }
+
+  function updateUI(activeKey) {
+    // Update the main icon with a pop animation
+    const iconEl = document.getElementById("theme-current-icon");
+    if (iconEl) {
+      iconEl.classList.remove("icon-pop");
+      // Force reflow so the animation re-triggers
+      void iconEl.offsetWidth;
+      iconEl.textContent = THEMES[activeKey]?.icon ?? "🎨";
+      iconEl.classList.add("icon-pop");
     }
+
+    // Highlight active option in dropdown
+    document.querySelectorAll(".theme-option-btn").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.theme === activeKey);
+    });
+  }
+
+  // ── Build dropdown options ────────────────────────────────────────────────
+  function buildDropdown() {
+    const list = document.getElementById("theme-options-list");
+    if (!list) return;
+    list.innerHTML = "";
+    THEME_KEYS.forEach((key) => {
+      const { icon, label } = THEMES[key];
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "theme-option-btn";
+      btn.dataset.theme = key;
+      btn.innerHTML = `<span class="theme-option-icon font-emoji">${icon}</span><span>${label}</span>`;
+      btn.addEventListener("click", () => {
+        applyTheme(key);
+        closeDropdown();
+      });
+      list.appendChild(btn);
+    });
+  }
+
+  // ── Dropdown open/close ───────────────────────────────────────────────────
+  let dropdownOpen = false;
+
+  function openDropdown() {
+    const dd = document.getElementById("theme-dropdown");
+    const chevron = document.getElementById("theme-chevron");
+    if (!dd) return;
+    dd.classList.remove("hidden");
+    // Trigger transition on next frame
+    requestAnimationFrame(() => dd.classList.add("open"));
+    chevron?.classList.add("rotated");
+    dropdownOpen = true;
+  }
+
+  function closeDropdown() {
+    const dd = document.getElementById("theme-dropdown");
+    const chevron = document.getElementById("theme-chevron");
+    if (!dd) return;
+    dd.classList.remove("open");
+    chevron?.classList.remove("rotated");
+    dropdownOpen = false;
+    // Hide after transition completes
+    setTimeout(() => {
+      if (!dropdownOpen) dd.classList.add("hidden");
+    }, 160);
+  }
+
+  function toggleDropdown() {
+    dropdownOpen ? closeDropdown() : openDropdown();
+  }
+
+  // ── Init ──────────────────────────────────────────────────────────────────
+  document.addEventListener("DOMContentLoaded", () => {
+    buildDropdown();
+
+    const current = localStorage.getItem(STORAGE_KEY) || THEME_KEYS[0];
+    applyTheme(current);
+
+    // Cycle on main icon click
+    document
+      .getElementById("theme-cycle-btn")
+      ?.addEventListener("click", cycleTheme);
+
+    // Toggle dropdown on chevron click
+    document
+      .getElementById("theme-picker-btn")
+      ?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleDropdown();
+      });
+
+    // Close dropdown on outside click
+    document.addEventListener("click", (e) => {
+      if (
+        dropdownOpen &&
+        !document.getElementById("theme-switcher-wrapper")?.contains(e.target)
+      ) {
+        closeDropdown();
+      }
+    });
 
     // ── Yoyo animation ──────────────────────────────────────────────────────
     initYoyoMotion();
   });
 
+  // ── Yoyo (unchanged) ─────────────────────────────────────────────────────
   function initYoyoMotion() {
     const yoyo = document.getElementById("yoyo-icon");
     if (!yoyo) return;
 
-    // Lerp helper - smoothly closes the gap between current and target value
     function lerp(a, b, t) {
       return a + (b - a) * t;
     }
 
-    // ── Mobile: DeviceOrientation ─────────────────────────────────────────
-    // gamma = left/right tilt (-90 … +90 deg)
-    // We map gamma to a rotation so the yoyo "stands up" (counter-tilts the device).
-    // When the phone tilts right (positive gamma) the yoyo leans left to stay upright.
     function tryDeviceOrientation() {
-      let targetAngle = 0;
-      let currentAngle = 0;
-      let rafId = null;
-
+      let targetAngle = 0,
+        currentAngle = 0,
+        rafId = null;
       function onOrientation(e) {
-        // gamma: left-right tilt of device; clamp to ±45° for sanity
         const gamma = Math.max(-45, Math.min(45, e.gamma || 0));
-        // Negate: phone tilts right → yoyo rotates left to stay vertical
         targetAngle = -gamma;
       }
-
       function tick() {
         currentAngle = lerp(currentAngle, targetAngle, 0.12);
         yoyo.style.transform = `rotate(${currentAngle.toFixed(2)}deg)`;
         rafId = requestAnimationFrame(tick);
       }
-
       window.addEventListener("deviceorientation", onOrientation, true);
       tick();
-
       return () => {
         window.removeEventListener("deviceorientation", onOrientation, true);
         cancelAnimationFrame(rafId);
       };
     }
 
-    // ── Desktop: gentle idle wobble ───────────────────────────────────────
     function startDesktopWobble() {
-      let targetAngle = 0;
-      let currentAngle = 0;
-      let rafId = null;
+      let targetAngle = 0,
+        currentAngle = 0,
+        rafId = null;
       let lastSwitch = performance.now();
-
-      // Alternate between a small left and right lean every ~1.6 s
-      const AMPLITUDE = 14; // degrees
-      const HOLD_MS = 1600; // time between direction changes
+      const AMPLITUDE = 14,
+        HOLD_MS = 1600;
       let direction = 1;
-
       function tick(now) {
         if (now - lastSwitch > HOLD_MS) {
           direction *= -1;
           targetAngle = direction * AMPLITUDE;
           lastSwitch = now;
         }
-
         currentAngle = lerp(currentAngle, targetAngle, 0.035);
         yoyo.style.transform = `rotate(${currentAngle.toFixed(2)}deg)`;
         rafId = requestAnimationFrame(tick);
       }
-
       rafId = requestAnimationFrame(tick);
-
       return () => cancelAnimationFrame(rafId);
     }
 
-    // ── Feature-detect and branch ─────────────────────────────────────────
     const isMobile =
       /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
       ("ontouchstart" in window && navigator.maxTouchPoints > 0);
 
     if (isMobile && typeof DeviceOrientationEvent !== "undefined") {
-      // iOS 13+ requires explicit permission
       if (typeof DeviceOrientationEvent.requestPermission === "function") {
-        // We can't request permission without a user gesture, so we attach a
-        // one-time tap listener on the yoyo itself as the gesture trigger.
         yoyo.style.cursor = "pointer";
         yoyo.title = "Tap to enable tilt";
-
-        const startWobble = startDesktopWobble(); // fallback until granted
-
+        const startWobble = startDesktopWobble();
         yoyo.addEventListener(
           "click",
           () => {
             DeviceOrientationEvent.requestPermission()
               .then((state) => {
                 if (state === "granted") {
-                  startWobble(); // stop the desktop wobble
+                  startWobble();
                   tryDeviceOrientation();
                   yoyo.style.cursor = "";
                   yoyo.title = "";
                 }
               })
-              .catch(() => {
-                /* permission denied - keep wobble */
-              });
+              .catch(() => {});
           },
           { once: true },
         );
       } else {
-        // Android / older iOS - no permission needed
         tryDeviceOrientation();
       }
     } else {
-      // Desktop or device without orientation support
       startDesktopWobble();
     }
   }
