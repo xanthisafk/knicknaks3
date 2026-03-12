@@ -9,6 +9,7 @@ export const definition: ToolDefinition = {
     "This zero-server tool writes the new structural arrangement exclusively utilizing your local device resources via pdf-lib.",
   category: "pdf",
   icon: "🔀",
+  status: "updated",
   keywords: ["rearrange pdf pages", "reorder pdf online", "move pdf pages order", "sort pdf document online", "visual pdf page organizer", "drag and drop pdf sorter", "local pdf restructure"],
   tags: ["pdf", "edit"],
 

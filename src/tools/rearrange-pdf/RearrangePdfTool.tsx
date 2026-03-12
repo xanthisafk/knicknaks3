@@ -87,7 +87,7 @@ export default function RearrangePdfTool() {
           <PdfDropZone onFiles={handleFile} />
         ) : isLoading ? (
           <div className="text-center py-8">
-            <p className="text-sm text(--text-secondary)">Loading page thumbnails…</p>
+            <p className="text-sm text(--text-secondary)">Loading documents...</p>
           </div>
         ) : (
           <div className="space-y-4">
