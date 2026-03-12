@@ -132,6 +132,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  transition: all var(--duration-fast) ease-out;
 }
 
 html {
