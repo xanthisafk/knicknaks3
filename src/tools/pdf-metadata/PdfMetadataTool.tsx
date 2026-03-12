@@ -109,7 +109,7 @@ export default function PdfMetadataTool() {
         <Panel>
           <div className="flex items-center gap-4">
             <Button onClick={handleSave} disabled={isProcessing}>
-              {isProcessing ? "Saving…" : "Save Metadata & Download"}
+              {isProcessing ? "Saving..." : "Save Metadata & Download"}
             </Button>
             <Button variant="ghost" onClick={reset}>Choose Another</Button>
           </div>

@@ -100,11 +100,10 @@ export default function PdfToImagesTool() {
   const scaleButton = (label: string, value: number) => (
     <button
       onClick={() => setScale(value)}
-      className={`px-3 py-1.5 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer ${
-        scale === value
-          ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
-          : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
-      }`}
+      className={`px-3 py-1.5 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer ${scale === value
+        ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
+        : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
+        }`}
     >
       {label}
     </button>
@@ -133,11 +132,10 @@ export default function PdfToImagesTool() {
                   <button
                     key={f}
                     onClick={() => setFormat(f)}
-                    className={`px-4 py-2 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer uppercase ${
-                      format === f
-                        ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
-                        : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
-                    }`}
+                    className={`px-4 py-2 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer uppercase ${format === f
+                      ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
+                      : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
+                      }`}
                   >
                     {f === "jpeg" ? "JPG" : f}
                   </button>
@@ -148,9 +146,9 @@ export default function PdfToImagesTool() {
             <div className="space-y-3">
               <label className="text-sm font-medium text(--text-primary)">Quality</label>
               <div className="flex gap-2">
-                {scaleButton("Low (1×)", 1)}
-                {scaleButton("Medium (2×)", 2)}
-                {scaleButton("High (3×)", 3)}
+                {scaleButton("Low (1x)", 1)}
+                {scaleButton("Medium (2x)", 2)}
+                {scaleButton("High (3x)", 3)}
               </div>
             </div>
           </div>
@@ -161,7 +159,7 @@ export default function PdfToImagesTool() {
         <Panel>
           <div className="flex items-center gap-4">
             <Button onClick={handleConvert} disabled={isProcessing}>
-              {isProcessing ? "Rendering…" : "Convert to Images"}
+              {isProcessing ? "Rendering..." : "Convert to Images"}
             </Button>
             {images.length > 1 && (
               <Button variant="secondary" onClick={downloadAll}>

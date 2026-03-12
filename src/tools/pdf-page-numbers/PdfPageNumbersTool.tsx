@@ -80,11 +80,10 @@ export default function PdfPageNumbersTool() {
   const posButton = (label: string, active: boolean, onClick: () => void) => (
     <button
       onClick={onClick}
-      className={`px-3 py-1.5 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer ${
-        active
+      className={`px-3 py-1.5 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer ${active
           ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
           : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
-      }`}
+        }`}
     >
       {label}
     </button>
@@ -148,7 +147,7 @@ export default function PdfPageNumbersTool() {
         <Panel>
           <div className="flex items-center gap-4">
             <Button onClick={handleAddNumbers} disabled={isProcessing}>
-              {isProcessing ? "Adding…" : "Add Page Numbers & Download"}
+              {isProcessing ? "Adding..." : "Add Page Numbers & Download"}
             </Button>
             <Button variant="ghost" onClick={reset}>Choose Another</Button>
           </div>

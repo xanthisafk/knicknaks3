@@ -120,7 +120,7 @@ export default function Base64Tool() {
             <Textarea
               value={input}
               onChange={(e) => handleInputChange(e.target.value)}
-              placeholder={mode === "encode" ? "Enter text to encode…" : "Enter Base64 to decode…"}
+              placeholder={mode === "encode" ? "Enter text to encode..." : "Enter Base64 to decode..."}
               className="h-48 font-mono text-sm"
             />
           </div>
@@ -142,7 +142,7 @@ export default function Base64Tool() {
             <Textarea
               value={output}
               readOnly
-              placeholder="Output will appear here…"
+              placeholder="Output will appear here..."
               className="h-48 font-mono text-sm"
             />
           </div>

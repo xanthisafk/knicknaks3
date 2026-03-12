@@ -237,7 +237,7 @@ export default function WatermarkPdfTool() {
           </p>
           {!pdfDoc ? (
             <div className="flex items-center justify-center h-40 text-sm text-[var(--text-tertiary)]">
-              Loading preview…
+              Loading preview...
             </div>
           ) : (
             <div className={`flex gap-4 ${previewPages > 1 ? "flex-col sm:flex-row" : ""}`}>
@@ -263,7 +263,7 @@ export default function WatermarkPdfTool() {
         <Panel>
           <div className="flex items-center gap-4">
             <Button onClick={handleApply} disabled={isProcessing || !watermarkText.trim()}>
-              {isProcessing ? "Applying…" : "Apply Watermark & Download"}
+              {isProcessing ? "Applying..." : "Apply Watermark & Download"}
             </Button>
             <Button variant="ghost" onClick={reset}>Choose Another</Button>
           </div>

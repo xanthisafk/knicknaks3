@@ -104,7 +104,7 @@ export default function MergePdfTool() {
             onClick={handleMerge}
             disabled={files.length < 2 || isProcessing}
           >
-            {isProcessing ? "Merging…" : `Merge ${files.length} Files`}
+            {isProcessing ? "Merging..." : `Merge ${files.length} Files`}
           </Button>
           {files.length > 0 && (
             <Button variant="ghost" onClick={() => { setFiles([]); setStatus(""); }}>

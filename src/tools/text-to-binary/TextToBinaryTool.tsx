@@ -61,7 +61,7 @@ export default function TextToBinaryTool() {
             <Textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Type text to convert to binary…"
+              placeholder="Type text to convert to binary..."
               className="min-h-[100px]"
             />
           </div>
@@ -75,11 +75,10 @@ export default function TextToBinaryTool() {
                   <button
                     key={b}
                     onClick={() => setBits(b)}
-                    className={`px-4 py-2 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors ${
-                      bits === b
+                    className={`px-4 py-2 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors ${bits === b
                         ? "bg-[var(--color-primary-500)] text-white"
                         : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                    }`}
+                      }`}
                   >
                     {b}-bit
                   </button>
@@ -95,11 +94,10 @@ export default function TextToBinaryTool() {
                   <button
                     key={value}
                     onClick={() => setSep(value)}
-                    className={`px-4 py-2 text-sm border-r border-[var(--border-default)] last:border-r-0 transition-colors ${
-                      sep === value
+                    className={`px-4 py-2 text-sm border-r border-[var(--border-default)] last:border-r-0 transition-colors ${sep === value
                         ? "bg-[var(--color-primary-500)] text-white"
                         : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                    }`}
+                      }`}
                   >
                     {label}
                   </button>
@@ -130,7 +128,7 @@ export default function TextToBinaryTool() {
             <Textarea
               value={binary}
               onChange={(e) => handleBinaryChange(e.target.value)}
-              placeholder="Binary output appears here… or paste binary to decode"
+              placeholder="Binary output appears here... or paste binary to decode"
               className="min-h-[100px] font-mono text-sm tracking-wider break-all"
             />
           </div>
@@ -153,11 +151,10 @@ export default function TextToBinaryTool() {
                     {binStr.split("").map((bit, j) => (
                       <div
                         key={j}
-                        className={`w-5 h-5 rounded-sm flex items-center justify-center text-[10px] font-mono font-bold transition-colors ${
-                          bit === "1"
+                        className={`w-5 h-5 rounded-sm flex items-center justify-center text-[10px] font-mono font-bold transition-colors ${bit === "1"
                             ? "bg-[var(--color-primary-500)] text-white"
                             : "bg-[var(--surface-bg)] text-[var(--text-tertiary)] border border-[var(--border-default)]"
-                        }`}
+                          }`}
                       >
                         {bit}
                       </div>

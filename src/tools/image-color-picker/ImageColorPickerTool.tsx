@@ -207,7 +207,7 @@ export default function ImageColorPickerTool() {
                       }`}
                   >
                     <span>{eyedropperPicking ? "🧿" : "👁️"}</span>
-                    <span>{eyedropperPicking ? "Picking…" : "Eyedropper"}</span>
+                    <span>{eyedropperPicking ? "Picking..." : "Eyedropper"}</span>
                   </button>
                 )}
 
@@ -248,7 +248,7 @@ export default function ImageColorPickerTool() {
               <Panel>
                 <div className="flex items-center justify-center gap-3 py-4">
                   <Spinner />
-                  <span className="text-sm text-(--text-secondary)">Analysing pixels…</span>
+                  <span className="text-sm text-(--text-secondary)">Analysing pixels...</span>
                 </div>
               </Panel>
             )}

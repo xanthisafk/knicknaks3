@@ -156,7 +156,7 @@ export default function MorseCodeTool() {
     timeoutRefs.current.forEach(clearTimeout);
     timeoutRefs.current = [];
     if (audioCtxRef.current && audioCtxRef.current.state !== "closed") {
-      audioCtxRef.current.suspend().catch(() => {});
+      audioCtxRef.current.suspend().catch(() => { });
     }
     setIsPlaying(false);
   };
@@ -172,7 +172,7 @@ export default function MorseCodeTool() {
 
     // Always create a fresh AudioContext for reliable playback
     if (audioCtxRef.current && audioCtxRef.current.state !== "closed") {
-      await audioCtxRef.current.close().catch(() => {});
+      await audioCtxRef.current.close().catch(() => { });
     }
     audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
     const ctx = audioCtxRef.current;
@@ -301,21 +301,19 @@ export default function MorseCodeTool() {
               <div className="flex rounded-[var(--radius-md)] overflow-hidden border border-[var(--border-default)]">
                 <button
                   onClick={() => setMorseStyle("ascii")}
-                  className={`px-4 py-2 text-sm font-mono transition-colors ${
-                    morseStyle === "ascii"
+                  className={`px-4 py-2 text-sm font-mono transition-colors ${morseStyle === "ascii"
                       ? "bg-[var(--color-primary-500)] text-white"
                       : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                  }`}
+                    }`}
                 >
                   . - (ASCII)
                 </button>
                 <button
                   onClick={() => setMorseStyle("unicode")}
-                  className={`px-4 py-2 text-sm font-mono transition-colors border-l border-[var(--border-default)] ${
-                    morseStyle === "unicode"
+                  className={`px-4 py-2 text-sm font-mono transition-colors border-l border-[var(--border-default)] ${morseStyle === "unicode"
                       ? "bg-[var(--color-primary-500)] text-white"
                       : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                  }`}
+                    }`}
                 >
                   · − (Unicode)
                 </button>
@@ -336,7 +334,7 @@ export default function MorseCodeTool() {
                   className="px-4 py-2"
                   disabled={!morse.trim() || isDownloading}
                 >
-                  {isDownloading ? "Generating…" : "⬇ Download WAV"}
+                  {isDownloading ? "Generating..." : "⬇ Download WAV"}
                 </Button>
                 <Button
                   onClick={playMorse}

@@ -55,7 +55,7 @@ export function PdfPreviewPanel({
 
     const displayPageCount =
         pageCountLabel ??
-        (renderedCount > 0 ? `${renderedCount} pages` : "Loading…");
+        (renderedCount > 0 ? `${renderedCount} pages` : "Loading...");
 
     return (
         <Panel>
@@ -65,7 +65,7 @@ export function PdfPreviewPanel({
                 {!isFirstThumbReady && (
                     <div className="flex items-center justify-center py-6">
                         <p className="text-sm text-(--text-tertiary) animate-pulse">
-                            Rendering pages…
+                            Rendering pages...
                         </p>
                     </div>
                 )}

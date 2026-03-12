@@ -113,7 +113,7 @@ export default function ZalgoTextGeneratorTool() {
             <Textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Type something innocent…"
+              placeholder="Type something innocent..."
               className="min-h-[80px]"
             />
           </div>
@@ -127,11 +127,10 @@ export default function ZalgoTextGeneratorTool() {
                   key={value}
                   onClick={() => setIntensity(value)}
                   title={desc}
-                  className={`px-4 py-2 text-sm border-r border-[var(--border-default)] last:border-r-0 transition-colors ${
-                    intensity === value
+                  className={`px-4 py-2 text-sm border-r border-[var(--border-default)] last:border-r-0 transition-colors ${intensity === value
                       ? "bg-[var(--color-primary-500)] text-white"
                       : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                  }`}
+                    }`}
                 >
                   {label}
                 </button>

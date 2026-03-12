@@ -132,7 +132,7 @@ export default function ProtectPdfTool() {
               onClick={handleProtect}
               disabled={isProcessing || (!userPassword && !ownerPassword)}
             >
-              {isProcessing ? "Encrypting…" : "Protect & Download"}
+              {isProcessing ? "Encrypting..." : "Protect & Download"}
             </Button>
             <Button variant="ghost" onClick={reset}>
               Choose Another
@@ -140,11 +140,10 @@ export default function ProtectPdfTool() {
           </div>
           {status && (
             <p
-              className={`mt-3 text-sm ${
-                status.startsWith("Error") || status.startsWith("Please")
+              className={`mt-3 text-sm ${status.startsWith("Error") || status.startsWith("Please")
                   ? "text-[var(--color-error)]"
                   : "text(--text-secondary)"
-              }`}
+                }`}
             >
               {status}
             </p>

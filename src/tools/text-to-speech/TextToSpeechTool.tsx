@@ -202,11 +202,11 @@ function AudioPlayer({ src, loading }: { src: string | null; loading: boolean })
                 />
               ))}
             </span>
-            Generating speech…
+            Generating speech...
           </span>
         ) : src ? (
           <span className="text-xs font-medium text-(--text-tertiary) uppercase tracking-widest">
-            {isReal ? "Waveform" : "Loading waveform…"}
+            {isReal ? "Waveform" : "Loading waveform..."}
           </span>
         ) : (
           <span className="text-xs text-(--text-tertiary)">No audio yet</span>
@@ -419,7 +419,7 @@ export default function KokoroTool() {
         <div className="space-y-4">
           <Input label="Text" value={text}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setText(e.target.value)}
-            placeholder="Enter text to speak…" />
+            placeholder="Enter text to speak..." />
 
           <div>
             <label className="text-sm font-medium text-(--text-primary) flex items-center">
@@ -469,8 +469,8 @@ export default function KokoroTool() {
 
           <button onClick={handleGenerate} disabled={busy} type="button"
             className="px-4 py-2 rounded-md bg-primary-500 text-white disabled:opacity-50 font-medium hover:bg-primary-600 active:scale-[0.98] transition-all">
-            {loading ? `Loading model… ${progress != null ? progress + "%" : ""}` :
-              generating ? "Generating…" : modelReady ? "Generate Speech" : "Load & Generate"}
+            {loading ? `Loading model... ${progress != null ? progress + "%" : ""}` :
+              generating ? "Generating..." : modelReady ? "Generate Speech" : "Load & Generate"}
           </button>
 
           {progress !== null && (

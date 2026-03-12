@@ -80,7 +80,7 @@ export default function PercentageCalcTool() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <CalcCard label="What is X% of Y?" formula="(X / 100) × Y" result={pctOfResult}>
+      <CalcCard label="What is X% of Y?" formula="(X / 100) x Y" result={pctOfResult}>
         <div className="flex items-center gap-2">
           <Input
             value={pctOf_x}
@@ -100,7 +100,7 @@ export default function PercentageCalcTool() {
         </div>
       </CalcCard>
 
-      <CalcCard label="X is what % of Y?" formula="(X / Y) × 100" result={isWhatResult}>
+      <CalcCard label="X is what % of Y?" formula="(X / Y) x 100" result={isWhatResult}>
         <div className="flex items-center gap-2">
           <Input
             value={isWhat_x}
@@ -120,7 +120,7 @@ export default function PercentageCalcTool() {
         </div>
       </CalcCard>
 
-      <CalcCard label="% Change from X to Y" formula="((Y − X) / X) × 100" result={changeResult}>
+      <CalcCard label="% Change from X to Y" formula="((Y − X) / X) x 100" result={changeResult}>
         <div className="flex items-center gap-2">
           <Input
             value={change_x}
@@ -142,7 +142,7 @@ export default function PercentageCalcTool() {
 
       <CalcCard
         label="Increase / Decrease X by Y%"
-        formula="X × (1 ± Y/100)"
+        formula="X x (1 ± Y/100)"
         result={adjIncreaseResult ? `↑ ${adjIncreaseResult}  |  ↓ ${adjDecreaseResult}` : ""}
       >
         <div className="flex items-center gap-2">

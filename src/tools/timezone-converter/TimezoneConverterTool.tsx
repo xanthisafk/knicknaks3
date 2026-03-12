@@ -113,11 +113,10 @@ function TimeCard({ label, info, isSource = false, onEdit, editValue }: {
   editValue?: string;
 }) {
   return (
-    <div className={`rounded-[var(--radius-md)] border p-4 flex flex-col gap-1 transition-colors ${
-      isSource
-        ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/5"
-        : "border-[var(--border-default)] bg-[var(--surface-bg)]"
-    }`}>
+    <div className={`rounded-[var(--radius-md)] border p-4 flex flex-col gap-1 transition-colors ${isSource
+      ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/5"
+      : "border-[var(--border-default)] bg-[var(--surface-bg)]"
+      }`}>
       <div className="flex items-center justify-between mb-0.5">
         <span className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase truncate">{label}</span>
         {info && <span className="text-[10px] text-[var(--text-tertiary)] font-mono ml-2 shrink-0">{info.offset}</span>}
@@ -217,11 +216,10 @@ export default function TimezoneConverterTool() {
             <button
               onClick={() => { setLiveMode((v) => !v); }}
               title="Toggle live clock"
-              className={`mb-0 px-3 py-2.5 text-xs rounded-[var(--radius-md)] border transition-colors whitespace-nowrap ${
-                liveMode
-                  ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/10 text-[var(--text-primary)]"
-                  : "border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-              }`}
+              className={`mb-0 px-3 py-2.5 text-xs rounded-[var(--radius-md)] border transition-colors whitespace-nowrap ${liveMode
+                ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/10 text-[var(--text-primary)]"
+                : "border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                }`}
             >
               {liveMode ? "🔴 Live" : "⏱ Live"}
             </button>
@@ -257,7 +255,7 @@ export default function TimezoneConverterTool() {
                 onClick={() => removeTargetTZ(tz)}
                 className="absolute top-3 right-3 w-5 h-5 rounded-full text-[var(--text-tertiary)] hover:text-[var(--text-primary)] opacity-0 group-hover:opacity-100 transition-opacity text-xs flex items-center justify-center border border-[var(--border-default)] bg-[var(--surface-elevated)]"
               >
-                ×
+                x
               </button>
               <p className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-0.5 pr-6">{tzLabel(tz)}</p>
               <p className="text-2xl font-semibold tabular-nums text-[var(--text-primary)] font-mono">{info.time}</p>
@@ -277,7 +275,7 @@ export default function TimezoneConverterTool() {
               onChange={(e) => { if (e.target.value) { addTargetTZ(e.target.value); e.target.value = ""; } }}
               className="text-xs px-2.5 py-1.5 rounded-[var(--radius-sm)] border border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-primary)] cursor-pointer outline-none focus:border-[var(--color-primary-500)] transition-colors"
             >
-              <option value="" disabled>Select timezone…</option>
+              <option value="" disabled>Select timezone...</option>
               {availableToAdd.map((tz) => (
                 <option key={tz.tz} value={tz.tz}>{tz.label}</option>
               ))}

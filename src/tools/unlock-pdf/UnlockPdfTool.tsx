@@ -91,7 +91,7 @@ export default function UnlockPdfTool() {
         <Panel>
           <div className="flex items-center gap-4">
             <Button onClick={handleUnlock} disabled={isProcessing}>
-              {isProcessing ? "Unlocking…" : "Unlock & Download"}
+              {isProcessing ? "Unlocking..." : "Unlock & Download"}
             </Button>
             <Button variant="ghost" onClick={reset}>Choose Another</Button>
           </div>

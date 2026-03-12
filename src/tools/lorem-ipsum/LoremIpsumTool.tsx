@@ -129,7 +129,7 @@ export default function LoremIpsumTool() {
               onChange={(e) => setStartWithLorem(e.target.checked)}
               className="w-4 h-4 rounded accent-[var(--color-primary-500)]"
             />
-            <span className="text-sm text(--text-primary)">Start with "Lorem ipsum…"</span>
+            <span className="text-sm text(--text-primary)">Start with "Lorem ipsum..."</span>
           </label>
 
           <Button onClick={generate}>Generate</Button>

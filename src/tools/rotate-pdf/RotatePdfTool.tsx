@@ -90,11 +90,10 @@ export default function RotatePdfTool() {
                   <button
                     key={deg}
                     onClick={() => setRotation(deg)}
-                    className={`px-4 py-2 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer ${
-                      rotation === deg
+                    className={`px-4 py-2 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer ${rotation === deg
                         ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
                         : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
-                    }`}
+                      }`}
                   >
                     {deg}°
                   </button>
@@ -109,11 +108,10 @@ export default function RotatePdfTool() {
                   <button
                     key={opt}
                     onClick={() => setApplyTo(opt)}
-                    className={`px-4 py-2 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer capitalize ${
-                      applyTo === opt
+                    className={`px-4 py-2 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer capitalize ${applyTo === opt
                         ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
                         : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
-                    }`}
+                      }`}
                   >
                     {opt === "all" ? "All Pages" : "Specific Pages"}
                   </button>
@@ -136,7 +134,7 @@ export default function RotatePdfTool() {
         <Panel>
           <div className="flex items-center gap-4">
             <Button onClick={handleRotate} disabled={isProcessing}>
-              {isProcessing ? "Rotating…" : "Rotate & Download"}
+              {isProcessing ? "Rotating..." : "Rotate & Download"}
             </Button>
             <Button variant="ghost" onClick={reset}>Choose Another</Button>
           </div>

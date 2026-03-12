@@ -26,9 +26,9 @@ function buildUrl(
     const query =
       activeParams.length > 0
         ? "?" +
-          activeParams
-            .map((p) => `${encodeURIComponent(p.key)}=${encodeURIComponent(p.value)}`)
-            .join("&")
+        activeParams
+          .map((p) => `${encodeURIComponent(p.key)}=${encodeURIComponent(p.value)}`)
+          .join("&")
         : "";
     const hash = fragment ? `#${fragment}` : "";
     return `${protocol}://${cleanHost}${portPart}${cleanPath}${query}${hash}`;
@@ -91,11 +91,10 @@ export default function UrlBuilderTool() {
               <button
                 key={p}
                 onClick={() => setProtocol(p)}
-                className={`px-3 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors ${
-                  protocol === p
-                    ? "bg-[var(--color-primary-500)] text-white"
-                    : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                }`}
+                className={`px-3 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors ${protocol === p
+                  ? "bg-[var(--color-primary-500)] text-white"
+                  : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                  }`}
               >
                 {p}
               </button>
@@ -171,7 +170,7 @@ export default function UrlBuilderTool() {
                 className="text-[var(--text-tertiary)] hover:text-red-500 transition-colors px-1 text-lg leading-none"
                 aria-label="Remove param"
               >
-                ×
+                x
               </button>
             </div>
           ))}
@@ -205,11 +204,10 @@ export default function UrlBuilderTool() {
           </Button>
         </div>
         <div
-          className={`rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-bg)] p-3 font-mono text-sm break-all min-h-[3rem] ${
-            builtUrl ? "text-[var(--text-primary)]" : "text-[var(--text-tertiary)] italic"
-          }`}
+          className={`rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-bg)] p-3 font-mono text-sm break-all min-h-[3rem] ${builtUrl ? "text-[var(--text-primary)]" : "text-[var(--text-tertiary)] italic"
+            }`}
         >
-          {builtUrl || "Fill in the fields above to build a URL…"}
+          {builtUrl || "Fill in the fields above to build a URL..."}
         </div>
 
         {builtUrl && (

@@ -142,7 +142,7 @@ export default function RearrangePdfTool() {
         <Panel>
           <div className="flex items-center gap-4">
             <Button onClick={handleSave} disabled={isProcessing || !isReordered}>
-              {isProcessing ? "Saving…" : "Save Reordered PDF"}
+              {isProcessing ? "Saving..." : "Save Reordered PDF"}
             </Button>
             <Button
               variant="ghost"

@@ -117,7 +117,7 @@ export default function DeletePdfPagesTool() {
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center gap-4">
               <Button variant="danger" onClick={handleDelete} disabled={isProcessing || !deleteInput.trim()}>
-                {isProcessing ? "Removing…" : "Remove Pages and save file"}
+                {isProcessing ? "Removing..." : "Remove Pages and save file"}
               </Button>
               <Button variant="ghost" onClick={reset}>Choose Another</Button>
             </div>

@@ -49,9 +49,8 @@ function InfoRow({ label, value, badge }: { label: string; value: string | numbe
       <span className="text-sm font-medium font-[family-name:var(--font-mono)] text(--text-primary) flex items-center gap-2">
         {badge && (
           <span
-            className={`w-2 h-2 rounded-full ${
-              badge === "green" ? "bg-green-500" : "bg-red-500"
-            }`}
+            className={`w-2 h-2 rounded-full ${badge === "green" ? "bg-green-500" : "bg-red-500"
+              }`}
           />
         )}
         {value}
@@ -85,13 +84,13 @@ export default function ScreenInfoTool() {
           <div>
             <p className="text-xs text-[var(--text-tertiary)]">Screen</p>
             <p className="text-lg font-bold text(--text-primary) font-[family-name:var(--font-mono)] tabular-nums">
-              {data.screenWidth} × {data.screenHeight}
+              {data.screenWidth} x {data.screenHeight}
             </p>
           </div>
           <div>
             <p className="text-xs text-[var(--text-tertiary)]">Viewport</p>
             <p className="text-lg font-bold text-[var(--color-primary-500)] font-[family-name:var(--font-mono)] tabular-nums">
-              {data.viewportWidth} × {data.viewportHeight}
+              {data.viewportWidth} x {data.viewportHeight}
             </p>
           </div>
           <div>
@@ -107,8 +106,8 @@ export default function ScreenInfoTool() {
         <Panel>
           <h3 className="text-sm font-semibold text(--text-primary) mb-3">Display</h3>
           <div className="space-y-1.5">
-            <InfoRow label="Screen Resolution" value={`${data.screenWidth} × ${data.screenHeight}`} />
-            <InfoRow label="Viewport Size" value={`${data.viewportWidth} × ${data.viewportHeight}`} />
+            <InfoRow label="Screen Resolution" value={`${data.screenWidth} x ${data.screenHeight}`} />
+            <InfoRow label="Viewport Size" value={`${data.viewportWidth} x ${data.viewportHeight}`} />
             <InfoRow label="Device Pixel Ratio" value={`${data.dpr}x`} />
             <InfoRow label="Color Depth" value={`${data.colorDepth}-bit`} />
             <InfoRow label="Orientation" value={data.orientation} />

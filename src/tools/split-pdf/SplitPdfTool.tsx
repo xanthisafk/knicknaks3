@@ -113,7 +113,7 @@ export default function SplitPdfTool() {
         <Panel>
           <div className="flex items-center gap-4">
             <Button onClick={handleExtract} disabled={isProcessing || !rangeInput.trim()}>
-              {isProcessing ? "Extracting…" : "Extract Pages"}
+              {isProcessing ? "Extracting..." : "Extract Pages"}
             </Button>
             <Button variant="ghost" onClick={() => { setFile(null); setPageCount(0); setRangeInput(""); setStatus(""); }}>
               Choose Another File

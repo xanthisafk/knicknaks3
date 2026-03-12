@@ -35,8 +35,8 @@ export default function ImageToPdfTool() {
   const moveFile = (from: number, direction: "up" | "down") => {
     const to = direction === "up" ? from - 1 : from + 1;
     if (to < 0 || to >= files.length) return;
-    setFiles((prev) => { const n = [...prev]; [n[from], n[to]] = [n[to], n[from]]; return n; });
-    setPreviews((prev) => { const n = [...prev]; [n[from], n[to]] = [n[to], n[from]]; return n; });
+    setFiles((prev) => { const n = [...prev];[n[from], n[to]] = [n[to], n[from]]; return n; });
+    setPreviews((prev) => { const n = [...prev];[n[from], n[to]] = [n[to], n[from]]; return n; });
   };
 
   const handleConvert = async () => {
@@ -130,7 +130,7 @@ export default function ImageToPdfTool() {
       <Panel>
         <div className="flex items-center gap-4">
           <Button onClick={handleConvert} disabled={files.length === 0 || isProcessing}>
-            {isProcessing ? "Converting…" : `Convert ${files.length} Image${files.length !== 1 ? "s" : ""} to PDF`}
+            {isProcessing ? "Converting..." : `Convert ${files.length} Image${files.length !== 1 ? "s" : ""} to PDF`}
           </Button>
           {files.length > 0 && (
             <Button variant="ghost" onClick={() => { setFiles([]); setPreviews([]); setStatus(""); }}>

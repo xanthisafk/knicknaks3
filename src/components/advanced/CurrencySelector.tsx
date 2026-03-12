@@ -140,7 +140,7 @@ export function CurrencySelector({ value, onChange, compact = false }: CurrencyS
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search currency…"
+              placeholder="Search currency..."
               className="
                 w-full px-3 py-1.5 text-xs rounded-sm
                 border border-(--border-default) bg-(--surface-bg)

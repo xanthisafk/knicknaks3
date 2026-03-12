@@ -61,7 +61,7 @@ export interface PdfPreviewPanelProps
   file: File;
 
   /**
-   * Called when the user clicks the × button to remove the current file.
+   * Called when the user clicks the x button to remove the current file.
    * Usually just: `onClear={() => setFile(null)}`
    */
   onClear: () => void;
@@ -78,12 +78,12 @@ export interface PdfPreviewPanelProps
 }
 
 export const COLUMN_CLASS: Record<number, string> = {
-    2: "grid-cols-2",
-    3: "grid-cols-3",
-    4: "grid-cols-4",
-    5: "grid-cols-5",
-    6: "grid-cols-6",
+  2: "grid-cols-2",
+  3: "grid-cols-3",
+  4: "grid-cols-4",
+  5: "grid-cols-5",
+  6: "grid-cols-6",
 };
 
 export const DEFAULT_GRID_CLASS =
-    "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5";
+  "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5";

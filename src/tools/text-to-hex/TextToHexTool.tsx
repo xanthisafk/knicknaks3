@@ -75,11 +75,10 @@ function ToggleGroup<T extends string>({
           <button
             key={v}
             onClick={() => onChange(v)}
-            className={`px-3 py-2 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors whitespace-nowrap ${
-              value === v
+            className={`px-3 py-2 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors whitespace-nowrap ${value === v
                 ? "bg-[var(--color-primary-500)] text-white"
                 : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-            }`}
+              }`}
           >
             {l}
           </button>
@@ -123,7 +122,7 @@ export default function TextToHexTool() {
             <Textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Enter text to convert to hexadecimal…"
+              placeholder="Enter text to convert to hexadecimal..."
               className="min-h-[100px]"
             />
           </div>
@@ -156,7 +155,7 @@ export default function TextToHexTool() {
             <Textarea
               value={output}
               onChange={(e) => handleOutputChange(e.target.value)}
-              placeholder="Hex output appears here… or paste hex to decode"
+              placeholder="Hex output appears here... or paste hex to decode"
               className="min-h-[100px] font-mono text-sm tracking-widest break-all"
             />
           </div>

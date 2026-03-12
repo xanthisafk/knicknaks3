@@ -11,7 +11,7 @@ export default function PlaceholderImageTool() {
   const [label, setLabel] = useState("");
   const [copied, setCopied] = useState<"uri" | "html" | null>(null);
 
-  const displayLabel = label || `${width}×${height}`;
+  const displayLabel = label || `${width}x${height}`;
 
   const svg = useMemo(() => `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <rect width="${width}" height="${height}" fill="${bgColor}"/>
@@ -53,7 +53,7 @@ export default function PlaceholderImageTool() {
               </div>
             </div>
           </div>
-          <Input label="Label (optional)" value={label} onChange={e => setLabel(e.target.value)} placeholder={`${width}×${height}`} />
+          <Input label="Label (optional)" value={label} onChange={e => setLabel(e.target.value)} placeholder={`${width}x${height}`} />
         </div>
       </Panel>
 

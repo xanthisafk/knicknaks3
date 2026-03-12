@@ -216,7 +216,7 @@ export default function AspectRatioTool() {
                         type="number"
                         value={scaleW || (scaledW && scaleH ? scaledW : scaleW)}
                         onChange={(e) => { setScaleW(e.target.value); setScaleH(""); }}
-                        placeholder="Enter width…"
+                        placeholder="Enter width..."
                         min={1}
                       />
                       <Input
@@ -224,7 +224,7 @@ export default function AspectRatioTool() {
                         type="number"
                         value={scaleH || (scaledH && scaleW ? scaledH : scaleH)}
                         onChange={(e) => { setScaleH(e.target.value); setScaleW(""); }}
-                        placeholder="Enter height…"
+                        placeholder="Enter height..."
                         min={1}
                       />
                     </div>

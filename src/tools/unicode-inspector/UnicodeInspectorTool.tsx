@@ -103,7 +103,7 @@ export default function UnicodeInspectorTool() {
             <Textarea
               value={text}
               onChange={(e) => { setText(e.target.value); setSelected(null); }}
-              placeholder="Paste any text — emoji, scripts, symbols — to inspect its Unicode…"
+              placeholder="Paste any text — emoji, scripts, symbols — to inspect its Unicode..."
               className="min-h-[100px]"
             />
           </div>
@@ -138,11 +138,10 @@ export default function UnicodeInspectorTool() {
                 key={i}
                 onClick={() => setSelected(selected?.codePoint === info.codePoint && selected === chars[i] ? null : info)}
                 title={info.codePointHex}
-                className={`w-10 h-10 rounded-[var(--radius-sm)] font-mono text-base flex items-center justify-center border transition-all ${
-                  selected === info
+                className={`w-10 h-10 rounded-[var(--radius-sm)] font-mono text-base flex items-center justify-center border transition-all ${selected === info
                     ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)] text-white scale-110"
                     : "border-[var(--border-default)] bg-[var(--surface-elevated)] text-[var(--text-primary)] hover:border-[var(--color-primary-500)] hover:scale-105"
-                }`}
+                  }`}
               >
                 {info.display}
               </button>

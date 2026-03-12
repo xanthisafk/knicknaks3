@@ -68,7 +68,7 @@ export default function TextRepeaterTool() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text(--text-primary)">
-                Output <span className="text-[var(--text-tertiary)] font-normal">({count}×)</span>
+                Output <span className="text-[var(--text-tertiary)] font-normal">({count}x)</span>
               </span>
               <Button size="sm" variant="secondary" onClick={handleCopy}>
                 {copied ? "✓ Copied" : "Copy"}

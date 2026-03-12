@@ -62,12 +62,12 @@ export default function TextToAsciiTool() {
   const charCount = text.length;
   const rows = text
     ? text.split("").map((ch) => ({
-        char: ch === " " ? "·" : ch === "\n" ? "↵" : ch,
-        decimal: ch.charCodeAt(0),
-        hex: "0x" + ch.charCodeAt(0).toString(16).toUpperCase().padStart(2, "0"),
-        octal: "0o" + ch.charCodeAt(0).toString(8),
-        binary: ch.charCodeAt(0).toString(2).padStart(8, "0"),
-      }))
+      char: ch === " " ? "·" : ch === "\n" ? "↵" : ch,
+      decimal: ch.charCodeAt(0),
+      hex: "0x" + ch.charCodeAt(0).toString(16).toUpperCase().padStart(2, "0"),
+      octal: "0o" + ch.charCodeAt(0).toString(8),
+      binary: ch.charCodeAt(0).toString(2).padStart(8, "0"),
+    }))
     : [];
 
   return (
@@ -82,7 +82,7 @@ export default function TextToAsciiTool() {
             <Textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Type something to convert to ASCII codes…"
+              placeholder="Type something to convert to ASCII codes..."
               className="min-h-[100px]"
             />
           </div>
@@ -95,11 +95,10 @@ export default function TextToAsciiTool() {
                 <button
                   key={value}
                   onClick={() => setFormat(value)}
-                  className={`px-4 py-2 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors ${
-                    format === value
+                  className={`px-4 py-2 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors ${format === value
                       ? "bg-[var(--color-primary-500)] text-white"
                       : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                  }`}
+                    }`}
                 >
                   {label}
                 </button>
@@ -130,7 +129,7 @@ export default function TextToAsciiTool() {
             <Textarea
               value={output}
               onChange={(e) => handleOutputChange(e.target.value)}
-              placeholder="ASCII codes appear here…"
+              placeholder="ASCII codes appear here..."
               className="min-h-[80px] font-mono text-sm tracking-wide"
             />
           </div>

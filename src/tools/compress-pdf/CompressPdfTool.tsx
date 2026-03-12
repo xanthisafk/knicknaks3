@@ -102,7 +102,7 @@ export default function CompressPdfTool() {
         <Panel>
           <div className="flex items-center gap-4">
             <Button onClick={handleCompress} disabled={isProcessing}>
-              {isProcessing ? "Compressing…" : "Compress & Download"}
+              {isProcessing ? "Compressing..." : "Compress & Download"}
             </Button>
             <Button variant="ghost" onClick={reset}>Choose Another</Button>
           </div>

@@ -120,7 +120,7 @@ export default function MarkdownToPdfTool() {
       <Panel>
         <div className="flex items-center gap-4">
           <Button onClick={handleExport} disabled={isProcessing || !markdown.trim()}>
-            {isProcessing ? "Generating…" : "Export to PDF"}
+            {isProcessing ? "Generating..." : "Export to PDF"}
           </Button>
           <Button variant="ghost" onClick={() => setMarkdown("")}>
             Clear

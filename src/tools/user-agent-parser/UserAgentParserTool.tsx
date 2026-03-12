@@ -29,8 +29,8 @@ function parseUA(ua: string): UAResult {
   else if (/Chromium\/(\S+)/.test(s)) { browserName = "Chromium"; browserVersion = s.match(/Chromium\/(\S+)/)![1]; }
   else if (/Firefox\/(\S+)/.test(s)) { browserName = "Firefox"; browserVersion = s.match(/Firefox\/(\S+)/)![1]; }
   else if (/Safari\/(\S+)/.test(s) && /Version\/(\S+)/.test(s)) { browserName = "Safari"; browserVersion = s.match(/Version\/(\S+)/)![1]; }
-  else if (/MSIE\s(\S+)/.test(s)) { browserName = "Internet Explorer"; browserVersion = s.match(/MSIE\s(\S+)/)![1].replace(";",""); }
-  else if (/Trident\/.*rv:(\S+)/.test(s)) { browserName = "Internet Explorer"; browserVersion = s.match(/rv:(\S+)/)![1].replace(")",""); }
+  else if (/MSIE\s(\S+)/.test(s)) { browserName = "Internet Explorer"; browserVersion = s.match(/MSIE\s(\S+)/)![1].replace(";", ""); }
+  else if (/Trident\/.*rv:(\S+)/.test(s)) { browserName = "Internet Explorer"; browserVersion = s.match(/rv:(\S+)/)![1].replace(")", ""); }
 
   // Engine detection
   let engineName = "Unknown";
@@ -44,7 +44,7 @@ function parseUA(ua: string): UAResult {
   let osName = "Unknown";
   let osVersion = "";
   if (/Windows NT (\S+)/.test(s)) {
-    const ver = s.match(/Windows NT (\S+)/)![1].replace(";","");
+    const ver = s.match(/Windows NT (\S+)/)![1].replace(";", "");
     const map: Record<string, string> = { "10.0": "10/11", "6.3": "8.1", "6.2": "8", "6.1": "7", "6.0": "Vista", "5.2": "XP x64", "5.1": "XP" };
     osName = "Windows"; osVersion = map[ver] || ver;
   } else if (/Mac OS X ([\d_.]+)/.test(s)) {
@@ -105,11 +105,10 @@ function Badge({ label, value, accent }: { label: string; value: string; accent?
   if (!value || value === "Unknown") return null;
   return (
     <div
-      className={`rounded-[var(--radius-md)] border px-3 py-2 ${
-        accent
+      className={`rounded-[var(--radius-md)] border px-3 py-2 ${accent
           ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/10"
           : "border-[var(--border-default)] bg-[var(--surface-elevated)]"
-      }`}
+        }`}
     >
       <div className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-widest">{label}</div>
       <div className={`font-mono text-sm font-semibold ${accent ? "text-[var(--color-primary-500)]" : "text-[var(--text-primary)]"}`}>
@@ -137,7 +136,7 @@ export default function UserAgentParserTool() {
             <Textarea
               value={useOwn ? navigator.userAgent : ua}
               onChange={(e) => { setUa(e.target.value); setUseOwn(false); }}
-              placeholder="Paste a User Agent string to parse…"
+              placeholder="Paste a User Agent string to parse..."
               className="min-h-[80px] font-mono text-xs"
               readOnly={useOwn}
             />
