@@ -15,7 +15,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="text-sm font-medium text(--text-primary)"
+            className="block text-xs font-medium uppercase tracking-wide text-(--text-tertiary) mb-1.5"
           >
             {label}
           </label>
@@ -68,7 +68,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="text-sm font-medium text(--text-primary)"
+            className="block text-xs font-medium uppercase tracking-wide text-(--text-tertiary) mb-1.5"
           >
             {label}
           </label>
@@ -77,11 +77,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full px-3 py-2 rounded-md min-h-[100px] resize-y",
+            "w-full px-3 py-2 rounded-md min-h-40 resize-y",
             "bg-(--surface-elevated) text(--text-primary)",
             "border border-(--border-default)",
             "placeholder:text-(--text-tertiary)",
-            "transition-colors duration-(--duration-fast)",
             "hover:border-(--border-hover)",
             "focus:outline-none focus:border-(--border-focus) focus:ring-2 focus:ring-(--ring-color)",
             error && "border-error",

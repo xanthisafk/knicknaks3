@@ -87,11 +87,10 @@ if (tool.faq?.length) {
         <!-- Tool Header -->
         <div class="mb-8 flex items-center justify-between gap-8">
           <!-- LEFT CONTENT -->
-          <div class="max-w-2xl">
-            <div class="flex items-center flex-wrap gap-3 mb-2">
+          <div class="max-w-2xl flex flex-col gap-4">
+            <div class="flex items-center flex-wrap gap-3">
               <h1
-                class="text-3xl md:text-4xl font-bold text(--text-primary) doodle-underline"
-                style="font-family: var(--font-heading)"
+                class="text-3xl md:text-4xl font-bold text(--font-heading) doodle-underline"
               >
                 {tool.name}
               </h1>
@@ -114,7 +113,7 @@ if (tool.faq?.length) {
 
             {
               tool.tags && (
-                <div class="flex flex-wrap gap-2 mt-3">
+                <div class="flex flex-wrap gap-2">
                   {tool.tags.map((tag) => (
                     <span class="px-2 py-0.5 text-xs rounded-full bg-(--surface-secondary) text(--text-secondary) border border-(--border-default)">
                       {tag}
@@ -140,13 +139,10 @@ if (tool.faq?.length) {
         {
           tool.howItWorks && (
             <section class="mb-12">
-              <h2
-                class="text-xl font-semibold mb-3 text(--text-primary)"
-                style="font-family: var(--font-heading)"
-              >
-                How It Works
+              <h2 class="text-xl font-semibold mb-6 text(--font-heading)">
+                <span class="font-emoji">⚙️</span> How It Works
               </h2>
-              <p class="text(--text-secondary) leading-relaxed">
+              <p class="text(--text-secondary) leading-relaxed mt-2">
                 {tool.howItWorks}
               </p>
             </section>
@@ -156,14 +152,11 @@ if (tool.faq?.length) {
         <!-- FAQ -->
         {
           tool.faq && tool.faq.length > 0 && (
-            <section class="mb-12">
-              <h2
-                class="text-xl font-semibold mb-4 text(--text-primary)"
-                style="font-family: var(--font-heading)"
-              >
-                Frequently Asked Questions
+            <section>
+              <h2 class="text-xl font-semibold mb-12 text(--font-heading)">
+                <span class="font-emoji">❓</span> Frequently Asked Questions
               </h2>
-              <div class="space-y-4">
+              <div class="mt-2 space-y-2">
                 {tool.faq.map((item) => (
                   <details class="group border border-(--border-default) rounded-lg overflow-hidden">
                     <summary class="flex items-center justify-between cursor-pointer p-4 text(--text-primary) font-medium hover:bg-(--surface-secondary) transition-colors">
