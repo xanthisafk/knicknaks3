@@ -5,6 +5,9 @@ import type { ColorFormat } from "@/lib/formatColor";
 import { rgbToHex } from "@/lib/convertColor";
 import { Panel } from "@/components/layout";
 import FileDropZone from "@/components/advanced/FileDropZone";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button, Label } from "@/components/ui";
+import { Check, Copy, CornerDownLeft, Droplets, Pipette } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -166,7 +169,7 @@ export default function ImageColorPickerTool() {
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-2">
       {/* Hidden analysis canvas */}
       <canvas ref={analysisCanvasRef} className="hidden" />
 
@@ -175,62 +178,56 @@ export default function ImageColorPickerTool() {
         : (
           <>
             {/* Toolbar */}
-            <Panel className="py-3">
-              <div className="flex items-center gap-3 flex-wrap">
-                <span className="text-sm text-(--text-secondary) truncate max-w-[200px]">{imageName}</span>
+            <Panel className="space-y-2">
+              <div className="flex items-center flex-row gap-2 justify-evenly flex-wrap">
+                <Label>{imageName}</Label>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex-1" />
 
-                <div className="flex-1" />
+                  {/* Global format selector */}
+                  <div className="flex items-center gap-1.5">
+                    <Label size="xs">Format</Label>
+                    <Select value={globalFormat} onValueChange={(e) => setGlobalFormat(e as ColorFormat)}>
+                      <SelectTrigger>{globalFormat.toUpperCase()}</SelectTrigger>
+                      <SelectContent>
+                        {(["hex", "rgb", "rgba", "hsl", "hsla", "oklch"] as ColorFormat[]).map((f) => (
+                          <SelectItem key={f} value={f}>{f.toUpperCase()}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                {/* Global format selector */}
-                <div className="flex items-center gap-1.5">
-                  <label className="text-xs text-(--text-secondary)">Format</label>
-                  <select
-                    value={globalFormat}
-                    onChange={(e) => setGlobalFormat(e.target.value as ColorFormat)}
-                    className="text-xs rounded-sm border border-(--border-default) bg-(--surface-bg) text-(--text-primary) px-2 py-1 cursor-pointer"
-                  >
-                    {(["hex", "rgb", "rgba", "hsl", "hsla", "oklch"] as ColorFormat[]).map((f) => (
-                      <option key={f} value={f}>{f.toUpperCase()}</option>
-                    ))}
-                  </select>
+                  {/* Eyedropper button — uses native EyeDropper API */}
+                  {eyedropperSupported && (
+                    <Button
+                      variant="secondary"
+                      onClick={activateEyedropper}
+                      disabled={eyedropperPicking}
+                      title="Pick any colour from anywhere on screen using the browser eyedropper"
+                      icon={eyedropperPicking ? Droplets : Pipette}
+                    >
+                      {eyedropperPicking ? "Picking..." : "Eyedropper"}
+                    </Button>
+                  )}
+
+                  {/* Max colors slider */}
+                  <div className="flex grow items-center gap-2">
+                    <Label size="xs">Colors</Label>
+                    <input type="range" min={4} max={16} value={colorCount}
+                      onChange={(e) => setColorCount(Number(e.target.value))}
+                      className="w-full accent-primary-500" />
+                    <span className="text-xs font-mono text-(--text-primary) w-4">{colorCount}</span>
+                    <Button onClick={copyAll}
+                      variant="secondary"
+                      icon={copiedAll ? Check : Copy}
+                      className={copiedAll ? "text-green-500" : ""}
+                    />
+                  </div>
+
+                  <Button onClick={reset} icon={CornerDownLeft} variant="ghost">
+                    New image
+                  </Button>
                 </div>
-
-                {/* Eyedropper button — uses native EyeDropper API */}
-                {eyedropperSupported && (
-                  <button
-                    onClick={activateEyedropper}
-                    disabled={eyedropperPicking}
-                    title="Pick any colour from anywhere on screen using the browser eyedropper"
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-md border transition-all ${eyedropperPicking
-                      ? "border-primary-500 bg-primary-500/10 text-(--text-primary) opacity-70 cursor-wait"
-                      : "border-(--border-default) bg-(--surface-bg) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-500/60"
-                      }`}
-                  >
-                    <span>{eyedropperPicking ? "🧿" : "👁️"}</span>
-                    <span>{eyedropperPicking ? "Picking..." : "Eyedropper"}</span>
-                  </button>
-                )}
-
-                {/* Max colors slider */}
-                <div className="flex items-center gap-2">
-                  <label className="text-xs text-(--text-secondary) whitespace-nowrap">Colors</label>
-                  <input type="range" min={4} max={16} value={colorCount}
-                    onChange={(e) => setColorCount(Number(e.target.value))}
-                    className="w-24 accent-primary-500" />
-                  <span className="text-xs font-mono text-(--text-primary) w-4">{colorCount}</span>
-                </div>
-
-                {swatches.length > 0 && (
-                  <button onClick={copyAll}
-                    className="px-3 py-1.5 text-xs rounded-md border border-(--border-default) bg-(--surface-bg) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-500 transition-colors">
-                    {copiedAll ? "✓ Copied" : "Copy all"}
-                  </button>
-                )}
-
-                <button onClick={reset}
-                  className="px-3 py-1.5 text-xs rounded-md border border-(--border-default) bg-(--surface-bg) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-500 transition-colors">
-                  ↩ New image
-                </button>
               </div>
             </Panel>
 
@@ -257,9 +254,9 @@ export default function ImageColorPickerTool() {
             {!loading && swatches.length > 0 && (
               <Panel>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
+                  <Label>
                     Extracted Palette
-                  </h3>
+                  </Label>
                   <div className="flex rounded-full overflow-hidden h-4 w-40 border border-(--border-default)">
                     {swatches.map((s) => (
                       <div key={s.hex} style={{ backgroundColor: s.hex, flex: s.percentage }} />
@@ -284,15 +281,12 @@ export default function ImageColorPickerTool() {
             {pickedColors.length > 0 && (
               <Panel>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
+                  <Label>
                     Picked Colors
-                  </h3>
-                  <button
-                    onClick={() => setPickedColors([])}
-                    className="text-[11px] text-(--text-tertiary) hover:text-(--text-primary) transition-colors"
-                  >
+                  </Label>
+                  <Button size="xs" onClick={() => setPickedColors([])} variant="ghost">
                     Clear
-                  </button>
+                  </Button>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                   {pickedColors.map((color, i) => (
@@ -302,7 +296,8 @@ export default function ImageColorPickerTool() {
               </Panel>
             )}
           </>
-        )}
-    </div>
+        )
+      }
+    </div >
   );
 }

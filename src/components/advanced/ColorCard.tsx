@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { formatColor, toHex, getLuminance } from "../../lib/formatColor";
 import type { ColorFormat } from "@/lib/formatColor";
 import { parseColor } from "@/lib/convertColor";
+import { CopyButton } from "../ui";
 
 // Types
 export interface ColorCardProps {
@@ -96,12 +97,7 @@ export function ColorCard({ color, label, defaultFormat = "hex", className = "" 
         >
           {formattedValue}
         </span>
-        <button
-          onClick={copy}
-          className="shrink-0 px-2 py-0.5 text-[11px] rounded-sm border border-(--border-default) bg-(--surface-bg) text-(--text-tertiary) hover:text-(--text-primary) hover:border-primary-500 transition-colors font-mono"
-        >
-          {copied ? "✓" : "Copy"}
-        </button>
+        <CopyButton text={formattedValue} />
       </div>
     </div>
   );
