@@ -47,7 +47,7 @@ export function TabList({ children, className }: TabListProps) {
             <span
                 aria-hidden
                 className={cn(
-                    "absolute top-[var(--pad)] bottom-[var(--pad)] rounded-md",
+                    "absolute top-(--pad) bottom-(--pad) rounded-md",
                     "bg-white dark:bg-(--surface-primary)",
                     "border border-(--border-default) shadow-sm",
                     "transition-[left,width] duration-200 ease-in-out",
