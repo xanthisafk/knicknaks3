@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 import { Panel } from "@/components/layout";
+import { Tab, TabList, Tabs } from "@/components/ui/tab";
+import { Input, Label } from "@/components/ui";
 
 export default function IdealWeightCalculatorTool() {
   const [unit, setUnit] = useState<"metric" | "imperial">("metric");
@@ -53,109 +55,83 @@ export default function IdealWeightCalculatorTool() {
   return (
     <div className="space-y-2">
       <Panel>
-        <div className="flex justify-center mb-6">
-          <div className="flex bg-(--surface-secondary) rounded-xl p-1 border border-(--border-default)">
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${unit === "metric"
-                ? "bg-(--surface-elevated) text(--text-primary) shadow-sm"
-                : "text(--text-secondary) hover:text(--text-primary)"
-                }`}
-              onClick={() => setUnit("metric")}
-            >
-              Metric
-            </button>
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${unit === "imperial"
-                ? "bg-(--surface-elevated) text(--text-primary) shadow-sm"
-                : "text(--text-secondary) hover:text(--text-primary)"
-                }`}
-              onClick={() => setUnit("imperial")}
-            >
-              US/Imperial
-            </button>
-          </div>
-        </div>
+        <div className="space-y-2">
+          <Tabs value={unit} onValueChange={v => setUnit(v as "metric" | "imperial")}>
+            <TabList>
+              <Tab value="metric">Metric</Tab>
+              <Tab value="imperial">US/Imperial</Tab>
+            </TabList>
+          </Tabs>
+          <div className="flex flex-row gap-2">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text(--text-primary) mb-1">Gender</label>
-            <div className="flex bg-(--surface-elevated) rounded-xl p-1 border border-(--border-default)">
-              <button
-                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${gender === "male"
-                  ? "bg-primary-500 text-white shadow-sm"
-                  : "text(--text-secondary) hover:text(--text-primary)"
-                  }`}
-                onClick={() => setGender("male")}
-              >
-                Male
-              </button>
-              <button
-                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${gender === "female"
-                  ? "bg-primary-500 text-white shadow-sm"
-                  : "text(--text-secondary) hover:text(--text-primary)"
-                  }`}
-                onClick={() => setGender("female")}
-              >
-                Female
-              </button>
+            <Tabs value={gender} onValueChange={v => setGender(v as "male" | "female")} label="Gender" className="grow">
+              <TabList>
+                <Tab value="male">Male</Tab>
+                <Tab value="female">Female</Tab>
+              </TabList>
+            </Tabs>
+
+
+            <div className="space-y-2 grow">
+              {unit === "metric" ? (
+                <div className="flex items-center gap-2 h-full">
+                  <Input
+                    label="Height"
+                    type="number"
+                    trailingText="cm"
+                    value={cm}
+                    onChange={(e) => setCm(e.target.value)}
+                    placeholder="Centimeters"
+                    min="1"
+                    className="w-full"
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 h-full">
+                  <Input
+                    label="Height (ft)"
+                    type="number"
+                    value={feet}
+                    trailingText="ft"
+                    onChange={(e) => setFeet(e.target.value)}
+                    className="w-full"
+                    placeholder="Feet"
+                    min="0"
+                  />
+                  <Input
+                    label="Height (in)"
+                    trailingText="in"
+                    type="number"
+                    value={inches}
+                    onChange={(e) => setInches(e.target.value)}
+                    className="w-full"
+                    placeholder="Inches"
+                    min="0"
+                    max="11"
+                  />
+                </div>
+              )}
             </div>
           </div>
-
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text(--text-primary) mb-1">Height</label>
-            {unit === "metric" ? (
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={cm}
-                  onChange={(e) => setCm(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text(--text-primary)"
-                  placeholder="cm"
-                  min="0"
-                />
-                <span className="text-sm text(--text-secondary)">cm</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={feet}
-                  onChange={(e) => setFeet(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text(--text-primary)"
-                  placeholder="ft"
-                  min="0"
-                />
-                <span className="text-sm text(--text-secondary)">ft</span>
-                <input
-                  type="number"
-                  value={inches}
-                  onChange={(e) => setInches(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text(--text-primary)"
-                  placeholder="in"
-                  min="0"
-                  max="11"
-                />
-                <span className="text-sm text(--text-secondary)">in</span>
-              </div>
-            )}
-          </div>
         </div>
+
+
       </Panel>
 
       {results && (
         <Panel>
           <div className="text-center py-6 space-y-4">
-            <h3 className="text-sm font-medium text(--text-secondary)">Healthy BMI Weight Range</h3>
+            <Label>Healthy BMI Weight Range</Label>
             <div className="text-4xl font-bold text-green-500">
               {results.bmiRange}
             </div>
-            <p className="text-xs text-(--text-tertiary) py-2">
+            <Label size="s">
               Based on the WHO healthy BMI range of 18.5 - 24.9
-            </p>
+            </Label>
           </div>
 
-          <div className="mt-6 border-t border-(--border-default) pt-6">
-            <h3 className="text-sm font-medium text(--text-secondary) text-center mb-4">Specific Formula Result</h3>
+          <div className="text-center">
+            <Label>Specific Formula Result</Label>
             <div className="flex justify-center items-center">
               <div className="flex justify-between items-center w-full max-w-sm p-3 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
                 <span className="text-sm font-semibold text(--text-primary)">Robinson Formula (1983)</span>

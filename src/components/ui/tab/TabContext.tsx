@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import type { TabsSize } from "./Tabs";
 
 export interface TabsContextValue {
     value: string;
@@ -6,6 +7,10 @@ export interface TabsContextValue {
     baseId: string;
     registerTab: (value: string, el: HTMLButtonElement | null) => void;
     indicatorStyle: { left: number; width: number };
+    /** Controls tab height / text size — matches Input size tiers */
+    size: TabsSize;
+    /** ID of the label element rendered by <Tabs>, if any */
+    labelId?: string;
 }
 
 export const TabsContext = createContext<TabsContextValue | null>(null);
