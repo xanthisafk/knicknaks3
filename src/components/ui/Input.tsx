@@ -8,6 +8,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "./Label";
+import { CopyButton } from "./CopyButton";
 
 // ===== Shared helpers =====
 
@@ -260,6 +261,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
   error?: string;
   helperText?: string;
+  allowCopy?: boolean;
 }
 
 const textareaBase = [
@@ -292,6 +294,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       leadingEmoji,
       leadingText,
       error,
+      allowCopy = true,
       helperText,
       className,
       id,
@@ -311,15 +314,19 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     return (
       <div className={cn("flex flex-col gap-1.5", className)}>
-        {label && (
-          <Label
-            htmlFor={inputId}
-            text={label}
-            icon={labelIcon}
-            emoji={labelEmoji}
-            tooltip={labelTooltip}
-          />
-        )}
+        <div className="flex flex-row justify-between">
+          {label && (
+            <Label
+              htmlFor={inputId}
+              text={label}
+              icon={labelIcon}
+              emoji={labelEmoji}
+              tooltip={labelTooltip}
+            />
+          )}
+
+          {allowCopy && <CopyButton text={`${props.value}`} />}
+        </div>
 
         <div
           className={cn(

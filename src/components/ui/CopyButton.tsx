@@ -105,7 +105,7 @@ export function CopyButton({
   }, [text, resetMs]);
 
   const displayLabel = copied
-    ? (copiedLabel ?? "Copied!")
+    ? (copiedLabel ?? "")
     : (label ?? undefined);
 
   return (
