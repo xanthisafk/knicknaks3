@@ -49,16 +49,16 @@ interface SliderRowProps {
 function SliderRow({ label, value, min, max, unit = "°", onChange }: SliderRowProps) {
   return (
     <div className="grid grid-cols-[90px_1fr_52px] items-center gap-3">
-      <span className="text-xs text-[var(--text-tertiary)] font-medium uppercase tracking-wider">{label}</span>
+      <span className="text-xs text-(--text-tertiary) font-medium uppercase tracking-wider">{label}</span>
       <input
         type="range"
         min={min}
         max={max}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-1.5 rounded-full appearance-none bg-[var(--border-default)] accent-[var(--color-primary-500)] cursor-pointer"
+        className="w-full h-1.5 rounded-full appearance-none bg-(--border-default) accent-primary-500 cursor-pointer"
       />
-      <div className="rounded-[var(--radius-sm)] bg-[var(--surface-secondary)] border border-[var(--border-default)] px-1.5 py-0.5 text-xs font-mono text-[var(--text-primary)] text-center">
+      <div className="rounded-sm bg-(--surface-secondary) border border-(--border-default) px-1.5 py-0.5 text-xs font-mono text-(--text-primary) text-center">
         {value}{unit}
       </div>
     </div>
@@ -78,7 +78,7 @@ function StopRow({
 }) {
   return (
     <div className="flex items-center gap-3 group">
-      <div className="w-8 h-8 rounded-full shadow-sm overflow-hidden relative cursor-pointer border border-[var(--border-default)] flex-shrink-0">
+      <div className="w-8 h-8 rounded-full shadow-sm overflow-hidden relative cursor-pointer border border-(--border-default) shrink-0">
         <input
           type="color"
           value={stop.color}
@@ -86,22 +86,22 @@ function StopRow({
           className="absolute -inset-4 w-[200%] h-[200%] cursor-pointer border-0 p-0"
         />
       </div>
-      <span className="text-xs font-mono text-[var(--text-secondary)] w-16">{stop.color.toUpperCase()}</span>
+      <span className="text-xs font-mono text-(--text-secondary) w-16">{stop.color.toUpperCase()}</span>
       <input
         type="range"
         min={0}
         max={100}
         value={stop.position}
         onChange={(e) => onUpdate({ position: Number(e.target.value) })}
-        className="flex-1 h-1.5 rounded-full appearance-none bg-[var(--border-default)] accent-[var(--color-primary-500)] cursor-pointer"
+        className="flex-1 h-1.5 rounded-full appearance-none bg-(--border-default) accent-primary-500 cursor-pointer"
       />
-      <div className="rounded-[var(--radius-sm)] bg-[var(--surface-secondary)] border border-[var(--border-default)] px-1.5 py-0.5 text-xs font-mono text-[var(--text-primary)] text-center w-12">
+      <div className="rounded-sm bg-(--surface-secondary) border border-(--border-default) px-1.5 py-0.5 text-xs font-mono text-(--text-primary) text-center w-12">
         {stop.position}%
       </div>
       {canRemove && (
         <button
           onClick={onRemove}
-          className="p-1.5 rounded-full text-[var(--text-tertiary)] hover:bg-[var(--color-error)]/10 hover:text-[var(--color-error)] transition-colors cursor-pointer text-xs opacity-0 group-hover:opacity-100"
+          className="p-1.5 rounded-full text-(--text-tertiary) hover:bg-error/10 hover:text-error transition-colors cursor-pointer text-xs opacity-0 group-hover:opacity-100"
           title="Remove stop"
         >
           ✕
@@ -161,7 +161,7 @@ export default function GradientMakerTool() {
       {/* Preview */}
       <Panel>
         <div
-          className="flex items-center justify-center rounded-[var(--radius-lg)] border border-[var(--border-default)] relative overflow-hidden"
+          className="flex items-center justify-center rounded-lg border border-(--border-default) relative overflow-hidden"
           style={{ height: "240px", background: "repeating-conic-gradient(var(--border-default) 0% 25%, transparent 0% 50%) 0 0 / 20px 20px" }}
         >
           <div className="absolute inset-0" style={{ background: cssValue }} />
@@ -172,24 +172,23 @@ export default function GradientMakerTool() {
       <Panel>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">Gradient Type</h3>
+            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Gradient Type</h3>
             <button
               onClick={randomize}
-              className="text-xs text-[var(--color-primary-500)] hover:text-[var(--color-primary-600)] hover:underline transition-colors cursor-pointer font-medium"
+              className="text-xs text-primary-500 hover:text-primary-600 hover:underline transition-colors cursor-pointer font-medium"
             >
               🎲 Randomize
             </button>
           </div>
-          <div className="flex gap-1 p-1 bg-[var(--surface-secondary)] rounded-[var(--radius-lg)] border border-[var(--border-default)]">
+          <div className="flex gap-1 p-1 bg-(--surface-secondary) rounded-lg border border-(--border-default)">
             {(["linear", "radial", "conic"] as const).map((t) => (
               <button
                 key={t}
                 onClick={() => setType(t)}
-                className={`flex-1 py-2 px-3 rounded-[var(--radius-md)] text-sm font-medium transition-all duration-200 cursor-pointer capitalize ${
-                  type === t
-                    ? "bg-white dark:bg-[var(--surface-primary)] text-[var(--text-primary)] shadow-sm border border-[var(--border-default)]"
-                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-elevated)] border border-transparent"
-                }`}
+                className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer capitalize ${type === t
+                    ? "bg-white dark:bg-(--surface-primary) text-(--text-primary) shadow-sm border border-(--border-default)"
+                    : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface-elevated) border border-transparent"
+                  }`}
               >
                 {t}
               </button>
@@ -202,7 +201,7 @@ export default function GradientMakerTool() {
       {type !== "radial" && (
         <Panel>
           <div className="space-y-4">
-            <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">
+            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
               {type === "linear" ? "Angle" : "Start Angle"}
             </h3>
             <SliderRow label="Angle" value={angle} min={0} max={360} onChange={setAngle} />
@@ -214,10 +213,10 @@ export default function GradientMakerTool() {
       <Panel>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">Color Stops</h3>
+            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Color Stops</h3>
             <button
               onClick={addStop}
-              className="text-xs text-[var(--color-primary-500)] hover:text-[var(--color-primary-600)] hover:underline transition-colors cursor-pointer font-medium flex items-center gap-1"
+              className="text-xs text-primary-500 hover:text-primary-600 hover:underline transition-colors cursor-pointer font-medium flex items-center gap-1"
             >
               <span>+</span> Add Stop
             </button>
@@ -240,12 +239,12 @@ export default function GradientMakerTool() {
       <Panel>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">CSS Output</h3>
+            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">CSS Output</h3>
             <Button onClick={handleCopy} size="sm" variant={copied ? "primary" : "secondary"}>
               {copied ? "✓ Copied!" : "Copy CSS"}
             </Button>
           </div>
-          <pre className="rounded-[var(--radius-lg)] bg-[var(--surface-secondary)] border border-[var(--border-default)] p-4 text-sm font-mono text-[var(--text-primary)] whitespace-pre-wrap break-all select-all leading-relaxed overflow-x-auto">
+          <pre className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 text-sm font-mono text-(--text-primary) whitespace-pre-wrap break-all select-all leading-relaxed overflow-x-auto">
             {fullCSS}
           </pre>
         </div>
