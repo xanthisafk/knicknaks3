@@ -103,7 +103,7 @@ export default function ZalgoTextGeneratorTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-5">
           <div>
@@ -128,8 +128,8 @@ export default function ZalgoTextGeneratorTool() {
                   onClick={() => setIntensity(value)}
                   title={desc}
                   className={`px-4 py-2 text-sm border-r border-[var(--border-default)] last:border-r-0 transition-colors ${intensity === value
-                      ? "bg-[var(--color-primary-500)] text-white"
-                      : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    ? "bg-[var(--color-primary-500)] text-white"
+                    : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                     }`}
                 >
                   {label}

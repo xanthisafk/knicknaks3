@@ -3,9 +3,9 @@ import { Input, Button } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { copyToClipboard } from "@/lib/utils";
 
-const ONES = ["","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
-const TENS = ["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
-const SCALES = ["","thousand","million","billion","trillion"];
+const ONES = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+const TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+const SCALES = ["", "thousand", "million", "billion", "trillion"];
 
 function numToWords(n: number): string {
   if (n < 0) return "negative " + numToWords(-n);
@@ -48,7 +48,7 @@ export default function NumberToWordsTool() {
   const result = useMemo(() => input ? convert(input) : null, [input]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <Input
           label="Number"

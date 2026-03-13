@@ -54,14 +54,14 @@ export default function CalorieCalculatorTool() {
   }, [unit, gender, age, cm, kg, feet, inches, lbs, activity]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex justify-center mb-6">
           <div className="flex bg-(--surface-secondary) rounded-xl p-1 border border-(--border-default)">
             <button
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${unit === "metric"
-                  ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
-                  : "text-(--text-secondary) hover:text-(--text-primary)"
+                ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
+                : "text-(--text-secondary) hover:text-(--text-primary)"
                 }`}
               onClick={() => setUnit("metric")}
             >
@@ -69,8 +69,8 @@ export default function CalorieCalculatorTool() {
             </button>
             <button
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${unit === "imperial"
-                  ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
-                  : "text-(--text-secondary) hover:text-(--text-primary)"
+                ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
+                : "text-(--text-secondary) hover:text-(--text-primary)"
                 }`}
               onClick={() => setUnit("imperial")}
             >
@@ -85,8 +85,8 @@ export default function CalorieCalculatorTool() {
             <div className="flex bg-(--surface-elevated) rounded-xl p-1 border border-(--border-default)">
               <button
                 className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${gender === "male"
-                    ? "bg-primary-500 text-white shadow-sm"
-                    : "text-(--text-secondary) hover:text-(--text-primary)"
+                  ? "bg-primary-500 text-white shadow-sm"
+                  : "text-(--text-secondary) hover:text-(--text-primary)"
                   }`}
                 onClick={() => setGender("male")}
               >
@@ -94,8 +94,8 @@ export default function CalorieCalculatorTool() {
               </button>
               <button
                 className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${gender === "female"
-                    ? "bg-primary-500 text-white shadow-sm"
-                    : "text-(--text-secondary) hover:text-(--text-primary)"
+                  ? "bg-primary-500 text-white shadow-sm"
+                  : "text-(--text-secondary) hover:text-(--text-primary)"
                   }`}
                 onClick={() => setGender("female")}
               >

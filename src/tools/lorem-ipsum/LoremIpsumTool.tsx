@@ -94,7 +94,7 @@ export default function LoremIpsumTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex flex-wrap items-end gap-4">
           <div className="flex flex-col gap-1.5">

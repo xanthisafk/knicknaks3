@@ -76,7 +76,7 @@ export default function PasswordGeneratorTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Controls */}
       <Panel>
         <div className="space-y-5">

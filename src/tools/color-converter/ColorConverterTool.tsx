@@ -67,7 +67,7 @@ export default function ColorConverterTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Color Preview & Picker */}
       <Panel>
         <div className="flex items-center gap-6">

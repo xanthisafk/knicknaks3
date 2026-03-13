@@ -77,7 +77,7 @@ export default function BodyFatCalculatorTool() {
   }, [unit, gender, age, cm, neckCm, waistCm, hipCm, inches, neckInches, waistInches, hipInches]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex justify-center mb-6">
           <Tabs value={unit} onValueChange={v => setUnit(v === "metric" ? "metric" : "imperial")}>

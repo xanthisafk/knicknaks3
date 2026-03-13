@@ -68,7 +68,7 @@ export default function RotatePdfTool() {
   const reset = () => { setFile(null); setPageCount(0); setSpecificPages(""); setStatus(""); };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         {!file ? (
           <PdfDropZone onFiles={handleFile} />
@@ -91,8 +91,8 @@ export default function RotatePdfTool() {
                     key={deg}
                     onClick={() => setRotation(deg)}
                     className={`px-4 py-2 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer ${rotation === deg
-                        ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
-                        : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
+                      ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
+                      : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
                       }`}
                   >
                     {deg}°
@@ -109,8 +109,8 @@ export default function RotatePdfTool() {
                     key={opt}
                     onClick={() => setApplyTo(opt)}
                     className={`px-4 py-2 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer capitalize ${applyTo === opt
-                        ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
-                        : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
+                      ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
+                      : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
                       }`}
                   >
                     {opt === "all" ? "All Pages" : "Specific Pages"}

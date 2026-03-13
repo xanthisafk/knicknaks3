@@ -133,7 +133,7 @@ export default function CronParserTool() {
   const parts = expression.trim().split(/\s+/);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Input */}
       <Panel>
         <div className="space-y-4">

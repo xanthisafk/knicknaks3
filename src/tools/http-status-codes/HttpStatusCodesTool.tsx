@@ -101,7 +101,7 @@ export default function HttpStatusCodesTool() {
   }, [filtered]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1">

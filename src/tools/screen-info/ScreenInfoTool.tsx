@@ -77,7 +77,7 @@ export default function ScreenInfoTool() {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Headline stat */}
       <Panel>
         <div className="grid grid-cols-3 gap-4 text-center">

@@ -76,8 +76,8 @@ function ToggleGroup<T extends string>({
             key={v}
             onClick={() => onChange(v)}
             className={`px-3 py-2 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors whitespace-nowrap ${value === v
-                ? "bg-[var(--color-primary-500)] text-white"
-                : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              ? "bg-[var(--color-primary-500)] text-white"
+              : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               }`}
           >
             {l}
@@ -112,7 +112,7 @@ export default function TextToHexTool() {
   const byteCount = text.length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-5">
           <div>

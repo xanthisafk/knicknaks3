@@ -105,7 +105,7 @@ export default function CaseConverterTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-3">
           <label className="text-sm font-medium text(--text-primary)">Input Text</label>

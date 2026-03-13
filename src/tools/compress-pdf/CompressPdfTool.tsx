@@ -67,7 +67,7 @@ export default function CompressPdfTool() {
   const reset = () => { setFile(null); setResult(null); setStatus(""); };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         {!file ? (
           <PdfDropZone onFiles={handleFile} />

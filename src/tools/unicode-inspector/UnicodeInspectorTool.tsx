@@ -93,7 +93,7 @@ export default function UnicodeInspectorTool() {
   const totalBytes = chars.reduce((sum, c) => sum + getUtf8Bytes(c.codePoint).split(" ").length, 0);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-4">
           <div>
@@ -139,8 +139,8 @@ export default function UnicodeInspectorTool() {
                 onClick={() => setSelected(selected?.codePoint === info.codePoint && selected === chars[i] ? null : info)}
                 title={info.codePointHex}
                 className={`w-10 h-10 rounded-[var(--radius-sm)] font-mono text-base flex items-center justify-center border transition-all ${selected === info
-                    ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)] text-white scale-110"
-                    : "border-[var(--border-default)] bg-[var(--surface-elevated)] text-[var(--text-primary)] hover:border-[var(--color-primary-500)] hover:scale-105"
+                  ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)] text-white scale-110"
+                  : "border-[var(--border-default)] bg-[var(--surface-elevated)] text-[var(--text-primary)] hover:border-[var(--color-primary-500)] hover:scale-105"
                   }`}
               >
                 {info.display}

@@ -54,7 +54,7 @@ export default function UrlEncoderTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex gap-1 p-1 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
@@ -65,11 +65,10 @@ export default function UrlEncoderTool() {
                   setMode(m);
                   if (liveMode && input) processInput(input, m, componentMode);
                 }}
-                className={`px-4 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-colors cursor-pointer ${
-                  mode === m
+                className={`px-4 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-colors cursor-pointer ${mode === m
                     ? "bg-[var(--surface-elevated)] text(--text-primary) shadow-sm"
                     : "text-[var(--text-tertiary)] hover:text(--text-primary)"
-                }`}
+                  }`}
               >
                 {m === "encode" ? "Encode" : "Decode"}
               </button>

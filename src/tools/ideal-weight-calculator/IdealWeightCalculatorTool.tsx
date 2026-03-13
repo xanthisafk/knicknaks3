@@ -51,7 +51,7 @@ export default function IdealWeightCalculatorTool() {
   }, [unit, gender, cm, feet, inches]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex justify-center mb-6">
           <div className="flex bg-(--surface-secondary) rounded-xl p-1 border border-(--border-default)">

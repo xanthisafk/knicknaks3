@@ -35,7 +35,7 @@ export default function RotCipherTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex flex-col gap-1.5">
@@ -59,11 +59,10 @@ export default function RotCipherTool() {
               <button
                 key={n}
                 onClick={() => handleShiftChange(n)}
-                className={`px-3 py-1 text-xs font-medium rounded-[var(--radius-md)] transition-colors cursor-pointer ${
-                  shift === n
+                className={`px-3 py-1 text-xs font-medium rounded-[var(--radius-md)] transition-colors cursor-pointer ${shift === n
                     ? "bg-[var(--color-primary-500)] text-white"
                     : "bg-[var(--surface-secondary)] text(--text-secondary) hover:text(--text-primary)"
-                }`}
+                  }`}
               >
                 ROT{n}
               </button>

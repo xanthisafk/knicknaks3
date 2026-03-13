@@ -84,7 +84,7 @@ export default function ChmodCalculatorTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Permission Matrix */}
       <Panel>
         <div className="space-y-4">
@@ -123,8 +123,8 @@ export default function ChmodCalculatorTool() {
                   <button
                     onClick={() => toggle(scope, perm)}
                     className={`w-10 h-10 rounded-md border-2 transition-all duration-200 cursor-pointer flex items-center justify-center text-sm font-bold ${perms[scope][perm]
-                        ? "bg-primary-500 border-primary-500 text-white shadow-sm"
-                        : "bg-(--surface-secondary) border-(--border-default) text-(--text-tertiary) hover:border-(--border-hover) hover:bg-(--surface-elevated)"
+                      ? "bg-primary-500 border-primary-500 text-white shadow-sm"
+                      : "bg-(--surface-secondary) border-(--border-default) text-(--text-tertiary) hover:border-(--border-hover) hover:bg-(--surface-elevated)"
                       }`}
                     aria-label={`${scope} ${perm}`}
                     aria-pressed={perms[scope][perm]}
@@ -189,8 +189,8 @@ export default function ChmodCalculatorTool() {
                 key={preset.label}
                 onClick={() => applyPreset(preset.octal)}
                 className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-md border text-left transition-all duration-200 cursor-pointer ${octal === preset.octal
-                    ? "bg-primary-500 text-white border-primary-500 shadow-sm"
-                    : "bg-(--surface-secondary) text-(--text-primary) border-(--border-default) hover:border-(--border-hover) hover:bg-(--surface-elevated)"
+                  ? "bg-primary-500 text-white border-primary-500 shadow-sm"
+                  : "bg-(--surface-secondary) text-(--text-primary) border-(--border-default) hover:border-(--border-hover) hover:bg-(--surface-elevated)"
                   }`}
               >
                 <div>

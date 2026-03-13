@@ -42,7 +42,7 @@ export default function ReverseTextTool() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <label className="text-sm font-medium text(--text-primary) mb-3 block">Reverse mode</label>
         <div className="flex flex-wrap gap-2">

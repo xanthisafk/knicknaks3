@@ -96,7 +96,7 @@ export default function BoxShadowTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Preview */}
       <Panel>
         <div className="flex items-center justify-center py-12 rounded-lg bg-(--surface-secondary) border border-(--border-default) relative overflow-hidden"

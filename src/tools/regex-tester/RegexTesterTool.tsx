@@ -28,7 +28,7 @@ export default function RegexTesterTool() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Pattern input */}
       <Panel>
         <div className="space-y-3">

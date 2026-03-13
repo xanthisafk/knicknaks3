@@ -114,7 +114,7 @@ export default function JwtDecoderTool() {
   }, [decoded]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-3">
           <label className="text-sm font-medium text(--text-primary)">Paste JWT Token</label>

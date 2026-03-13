@@ -262,7 +262,7 @@ export default function MorseCodeTool() {
   const displayMorse = morseStyle === "unicode" ? toUnicode(morse) : morse;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-6">
           {/* Text input */}
@@ -302,8 +302,8 @@ export default function MorseCodeTool() {
                 <button
                   onClick={() => setMorseStyle("ascii")}
                   className={`px-4 py-2 text-sm font-mono transition-colors ${morseStyle === "ascii"
-                      ? "bg-[var(--color-primary-500)] text-white"
-                      : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    ? "bg-[var(--color-primary-500)] text-white"
+                    : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                     }`}
                 >
                   . - (ASCII)
@@ -311,8 +311,8 @@ export default function MorseCodeTool() {
                 <button
                   onClick={() => setMorseStyle("unicode")}
                   className={`px-4 py-2 text-sm font-mono transition-colors border-l border-[var(--border-default)] ${morseStyle === "unicode"
-                      ? "bg-[var(--color-primary-500)] text-white"
-                      : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    ? "bg-[var(--color-primary-500)] text-white"
+                    : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                     }`}
                 >
                   · − (Unicode)

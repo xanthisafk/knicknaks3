@@ -55,7 +55,7 @@ export default function MergePdfTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-4">
           <PdfDropZone onFiles={handleFiles} multiple maxFiles={20} />

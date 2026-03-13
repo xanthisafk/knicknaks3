@@ -54,8 +54,8 @@ export default function TextDiffTool() {
     if (!diff) return;
     const text = diff.map(d =>
       d.type === "insert" ? `+ ${d.value}` :
-      d.type === "delete" ? `- ${d.value}` :
-      `  ${d.value}`
+        d.type === "delete" ? `- ${d.value}` :
+          `  ${d.value}`
     ).join("\n");
     await copyToClipboard(text);
     setCopied(true);
@@ -63,7 +63,7 @@ export default function TextDiffTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Panel>
           <div className="space-y-2">
@@ -112,13 +112,12 @@ export default function TextDiffTool() {
             {diff.map((op, i) => (
               <div
                 key={i}
-                className={`px-3 py-0.5 rounded-sm whitespace-pre-wrap break-all ${
-                  op.type === "insert"
+                className={`px-3 py-0.5 rounded-sm whitespace-pre-wrap break-all ${op.type === "insert"
                     ? "bg-green-500/10 text-green-600 dark:text-green-400"
                     : op.type === "delete"
-                    ? "bg-red-500/10 text-red-600 dark:text-red-400 line-through opacity-70"
-                    : "text(--text-secondary)"
-                }`}
+                      ? "bg-red-500/10 text-red-600 dark:text-red-400 line-through opacity-70"
+                      : "text(--text-secondary)"
+                  }`}
               >
                 <span className="select-none mr-2 opacity-50">
                   {op.type === "insert" ? "+" : op.type === "delete" ? "−" : " "}

@@ -110,7 +110,7 @@ export default function CssFilterTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
 
       {/* Uploader */}
       <Panel>

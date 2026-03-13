@@ -76,7 +76,7 @@ export default function ProtectPdfTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         {!file ? (
           <PdfDropZone onFiles={handleFile} />
@@ -141,8 +141,8 @@ export default function ProtectPdfTool() {
           {status && (
             <p
               className={`mt-3 text-sm ${status.startsWith("Error") || status.startsWith("Please")
-                  ? "text-[var(--color-error)]"
-                  : "text(--text-secondary)"
+                ? "text-[var(--color-error)]"
+                : "text(--text-secondary)"
                 }`}
             >
               {status}

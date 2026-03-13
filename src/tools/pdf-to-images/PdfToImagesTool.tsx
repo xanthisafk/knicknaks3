@@ -110,7 +110,7 @@ export default function PdfToImagesTool() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         {!file ? (
           <PdfDropZone onFiles={handleFile} />

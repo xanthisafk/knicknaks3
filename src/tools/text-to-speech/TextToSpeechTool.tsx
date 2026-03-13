@@ -414,7 +414,7 @@ export default function KokoroTool() {
   const busy = loading || generating;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-4">
           <Input label="Text" value={text}

@@ -74,7 +74,7 @@ export default function WordCounterTool() {
   const stats = useMemo(() => analyzeText(text), [text]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <Textarea
           value={text}

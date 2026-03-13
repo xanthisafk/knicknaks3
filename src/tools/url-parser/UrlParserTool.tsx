@@ -85,7 +85,7 @@ export default function UrlParserTool() {
   const isInvalid = raw.trim() !== "" && parsed === null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-4">
           <div>

@@ -78,7 +78,7 @@ export default function PdfMetadataTool() {
   const reset = () => { setFile(null); setPageCount(0); setMeta({ title: "", author: "", subject: "", keywords: "", creator: "", producer: "" }); setStatus(""); };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         {!file ? (
           <PdfDropZone onFiles={handleFile} />

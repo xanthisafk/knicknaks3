@@ -33,7 +33,7 @@ export default function RemoveLineBreaksTool() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex flex-wrap items-end gap-4">
           <div className="flex flex-col gap-1.5">
@@ -43,11 +43,10 @@ export default function RemoveLineBreaksTool() {
                 <button
                   key={p.label}
                   onClick={() => setSeparator(p.value)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-[var(--radius-md)] transition-colors cursor-pointer ${
-                    separator === p.value
+                  className={`px-3 py-1.5 text-xs font-medium rounded-[var(--radius-md)] transition-colors cursor-pointer ${separator === p.value
                       ? "bg-[var(--color-primary-500)] text-white"
                       : "bg-[var(--surface-secondary)] text(--text-secondary) hover:text(--text-primary)"
-                  }`}
+                    }`}
                 >
                   {p.label}
                 </button>

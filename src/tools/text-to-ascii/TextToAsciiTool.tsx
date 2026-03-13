@@ -71,7 +71,7 @@ export default function TextToAsciiTool() {
     : [];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-5">
           {/* Input */}
@@ -96,8 +96,8 @@ export default function TextToAsciiTool() {
                   key={value}
                   onClick={() => setFormat(value)}
                   className={`px-4 py-2 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors ${format === value
-                      ? "bg-[var(--color-primary-500)] text-white"
-                      : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    ? "bg-[var(--color-primary-500)] text-white"
+                    : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                     }`}
                 >
                   {label}

@@ -59,7 +59,7 @@ export default function RomanNumeralTool() {
   }, [romInput]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Panel>
           <div className="space-y-3">

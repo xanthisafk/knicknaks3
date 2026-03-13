@@ -30,7 +30,7 @@ export default function PlaceholderImageTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-3">

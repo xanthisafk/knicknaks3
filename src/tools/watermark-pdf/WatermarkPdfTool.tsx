@@ -178,7 +178,7 @@ export default function WatermarkPdfTool() {
   const previewPages = Math.min(pageCount, 2);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         {!file ? (
           <PdfDropZone onFiles={handleFile} />

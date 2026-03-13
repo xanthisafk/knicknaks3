@@ -51,7 +51,7 @@ export default function TextToBinaryTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-5">
           <div>
@@ -76,8 +76,8 @@ export default function TextToBinaryTool() {
                     key={b}
                     onClick={() => setBits(b)}
                     className={`px-4 py-2 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors ${bits === b
-                        ? "bg-[var(--color-primary-500)] text-white"
-                        : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                      ? "bg-[var(--color-primary-500)] text-white"
+                      : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                       }`}
                   >
                     {b}-bit
@@ -95,8 +95,8 @@ export default function TextToBinaryTool() {
                     key={value}
                     onClick={() => setSep(value)}
                     className={`px-4 py-2 text-sm border-r border-[var(--border-default)] last:border-r-0 transition-colors ${sep === value
-                        ? "bg-[var(--color-primary-500)] text-white"
-                        : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                      ? "bg-[var(--color-primary-500)] text-white"
+                      : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                       }`}
                   >
                     {label}
@@ -152,8 +152,8 @@ export default function TextToBinaryTool() {
                       <div
                         key={j}
                         className={`w-5 h-5 rounded-sm flex items-center justify-center text-[10px] font-mono font-bold transition-colors ${bit === "1"
-                            ? "bg-[var(--color-primary-500)] text-white"
-                            : "bg-[var(--surface-bg)] text-[var(--text-tertiary)] border border-[var(--border-default)]"
+                          ? "bg-[var(--color-primary-500)] text-white"
+                          : "bg-[var(--surface-bg)] text-[var(--text-tertiary)] border border-[var(--border-default)]"
                           }`}
                       >
                         {bit}

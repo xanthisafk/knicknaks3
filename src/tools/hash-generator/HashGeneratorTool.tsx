@@ -101,7 +101,7 @@ export default function HashGeneratorTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-4">
           <Textarea

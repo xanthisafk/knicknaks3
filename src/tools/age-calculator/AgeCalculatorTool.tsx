@@ -145,7 +145,7 @@ export default function AgeCalculatorTool() {
   }, [birthDate]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="flex flex-col gap-1.5">

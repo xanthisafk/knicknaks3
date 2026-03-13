@@ -28,7 +28,7 @@ function diff(start: Date, end: Date) {
 
 function nowLocal() {
   const d = new Date();
-  return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
 }
 
 export default function WordToNumberTool() {
@@ -55,7 +55,7 @@ export default function WordToNumberTool() {
   ] : [];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Panel>
           <div className="space-y-2">

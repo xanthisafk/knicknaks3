@@ -65,7 +65,7 @@ export default function UuidGeneratorTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex flex-wrap items-end gap-4">
           <div className="flex flex-col gap-1.5">
@@ -75,11 +75,10 @@ export default function UuidGeneratorTool() {
                 <button
                   key={v}
                   onClick={() => setVersion(v)}
-                  className={`px-4 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-colors cursor-pointer ${
-                    version === v
+                  className={`px-4 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-colors cursor-pointer ${version === v
                       ? "bg-[var(--surface-elevated)] text(--text-primary) shadow-sm"
                       : "text-[var(--text-tertiary)] hover:text(--text-primary)"
-                  }`}
+                    }`}
                 >
                   {v.toUpperCase()}
                 </button>

@@ -78,7 +78,7 @@ export default function UrlBuilderTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Base URL */}
       <Panel>
         <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">

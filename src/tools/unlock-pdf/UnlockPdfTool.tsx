@@ -60,7 +60,7 @@ export default function UnlockPdfTool() {
   const reset = () => { setFile(null); setPassword(""); setStatus(""); };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         {!file ? (
           <PdfDropZone onFiles={handleFile} />

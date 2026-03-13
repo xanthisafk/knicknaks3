@@ -81,7 +81,7 @@ export default function RearrangePdfTool() {
   const isReordered = pageOrder.some((v, i) => v !== i);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         {!file ? (
           <PdfDropZone onFiles={handleFile} />

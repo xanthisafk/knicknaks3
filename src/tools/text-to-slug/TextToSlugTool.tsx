@@ -29,7 +29,7 @@ export default function TextToSlugTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-4">
           <Input
@@ -45,11 +45,10 @@ export default function TextToSlugTool() {
               <button
                 key={sep}
                 onClick={() => setSeparator(sep)}
-                className={`px-3 py-1 text-sm font-[family-name:var(--font-mono)] rounded-[var(--radius-md)] transition-colors cursor-pointer ${
-                  separator === sep
+                className={`px-3 py-1 text-sm font-[family-name:var(--font-mono)] rounded-[var(--radius-md)] transition-colors cursor-pointer ${separator === sep
                     ? "bg-[var(--color-primary-500)] text-white"
                     : "bg-[var(--surface-secondary)] text(--text-secondary)"
-                }`}
+                  }`}
               >
                 {sep === "-" ? "hyphen" : sep === "_" ? "underscore" : "dot"}
               </button>

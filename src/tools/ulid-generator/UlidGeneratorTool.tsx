@@ -45,7 +45,7 @@ export default function UlidGeneratorTool() {
   const decoded = inspect ? decodeULID(inspect) : null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex gap-3 items-end">
           <div className="w-32">

@@ -99,7 +99,7 @@ export default function StringEscaperTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex gap-1 p-1 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
@@ -107,11 +107,10 @@ export default function StringEscaperTool() {
               <button
                 key={d}
                 onClick={() => setDirection(d)}
-                className={`px-4 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-colors cursor-pointer ${
-                  direction === d
+                className={`px-4 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-colors cursor-pointer ${direction === d
                     ? "bg-[var(--surface-elevated)] text(--text-primary) shadow-sm"
                     : "text-[var(--text-tertiary)] hover:text(--text-primary)"
-                }`}
+                  }`}
               >
                 {d.charAt(0).toUpperCase() + d.slice(1)}
               </button>

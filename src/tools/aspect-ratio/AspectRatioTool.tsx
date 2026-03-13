@@ -86,7 +86,7 @@ export default function AspectRatioTool() {
   const clearScale = () => { setScaleW(""); setScaleH(""); };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Mode tabs */}
       <Panel>
         <Tabs value={mode} onValueChange={(v) => setMode(v as Mode)}>

@@ -157,7 +157,7 @@ export default function GradientMakerTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Preview */}
       <Panel>
         <div
@@ -186,8 +186,8 @@ export default function GradientMakerTool() {
                 key={t}
                 onClick={() => setType(t)}
                 className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer capitalize ${type === t
-                    ? "bg-white dark:bg-(--surface-primary) text-(--text-primary) shadow-sm border border-(--border-default)"
-                    : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface-elevated) border border-transparent"
+                  ? "bg-white dark:bg-(--surface-primary) text-(--text-primary) shadow-sm border border-(--border-default)"
+                  : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface-elevated) border border-transparent"
                   }`}
               >
                 {t}

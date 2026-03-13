@@ -44,7 +44,7 @@ export default function DeduplicateLinesTool() {
   const totalLines = input ? input.split("\n").length : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex flex-wrap items-center gap-4">
           <Toggle label="Ignore case" checked={ignoreCase} onChange={setIgnoreCase} />

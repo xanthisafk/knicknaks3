@@ -60,7 +60,7 @@ export default function ContrastCheckerTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Preview */}
       <Panel padding="none" className="overflow-hidden">
         <div

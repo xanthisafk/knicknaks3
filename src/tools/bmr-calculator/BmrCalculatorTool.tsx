@@ -48,7 +48,7 @@ export default function BmrCalculatorTool() {
   }, [unit, gender, age, cm, kg, feet, inches, lbs]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="flex justify-center mb-6">
           <Tabs value={unit} onValueChange={v => setUnit(v === "metric" ? "metric" : "imperial")}>

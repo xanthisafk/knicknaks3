@@ -72,7 +72,7 @@ export default function DeletePdfPagesTool() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {!file && <FileDropZone accepts="application/pdf" emoji="📄" onUpload={e => handleUpload(e.file)} />}
       {file && <Panel>
 

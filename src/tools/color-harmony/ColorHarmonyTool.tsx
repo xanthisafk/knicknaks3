@@ -68,7 +68,7 @@ export default function PaletteGeneratorTool() {
   const [copiedCSS, setCopiedCSS] = useState(false);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Seed color */}
       <Panel>
         <div className="space-y-4">

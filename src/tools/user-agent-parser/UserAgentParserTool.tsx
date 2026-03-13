@@ -106,8 +106,8 @@ function Badge({ label, value, accent }: { label: string; value: string; accent?
   return (
     <div
       className={`rounded-[var(--radius-md)] border px-3 py-2 ${accent
-          ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/10"
-          : "border-[var(--border-default)] bg-[var(--surface-elevated)]"
+        ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/10"
+        : "border-[var(--border-default)] bg-[var(--surface-elevated)]"
         }`}
     >
       <div className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-widest">{label}</div>
@@ -126,7 +126,7 @@ export default function UserAgentParserTool() {
   const result = displayUa.trim() ? parseUA(displayUa) : null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-4">
           <div>

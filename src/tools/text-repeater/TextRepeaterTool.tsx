@@ -31,7 +31,7 @@ export default function TextRepeaterTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <Panel>
         <div className="space-y-4">
           <Input label="Text to repeat" value={text} onChange={e => setText(e.target.value)} placeholder="Hello!" />
