@@ -120,7 +120,7 @@ function highlightMatches(source: string, matches: MatchInfo[]): React.ReactNode
     parts.push(
       <mark
         key={i}
-        className="bg-primary-200 dark:bg-primary-700 text-(--text-primary) rounded-sm px-0.5"
+        className="bg-(--surface-elevated) font-bold text-accent-500 rounded-sm p-0.5"
       >
         {m.text}
       </mark>
@@ -172,15 +172,13 @@ export default function FindReplaceTool() {
   }, [replacedText]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Source Text */}
       <Panel>
         <div className="space-y-2">
-          <label className="text-xs font-medium text-(--text-tertiary) uppercase tracking-wider">
-            Source Text
-          </label>
           <Textarea
             value={source}
+            label="Source Text"
             onChange={(e) => setSource(e.target.value)}
             placeholder="Paste or type your text here..."
             className="h-36 text-sm"
@@ -200,7 +198,6 @@ export default function FindReplaceTool() {
               value={find}
               onChange={(e) => setFind(e.target.value)}
               placeholder={useRegex ? "[a-z]+" : "Search term..."}
-              className="font-mono"
               error={error}
             />
             <Input
@@ -208,12 +205,11 @@ export default function FindReplaceTool() {
               value={replace}
               onChange={(e) => setReplace(e.target.value)}
               placeholder={useRegex ? "Use $1, $2 for groups" : "Replacement text..."}
-              className="font-mono"
             />
           </div>
 
           {/* Options */}
-          <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-(--border-default)">
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <Toggle
               label="Case Sensitive"
               checked={caseSensitive}
@@ -244,9 +240,11 @@ export default function FindReplaceTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
+              <label
+                className="block text-xs font-medium uppercase tracking-wide text-(--text-tertiary) mb-1.5"
+              >
                 Highlighted Matches
-              </h3>
+              </label>
               <span className="text-xs text-(--text-tertiary)">
                 {matches.length} match{matches.length !== 1 ? "es" : ""}
               </span>
@@ -263,9 +261,11 @@ export default function FindReplaceTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
+              <label
+                className="block text-xs font-medium uppercase tracking-wide text-(--text-tertiary) mb-1.5"
+              >
                 Result Preview
-              </h3>
+              </label>
             </div>
             <div className="px-3 py-3 rounded-md bg-(--surface-secondary) border border-(--border-default) text-sm text-(--text-primary) whitespace-pre-wrap break-all font-mono max-h-48 overflow-y-auto select-all">
               {replacedText}
@@ -286,7 +286,7 @@ export default function FindReplaceTool() {
       {!source && (
         <Panel>
           <div className="text-center py-8 text-(--text-tertiary)">
-            <p className="text-4xl mb-3">🔎</p>
+            <p className="text-4xl mb-3 font-emoji">🔎</p>
             <p className="text-sm">Paste your text above, then enter a search term to find and replace</p>
           </div>
         </Panel>
