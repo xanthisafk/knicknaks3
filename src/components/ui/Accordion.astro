@@ -1,0 +1,112 @@
+---
+/**
+ * Accordion component (Astro)
+ *
+ * Props:
+ *   label         – The heading / trigger text
+ *   content       – The body content string
+ *   labelIcon     – (optional) An HTML string for an SVG icon (takes precedence over labelEmoji)
+ *   labelEmoji    – (optional) An emoji string rendered if no icon
+ *   contentType   – "text" | "markdown" | "html"  (default "text")
+ *   defaultOpen   – boolean  (default false)
+ *   class         – extra CSS classes
+ */
+interface Props {
+  label: string;
+  content: string;
+  labelIcon?: string;
+  labelEmoji?: string;
+  contentType?: "text" | "markdown" | "html";
+  defaultOpen?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  content,
+  labelIcon,
+  labelEmoji,
+  contentType = "text",
+  defaultOpen = false,
+  class: className,
+} = Astro.props;
+
+const id = `accordion-${Math.random().toString(36).slice(2, 9)}`;
+
+let renderedContent = content;
+if (contentType === "markdown") {
+  const { marked } = await import("marked");
+  const result = marked.parse(content);
+  renderedContent = typeof result === "string" ? result : await result;
+}
+---
+
+<details
+  class:list={[
+    "kk-accordion",
+    "border border-(--border-default) rounded-lg",
+    "bg-(--surface-elevated) overflow-hidden",
+    "transition-shadow duration-150",
+    "group",
+    className,
+  ]}
+  open={defaultOpen || undefined}
+  id={id}
+>
+  <summary
+    class:list={[
+      "flex items-center gap-3 px-4 py-3",
+      "text-sm font-semibold text-(--text-primary)",
+      "cursor-pointer select-none list-none",
+      "hover:bg-(--surface-secondary)",
+      "transition-colors duration-150",
+      "[&::-webkit-details-marker]:hidden",
+    ]}
+  >
+    {/* Icon / Emoji */}
+    {labelIcon ? (
+      <span class="shrink-0 [&>svg]:w-4 [&>svg]:h-4" set:html={labelIcon} />
+    ) : labelEmoji ? (
+      <span class="font-emoji text-base leading-none shrink-0" aria-hidden="true">
+        {labelEmoji}
+      </span>
+    ) : null}
+
+    <span class="flex-1">{label}</span>
+
+    {/* Chevron */}
+    <svg
+      class="w-4 h-4 shrink-0 text-(--text-tertiary) transition-transform duration-250 group-open:rotate-180"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </summary>
+
+  <div class="px-4 pb-4 pt-1">
+    {contentType === "text" ? (
+      <p class="text-sm text-(--text-secondary) leading-relaxed">{content}</p>
+    ) : (
+      <div class="prose prose-sm max-w-none" set:html={renderedContent} />
+    )}
+  </div>
+</details>
+
+<style>
+  .kk-accordion[open] {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .kk-accordion summary:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: -2px;
+    border-radius: var(--radius-sm);
+  }
+</style>
