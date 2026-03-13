@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Quickly locate codes by typing the exact 3-digit number or a descriptive word into the search bar. You can also filter exclusively by category (like 2xx or 4xx). Click on any individual status code card to unpack detailed usage scenarios and best practices.",
   relatedTools: ["url-parser", "url-builder"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  lastUpdated: "2026-03-13",
 };

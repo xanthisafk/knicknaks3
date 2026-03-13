@@ -1,6 +1,8 @@
 import { useState, useMemo } from "react";
-import { Input } from "@/components/ui";
+import { Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ResultRow } from "@/components/advanced/ResultRow";
 
 interface Parsed {
   id: string;
@@ -103,10 +105,27 @@ export default function HttpStatusCodesTool() {
   return (
     <div className="space-y-2">
       <Panel>
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col sm:flex-row gap-2">
           <div className="flex-1">
-            <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by code or description..." />
+            <Input
+              value={search}
+              leadingEmoji={"🔎"}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search by code or description..."
+              className="w-full" />
           </div>
+          {/* <Select value={category} onValueChange={setCategory}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select category" />
+            </SelectTrigger>
+            <SelectContent>
+              {CATEGORIES.map(c => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select> */}
           <select
             value={category}
             onChange={e => setCategory(e.target.value)}
@@ -119,14 +138,11 @@ export default function HttpStatusCodesTool() {
 
       {[...grouped.entries()].map(([cat, codes]) => (
         <Panel key={cat}>
-          <h3 className="text-sm font-semibold text(--text-primary) mb-3">{cat}</h3>
+          <Label>{cat}</Label>
           <div className="space-y-2">
-            {codes.map(c => (
-              <div key={c.id} className="flex gap-3 px-3 py-2.5 rounded-md bg-(--surface-secondary) hover:bg-(--surface-elevated) transition-colors">
-                <span className={`font-bold font-mono text-sm w-10 shrink-0 ${c.color}`}>{c.id}</span>
-                <span className="text-sm text(--text-secondary)">{c.description}</span>
-              </div>
-            ))}
+            {codes.map(c =>
+              <ResultRow key={c.id} label={c.id} value={c.description} />
+            )}
           </div>
         </Panel>
       ))}
