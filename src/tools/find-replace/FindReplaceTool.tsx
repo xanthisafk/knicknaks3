@@ -120,7 +120,7 @@ function highlightMatches(source: string, matches: MatchInfo[]): React.ReactNode
     parts.push(
       <mark
         key={i}
-        className="bg-[var(--color-primary-200)] dark:bg-[var(--color-primary-700)] text-[var(--text-primary)] rounded-sm px-0.5"
+        className="bg-primary-200 dark:bg-primary-700 text-(--text-primary) rounded-sm px-0.5"
       >
         {m.text}
       </mark>
@@ -176,7 +176,7 @@ export default function FindReplaceTool() {
       {/* Source Text */}
       <Panel>
         <div className="space-y-2">
-          <label className="text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wider">
+          <label className="text-xs font-medium text-(--text-tertiary) uppercase tracking-wider">
             Source Text
           </label>
           <Textarea
@@ -185,7 +185,7 @@ export default function FindReplaceTool() {
             placeholder="Paste or type your text here..."
             className="h-36 text-sm"
           />
-          <p className="text-xs text-[var(--text-tertiary)] text-right">
+          <p className="text-xs text-(--text-tertiary) text-right">
             {source.length} character{source.length !== 1 ? "s" : ""}
           </p>
         </div>
@@ -213,7 +213,7 @@ export default function FindReplaceTool() {
           </div>
 
           {/* Options */}
-          <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-[var(--border-default)]">
+          <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-(--border-default)">
             <Toggle
               label="Case Sensitive"
               checked={caseSensitive}
@@ -231,7 +231,7 @@ export default function FindReplaceTool() {
             />
 
             {matches.length > 0 && (
-              <span className="ml-auto text-xs text-[var(--text-tertiary)] font-medium">
+              <span className="ml-auto text-xs text-(--text-tertiary) font-medium">
                 {matches.length} match{matches.length !== 1 ? "es" : ""}
               </span>
             )}
@@ -244,14 +244,14 @@ export default function FindReplaceTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">
+              <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
                 Highlighted Matches
               </h3>
-              <span className="text-xs text-[var(--text-tertiary)]">
+              <span className="text-xs text-(--text-tertiary)">
                 {matches.length} match{matches.length !== 1 ? "es" : ""}
               </span>
             </div>
-            <div className="px-3 py-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] text-sm text-[var(--text-primary)] whitespace-pre-wrap break-all font-mono max-h-48 overflow-y-auto">
+            <div className="px-3 py-3 rounded-md bg-(--surface-secondary) border border-(--border-default) text-sm text-(--text-primary) whitespace-pre-wrap break-all font-mono max-h-48 overflow-y-auto">
               {highlighted}
             </div>
           </div>
@@ -263,11 +263,11 @@ export default function FindReplaceTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">
+              <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
                 Result Preview
               </h3>
             </div>
-            <div className="px-3 py-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] text-sm text-[var(--text-primary)] whitespace-pre-wrap break-all font-mono max-h-48 overflow-y-auto select-all">
+            <div className="px-3 py-3 rounded-md bg-(--surface-secondary) border border-(--border-default) text-sm text-(--text-primary) whitespace-pre-wrap break-all font-mono max-h-48 overflow-y-auto select-all">
               {replacedText}
             </div>
             <div className="flex items-center gap-3">
@@ -285,7 +285,7 @@ export default function FindReplaceTool() {
       {/* Empty state */}
       {!source && (
         <Panel>
-          <div className="text-center py-8 text-[var(--text-tertiary)]">
+          <div className="text-center py-8 text-(--text-tertiary)">
             <p className="text-4xl mb-3">🔎</p>
             <p className="text-sm">Paste your text above, then enter a search term to find and replace</p>
           </div>
