@@ -232,7 +232,7 @@ export default function GradientMakerTool() {
       <Panel>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Gradient Type</h3>
+            <Label>Gradient Type</Label>
             <Button
               onClick={randomize}
               size="xs"
@@ -257,11 +257,9 @@ export default function GradientMakerTool() {
       {type !== "radial" && (
         <Panel>
           <div className="space-y-4">
-            <h3 className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase">
-              {type === "linear" ? "Angle" : "Start Angle"}
-            </h3>
-            <SliderRow label="Angle" value={angle} min={0} max={360} onChange={setAngle} />
+            <SliderRow label={type === "linear" ? "Angle" : "Start Angle"} value={angle} min={0} max={360} onChange={setAngle} />
           </div>
+
         </Panel>
       )}
 
@@ -269,7 +267,7 @@ export default function GradientMakerTool() {
       <Panel>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Color Stops</h3>
+            <Label>Color Stops</Label>
             <Button
               onClick={addStop}
               size="xs"
@@ -306,15 +304,33 @@ export default function GradientMakerTool() {
       <Panel>
         <div className="space-y-4">
           <Label>Export PNG</Label>
-          <div className="flex align-end gap-2">
-            <Input label="Width" type="number" className="w-full" min={1} max={8000} value={dlWidth} onChange={(e) => setDlWidth(Number(e.target.value))} />
+          <div className="flex gap-2">
+            <Input
+              type="number"
+              leadingText="Width"
+              trailingText="px"
+              className="w-full"
+              min={1}
+              max={8000}
+              value={dlWidth}
+              onChange={(e) => setDlWidth(Number(e.target.value))}
+            />
 
-            <Input label="Height" type="number" className="w-full" min={1} max={8000} value={dlHeight} onChange={(e) => setDlHeight(Number(e.target.value))} />
+            <Input
+              leadingText="Height"
+              trailingText="px"
+              type="number"
+              className="w-full"
+              min={1}
+              max={8000}
+              value={dlHeight}
+              onChange={(e) => setDlHeight(Number(e.target.value))}
+            />
           </div>
           <Button
             onClick={handleDownload}
             icon={Download}
-            variant="secondary"
+            variant="primary"
           >
             Download PNG
           </Button>

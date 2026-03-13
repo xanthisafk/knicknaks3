@@ -138,7 +138,7 @@ export function Accordion({
         role="region"
         aria-labelledby={headingId}
         className={cn(
-          "grid transition-[grid-template-rows] duration-(--duration-normal) ease-(--ease-out)",
+          "grid transition-[grid-template-rows] duration-(--duration-normal) ease-out",
           isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         )}
       >

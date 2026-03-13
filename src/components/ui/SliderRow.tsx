@@ -1,5 +1,6 @@
 import { CornerDownLeft, type LucideIcon } from "lucide-react";
 import { Button } from "./Button";
+import { Label } from "./Label";
 
 export interface SliderRowProps {
     label?: string;
@@ -15,9 +16,7 @@ export interface SliderRowProps {
 export default function SliderRow({ label, value, min, max, unit, isDefault, onChange, onReset }: SliderRowProps) {
     return (
         <div className="grid grid-cols-[110px_1fr_60px_28px] items-center gap-3">
-            <span className="text-xs text-(--text-tertiary) font-medium uppercase tracking-wider">
-                {label}
-            </span>
+            <Label size="s">{label}</Label>
             <input
                 type="range"
                 min={min}

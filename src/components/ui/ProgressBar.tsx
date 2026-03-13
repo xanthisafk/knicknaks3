@@ -79,7 +79,7 @@ export function ProgressBar({
         <div
           className={cn(
             "h-full rounded-full",
-            "transition-[width] duration-(--duration-normal) ease-(--ease-out)",
+            "transition-[width] duration-(--duration-normal) ease-out",
             variantColors[variant],
             indeterminate && "kk-progress-indeterminate"
           )}

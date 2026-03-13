@@ -1,11 +1,12 @@
 import { copyToClipboard } from "@/lib/utils";
 import { useState } from "react";
+import { Label } from "../ui";
 
 export function ResultRow({ label, value }: { label: string; value: string }) {
     const [copied, setCopied] = useState(false);
     return (
         <div className="flex items-center justify-between py-2 px-3 rounded-md bg-(--surface-secondary)">
-            <span className="text-xs font-medium text(--text-secondary) min-w-[120px]">{label}</span>
+            <Label size="xs">{label}</Label>
             <span className="text-sm font-mono text(--text-primary) flex-1 ml-3 break-all">
                 {value || "—"}
             </span>

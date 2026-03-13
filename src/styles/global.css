@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 /* ===== DESIGN TOKENS ===== */
 @theme {
   /* --- Colors: Light Mode (default) --- */
@@ -177,7 +177,7 @@ h6 {
 }
 
 /* Focus styles */
-:focus-visible {
+:focus-visible:not(input):not(textarea):not(select) {
   outline: 2px solid var(--border-focus);
   outline-offset: var(--ring-offset);
   border-radius: var(--radius-sm);
