@@ -3,21 +3,110 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Fancy Text Generator",
   slug: "fancy-text-generator",
-  description: "Convert normal text into fun text styles",
-  longDescription: "Level up your social media bios and posts! The Fancy Text Generator seamlessly transforms standard text strings into an array of aesthetically pleasing Unicode variants. Generate cool cursive, bold, script, and fraktur fonts that you can copy and paste anywhere.",
+  description: "Generate stylish Unicode text you can copy and paste anywhere.",
+
+  longDescription:
+    "Level up your social media bios and posts! The Fancy Text Generator seamlessly transforms standard text strings into an array of aesthetically pleasing Unicode variants. Generate cool cursive, bold, script, and fraktur fonts that you can copy and paste anywhere.",
+
   category: "text",
   icon: "✨",
-  keywords: ["fancy text generator", "unicode text converter", "cool text fonts", "copy paste fonts", "social media bio fonts", "cursive text maker", "bold italic unicode", "fraktur font generator"],
-  tags: ["text", "fun", "social", "unicode"],
-  component: () => import("./FancyTextGeneratorTool"),
-  capabilities: { supportsOffline: true, supportsClipboard: true },
-  faq: [
-    { question: "Will these fonts work on Instagram or Twitter?", answer: "Yes! Because the tool uses actual mathematical Unicode characters instead of CSS styling, these 'fonts' will render correctly across almost all modern platforms, including Instagram, Twitter, Facebook, and Discord." },
-    { question: "Are they technically fonts?", answer: "No, they are different standardized Unicode symbols that resemble the alphabet (like mathematical bold or script characters). That is why you can freely copy and paste them as text." },
-    { question: "Why do some characters look like empty boxes?", answer: "Some older devices or very specific applications might not fully support the expansive Unicode standard, replacing untranslatable characters with the default 'tofu' box icon." }
+  status: "updated",
+
+  keywords: [
+    "fancy text generator",
+    "unicode text converter",
+    "cool text fonts",
+    "copy paste fonts",
+    "social media bio fonts",
+    "cursive text maker",
+    "bold italic unicode",
+    "fraktur font generator",
+    "stylish text generator",
+    "instagram fancy text",
+    "discord fancy fonts",
+    "unicode font generator",
+    "aesthetic text generator"
   ],
-  howItWorks: "Simply type or paste your regular text in the input box. The tool automatically maps your characters to their Unicode equivalents and displays a huge list of stylistic variants instantly. Click any stylized row to copy it directly to your clipboard.",
+
+  tags: ["text", "fun", "social", "unicode"],
+
+  component: () => import("./FancyTextGeneratorTool"),
+
+  capabilities: { supportsOffline: true, supportsClipboard: true },
+
+  faq: [
+    {
+      question: "What does the Fancy Text Generator do?",
+      answer:
+        "This tool converts normal text into a variety of decorative Unicode text styles such as cursive, bold, script, fraktur, small caps, and other aesthetic variations that can be copied and pasted anywhere."
+    },
+    {
+      question: "Will these fonts work on Instagram or Twitter?",
+      answer:
+        "Yes. Because the generator uses Unicode characters instead of visual font styling, the text can be pasted into most platforms including Instagram, Twitter (X), Facebook, TikTok, Discord, and YouTube."
+    },
+    {
+      question: "Are these real fonts?",
+      answer:
+        "No. They are Unicode characters that resemble styled letters such as mathematical bold or script symbols. Since they are standard characters, they behave like normal text and can be copied anywhere."
+    },
+    {
+      question: "Where can I use fancy text?",
+      answer:
+        "Fancy Unicode text works in many places including social media bios, usernames, chat messages, comments, gaming profiles, Discord servers, and messaging apps."
+    },
+    {
+      question: "Why do some characters appear as empty boxes?",
+      answer:
+        "Some older devices or applications may not support every Unicode symbol. When a character is unsupported, the system may display a blank box or placeholder instead."
+    },
+    {
+      question: "Can I use this for usernames or gamertags?",
+      answer:
+        "Yes. Many platforms allow Unicode characters in usernames and gamertags. However, some services restrict certain symbols, so availability may vary."
+    },
+    {
+      question: "Does the text stay styled after copying?",
+      answer:
+        "Yes. Since the output is composed of Unicode characters rather than visual formatting, the style remains intact when pasted into supported apps or websites."
+    },
+    {
+      question: "Is this tool safe to use?",
+      answer:
+        "Yes. All text conversion happens locally in your browser and nothing you type is sent to a server."
+    },
+    {
+      question: "Can I generate cursive or script text?",
+      answer:
+        "Yes. The generator includes several script-like Unicode styles that resemble cursive handwriting."
+    },
+    {
+      question: "Can I use fancy text for Discord messages?",
+      answer:
+        "Yes. Most Unicode text styles generated by this tool work well in Discord messages, usernames, and server nicknames."
+    },
+    {
+      question: "Does the generator support emojis or symbols?",
+      answer:
+        "The generator focuses on alphabetic characters and numbers. Emojis and many symbols remain unchanged because they already exist as separate Unicode characters."
+    },
+    {
+      question: "Why do some letters not change in certain styles?",
+      answer:
+        "Not every Unicode style includes a full alphabet or number set. When a matching styled character doesn't exist, the generator keeps the original character."
+    },
+    {
+      question: "Does this tool work offline?",
+      answer:
+        "Yes. Once the page loads, all text conversion runs directly in your browser and does not require an internet connection."
+    }
+  ],
+
+  howItWorks:
+    "Type or paste your normal text into the input field and the generator instantly converts each character into multiple Unicode style variants. These styles are created by mapping standard letters and numbers to their Unicode equivalents such as mathematical bold, script, fraktur, or small caps characters. The tool displays a list of styled text outputs that update in real time as you type. When you find a style you like, simply click it to copy the text to your clipboard and paste it anywhere such as social media profiles, messages, or usernames.",
+
   relatedTools: ["upside-down-text", "zalgo-text"],
+
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  lastUpdated: "2026-03-13",
 };
