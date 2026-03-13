@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Paste any text containing special characters into the input area. Choose 'Encode' to systematically convert risky characters to safe HTML entities, or 'Decode' to translate an entity-encoded string back into standard human-readable characters.",
   relatedTools: ["url-encoder", "base64", "string-escaper"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  lastUpdated: "2026-03-13",
 };
