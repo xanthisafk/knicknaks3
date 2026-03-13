@@ -1,7 +1,8 @@
-import { useState, useCallback } from "react";
-import { Button, Textarea } from "@/components/ui";
+import { useState, useCallback, useRef } from "react";
+import { Button, Label, Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { ResultRow } from "@/components/advanced/ResultRow";
+import { CornerDownLeft, Loader2 } from "lucide-react";
 
 const ALGORITHMS = ["SHA-1", "SHA-256", "SHA-384", "SHA-512"] as const;
 type Algorithm = (typeof ALGORITHMS)[number];
@@ -21,36 +22,6 @@ async function computeFileHash(file: File, algorithm: Algorithm): Promise<string
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-function HashRow({ label, value }: { label: string; value: string }) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    if (await copyToClipboard(value)) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
-  return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text(--text-secondary)">{label}</span>
-        {value && (
-          <button
-            onClick={handleCopy}
-            className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) transition-colors cursor-pointer"
-          >
-            {copied ? "✓ Copied" : "Copy"}
-          </button>
-        )}
-      </div>
-      <div className="px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] font-[family-name:var(--font-mono)] text-xs break-all text(--text-primary) min-h-[36px]">
-        {value || <span className="text-[var(--text-tertiary)]">—</span>}
-      </div>
-    </div>
-  );
-}
-
 export default function HashGeneratorTool() {
   const [input, setInput] = useState("");
   const [hashes, setHashes] = useState<Record<Algorithm, string>>({
@@ -61,6 +32,7 @@ export default function HashGeneratorTool() {
   });
   const [fileName, setFileName] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const hashText = useCallback(async (text: string) => {
     if (!text.trim()) {
@@ -103,35 +75,50 @@ export default function HashGeneratorTool() {
   return (
     <div className="space-y-2">
       <Panel>
-        <div className="space-y-4">
+        <div className="space-y-2">
           <Textarea
+            label="Text to Hash"
             value={input}
             onChange={(e) => handleInputChange(e.target.value)}
             placeholder="Enter text to hash..."
-            className="h-32 font-[family-name:var(--font-mono)] text-sm"
           />
-          <div className="flex items-center gap-3">
-            <label className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] text-sm text(--text-primary) cursor-pointer hover:border-[var(--border-hover)] transition-colors">
-              📁 Hash a file
-              <input type="file" onChange={handleFileChange} className="hidden" />
-            </label>
-            {fileName && (
-              <span className="text-sm text(--text-secondary)">
-                File: <strong>{fileName}</strong>
-              </span>
-            )}
-            {isProcessing && (
-              <span className="text-sm text-[var(--text-tertiary)]">Computing...</span>
-            )}
+          <input ref={fileRef} type="file" onChange={handleFileChange} className="hidden" />
+          <div className="flex flex-row justify-between items-center gap-1.5">
+            <div className="flex flex-row items-center gap-1.5">
+              <Button
+                size="md"
+                variant="secondary"
+                emoji={fileName ? "📂" : "📁"}
+                onClick={() => fileRef.current?.click()}
+              >
+                {fileName ? "Change File" : "Hash a file"}
+              </Button>
+              {fileName && (
+                <Label>{fileName}</Label>
+              )}
+              {isProcessing &&
+                <>
+                  <Loader2 className="animate-spin size-4" /> <Label size="xs">Loading...</Label>
+                </>
+              }
+            </div>
+            <Button
+              size="md"
+              variant="ghost"
+              icon={CornerDownLeft}
+              onClick={() => handleInputChange("")}
+            >
+              Clear
+            </Button>
           </div>
         </div>
       </Panel>
 
       <Panel>
-        <div className="space-y-4">
-          <h3 className="text-sm font-medium text(--text-primary)">Hash Results</h3>
+        <div className="space-y-2">
+          <Label>Hash Results</Label>
           {ALGORITHMS.map((alg) => (
-            <HashRow key={alg} label={alg} value={hashes[alg]} />
+            <ResultRow key={alg} label={alg} value={hashes[alg]} />
           ))}
         </div>
       </Panel>

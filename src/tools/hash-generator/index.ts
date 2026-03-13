@@ -43,5 +43,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["base64", "password-generator", "uuid-generator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  lastUpdated: "2026-03-13",
 };
