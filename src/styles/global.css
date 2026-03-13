@@ -243,3 +243,33 @@ h6 {
   background-color: transparent !important;
   border: none !important;
 }
+
+/* ===== COMPONENT ANIMATIONS ===== */
+
+/* Indeterminate progress bar */
+@keyframes kk-progress-indeterminate {
+  0% {
+    width: 0%;
+    margin-left: 0%;
+  }
+  50% {
+    width: 60%;
+    margin-left: 20%;
+  }
+  100% {
+    width: 0%;
+    margin-left: 100%;
+  }
+}
+
+.kk-progress-indeterminate {
+  animation: kk-progress-indeterminate 1.8s var(--ease-in-out) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kk-progress-indeterminate {
+    animation: none;
+    width: 100% !important;
+    opacity: 0.5;
+  }
+}

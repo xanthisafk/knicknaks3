@@ -1,16 +1,14 @@
-import { useState, useCallback } from "react";
-import { Button } from "@/components/ui";
+import { useState, useCallback, useRef } from "react";
+import { Button, Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { copyToClipboard, toTitleCase } from "@/lib/utils";
+import type { ColorStop, GradientType } from "@/lib/colorHelper/types";
+import { StopRow } from "./ColorStopRow";
+import SliderRow from "@/components/ui/SliderRow";
+import { TabList, Tabs, Tab } from "@/components/ui/tab";
+import { ResultRow } from "@/components/advanced/ResultRow";
+import { Download } from "lucide-react";
 
-// ===== Types =====
-type GradientType = "linear" | "radial" | "conic";
-
-interface ColorStop {
-  id: number;
-  color: string;
-  position: number; // 0-100
-}
 
 let stopId = 1;
 
@@ -36,80 +34,139 @@ function gradientCSS(type: GradientType, angle: number, stops: ColorStop[]): str
   }
 }
 
-// ===== Sub-components =====
-interface SliderRowProps {
-  label: string;
-  value: number;
-  min: number;
-  max: number;
-  unit?: string;
-  onChange: (v: number) => void;
+// ===== Tailwind CSS generation =====
+function gradientToTailwind(type: GradientType, angle: number, stops: ColorStop[]): string {
+  const sorted = [...stops].sort((a, b) => a.position - b.position);
+
+  // Direction mapping for linear gradients
+  const angleToDirection: Record<number, string> = {
+    0: "to-t",
+    45: "to-tr",
+    90: "to-r",
+    135: "to-br",
+    180: "to-b",
+    225: "to-bl",
+    270: "to-l",
+    315: "to-tl",
+    360: "to-t",
+  };
+
+  // Find closest direction or use arbitrary
+  const closestAngle = Object.keys(angleToDirection)
+    .map(Number)
+    .sort((a, b) => Math.abs(a - angle) - Math.abs(b - angle))[0];
+
+  const isArbitraryAngle = Math.abs(closestAngle - angle) > 22;
+
+  if (type === "radial") {
+    // Tailwind doesn't have a built-in radial gradient class, use arbitrary
+    const colorStops = stopsToCSS(sorted);
+    return `[background:radial-gradient(circle,${colorStops.replace(/ /g, "_")})]`;
+  }
+
+  if (type === "conic") {
+    const colorStops = stopsToCSS(sorted);
+    return `[background:conic-gradient(from_${angle}deg,${colorStops.replace(/ /g, "_")})]`;
+  }
+
+  // Linear gradient
+  const dirClass = isArbitraryAngle
+    ? `bg-[linear-gradient(${angle}deg,${stopsToCSS(sorted).replace(/ /g, "_")})]`
+    : buildLinearTailwind(angleToDirection[closestAngle], sorted);
+
+  return dirClass;
 }
 
-function SliderRow({ label, value, min, max, unit = "°", onChange }: SliderRowProps) {
-  return (
-    <div className="grid grid-cols-[90px_1fr_52px] items-center gap-3">
-      <span className="text-xs text-(--text-tertiary) font-medium uppercase tracking-wider">{label}</span>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-1.5 rounded-full appearance-none bg-(--border-default) accent-primary-500 cursor-pointer"
-      />
-      <div className="rounded-sm bg-(--surface-secondary) border border-(--border-default) px-1.5 py-0.5 text-xs font-mono text-(--text-primary) text-center">
-        {value}{unit}
-      </div>
-    </div>
-  );
+function buildLinearTailwind(direction: string, stops: ColorStop[]): string {
+  if (stops.length === 2) {
+    const fromColor = hexToTailwindArbitrary(stops[0].color, "from");
+    const toColor = hexToTailwindArbitrary(stops[1].color, "to");
+    return `bg-gradient-${direction} ${fromColor} ${toColor}`;
+  } else if (stops.length === 3) {
+    const fromColor = hexToTailwindArbitrary(stops[0].color, "from");
+    const viaColor = hexToTailwindArbitrary(stops[1].color, "via");
+    const toColor = hexToTailwindArbitrary(stops[2].color, "to");
+    return `bg-gradient-${direction} ${fromColor} ${viaColor} ${toColor}`;
+  } else {
+    // For 4+ stops, fall back to arbitrary value
+    const colorStops = stops.map((s) => `${s.color} ${s.position}%`).join(",");
+    return `[background:linear-gradient(${direction.replace("to-", "to ")},${colorStops.replace(/ /g, "_")})]`;
+  }
 }
 
-function StopRow({
-  stop,
-  onUpdate,
-  onRemove,
-  canRemove,
-}: {
-  stop: ColorStop;
-  onUpdate: (patch: Partial<ColorStop>) => void;
-  onRemove: () => void;
-  canRemove: boolean;
-}) {
-  return (
-    <div className="flex items-center gap-3 group">
-      <div className="w-8 h-8 rounded-full shadow-sm overflow-hidden relative cursor-pointer border border-(--border-default) shrink-0">
-        <input
-          type="color"
-          value={stop.color}
-          onChange={(e) => onUpdate({ color: e.target.value })}
-          className="absolute -inset-4 w-[200%] h-[200%] cursor-pointer border-0 p-0"
-        />
-      </div>
-      <span className="text-xs font-mono text-(--text-secondary) w-16">{stop.color.toUpperCase()}</span>
-      <input
-        type="range"
-        min={0}
-        max={100}
-        value={stop.position}
-        onChange={(e) => onUpdate({ position: Number(e.target.value) })}
-        className="flex-1 h-1.5 rounded-full appearance-none bg-(--border-default) accent-primary-500 cursor-pointer"
-      />
-      <div className="rounded-sm bg-(--surface-secondary) border border-(--border-default) px-1.5 py-0.5 text-xs font-mono text-(--text-primary) text-center w-12">
-        {stop.position}%
-      </div>
-      {canRemove && (
-        <button
-          onClick={onRemove}
-          className="p-1.5 rounded-full text-(--text-tertiary) hover:bg-error/10 hover:text-error transition-colors cursor-pointer text-xs opacity-0 group-hover:opacity-100"
-          title="Remove stop"
-        >
-          ✕
-        </button>
-      )}
-    </div>
-  );
+function hexToTailwindArbitrary(hex: string, prefix: "from" | "via" | "to"): string {
+  return `${prefix}-[${hex}]`;
 }
+
+
+// ===== PNG Download =====
+function downloadGradientPng(
+  type: GradientType,
+  angle: number,
+  stops: ColorStop[],
+  width: number,
+  height: number
+) {
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const sorted = [...stops].sort((a, b) => a.position - b.position);
+
+  if (type === "linear") {
+    const rad = (angle * Math.PI) / 180;
+    // Compute start/end points so the gradient spans the full canvas
+    const cx = width / 2;
+    const cy = height / 2;
+    const halfLen = Math.abs(width * Math.sin(rad)) / 2 + Math.abs(height * Math.cos(rad)) / 2;
+    const x0 = cx - Math.sin(rad) * halfLen;
+    const y0 = cy + Math.cos(rad) * halfLen;
+    const x1 = cx + Math.sin(rad) * halfLen;
+    const y1 = cy - Math.cos(rad) * halfLen;
+    const grad = ctx.createLinearGradient(x0, y0, x1, y1);
+    sorted.forEach((s) => grad.addColorStop(s.position / 100, s.color));
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
+  } else if (type === "radial") {
+    const cx = width / 2;
+    const cy = height / 2;
+    const r = Math.max(width, height) / 2;
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    sorted.forEach((s) => grad.addColorStop(s.position / 100, s.color));
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
+  } else {
+    // Conic — Canvas2D supports createConicGradient in modern browsers
+    if (typeof ctx.createConicGradient === "function") {
+      const rad = (angle * Math.PI) / 180 - Math.PI / 2;
+      const grad = ctx.createConicGradient(rad, width / 2, height / 2);
+      sorted.forEach((s) => grad.addColorStop(s.position / 100, s.color));
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+    } else {
+      // Fallback to linear if conic not supported
+      const grad = ctx.createLinearGradient(0, 0, width, height);
+      sorted.forEach((s) => grad.addColorStop(s.position / 100, s.color));
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+    }
+  }
+
+  const filename = `knicknaks-gradient.png`;
+
+  canvas.toBlob((blob) => {
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, "image/png");
+}
+
 
 // ===== Main =====
 export default function GradientMakerTool() {
@@ -120,7 +177,10 @@ export default function GradientMakerTool() {
     makeStop("#ec4899", 50),
     makeStop("#f59e0b", 100),
   ]);
-  const [copied, setCopied] = useState(false);
+
+  // Download dimensions
+  const [dlWidth, setDlWidth] = useState(1920);
+  const [dlHeight, setDlHeight] = useState(1080);
 
   const updateStop = useCallback((id: number, patch: Partial<ColorStop>) => {
     setStops((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)));
@@ -131,19 +191,13 @@ export default function GradientMakerTool() {
   }, []);
 
   const addStop = () => {
-    // Insert at the midpoint with a blended default
     const newPos = stops.length > 0 ? Math.round(stops.reduce((sum, s) => sum + s.position, 0) / stops.length) : 50;
     setStops((prev) => [...prev, makeStop("#8b5cf6", Math.min(100, Math.max(0, newPos)))]);
   };
 
   const cssValue = gradientCSS(type, angle, stops);
   const fullCSS = `background: ${cssValue};`;
-
-  const handleCopy = async () => {
-    await copyToClipboard(fullCSS);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const tailwindValue = gradientToTailwind(type, angle, stops);
 
   const randomize = () => {
     const randomHex = () => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
@@ -154,6 +208,12 @@ export default function GradientMakerTool() {
     }
     setStops(newStops);
     setAngle(Math.floor(Math.random() * 360));
+  };
+
+  const handleDownload = () => {
+    const w = Math.min(8000, Math.max(1, dlWidth));
+    const h = Math.min(8000, Math.max(1, dlHeight));
+    downloadGradientPng(type, angle, stops, w, h);
   };
 
   return (
@@ -173,27 +233,23 @@ export default function GradientMakerTool() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Gradient Type</h3>
-            <button
+            <Button
               onClick={randomize}
-              className="text-xs text-primary-500 hover:text-primary-600 hover:underline transition-colors cursor-pointer font-medium"
+              size="xs"
+              emoji="🎲"
+              variant="secondary"
             >
-              🎲 Randomize
-            </button>
+              Randomize
+            </Button>
           </div>
-          <div className="flex gap-1 p-1 bg-(--surface-secondary) rounded-lg border border-(--border-default)">
-            {(["linear", "radial", "conic"] as const).map((t) => (
-              <button
-                key={t}
-                onClick={() => setType(t)}
-                className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer capitalize ${type === t
-                  ? "bg-white dark:bg-(--surface-primary) text-(--text-primary) shadow-sm border border-(--border-default)"
-                  : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface-elevated) border border-transparent"
-                  }`}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
+
+          <Tabs value={type} onValueChange={(v) => setType(v as GradientType)}>
+            <TabList>
+              {(["linear", "radial", "conic"] as const).map((t) => (
+                <Tab key={t} value={t}>{toTitleCase(t)}</Tab>
+              ))}
+            </TabList>
+          </Tabs>
         </div>
       </Panel>
 
@@ -201,7 +257,7 @@ export default function GradientMakerTool() {
       {type !== "radial" && (
         <Panel>
           <div className="space-y-4">
-            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
+            <h3 className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase">
               {type === "linear" ? "Angle" : "Start Angle"}
             </h3>
             <SliderRow label="Angle" value={angle} min={0} max={360} onChange={setAngle} />
@@ -214,12 +270,14 @@ export default function GradientMakerTool() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Color Stops</h3>
-            <button
+            <Button
               onClick={addStop}
-              className="text-xs text-primary-500 hover:text-primary-600 hover:underline transition-colors cursor-pointer font-medium flex items-center gap-1"
+              size="xs"
+              emoji="➕"
+              variant="secondary"
             >
-              <span>+</span> Add Stop
-            </button>
+              Add Stop
+            </Button>
           </div>
           <div className="space-y-3">
             {stops.map((stop) => (
@@ -237,17 +295,31 @@ export default function GradientMakerTool() {
 
       {/* CSS Output */}
       <Panel>
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">CSS Output</h3>
-            <Button onClick={handleCopy} size="sm" variant={copied ? "primary" : "secondary"}>
-              {copied ? "✓ Copied!" : "Copy CSS"}
-            </Button>
-          </div>
-          <pre className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 text-sm font-mono text-(--text-primary) whitespace-pre-wrap break-all select-all leading-relaxed overflow-x-auto">
-            {fullCSS}
-          </pre>
+        <div className="flex flex-col gap-2">
+          <Label>Output</Label>
+          <ResultRow value={fullCSS} label="CSS Output" />
+          <ResultRow value={tailwindValue} label="Tailwind Classes" />
         </div>
+      </Panel>
+
+      {/* PNG Download */}
+      <Panel>
+        <div className="space-y-4">
+          <Label>Export PNG</Label>
+          <div className="flex align-end gap-2">
+            <Input label="Width" type="number" className="w-full" min={1} max={8000} value={dlWidth} onChange={(e) => setDlWidth(Number(e.target.value))} />
+
+            <Input label="Height" type="number" className="w-full" min={1} max={8000} value={dlHeight} onChange={(e) => setDlHeight(Number(e.target.value))} />
+          </div>
+          <Button
+            onClick={handleDownload}
+            icon={Download}
+            variant="secondary"
+          >
+            Download PNG
+          </Button>
+        </div>
+        <Label size="xs">Max 8000 x 8000 (px)</Label>
       </Panel>
     </div>
   );

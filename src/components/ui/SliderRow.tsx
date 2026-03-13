@@ -1,3 +1,6 @@
+import { CornerDownLeft, type LucideIcon } from "lucide-react";
+import { Button } from "./Button";
+
 export interface SliderRowProps {
     label?: string;
     value: number;
@@ -27,13 +30,13 @@ export default function SliderRow({ label, value, min, max, unit, isDefault, onC
                 {value}{unit}
             </div>
             {!isDefault && (
-                <button
+                <Button
                     onClick={onReset}
-                    className="text-(--text-tertiary) hover:text-(--text-primary) transition-colors cursor-pointer text-xs"
                     title="Reset"
-                >
-                    ↩
-                </button>
+                    size="xs"
+                    variant="ghost"
+                    icon={CornerDownLeft}
+                />
             )}
         </div>
     );
