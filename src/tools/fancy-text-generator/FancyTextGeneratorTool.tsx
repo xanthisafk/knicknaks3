@@ -302,7 +302,7 @@ export default function FancyTextGeneratorTool() {
       {!input && (
         <Panel>
           <div className="text-center py-8 text-(--text-tertiary)">
-            <p className="text-4xl mb-3">✨</p>
+            <p className="text-4xl mb-3 font-emoji">✨</p>
             <p className="text-sm">
               Type some text above to see it in fancy Unicode styles
             </p>
