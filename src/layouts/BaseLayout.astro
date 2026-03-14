@@ -1,6 +1,7 @@
 ---
 import "@/styles/global.css";
 import "@/styles/doodles.css";
+import GlobalPalette from "@/components/layout/GlobalPalette";
 
 interface Props {
   title: string;
@@ -22,6 +23,23 @@ const siteName = "Knicknaks";
 const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
 const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "";
 const canonical = canonicalUrl ?? Astro.url.href;
+
+import { getCollection } from "astro:content";
+const isBlog = Astro.url.pathname.startsWith("/blog");
+let searchPosts: any[] = [];
+if (isBlog) {
+  try {
+    const posts = await getCollection("blog");
+    searchPosts = posts.map((post) => ({
+      id: post.id,
+      title: post.data.title,
+      description: post.data.description,
+      tags: post.data.tags,
+    }));
+  } catch (e) {
+    console.error(e);
+  }
+}
 ---
 
 <!doctype html>
@@ -75,6 +93,8 @@ const canonical = canonicalUrl ?? Astro.url.href;
   </head>
   <body>
     <slot />
+    
+    <GlobalPalette client:load blogPosts={searchPosts} isBlog={isBlog} />
 
     <!-- Theme initialization (prevent FOUC) -->
     <script is:inline>

@@ -21,89 +21,77 @@ const structuredData = {
   url: Astro.site?.toString(),
   applicationCategory: "UtilityApplication",
   operatingSystem: "Any",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 };
 ---
 
 <BaseLayout title="Knicknaks" structuredData={structuredData}>
   <div class="min-h-screen flex flex-col">
-    <!-- Header -->
     <Header activeTab="tools" />
 
-    <main class="flex-1 doodle-paper">
-      <!-- Hero Section -->
-      <section class="py-16 md:py-24 text-center">
-        <div class="max-w-3xl mx-auto px-4">
+    <main class="flex-1">
+      <section class="py-16 md:py-24 text-center relative">
+        <div class="relative z-10 max-w-3xl mx-auto px-4">
           <h1
-            class="text-4xl md:text-6xl font-extrabold mb-4 text(--text-primary)"
-            style="font-family: var(--font-heading)"
+            class="text-4xl md:text-6xl font-extrabold mb-4"
+            style="font-family: var(--font-heading); color: var(--text-primary)"
           >
             Your go-to <span class="doodle-underline text-primary-500"
               >Toolbox</span
             >
           </h1>
           <p
-            class="text-lg md:text-xl text(--text-secondary) my-8 max-w-xl mx-auto"
+            class="text-lg md:text-xl my-8 max-w-xl mx-auto"
+            style="color: var(--text-secondary)"
           >
             Free, fast, and privacy-friendly tools that run entirely in your
             browser. No signup. No tracking. No nonsense.
           </p>
 
-          <!-- Search -->
+          <!-- Search Trigger -->
           <div class="relative max-w-md mx-auto mb-6">
-            <input
-              id="tool-search"
-              type="search"
-              placeholder="Search for a tool, description or tag..."
-              autocomplete="off"
-              class="w-full px-4 py-3 pl-10 rounded-xl bg-(--surface-elevated) text(--text-primary) border border-(--border-default) placeholder:text-(--text-tertiary) shadow-sm focus:outline-none focus:border-(--border-focus) focus:ring-2 focus:ring-(--ring-color) text-base"
-            />
+            <button
+              type="button"
+              onclick="window.dispatchEvent(new CustomEvent('open-command-palette'))"
+              class="w-full text-left px-4 py-3 pl-10 rounded-xl border text-base cursor-pointer transition-colors"
+              style="background: var(--surface-elevated); color: var(--text-tertiary); border-color: var(--border-default)"
+            >
+              Search for a tool, description or tag...
+            </button>
             <span
-              class="absolute left-3 top-1/2 -translate-y-1/2 text-(--text-tertiary) font-emoji"
-              >🔍</span
+              class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none font-emoji"
+              style="color: var(--text-tertiary)">🔍</span
             >
             <div
               class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none"
             >
               <span
-                class="hidden sm:block text-xs font-bold text-(--text-tertiary) px-2 py-1 border border-(--border-default) rounded-md bg-(--surface-bg)"
                 id="search-hint"
+                class="hidden sm:block text-xs font-bold px-2 py-1 border rounded-md"
+                style="color: var(--text-tertiary); border-color: var(--border-default); background: var(--surface-bg)"
+                >⌘K</span
               >
-                ⌘K
-              </span>
             </div>
           </div>
 
-          <!-- Status Filters -->
+          <!-- Status Filters — plain pills, no animation baked in -->
           <div
-            class="relative flex flex-wrap items-center justify-center gap-1 max-w-2xl mx-auto"
+            class="flex flex-wrap items-center justify-center gap-1 max-w-2xl mx-auto"
             id="status-filter-group"
           >
-            {/* Sliding pill — positioned absolutely, moved via JS */}
-            <div
-              id="filter-pill"
-              class="absolute rounded-full bg-white/10 backdrop-blur-sm transition-[left,top,width,height] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] pointer-events-none"
-              aria-hidden="true"
-            >
-            </div>
-
             <button
-              class="status-filter-btn relative z-10 px-2 py-1 rounded-full text-xs font-medium cursor-pointer text-(--text-primary)"
+              class="status-filter-btn px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors"
               data-status="all"
+              data-active="true"
             >
               <span class="mr-1 font-emoji">🌏</span>All Tools
             </button>
-
             {
               TOOL_STATUSES.map((status) => {
                 const info = STATUS_INFO[status];
                 return (
                   <button
-                    class="status-filter-btn relative z-10 px-2 py-1 rounded-full text-xs font-medium cursor-pointer text-(--text-secondary)  "
+                    class="status-filter-btn px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors"
                     data-status={status}
                   >
                     <span class="mr-1 font-emoji">{info.icon}</span>
@@ -134,13 +122,16 @@ const structuredData = {
                   >
                     <div class="mb-6">
                       <h2
-                        class="text-2xl font-bold text(--text-primary) flex items-center gap-2"
-                        style="font-family: var(--font-heading)"
+                        class="text-2xl font-bold flex items-center gap-2"
+                        style="font-family: var(--font-heading); color: var(--text-primary)"
                       >
                         <span class="font-emoji">{info.icon}</span>
                         {info.label}
                       </h2>
-                      <p class="text-sm text(--text-secondary) mt-1">
+                      <p
+                        class="text-sm mt-1"
+                        style="color: var(--text-secondary)"
+                      >
                         {info.description}
                       </p>
                     </div>
@@ -155,7 +146,7 @@ const structuredData = {
             ) : (
               <div class="text-center py-16">
                 <p class="text-4xl mb-4">🧰</p>
-                <p class="text(--text-secondary)">
+                <p style="color: var(--text-secondary)">
                   Tools are being crafted. Check back soon!
                 </p>
               </div>
@@ -165,230 +156,98 @@ const structuredData = {
       </section>
     </main>
 
-    <!-- Footer -->
     <Footer />
   </div>
+</BaseLayout>
 
-  <script>
-    import { searchTools } from "@/lib/search";
-    import { debounce } from "@/lib/utils";
+<!-- Search hint: platform detection -->
+<script>
+  const hint = document.getElementById("search-hint");
+  if (hint) {
+    hint.textContent = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent)
+      ? "⌘K"
+      : "Ctrl+K";
+  }
+</script>
 
-    const searchInput = document.getElementById(
-      "tool-search",
-    ) as HTMLInputElement;
-    const toolCards = document.querySelectorAll(
-      ".tool-card",
-    ) as NodeListOf<HTMLElement>;
-    const categorySections = document.querySelectorAll(
-      ".category-section",
-    ) as NodeListOf<HTMLElement>;
+<!-- Status filter -->
+<script>
+  function applyActiveStyle(btn: HTMLButtonElement, active: boolean) {
+    if (active) {
+      btn.style.background = "var(--surface-elevated)";
+      btn.style.color = "var(--text-primary)";
+      btn.setAttribute("data-active", "true");
+    } else {
+      btn.style.background = "transparent";
+      btn.style.color = "var(--text-secondary)";
+      btn.removeAttribute("data-active");
+    }
+  }
+
+  function initFilter() {
+    const filterBtns =
+      document.querySelectorAll<HTMLButtonElement>(".status-filter-btn");
+    const toolCards = document.querySelectorAll<HTMLElement>(".tool-card");
+    const categorySections =
+      document.querySelectorAll<HTMLElement>(".category-section");
     const toolsContainer = document.getElementById("tools");
-    const filterBtns = document.querySelectorAll(
-      ".status-filter-btn",
-    ) as NodeListOf<HTMLButtonElement>;
 
     let activeStatus = "all";
+    let noResultsMsg: HTMLElement | null = null;
 
-    const handleSearch = debounce(() => {
-      const query = searchInput ? searchInput.value : "";
-      const results = query.trim() !== "" ? searchTools(query) : [];
-      const resultSlugs = new Set(results.map((t) => t.slug));
+    // Apply initial active style
+    filterBtns.forEach((btn) => {
+      applyActiveStyle(btn, btn.dataset.status === "all");
+    });
 
-      // Show/hide tools
+    function runFilter() {
+      // Filter cards
       toolCards.forEach((card) => {
-        const slug = card.getAttribute("data-tool-slug");
-        const status = card.getAttribute("data-tool-status");
-
-        const matchesSearch =
-          query.trim() === "" || (slug && resultSlugs.has(slug));
-        const matchesStatus = activeStatus === "all" || status === activeStatus;
-
-        if (matchesSearch && matchesStatus) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
+        const matches =
+          activeStatus === "all" || card.dataset.toolStatus === activeStatus;
+        card.hidden = !matches;
       });
 
-      // Show/hide categories that have visible tools
+      // Hide/show categories based on visible children
+      let anyVisible = false;
       categorySections.forEach((section) => {
-        const visibleTools = section.querySelectorAll(
-          '.tool-card[style*="display: block"]',
-        );
-        const isDefaultState = query.trim() === "" && activeStatus === "all";
-        const hasVisibleTools = visibleTools.length > 0 || isDefaultState;
-
-        if (hasVisibleTools) {
-          section.style.display = "block";
-        } else {
-          section.style.display = "none";
-        }
+        const hasVisible =
+          activeStatus === "all" ||
+          Array.from(section.querySelectorAll<HTMLElement>(".tool-card")).some(
+            (c) => !c.hidden,
+          );
+        section.hidden = !hasVisible;
+        if (hasVisible) anyVisible = true;
       });
 
-      // Handle "No results" message
-      let noResultsMsg = document.getElementById("no-results-msg");
-      const anyVisible = Array.from(toolCards).some(
-        (card) => card.style.display !== "none",
-      );
-
-      if (!anyVisible && (query.trim() !== "" || activeStatus !== "all")) {
-        if (!noResultsMsg && toolsContainer) {
+      // No-results message
+      if (!anyVisible && activeStatus !== "all") {
+        if (!noResultsMsg) {
           noResultsMsg = document.createElement("div");
           noResultsMsg.id = "no-results-msg";
           noResultsMsg.className = "text-center py-16 w-full";
           noResultsMsg.innerHTML = `
             <p class="text-4xl mb-4">🔍</p>
-            <p class="text(--text-primary) font-semibold">No tools found</p>
-            <p class="text(--text-secondary) mt-2">Try a different search term or filter.</p>
+            <p style="color:var(--text-primary)" class="font-semibold">No tools found</p>
+            <p style="color:var(--text-secondary)" class="mt-2">Try a different filter.</p>
           `;
-          toolsContainer.appendChild(noResultsMsg);
-        } else if (noResultsMsg) {
-          noResultsMsg.style.display = "block";
+          toolsContainer?.appendChild(noResultsMsg);
         }
+        noResultsMsg.hidden = false;
       } else if (noResultsMsg) {
-        noResultsMsg.style.display = "none";
+        noResultsMsg.hidden = true;
       }
-    }, 50);
-
-    // Initial setup for filter buttons
-    if (filterBtns) {
-      filterBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          // Update active styling
-          filterBtns.forEach((b) => {
-            b.classList.remove(
-              "bg-[var(--surface-elevated)]",
-              "text(--text-primary)",
-              "border-[var(--border-default)]",
-            );
-            b.classList.add(
-              "bg-transparent",
-              "text(--text-secondary)",
-              "border-transparent",
-            );
-          });
-          btn.classList.add(
-            "bg-[var(--surface-elevated)]",
-            "text(--text-primary)",
-            "border-[var(--border-default)]",
-          );
-          btn.classList.remove(
-            "bg-transparent",
-            "text(--text-secondary)",
-            "border-transparent",
-          );
-
-          activeStatus = btn.getAttribute("data-status") || "all";
-          handleSearch();
-        });
-      });
     }
 
-    if (searchInput) {
-      searchInput.addEventListener("input", handleSearch);
-
-      // Clear search on 'esc'
-      searchInput.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-          searchInput.value = "";
-          handleSearch();
-          searchInput.blur();
-        }
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        activeStatus = btn.dataset.status ?? "all";
+        filterBtns.forEach((b) => applyActiveStyle(b, b === btn));
+        runFilter();
       });
+    });
+  }
 
-      // Keyboard shortcut ⌘K or Ctrl+K to focus search
-      window.addEventListener("keydown", (e) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-          e.preventDefault();
-          searchInput.scrollIntoView();
-          searchInput.focus();
-        }
-      });
-    }
-  </script>
-
-  <!-- Search hint platform detection -->
-  <script>
-    const searchHint = document.getElementById("search-hint");
-
-    if (searchHint) {
-      const isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      searchHint.textContent = isMac ? "⌘K" : "Ctrl+K";
-    }
-  </script>
-
-  <!-- Sliding pill effect -->
-  <script>
-    function initStatusFilter(): void {
-      const group = document.getElementById("status-filter-group");
-      const pill = document.getElementById("filter-pill");
-
-      if (!group || !pill) return;
-
-      const buttons = Array.from(
-        group.querySelectorAll<HTMLButtonElement>(".status-filter-btn"),
-      );
-
-      function movePillTo(btn: HTMLButtonElement): void {
-        const groupRect = group!.getBoundingClientRect();
-        const btnRect = btn.getBoundingClientRect();
-
-        pill!.style.left = `${btnRect.left - groupRect.left + group!.scrollLeft}px`;
-        pill!.style.top = `${btnRect.top - groupRect.top + group!.scrollTop}px`;
-        pill!.style.width = `${btnRect.width}px`;
-        pill!.style.height = `${btnRect.height}px`;
-      }
-
-      function setActive(btn: HTMLButtonElement): void {
-        buttons.forEach((b) => {
-          b.classList.remove("text-(--text-primary)");
-          b.classList.add("text-(--text-secondary)");
-        });
-        btn.classList.remove("text-(--text-secondary)");
-        btn.classList.add("text-(--text-primary)");
-        movePillTo(btn);
-      }
-
-      // Set initial state (no transition on first paint)
-      pill.style.transition = "none";
-      const initial = buttons[0];
-      if (initial) {
-        setActive(initial);
-      }
-
-      // Re-enable transition after initial placement
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          pill.style.transition =
-            "left 300ms cubic-bezier(0.4,0,0.2,1), top 300ms cubic-bezier(0.4,0,0.2,1), width 300ms cubic-bezier(0.4,0,0.2,1), height 300ms cubic-bezier(0.4,0,0.2,1)";
-        });
-      });
-
-      buttons.forEach((btn) => {
-        btn.addEventListener("click", () => setActive(btn));
-      });
-
-      // Recalculate on resize so the pill doesn't drift
-      const observer = new ResizeObserver(() => {
-        const active = buttons.find((b) =>
-          b.classList.contains("text-(--text-primary)"),
-        );
-        if (active) {
-          pill!.style.transition = "none";
-          movePillTo(active);
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              pill!.style.transition = "";
-            });
-          });
-        }
-      });
-
-      observer.observe(group);
-    }
-
-    // Works with Astro's view transitions too
-    document.addEventListener("astro:page-load", initStatusFilter);
-    initStatusFilter();
-  </script>
-</BaseLayout>
+  document.addEventListener("astro:page-load", initFilter);
+  initFilter();
+</script>

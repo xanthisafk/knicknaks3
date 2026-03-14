@@ -41,7 +41,10 @@ tool-card relative overflow-visible"
     <span class="text-2xl shrink-0 mt-0.5 font-emoji">{tool.icon}</span>
     <div>
       <span
-        class="font-emoji text-6xl transition-all duration-300 absolute right-0 translate-x-[25px] rotate-12 opacity-0 group-hover:translate-x-[-10px] group-hover:opacity-30 group-hover:-rotate-12"
+        class="font-emoji text-6xl absolute right-0 opacity-0
+         translate-x-[25px] rotate-12
+         transition-[transform,opacity] duration-300
+         group-hover:translate-x-[-10px] group-hover:opacity-30 group-hover:-rotate-12"
       >
         {tool.icon}
       </span>

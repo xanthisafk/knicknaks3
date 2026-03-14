@@ -1,14 +1,37 @@
 ---
-import { getCollection } from "astro:content";
-import BlogSearch from "./BlogSearch";
-
-const posts = await getCollection("blog");
-const searchPosts = posts.map((post) => ({
-  id: post.id,
-  title: post.data.title,
-  description: post.data.description,
-  tags: post.data.tags,
-}));
+// BlogSearchContainer is now just a styled trigger button for the GlobalPalette
 ---
 
-<BlogSearch client:load posts={searchPosts} />
+<div class="relative max-w-md mx-auto mb-6">
+  <button
+    type="button"
+    onclick="window.dispatchEvent(new CustomEvent('open-command-palette'))"
+    class="w-full text-left px-4 py-3 pl-10 rounded-xl bg-(--surface-elevated) text-(--text-tertiary) border border-(--border-default) shadow-sm hover:border-(--border-focus) focus:outline-none focus:border-(--border-focus) focus:ring-2 focus:ring-(--ring-color) text-base cursor-pointer hover:bg-(--surface-secondary) transition-colors"
+  >
+    Search articles, guides, or tags...
+  </button>
+  <span
+    class="absolute left-3 top-1/2 -translate-y-1/2 text-(--text-tertiary) font-emoji pointer-events-none"
+  >
+    🔍
+  </span>
+  <div
+    class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none"
+  >
+    <span
+      class="hidden sm:block text-xs font-bold text-(--text-tertiary) px-2 py-1 border border-(--border-default) rounded-md bg-(--surface-bg)"
+      id="search-hint"
+    >
+      ⌘K
+    </span>
+  </div>
+</div>
+
+<script>
+  // Platform detection for search hint
+  const searchHint = document.getElementById("search-hint");
+  if (searchHint) {
+    const isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    searchHint.textContent = isMac ? "⌘K" : "Ctrl+K";
+  }
+</script>

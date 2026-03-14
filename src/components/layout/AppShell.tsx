@@ -63,13 +63,18 @@ export function AppShell({ children }: AppShellProps) {
               {/* Search trigger */}
               <button
                 type="button"
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    window.dispatchEvent(new CustomEvent('open-command-palette'));
+                  }
+                }}
                 className={cn(
                   "hidden md:flex items-center gap-2 px-3 py-1.5 rounded-md",
                   "bg-(--surface-secondary) text-(--text-tertiary)",
                   "border border-(--border-default)",
                   "hover:border-(--border-hover) hover:text(--text-secondary)",
                   "transition-colors duration-(--duration-fast)",
-                  "text-sm"
+                  "text-sm cursor-pointer"
                 )}
                 aria-label="Search tools"
               >
