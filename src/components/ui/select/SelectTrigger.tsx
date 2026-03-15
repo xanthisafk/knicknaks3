@@ -41,7 +41,7 @@ export function SelectTrigger({ className, children }: SelectTriggerProps) {
             onKeyDown={handleKeyDown}
             className={cn(
                 "group flex items-center justify-between gap-2",
-                "w-full px-3 py-2 font-medium",
+                "w-full px-3 py-2 text-sm",
                 "rounded-md border border-(--border-default)",
                 "bg-(--surface-elevated) text-(--text-primary)",
                 "hover:border-(--border-hover) hover:shadow-(--shadow-sm)",
