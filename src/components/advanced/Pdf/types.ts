@@ -87,3 +87,47 @@ export const COLUMN_CLASS: Record<number, string> = {
 
 export const DEFAULT_GRID_CLASS =
   "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5";
+
+export const GOOGLE_FONTS = [
+  "Georgia",
+  "Times New Roman",
+  "Arial",
+  "Helvetica",
+  "Courier New",
+  "Verdana",
+  "Trebuchet MS",
+  "Roboto",
+  "Open Sans",
+  "Lato",
+  "Montserrat",
+  "Playfair Display",
+  "Merriweather",
+  "Raleway",
+  "Oswald",
+  "Nunito",
+  "PT Serif",
+  "Source Code Pro",
+  "Crimson Text",
+  "Libre Baskerville",
+];
+
+// Fonts that are web-safe (already available, no Google Fonts load needed)
+export const WEB_SAFE_FONTS = new Set([
+  "Georgia",
+  "Times New Roman",
+  "Arial",
+  "Helvetica",
+  "Courier New",
+  "Verdana",
+  "Trebuchet MS",
+]);
+
+export const FONT_SIZES = ["10", "12", "14", "16", "18", "20", "24", "28", "32", "36", "48", "64"];
+
+export interface PageAnnotation {
+  id: string;
+  pageIndex: number;
+  html: string;
+  x: number;
+  y: number;
+}

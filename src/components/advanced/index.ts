@@ -1,2 +1,3 @@
-export { ErrorBoundary } from "./ErrorBoundary";
-export { ToolWrapper } from "./ToolWrapper";
+export * from "./ErrorBoundary";
+export * from "./ToolWrapper";
+export * from "./ColorPickerButton";

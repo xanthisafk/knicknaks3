@@ -10,7 +10,6 @@ export const definition: ToolDefinition = {
 
   category: "pdf",
   icon: "🗑️",
-  status: "updated",
   keywords: [
     "delete pdf pages online",
     "remove pages from pdf",
@@ -93,5 +92,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["split-pdf", "rearrange-pdf", "rotate-pdf"],
   schemaType: "WebApplication",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-10",
   lastUpdated: "2026-03-10",
 };

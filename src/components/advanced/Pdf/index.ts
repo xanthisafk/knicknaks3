@@ -2,4 +2,8 @@ export * from "./PageCard";
 export * from "./PagePreview";
 export * from "./PageSkeleton";
 export * from "./types";
-export * from "./PdfPreviewPanel"
+export * from "./PdfPreviewPanel";
+export * from "./EditorToolbar";
+export * from "./PageEditorWithFocus";
+export * from "./PageEditor";
+export * from "./ToolbarButton";
