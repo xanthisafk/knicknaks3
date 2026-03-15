@@ -30,3 +30,5 @@ tools2.md
 .agent/
 design-system/
 git_status_full.txt
+git_status_out.txt
+prompt2.md
