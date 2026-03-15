@@ -3,7 +3,7 @@
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 /* ===== DESIGN TOKENS ===== */
 @theme {
-  /* --- Colors: Light Mode (default) --- */
+  /* --- Colors --- */
   --color-primary-50: oklch(0.97 0.02 65);
   --color-primary-100: oklch(0.93 0.04 65);
   --color-primary-200: oklch(0.87 0.07 65);
@@ -15,6 +15,28 @@
   --color-primary-800: oklch(0.4 0.11 42);
   --color-primary-900: oklch(0.32 0.08 40);
 
+  --color-secondary-50: oklch(0.97 0.02 180);
+  --color-secondary-100: oklch(0.93 0.04 180);
+  --color-secondary-200: oklch(0.88 0.08 180);
+  --color-secondary-300: oklch(0.80 0.12 180);
+  --color-secondary-400: oklch(0.70 0.15 180);
+  --color-secondary-500: oklch(0.60 0.17 180);
+  --color-secondary-600: oklch(0.53 0.15 180);
+  --color-secondary-700: oklch(0.45 0.12 180);
+  --color-secondary-800: oklch(0.38 0.10 180);
+  --color-secondary-900: oklch(0.30 0.08 180);
+
+  --color-tertiary-50: oklch(0.97 0.02 300);
+  --color-tertiary-100: oklch(0.93 0.04 300);
+  --color-tertiary-200: oklch(0.87 0.08 300);
+  --color-tertiary-300: oklch(0.78 0.13 300);
+  --color-tertiary-400: oklch(0.68 0.18 300);
+  --color-tertiary-500: oklch(0.58 0.22 300);
+  --color-tertiary-600: oklch(0.50 0.19 300);
+  --color-tertiary-700: oklch(0.42 0.15 300);
+  --color-tertiary-800: oklch(0.34 0.11 300);
+  --color-tertiary-900: oklch(0.27 0.08 300);
+
   --color-accent-50: oklch(0.96 0.02 250);
   --color-accent-100: oklch(0.92 0.04 250);
   --color-accent-200: oklch(0.85 0.08 250);
@@ -23,11 +45,58 @@
   --color-accent-500: oklch(0.56 0.18 250);
   --color-accent-600: oklch(0.48 0.16 250);
   --color-accent-700: oklch(0.4 0.13 250);
+  --color-accent-800: oklch(0.32 0.10 250);
+  --color-accent-900: oklch(0.25 0.08 250);
 
-  --color-success: oklch(0.64 0.17 145);
-  --color-warning: oklch(0.75 0.18 75);
-  --color-error: oklch(0.58 0.22 25);
-  --color-info: oklch(0.62 0.15 240);
+  --color-success-50: oklch(0.97 0.02 145);
+  --color-success-100: oklch(0.94 0.05 145);
+  --color-success-200: oklch(0.88 0.09 145);
+  --color-success-300: oklch(0.81 0.14 145);
+  --color-success-400: oklch(0.72 0.17 145);
+  --color-success-500: oklch(0.64 0.17 145);
+  --color-success-600: oklch(0.55 0.15 145);
+  --color-success-700: oklch(0.46 0.12 145);
+  --color-success-800: oklch(0.38 0.09 145);
+  --color-success-900: oklch(0.30 0.07 145);
+
+  --color-warning-50: oklch(0.98 0.02 75);
+  --color-warning-100: oklch(0.95 0.06 75);
+  --color-warning-200: oklch(0.90 0.11 75);
+  --color-warning-300: oklch(0.84 0.15 75);
+  --color-warning-400: oklch(0.79 0.17 75);
+  --color-warning-500: oklch(0.75 0.18 75);
+  --color-warning-600: oklch(0.65 0.16 75);
+  --color-warning-700: oklch(0.55 0.13 75);
+  --color-warning-800: oklch(0.45 0.10 75);
+  --color-warning-900: oklch(0.35 0.08 75);
+
+  --color-danger-50: oklch(0.97 0.02 25);
+  --color-danger-100: oklch(0.93 0.05 25);
+  --color-danger-200: oklch(0.86 0.10 25);
+  --color-danger-300: oklch(0.78 0.16 25);
+  --color-danger-400: oklch(0.68 0.20 25);
+  --color-danger-500: oklch(0.58 0.22 25);
+  --color-danger-600: oklch(0.50 0.19 25);
+  --color-danger-700: oklch(0.42 0.15 25);
+  --color-danger-800: oklch(0.34 0.11 25);
+  --color-danger-900: oklch(0.27 0.08 25);
+
+  --color-info-50: oklch(0.97 0.02 240);
+  --color-info-100: oklch(0.94 0.04 240);
+  --color-info-200: oklch(0.88 0.08 240);
+  --color-info-300: oklch(0.80 0.12 240);
+  --color-info-400: oklch(0.71 0.15 240);
+  --color-info-500: oklch(0.62 0.15 240);
+  --color-info-600: oklch(0.54 0.13 240);
+  --color-info-700: oklch(0.45 0.11 240);
+  --color-info-800: oklch(0.37 0.09 240);
+  --color-info-900: oklch(0.30 0.07 240);
+
+  /* --- Backward Compatibility Aliases --- */
+  --color-success: var(--color-success-500);
+  --color-warning: var(--color-warning-500);
+  --color-error: var(--color-danger-500);
+  --color-info: var(--color-info-500);
 
   /* --- Typography --- */
   --font-heading: "Outfit", system-ui, sans-serif;
@@ -205,6 +274,10 @@ h6 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-hover);
+}
+
+@view-transition {
+  navigation: auto;
 }
 
 

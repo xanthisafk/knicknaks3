@@ -46,7 +46,7 @@ export default function GlobalPalette({ blogPosts = [], isBlog = false }: Global
       group: t.category,
       keywords: t.keywords,
       onSelect: () => {
-        window.location.href = `/tools/${t.slug}`;
+        window.location.href = `/tools/${t.category}/${t.slug}`;
       }
     }));
   }, [isBlog, blogPosts]);
