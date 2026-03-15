@@ -1,15 +1,17 @@
 import type { ReactNode } from "react";
 import { useState, useRef, useId, useEffect } from "react";
 import { SelectContext } from "./UseSelect";
+import { Label } from "../Label";
 
 export interface SelectProps {
     value?: string;
     defaultValue?: string;
+    label?: string;
     onValueChange?: (value: string) => void;
     children: ReactNode;
 }
 
-export function Select({ value, defaultValue = "", onValueChange, children }: SelectProps) {
+export function Select({ value, defaultValue = "", label, onValueChange, children }: SelectProps) {
     const [internalValue, setInternalValue] = useState(defaultValue);
     const [open, setOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(-1);
@@ -64,8 +66,11 @@ export function Select({ value, defaultValue = "", onValueChange, children }: Se
             registerItem,
             items,
         }}>
-            <div className="relative inline-block w-full">
-                {children}
+            <div className="flex flex-col gap-1.5">
+                {label && <Label>{label}</Label>}
+                <div className="relative inline-block w-full">
+                    {children}
+                </div>
             </div>
         </SelectContext.Provider>
     );
