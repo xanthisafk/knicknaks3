@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Input } from "@/components/ui";
+import { Input, Label } from "@/components/ui";
 import {
   Select,
   SelectTrigger,
@@ -52,20 +52,18 @@ export default function BaseConverterTool() {
   return (
     <div className="space-y-2">
       <Panel>
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="sm:col-span-2">
-              <Input
-                label="Input Number"
-                value={input}
-                onChange={(e) => setInput(e.target.value.toUpperCase())}
-                placeholder="Enter a number..."
-                className="font-mono"
-                error={!isValid ? "Invalid number for the selected base" : undefined}
-              />
-            </div>
+        <div className="space-y-2">
+          <div className="flex flex-col md:flex-row gap-1.5">
+            <Input
+              label="Input Number"
+              value={input}
+              onChange={(e) => setInput(e.target.value.toUpperCase())}
+              placeholder="Enter a number..."
+              className="flex-1 h-full"
+              error={!isValid ? "Invalid number for the selected base" : undefined}
+            />
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text(--text-primary)">From Base</label>
+              <Label>From Base</Label>
               <Select value={String(fromBase)} onValueChange={(v) => setFromBase(parseInt(v))}>
                 <SelectTrigger>
                   <SelectValue />
@@ -82,8 +80,9 @@ export default function BaseConverterTool() {
             </div>
           </div>
 
-          <label className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase">Quick presets</label>
-          <div className="flex items-center gap-3">
+
+          <div className="flex flex-col items-start align-start sm:items-center sm:flex-row gap-1.5">
+            <Label>Quick presets</Label>
             <RadioGroup value={`${fromBase}`} orientation="horizontal" onValueChange={() => null}>
               {[2, 8, 10, 16].map((b) => (
                 <Radio
@@ -91,6 +90,7 @@ export default function BaseConverterTool() {
                   value={`${b}`}
                   onClick={() => setFromBase(b)}
                   label={`Base ${b}`}
+                  className="flex-1 grow w-full"
                 />
               ))}
             </RadioGroup>
@@ -100,8 +100,8 @@ export default function BaseConverterTool() {
 
       {Object.keys(results).length > 0 && (
         <Panel>
-          <h3 className="text-sm font-medium text(--text-primary) mb-3">Results</h3>
-          <div className="space-y-2">
+          <div className="flex flex-col gap-1.5">
+            <Label>Results</Label>
             {Object.entries(results).map(([label, value]) => (
               <ResultRow key={label} label={label} value={value} />
             ))}
