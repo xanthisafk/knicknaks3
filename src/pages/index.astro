@@ -2,10 +2,12 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import {
   getAllTools,
-  getToolsByCategory,
   getActiveCategories,
+  getToolsByCategory,
+  getFeaturedToolsForCategory,
+  getCategoryMeta,
 } from "@/tools/_registry";
-import { CATEGORY_INFO, TOOL_STATUSES, STATUS_INFO } from "@/tools/_types";
+import { CATEGORY_INFO } from "@/tools/_types";
 import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
 import ToolCard from "@/components/advanced/ToolCard.astro";
@@ -73,47 +75,21 @@ const structuredData = {
               >
             </div>
           </div>
-
-          <!-- Status Filters — plain pills, no animation baked in -->
-          <div
-            class="flex flex-wrap items-center justify-center gap-1 max-w-2xl mx-auto"
-            id="status-filter-group"
-          >
-            <button
-              class="status-filter-btn px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors"
-              data-status="all"
-              data-active="true"
-            >
-              <span class="mr-1 font-emoji">🌏</span>All Tools
-            </button>
-            {
-              TOOL_STATUSES.map((status) => {
-                const info = STATUS_INFO[status];
-                return (
-                  <button
-                    class="status-filter-btn px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors"
-                    data-status={status}
-                  >
-                    <span class="mr-1 font-emoji">{info.icon}</span>
-                    {info.label}
-                  </button>
-                );
-              })
-            }
-          </div>
         </div>
       </section>
 
       <hr class="doodle-divider max-w-full mx-auto" />
 
-      <!-- Tool Grid -->
+      <!-- Category Previews -->
       <section class="pb-16 md:pb-24" id="tools">
         <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           {
             activeCategories.length > 0 ? (
               activeCategories.map((category) => {
-                const categoryTools = getToolsByCategory(category);
-                const info = CATEGORY_INFO[category];
+                const info = getCategoryMeta(category);
+                const previewTools = getFeaturedToolsForCategory(category, 3);
+                const allCatTools = getToolsByCategory(category);
+                const totalCount = allCatTools.length;
                 return (
                   <div
                     class="mb-12 category-section"
@@ -121,13 +97,20 @@ const structuredData = {
                     data-category={category}
                   >
                     <div class="mb-6">
-                      <h2
-                        class="text-2xl font-bold flex items-center gap-2"
-                        style="font-family: var(--font-heading); color: var(--text-primary)"
+                      <a
+                        href={`/tools/${category}`}
+                        class="text-2xl font-bold flex items-center gap-2 no-underline hover:opacity-80 transition-opacity"
+                        style={`font-family: var(--font-heading); color: var(--text-primary)`}
                       >
                         <span class="font-emoji">{info.icon}</span>
                         {info.label}
-                      </h2>
+                        <span
+                          class="text-sm font-normal"
+                          style="color: var(--text-tertiary)"
+                        >
+                          →
+                        </span>
+                      </a>
                       <p
                         class="text-sm mt-1"
                         style="color: var(--text-secondary)"
@@ -136,9 +119,20 @@ const structuredData = {
                       </p>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                      {categoryTools.map((tool) => (
-                        <ToolCard tool={tool} />
+                      {previewTools.map((tool) => (
+                        <ToolCard tool={tool} previewOnly={true} />
                       ))}
+                      {/* "View all" card */}
+                      <a
+                        href={`/tools/${category}`}
+                        class="group flex flex-col items-center justify-center p-5 rounded-lg border border-dashed no-underline transition-colors"
+                        style="border-color: var(--border-default); color: var(--text-secondary); background: var(--surface-bg)"
+                      >
+                        <span class="text-3xl mb-2 font-emoji">{info.icon}</span>
+                        <span class="font-semibold text-sm" style="color: var(--text-primary)">
+                          View all {totalCount} tools →
+                        </span>
+                      </a>
                     </div>
                   </div>
                 );
@@ -168,86 +162,4 @@ const structuredData = {
       ? "⌘K"
       : "Ctrl+K";
   }
-</script>
-
-<!-- Status filter -->
-<script>
-  function applyActiveStyle(btn: HTMLButtonElement, active: boolean) {
-    if (active) {
-      btn.style.background = "var(--surface-elevated)";
-      btn.style.color = "var(--text-primary)";
-      btn.setAttribute("data-active", "true");
-    } else {
-      btn.style.background = "transparent";
-      btn.style.color = "var(--text-secondary)";
-      btn.removeAttribute("data-active");
-    }
-  }
-
-  function initFilter() {
-    const filterBtns =
-      document.querySelectorAll<HTMLButtonElement>(".status-filter-btn");
-    const toolCards = document.querySelectorAll<HTMLElement>(".tool-card");
-    const categorySections =
-      document.querySelectorAll<HTMLElement>(".category-section");
-    const toolsContainer = document.getElementById("tools");
-
-    let activeStatus = "all";
-    let noResultsMsg: HTMLElement | null = null;
-
-    // Apply initial active style
-    filterBtns.forEach((btn) => {
-      applyActiveStyle(btn, btn.dataset.status === "all");
-    });
-
-    function runFilter() {
-      // Filter cards
-      toolCards.forEach((card) => {
-        const matches =
-          activeStatus === "all" || card.dataset.toolStatus === activeStatus;
-        card.hidden = !matches;
-      });
-
-      // Hide/show categories based on visible children
-      let anyVisible = false;
-      categorySections.forEach((section) => {
-        const hasVisible =
-          activeStatus === "all" ||
-          Array.from(section.querySelectorAll<HTMLElement>(".tool-card")).some(
-            (c) => !c.hidden,
-          );
-        section.hidden = !hasVisible;
-        if (hasVisible) anyVisible = true;
-      });
-
-      // No-results message
-      if (!anyVisible && activeStatus !== "all") {
-        if (!noResultsMsg) {
-          noResultsMsg = document.createElement("div");
-          noResultsMsg.id = "no-results-msg";
-          noResultsMsg.className = "text-center py-16 w-full";
-          noResultsMsg.innerHTML = `
-            <p class="text-4xl mb-4">🔍</p>
-            <p style="color:var(--text-primary)" class="font-semibold">No tools found</p>
-            <p style="color:var(--text-secondary)" class="mt-2">Try a different filter.</p>
-          `;
-          toolsContainer?.appendChild(noResultsMsg);
-        }
-        noResultsMsg.hidden = false;
-      } else if (noResultsMsg) {
-        noResultsMsg.hidden = true;
-      }
-    }
-
-    filterBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        activeStatus = btn.dataset.status ?? "all";
-        filterBtns.forEach((b) => applyActiveStyle(b, b === btn));
-        runFilter();
-      });
-    });
-  }
-
-  document.addEventListener("astro:page-load", initFilter);
-  initFilter();
 </script>

@@ -11,10 +11,17 @@
  * 4. Build — the tool appears automatically everywhere
  */
 
-import { toolDefinitionSchema, type ToolDefinition, type ToolCategory } from "./_types";
+import {
+  toolDefinitionSchema,
+  CATEGORY_INFO,
+  TOOL_STATUSES,
+  type ToolDefinition,
+  type ToolCategory,
+  type ToolStatus,
+  type CategoryDefinition,
+} from "./_types";
 
 // Auto-discover all tool definition files at build time
-// Each tool folder must have an index.ts that exports `definition`
 const toolModules = import.meta.glob<{ definition: ToolDefinition }>("./*/index.ts", {
   eager: true,
 });
@@ -53,6 +60,82 @@ for (const [path, module] of Object.entries(toolModules)) {
 // Sort alphabetically by name
 tools.sort((a, b) => a.name.localeCompare(b.name));
 
+// ===== Status derivation =====
+
+const FOURTEEN_DAYS_MS = 14 * 24 * 60 * 60 * 1000;
+
+function isWithin14Days(dateStr: string | undefined): boolean {
+  if (!dateStr) return false;
+  const diff = Date.now() - new Date(dateStr).getTime();
+  return diff >= 0 && diff < FOURTEEN_DAYS_MS;
+}
+
+/**
+ * Derive the display status of a tool at runtime.
+ * `featured` is NOT a status — it controls homepage selection priority only.
+ */
+export function getToolStatus(tool: ToolDefinition): ToolStatus | undefined {
+  // 1. beta: createdAt < 14d and no launchedAt
+  if (isWithin14Days(tool.createdAt) && !tool.launchedAt) {
+    return "beta";
+  }
+  // 2. new: createdAt < 14d and has launchedAt, or launchedAt itself < 14d
+  if (
+    (isWithin14Days(tool.createdAt) && tool.launchedAt) ||
+    isWithin14Days(tool.launchedAt)
+  ) {
+    return "new";
+  }
+  // 3. updated: updatedAt < 14d
+  if (isWithin14Days(tool.updatedAt)) {
+    return "updated";
+  }
+  // 4. popular: manual flag
+  if (tool.popular === true) {
+    return "popular";
+  }
+  // 5. no status
+  return undefined;
+}
+
+// ===== Status priority for sorting =====
+const STATUS_PRIORITY: Record<string, number> = {
+  featured: 0,
+  popular: 1,
+  new: 2,
+  updated: 3,
+  beta: 4,
+};
+
+function getToolSortPriority(tool: ToolDefinition): number {
+  if (tool.featured) return STATUS_PRIORITY.featured;
+  const status = getToolStatus(tool);
+  if (status && status in STATUS_PRIORITY) return STATUS_PRIORITY[status];
+  return 99;
+}
+
+/**
+ * Get up to `n` tools for a category, sorted by display priority:
+ * featured > popular > new > updated > beta > no status
+ */
+export function getFeaturedToolsForCategory(
+  category: ToolCategory,
+  n: number
+): ToolDefinition[] {
+  const categoryTools = tools.filter((t) => t.category === category);
+  categoryTools.sort((a, b) => getToolSortPriority(a) - getToolSortPriority(b));
+  return categoryTools.slice(0, n);
+}
+
+/**
+ * Get category metadata
+ */
+export function getCategoryMeta(category: ToolCategory): CategoryDefinition {
+  return CATEGORY_INFO[category];
+}
+
+// ===== Existing exports =====
+
 /**
  * Get all registered tools
  */
@@ -87,7 +170,6 @@ export function getActiveCategories(): ToolCategory[] {
  */
 export function getRelatedTools(tool: ToolDefinition): ToolDefinition[] {
   if (!tool.relatedTools?.length) {
-    // Fallback: return other tools in the same category
     return tools.filter((t) => t.category === tool.category && t.slug !== tool.slug).slice(0, 4);
   }
   return tool.relatedTools

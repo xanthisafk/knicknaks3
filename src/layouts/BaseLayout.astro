@@ -49,6 +49,19 @@ if (isBlog) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- Theme initialization (prevent FOUC) -->
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem("knicknaks-theme");
+        const pref =
+          stored ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.setAttribute("data-theme", pref);
+      })();
+    </script>
+
     <!-- SEO -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -93,21 +106,8 @@ if (isBlog) {
   </head>
   <body>
     <slot />
-    
-    <GlobalPalette client:load blogPosts={searchPosts} isBlog={isBlog} />
 
-    <!-- Theme initialization (prevent FOUC) -->
-    <script is:inline>
-      (function () {
-        const stored = localStorage.getItem("knicknaks-theme");
-        const pref =
-          stored ||
-          (window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light");
-        document.documentElement.setAttribute("data-theme", pref);
-      })();
-    </script>
+    <GlobalPalette client:load blogPosts={searchPosts} isBlog={isBlog} />
 
     <!-- Service Worker Registration -->
     <script is:inline>

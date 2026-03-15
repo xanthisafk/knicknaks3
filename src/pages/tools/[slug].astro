@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getAllTools, getToolBySlug, getRelatedTools } from "@/tools/_registry";
+import { getAllTools, getToolBySlug, getRelatedTools, getToolStatus } from "@/tools/_registry";
 import { CATEGORY_INFO, STATUS_INFO } from "@/tools/_types";
 import { ToolWrapper } from "@/components/advanced/ToolWrapper";
 import Header from "@/components/layout/Header.astro";
@@ -18,6 +18,7 @@ export function getStaticPaths() {
 const { tool } = Astro.props;
 const categoryInfo = CATEGORY_INFO[tool.category];
 const relatedTools = getRelatedTools(tool);
+const status = getToolStatus(tool);
 
 // Structured Data: WebApplication
 const structuredData: Record<string, unknown> = {
@@ -95,12 +96,12 @@ if (tool.faq?.length) {
               </h1>
 
               {
-                tool.status && (
+                status && (
                   <div class="flex items-center gap-1.5 text-xs uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-(--surface-secondary) text(--text-secondary) border border-(--border-default)">
                     <span class="font-emoji">
-                      {STATUS_INFO[tool.status].icon}
+                      {STATUS_INFO[status].icon}
                     </span>
-                    {STATUS_INFO[tool.status].label}
+                    {STATUS_INFO[status].label}
                   </div>
                 )
               }
