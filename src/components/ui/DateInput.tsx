@@ -6,6 +6,7 @@ import {
 } from "react";
 import { cn } from "@/lib/utils";
 import { Calendar, Clock } from "lucide-react";
+import { Label } from "./Label";
 
 export interface DateInputProps
     extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {
@@ -48,12 +49,11 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
         return (
             <div className={cn("flex flex-col gap-1.5", className)}>
                 {label && (
-                    <label
+                    <Label
                         htmlFor={inputId}
-                        className="text-sm font-medium text-(--text-primary) leading-none"
                     >
                         {label}
-                    </label>
+                    </Label>
                 )}
 
                 {description && (

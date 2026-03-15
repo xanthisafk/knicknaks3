@@ -6,6 +6,7 @@ import FunStat from "@/components/advanced/FunStatCard";
 import { getZodiacSign, getChineseZodiac } from "@/lib/zodiac";
 import { countLeapDays, isLeapYear } from "@/lib/date";
 import { DateInput } from "@/components/ui/DateInput";
+import { Label } from "@/components/ui";
 
 interface AgeResult {
   years: number;
@@ -95,9 +96,14 @@ export default function AgeCalculatorTool() {
     const birth = new Date(birthDate);
     const diff = liveNow.getTime() - birth.getTime();
     const seconds = Math.floor(diff / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    return `${hours.toLocaleString()} hrs ${minutes % 60} min ${seconds % 60} sec`;
+    const years = Math.floor(seconds / (60 * 60 * 24 * 365));
+    const months = Math.floor((seconds % (60 * 60 * 24 * 365)) / (60 * 60 * 24 * 30));
+    const days = Math.floor((seconds % (60 * 60 * 24 * 30)) / (60 * 60 * 24));
+    const hhours = Math.floor((seconds % (60 * 60 * 24)) / (60 * 60));
+    const mminutes = Math.floor((seconds % (60 * 60)) / 60);
+    const ssecs = seconds % 60;
+
+    return `${years} years, ${months} months, ${days} days, ${hhours} hours, ${mminutes} minutes, ${ssecs} seconds`;
   }, [birthDate, liveNow]);
 
   useEffect(() => {
@@ -183,7 +189,9 @@ export default function AgeCalculatorTool() {
               </p>
 
               {liveAge && (
-                <p className="text-xs text-(--text-tertiary) tabular-nums">⏱ Live age: {liveAge}</p>
+                <Label className="text-xs text-(--text-tertiary) tabular-nums">
+                  <span className="font-emoji">🕒</span> Live age: {liveAge}
+                </Label>
               )}
             </div>
           </Panel>
@@ -196,7 +204,7 @@ export default function AgeCalculatorTool() {
             <StatBox label="Total Hours" value={result.totalHours} />
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <StatBox label="Born On" value={result.dayOfWeek} />
             <StatBox label="Next Birthday" value={result.nextBirthdayText} tooltip={`Next birthday in\n${countdown}`} />
             <StatBox label={`${result.zodiac.name}`} value={result.zodiac.emoji} tooltip="Zodiac Sign" url={`https://www.zodiacsign.com/zodiac-signs/${result.zodiac.name.toLowerCase()}/`} />
@@ -205,81 +213,63 @@ export default function AgeCalculatorTool() {
 
           {/* Fun cosmic stats */}
           <div>
-            <label className="text-xs font-semibold uppercase tracking-widest text-(--text-tertiary) mb-6">
-              Your Life, By The Numbers
-            </label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              <FunStat
-                emoji="❤️"
+            <Label>
+              Your Life, By The Numbers <span className="font-emoji">✨</span>
+            </Label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              <StatBox
                 label="Heartbeats"
                 value={funStats.heartbeats}
-                subLabel="~60 beats per minute"
-                infoText="Based on average resting heart rate of 60 beats per minute (bpm) for adults."
-                infoUrl="https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/all-about-heart-rate-pulse"
+                tooltip="Based on average resting heart rate of 60 beats per minute (bpm) for adults."
+                url="https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/all-about-heart-rate-pulse"
               />
-              <FunStat
-                emoji="💨"
+              <StatBox
                 label="Breaths Taken"
                 value={funStats.breaths}
-                subLabel="~16 breaths per minute"
-                infoText="Based on the average adult respiratory rate of 16 breaths per minute."
-                infoUrl="https://my.clevelandclinic.org/health/articles/10881-vital-signs"
+                tooltip="Based on the average adult respiratory rate of 16 breaths per minute."
+                url="https://my.clevelandclinic.org/health/articles/10881-vital-signs"
               />
-              <FunStat
-                emoji="😴"
+              <StatBox
                 label="Hours Slept"
                 value={funStats.sleepHours}
-                subLabel="Assuming 8 hrs/night"
-                infoText="Based on the recommended 8 hours of sleep per night for adults (National Sleep Foundation)."
-                infoUrl="https://www.sleepfoundation.org/how-sleep-works/how-much-sleep-do-we-really-need"
+                tooltip="Based on the recommended 8 hours of sleep per night for adults (National Sleep Foundation)."
+                url="https://www.sleepfoundation.org/how-much-sleep-do-you-need"
               />
-              <FunStat
-                emoji="🌕"
-                label="Full Moons Witnessed"
-                value={funStats.fullMoons.toString()}
-                subLabel="Lunar cycle ≈ 29.53 days"
-                infoText="One full lunar cycle (new moon to new moon) is approximately 29.53 days, known as a synodic month."
-                infoUrl="https://science.nasa.gov/moon/moon-phases/"
+              <StatBox
+                label="Full Moons"
+                value={funStats.fullMoons}
+                tooltip="Based on the average lunar cycle of 29.53 days."
+                url="https://www.timeanddate.com/moon/phases/"
               />
-              <FunStat
-                emoji="🚀"
-                label="km Through Space"
+              <StatBox
+                label="Distance Traveled"
                 value={funStats.distanceKm}
-                subLabel="Earth's orbital speed ~107,226 km/h"
-                infoText="Earth travels at approximately 107,226 km/h (66,627 mph) in its orbit around the Sun, per NASA."
-                infoUrl="https://en.wikipedia.org/wiki/Earth's_orbit"
+                tooltip="Based on the average human walking speed of 5 km/h."
+                url="https://www.worldometers.info/walking/"
               />
-              <FunStat
-                emoji="🌍"
-                label="Orbits Around the Sun"
+              <StatBox
+                label="Revolutions"
                 value={funStats.revolutions}
-                subLabel="One orbit = 365.25 days"
-                infoText="Earth completes one revolution around the Sun in approximately 365.25 days (one sidereal year), per NASA."
-                infoUrl="https://en.wikipedia.org/wiki/Earth's_orbit"
+                tooltip="Based on the average human walking speed of 5 km/h."
+                url="https://www.worldometers.info/walking/"
               />
-              <FunStat
-                emoji="👁️"
-                label="Times You've Blinked"
+              <StatBox
+                label="Blinks"
                 value={funStats.blinks}
-                subLabel="~17 blinks/min while awake"
-                infoText="The average person blinks about 15-20 times per minute. We use ~17 blinks/min x 16 waking hours/day."
-                infoUrl="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4043155/"
+                tooltip="Based on the average human walking speed of 5 km/h."
+                url="https://www.worldometers.info/walking/"
               />
-              <FunStat
-                emoji="🔥"
-                label="Calories Burned (BMR)"
+              <StatBox
+                label="Calories"
                 value={funStats.calories}
-                subLabel="~1,800 kcal/day just existing"
-                infoText="The average adult basal metabolic rate (BMR) — calories burned just staying alive — is roughly 1,600-2,000 kcal/day."
-                infoUrl="https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/metabolism"
+                tooltip="Based on the average human walking speed of 5 km/h."
+                url="https://www.worldometers.info/walking/"
               />
-              <FunStat
-                emoji="🗓️"
-                label="Leap Days Survived"
-                value={funStats.leapDays.toString()}
-                subLabel="Feb 29 only comes every 4 years!"
-                infoText="A leap year occurs every 4 years (with exceptions for century years), adding an extra day to February. You've lived through this many of them!"
-                infoUrl="https://spaceplace.nasa.gov/leap-year/en/"
+              <StatBox
+                label="Leap Days"
+                value={funStats.leapDays}
+                tooltip="Based on the average human walking speed of 5 km/h."
+                url="https://www.worldometers.info/walking/"
               />
             </div>
           </div>

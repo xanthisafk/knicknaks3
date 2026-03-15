@@ -2,6 +2,7 @@ import { cn } from "@/lib";
 import { stringHasEmoji, wrapEmojisWithSpan } from "@/lib/emojiHelper";
 import { BadgeQuestionMark, ExternalLink } from "lucide-react";
 import { useState } from "react";
+import { Label } from "./Label";
 
 export default function StatBox({
     label,
@@ -41,7 +42,7 @@ export default function StatBox({
             )}
 
             <span className={`text-${textSize ? textSize : "2xl"} font-bold text-primary-500 tabular-nums`} dangerouslySetInnerHTML={{ __html: wrapEmojisWithSpan(`${value}`) }} />
-            <span className="text-xs text-(--text-tertiary) mt-2">{label}</span>
+            <Label size="xs">{label}</Label>
             {url
                 ? <ExternalLink className="absolute right-2 top-2 opacity-30 size-3" />
                 : tooltip
