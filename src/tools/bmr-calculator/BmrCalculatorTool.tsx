@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Panel } from "@/components/layout";
-import { Input } from "@/components/ui";
+import { Input, Label } from "@/components/ui";
 import { Tabs, Tab, TabList } from "@/components/ui/tab";
 import StatBox from "@/components/ui/StatBox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -60,9 +60,8 @@ export default function BmrCalculatorTool() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text-(--text-primary) mb-1">Gender</label>
-            <Select value={toTitleCase(gender)} onValueChange={v => setGender(v === "male" ? "male" : "female")}>
+          <div className="space-y-2">
+            <Select label="gender" value={toTitleCase(gender)} onValueChange={v => setGender(v === "male" ? "male" : "female")}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -72,81 +71,83 @@ export default function BmrCalculatorTool() {
               </SelectContent>
             </Select>
 
-            <label className="block text-sm font-medium text-(--text-primary) mb-1">Age</label>
-            <div className="flex items-center gap-2">
-              <Input
-                type="number"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                className="w-full"
-                placeholder="years"
-                min="1"
-                max="120"
-              />
-              <span className="text-sm text-(--text-secondary)">years</span>
-            </div>
+            <Input
+              type="number"
+              label="Age"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              className="w-full"
+              placeholder="years"
+              min="1"
+              max="120"
+              trailingText="years"
+            />
           </div>
 
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text-(--text-primary) mb-1">Height</label>
+          <div className="space-y-2">
             {unit === "metric" ? (
               <div className="flex items-center gap-2">
                 <Input
                   type="number"
+                  label="Height"
                   value={cm}
                   onChange={(e) => setCm(e.target.value)}
                   className="w-full"
                   placeholder="cm"
                   min="0"
+                  trailingText="cm"
                 />
-                <span className="text-sm text-(--text-secondary)">cm</span>
               </div>
             ) : (
               <div className="flex items-center gap-2">
                 <Input
                   type="number"
+                  label="Height (Feet)"
                   value={feet}
                   onChange={(e) => setFeet(e.target.value)}
                   className="w-full"
                   placeholder="ft"
                   min="0"
+                  trailingText="ft"
                 />
-                <span className="text-sm text-(--text-secondary)">ft</span>
                 <Input
                   type="number"
+                  label="Height (Inches)"
                   value={inches}
                   onChange={(e) => setInches(e.target.value)}
                   className="w-full"
                   placeholder="in"
                   min="0"
                   max="11"
+                  trailingText="in"
                 />
-                <span className="text-sm text-(--text-secondary)">in</span>
               </div>
             )}
 
-            <label className="block text-sm font-medium text-(--text-primary) mb-1">Weight</label>
             {unit === "metric" ? (
               <div className="flex items-center gap-2">
                 <Input
                   type="number"
+                  label="Weight"
                   value={kg}
                   onChange={(e) => setKg(e.target.value)}
                   className="w-full"
                   placeholder="kg"
                   min="0"
+                  trailingText="kg"
                 />
-                <span className="text-sm text-(--text-secondary)">kg</span>
               </div>
             ) : (
               <div className="flex items-center gap-2">
                 <Input
                   type="number"
+                  label="Weight"
                   value={lbs}
                   onChange={(e) => setLbs(e.target.value)}
                   className="w-full"
                   placeholder="lbs"
                   min="0"
+                  trailingText="lbs"
                 />
                 <span className="text-sm text-(--text-secondary)">lbs</span>
               </div>
@@ -158,7 +159,7 @@ export default function BmrCalculatorTool() {
       {bmr !== null && (
         <>
           <Panel>
-            <label className="block text-xs text-center font-semibold uppercase tracking-widest text-(--text-tertiary) mb-2">Your BMR</label>
+            <Label>Your BMR</Label>
             <StatBox
               label="Calories / day"
               value={bmr.toLocaleString()}
