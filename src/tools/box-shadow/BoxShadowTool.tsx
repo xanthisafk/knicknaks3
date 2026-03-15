@@ -1,9 +1,11 @@
 import { useState, useCallback } from "react";
-import { Button } from "@/components/ui";
+import { Button, CopyButton, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import SliderRow from "@/components/ui/SliderRow";
 import { TabList, Tabs, Tab } from "@/components/ui/tab";
 import { toTitleCase } from "@/lib";
+import { Plus, X } from "lucide-react";
+import { ColorPicker } from "pdfjs-dist";
 
 interface ShadowLayer {
   id: number;
@@ -113,34 +115,34 @@ export default function BoxShadowTool() {
       <Panel>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Shadow Layers</h3>
-            <button
+            <Label>Shadow Layers</Label>
+            <Button
               onClick={addLayer}
-              className="text-xs text-primary-500 hover:text-primary-600 hover:underline transition-colors cursor-pointer font-medium flex items-center gap-1"
+              variant="ghost"
+              size="sm"
+              icon={Plus}
             >
-              <span>+</span> Add Layer
-            </button>
+              Add Layer
+            </Button>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5">
             {layers.map((l, i) => (
-              <div key={l.id} className="flex items-center gap-1 group">
-                <button
+              <div key={l.id} className="flex items-center gap-0.5 group">
+                <Button
                   onClick={() => setActiveId(l.id)}
-                  className={`px-4 py-2 rounded-md text-xs font-medium border cursor-pointer ${l.id === activeId
-                    ? "bg-(--surface-primary) text-primary-600 dark:text-primary-300 border-primary-400 shadow-sm"
-                    : "bg-(--surface-secondary) text-(--text-secondary) border-(--border-default) hover:text-(--text-primary) hover:border-(--border-hover) hover:bg-(--surface-elevated)"
-                    }`}
+                  variant={l.id === activeId ? "primary" : "secondary"}
+                  size="sm"
                 >
                   Layer {i + 1}
-                </button>
+                </Button>
                 {layers.length > 1 && (
-                  <button
+                  <Button
                     onClick={() => removeLayer(l.id)}
-                    className={`p-2 rounded-full text-(--text-tertiary) hover:bg-error/10 hover:text-error transition-colors cursor-pointer text-xs ${l.id === activeId ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
+                    variant="ghost"
+                    size="sm"
+                    icon={X}
                     title="Remove Layer"
-                  >
-                    ✕
-                  </button>
+                  />
                 )}
               </div>
             ))}
@@ -150,8 +152,8 @@ export default function BoxShadowTool() {
 
       {/* Controls */}
       <Panel>
-        <div className="space-y-6">
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-4">Controls</h3>
+        <div className="space-y-2">
+          <Label>Controls</Label>
 
           <div className="space-y-4">
             <SliderRow label="Offset X" value={active.x} min={-60} max={60} onChange={(v) => updateActive({ x: v })} />
@@ -163,7 +165,7 @@ export default function BoxShadowTool() {
 
           <div className="grid grid-cols-2 gap-4 pt-4 border-t border-(--border-default)">
             <div className="space-y-2">
-              <label className="text-xs text-(--text-tertiary) font-medium uppercase tracking-wider block">Color</label>
+              <Label>Color</Label>
               <div className="flex items-center gap-3 rounded-md bg-(--surface-secondary) border border-(--border-default) px-3 py-2.5 focus-within:ring-2 focus-within:ring-primary-500 focus-within:border-primary-500 transition-shadow">
                 <div className="w-8 h-8 rounded-full shadow-sm overflow-hidden relative cursor-pointer border border-(--border-default)">
                   <input
@@ -178,7 +180,7 @@ export default function BoxShadowTool() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs text-(--text-tertiary) font-medium uppercase tracking-wider block">Type</label>
+              <Label>Type</Label>
               <Tabs value={active.inset ? "inset" : "outset"} onValueChange={v => updateActive({ inset: v === "inset" })}>
                 <TabList>
                   {(["outset", "inset"] as const).map((type) => <Tab value={type}>{toTitleCase(type)}</Tab>)}
@@ -193,10 +195,8 @@ export default function BoxShadowTool() {
       <Panel>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase">CSS Output</h3>
-            <Button onClick={handleCopy} size="sm" variant={copied ? "primary" : "secondary"}>
-              {copied ? "✓ Copied!" : "Copy CSS"}
-            </Button>
+            <Label>CSS Output</Label>
+            <CopyButton text={fullCSS} />
           </div>
           <pre className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 text-sm font-mono text-(--text-primary) whitespace-pre-wrap break-all select-all leading-relaxed relative overflow-x-auto">
             {fullCSS}
@@ -208,10 +208,8 @@ export default function BoxShadowTool() {
       <Panel>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase">Tailwind Output</h3>
-            <Button onClick={handleCopyTailwind} size="sm" variant={copiedTailwind ? "primary" : "secondary"}>
-              {copiedTailwind ? "✓ Copied!" : "Copy Tailwind"}
-            </Button>
+            <Label>Tailwind Output</Label>
+            <CopyButton text={tailwindValue} />
           </div>
           <pre className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 text-sm font-mono text-(--text-primary) whitespace-pre-wrap break-all select-all leading-relaxed relative overflow-x-auto">
             {tailwindValue}
