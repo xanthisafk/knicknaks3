@@ -43,8 +43,8 @@ export function SelectItem({ value, children, disabled, icon, className }: Selec
                 "relative flex items-center gap-2.5 px-2.5 py-1.5 rounded-sm",
                 "text-sm text-(--text-primary) cursor-pointer select-none",
                 "transition-colors duration-300",
-                "hover:bg-primary-50 hover:text-primary-700",
-                isActive && "bg-primary-50 text-primary-700",
+                "hover:text-primary-400",
+                isActive && "text-primary-500",
                 isSelected && "font-medium text-primary-600",
                 disabled && "opacity-40 cursor-not-allowed pointer-events-none",
                 className
