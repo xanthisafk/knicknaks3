@@ -34,6 +34,7 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
             src={post.data.coverImage}
             alt={post.data.title}
             class="w-full h-full object-cover"
+            transition:name="image"
           />
         </div>
       )
@@ -41,14 +42,18 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
     <div class="w-full md:w-1/2 flex flex-col justify-center">
       <div class="flex flex-wrap gap-2 mb-4">
         {
-          post.data.tags.map((tag: string) => (
-            <span class="px-2 py-1 text-xs font-bold uppercase tracking-wider bg-(--surface-secondary) text-(--text-secondary) border border-(--border-default) rounded-sm">
+          post.data.tags.map((tag: string, index: number) => (
+            <span
+              transition:name={`tag-${index}`}
+              class="px-2 py-1 text-xs font-bold uppercase tracking-wider bg-(--surface-secondary) text-(--text-secondary) border border-(--border-default) rounded-sm"
+            >
               {tag}
             </span>
           ))
         }
       </div>
       <h2
+        transition:name="title"
         class="text-3xl md:text-4xl font-extrabold font-heading text-(--text-primary) hover:text-primary-500 transition-colors leading-tight mb-4"
       >
         {post.data.title}
