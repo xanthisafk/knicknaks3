@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
 import { Panel } from "@/components/layout";
-import { Input } from "@/components/ui";
+import { Input, Label } from "@/components/ui";
 import { Tab, Tabs, TabList } from "@/components/ui/tab";
+import StatBox from "@/components/ui/StatBox";
 
 export default function BmiCalculatorTool() {
   const [unit, setUnit] = useState<"metric" | "imperial">("metric");
@@ -64,9 +65,9 @@ export default function BmiCalculatorTool() {
           </Tabs>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text-(--text-primary) mb-1">Height</label>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div className="space-y-1.5">
+            <Label>Height</Label>
             {unit === "metric" ? (
               <div className="flex items-center gap-2">
                 <Input
@@ -74,10 +75,9 @@ export default function BmiCalculatorTool() {
                   value={cm}
                   onChange={(e) => setCm(e.target.value)}
                   className="flex-1"
-                  placeholder="cm"
                   min="0"
+                  trailingText="cm"
                 />
-                <span className="text-sm text-(--text-secondary) shrink-0">cm</span>
               </div>
             ) : (
               <div className="flex items-center gap-2">
@@ -86,27 +86,25 @@ export default function BmiCalculatorTool() {
                   value={feet}
                   onChange={(e) => setFeet(e.target.value)}
                   className="flex-1"
-                  placeholder="ft"
+                  trailingText="ft"
                   min="0"
                 />
-                <span className="text-sm text-(--text-secondary) shrink-0">ft</span>
 
                 <Input
                   type="number"
                   value={inches}
                   onChange={(e) => setInches(e.target.value)}
-                  placeholder="in"
                   className="flex-1"
                   min="0"
                   max="11"
+                  trailingText="in"
                 />
-                <span className="text-sm text-(--text-secondary) shrink-0">in</span>
               </div>
             )}
           </div>
 
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text-(--text-primary) mb-1">Weight</label>
+          <div className="space-y-1.5">
+            <Label>Weight</Label>
             {unit === "metric" ? (
               <div className="flex items-center gap-1">
                 <Input
@@ -114,10 +112,9 @@ export default function BmiCalculatorTool() {
                   value={kg}
                   onChange={(e) => setKg(e.target.value)}
                   className="w-full grow"
-                  placeholder="kg"
+                  trailingText="kg"
                   min="0"
                 />
-                <span className="text-sm text-(--text-secondary)">kg</span>
               </div>
             ) : (
               <div className="flex items-center gap-1">
@@ -126,10 +123,9 @@ export default function BmiCalculatorTool() {
                   value={lbs}
                   onChange={(e) => setLbs(e.target.value)}
                   className="w-full grow"
-                  placeholder="lbs"
+                  trailingText="lbs"
                   min="0"
                 />
-                <span className="text-sm text-(--text-secondary)">lbs</span>
               </div>
             )}
           </div>
@@ -139,8 +135,8 @@ export default function BmiCalculatorTool() {
       {result && (
         <>
           <Panel>
-            <div className="text-center py-6 space-y-4">
-              <h3 className="text-sm font-medium text-(--text-secondary)">Your BMI</h3>
+            <div className="text-center py-6 space-y-2">
+              <Label>Your BMI</Label>
               <div className="text-5xl font-bold" style={{ color: result.color }}>
                 {result.value}
               </div>
@@ -149,16 +145,13 @@ export default function BmiCalculatorTool() {
               </div>
             </div>
           </Panel>
-          <Panel>
-            <div className="mt-6 border-t border-(--border-default) pt-4">
-              <div className="text-xs text-(--text-secondary) space-y-2">
-                <div className="flex justify-between"><span>Less than 18.5</span> <span>Underweight</span></div>
-                <div className="flex justify-between"><span>18.5 - 24.9</span> <span>Normal weight</span></div>
-                <div className="flex justify-between"><span>25 - 29.9</span> <span>Overweight</span></div>
-                <div className="flex justify-between"><span>30 or greater</span> <span>Obesity</span></div>
-              </div>
-            </div>
-          </Panel>
+          <Label>Quick reference</Label>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+            <StatBox label="Underweight" value="Less than 18.5" />
+            <StatBox label="Normal weight" value="18.5 - 24.9" />
+            <StatBox label="Overweight" value="25 - 29.9" />
+            <StatBox label="Obesity" value="30 or greater" />
+          </div>
         </>
       )}
     </div>
