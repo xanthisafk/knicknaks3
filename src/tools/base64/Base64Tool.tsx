@@ -1,8 +1,9 @@
 import { useState, useCallback } from "react";
-import { Button, Textarea, Toggle } from "@/components/ui";
+import { Button, Label, Textarea, Toggle } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { copyToClipboard } from "@/lib/utils";
 import { Tabs, TabList, Tab, } from "@/components/ui/tab";
+import { CornerDownLeft } from "lucide-react";
 
 export default function Base64Tool() {
   const [input, setInput] = useState("");
@@ -87,7 +88,7 @@ export default function Base64Tool() {
     <div className="space-y-2">
       {/* Controls */}
       <Panel>
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-2">
           <Tabs value={mode} onValueChange={handleModeChange}>
             <TabList>
               <Tab value="encode">Encode</Tab>
@@ -110,42 +111,33 @@ export default function Base64Tool() {
       </Panel>
 
       {/* Input / Output */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-(--text-primary)">Input</label>
-              <span className="text-xs text-(--text-tertiary)">{input.length} chars</span>
-            </div>
+      <div className="flex flex-col lg:flex-row gap-2">
+        <Panel className="grow">
+          <div className="space-y-2">
             <Textarea
+              label="Input"
               value={input}
               onChange={(e) => handleInputChange(e.target.value)}
               placeholder={mode === "encode" ? "Enter text to encode..." : "Enter Base64 to decode..."}
-              className="h-48 font-mono text-sm"
+              className="font-mono"
+              rows={10}
             />
+            <Label size="s">{input.length} chars</Label>
           </div>
         </Panel>
 
-        <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-(--text-primary)">Output</label>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-(--text-tertiary)">{output.length} chars</span>
-                {output && (
-                  <Button size="sm" variant="ghost" onClick={handleCopy}>
-                    {copied ? "✓ Copied!" : "📋 Copy"}
-                  </Button>
-                )}
-              </div>
-            </div>
+        <Panel className="grow">
+          <div className="space-y-2">
             <Textarea
+              label="Output"
               value={output}
               readOnly
               placeholder="Output will appear here..."
-              className="h-48 font-mono text-sm"
+              className="font-mono"
+              rows={10}
             />
           </div>
+          <Label size="s">{output.length} chars</Label>
         </Panel>
       </div>
 
@@ -156,7 +148,7 @@ export default function Base64Tool() {
       )}
 
       {/* Action buttons */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         {!liveMode && (
           <Button onClick={handleConvert}>
             {mode === "encode" ? "Encode" : "Decode"}
@@ -166,6 +158,7 @@ export default function Base64Tool() {
           Swap Input ↔ Output
         </Button>
         <Button
+          icon={CornerDownLeft}
           variant="ghost"
           onClick={() => {
             setInput("");
