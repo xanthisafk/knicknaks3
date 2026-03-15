@@ -1,9 +1,12 @@
 import { useState, useCallback } from "react";
-import { Input, Button } from "@/components/ui";
+import { Input, Button, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { gcd } from "@/lib/maths";
 import { Radio, RadioGroup } from "@/components/ui/radio";
 import { Tabs, Tab, TabList, TabPanels, TabPanel } from "@/components/ui/tab";
+import StatBox from "@/components/ui/StatBox";
+import { CornerDownLeft } from "lucide-react";
+import InlineFileDrop from "@/components/InlineFileDrop";
 
 
 function parseRatio(str: string): [number, number] | null {
@@ -36,6 +39,8 @@ export default function AspectRatioTool() {
   const [ratioStr, setRatioStr] = useState("16:9");
   const [scaleW, setScaleW] = useState("");
   const [scaleH, setScaleH] = useState("");
+
+  const [preview, setPreview] = useState<string | null>(null);
 
   // --- Detect mode logic ---
   const dw = parseFloat(detectW);
@@ -85,6 +90,13 @@ export default function AspectRatioTool() {
   const clearDetect = () => { setDetectW(""); setDetectH(""); };
   const clearScale = () => { setScaleW(""); setScaleH(""); };
 
+  const handleImageUpload = (file: File) => {
+    if (!file.type.startsWith("image/")) return;
+
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+  };
+
   return (
     <div className="space-y-2">
       {/* Mode tabs */}
@@ -123,8 +135,8 @@ export default function AspectRatioTool() {
 
                     {/* Presets */}
                     <div className="space-y-2">
-                      <label className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase">Quick presets</label>
-                      <div className="flex flex-wrap gap-2">
+                      <Label>Quick presets</Label>
+                      <div className="flex flex-wrap gap-2 justify-between">
                         <RadioGroup orientation="horizontal" value={ratioStr} onValueChange={setRatioStr}>
                           {PRESETS.map((p) => (
                             <Radio
@@ -135,6 +147,12 @@ export default function AspectRatioTool() {
                             />
                           ))}
                         </RadioGroup>
+                        <InlineFileDrop
+                          accepts="image/*"
+                          maxSize={10}
+
+                          onUpload={({ file }) => handleImageUpload(file)}
+                        />
                       </div>
                     </div>
                   </div>
@@ -142,39 +160,43 @@ export default function AspectRatioTool() {
 
                 {canDetect && (
                   <Panel>
-                    <h3 className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase mb-4">Result</h3>
+                    <Label>Results</Label>
                     <div className="space-y-4">
+
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center relative overflow-hidden group">
-                          <div className="absolute inset-0 opacity-20"></div>
-                          <p className="text-xs text-(--text-tertiary) font-medium mb-1 relative z-10">Aspect Ratio</p>
-                          <p className="text-3xl font-bold text-(--text-primary) font-mono tracking-tight relative z-10">{detectedRatio}</p>
-                        </div>
-                        <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center">
-                          <p className="text-xs text-(--text-tertiary) font-medium mb-1">Decimal</p>
-                          <p className="text-3xl font-bold text-(--text-primary) font-mono tracking-tight">{decimalRatio}</p>
-                        </div>
+                        <StatBox
+                          label="Aspect Ratio"
+                          value={detectedRatio}
+                          tooltip="The aspect ratio of the image."
+                        />
+                        <StatBox
+                          label="Decimal"
+                          value={decimalRatio}
+                          tooltip="The decimal representation of the aspect ratio."
+                        />
+
                       </div>
 
                       {/* Visual preview */}
-                      <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-6 flex items-center justify-center min-h-[160px] relative overflow-hidden">
-                        <div className="absolute inset-0 bg-(--border-default) opacity-10" style={{ backgroundImage: "radial-gradient(var(--border-primary) 1px, transparent 1px)", backgroundSize: "16px 16px" }}></div>
+                      <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-6 flex items-center justify-center min-h-80 min-w-80 relative overflow-hidden">
                         <div
-                          className="bg-linear-to-br from-primary-400 to-primary-600 rounded-md shadow-md flex items-center justify-center transition-all duration-300 ease-out relative z-10 ring-4 ring-(--surface-primary) dark:ring-(--surface-secondary)"
+                          className="bg-primary-500 rounded-md shadow-md flex items-center justify-center transition-all duration-300 ease-out relative z-10 overflow-hidden ring-4 ring-(--surface-primary) dark:ring-(--surface-secondary)"
                           style={{
-                            width: `${Math.min(260, (dw / dh) * 140)}px`,
-                            height: `${Math.min(140, (dh / dw) * 260)}px`,
+                            width: `${Math.max(320, (dw / dh) * 180)}px`,
+                            height: `${Math.max(180, (dh / dw) * 320)}px`,
                           }}
                         >
-                          <div className="absolute inset-0 rounded-md ring-1 ring-black/10 dark:ring-white/10 inset-ring inset-ring-white/20"></div>
-                          <span className="text-white text-xs font-mono font-bold tracking-wider drop-shadow-md relative z-20">
-                            {detectedRatio}
-                          </span>
+                          {preview ? (
+                            <img
+                              src={preview}
+                              className="absolute inset-0 w-full h-full object-cover"
+                            />
+                          ) : null}
                         </div>
                       </div>
                     </div>
                     <div className="mt-4 flex justify-end">
-                      <Button variant="ghost" onClick={clearDetect} className="text-sm px-4">Clear Results</Button>
+                      <Button variant="ghost" icon={CornerDownLeft} onClick={clearDetect} className="text-sm px-4">Clear Results</Button>
                     </div>
                   </Panel>
                 )}
