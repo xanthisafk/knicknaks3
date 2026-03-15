@@ -284,7 +284,7 @@ export default function ImageColorPickerTool() {
                   <Label>
                     Picked Colors
                   </Label>
-                  <Button size="xs" onClick={() => setPickedColors([])} variant="ghost">
+                  <Button size="xs" icon={CornerDownLeft} onClick={() => setPickedColors([])} variant="ghost">
                     Clear
                   </Button>
                 </div>
