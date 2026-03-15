@@ -42,14 +42,14 @@ function fmt(n: number): string {
 
 function Panel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] p-5 ${className}`}>
+    <div className={`rounded-lg bg-(--surface-elevated) border border-(--border-default) p-5 ${className}`}>
       {children}
     </div>
   );
 }
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <label className="text-xs font-medium text-[var(--text-secondary)] block mb-1.5">{children}</label>;
+  return <label className="text-xs font-medium text-(--text-secondary) block mb-1.5">{children}</label>;
 }
 
 /** A number input that optionally has a CurrencySelector on the left and/or a text suffix on the right. */
@@ -59,7 +59,7 @@ function NumericInput({ value, onChange, currency, onCurrencyChange, min, max, s
   min?: number; max?: number; step?: number; suffix?: string;
 }) {
   return (
-    <div className="flex items-stretch rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-bg)] overflow-visible focus-within:border-[var(--color-primary-500)] transition-colors h-[42px]">
+    <div className="flex items-stretch rounded-md border border-(--border-default) bg-(--surface-bg) overflow-visible focus-within:border-primary-500 transition-colors h-[42px]">
       {currency && onCurrencyChange && (
         <CurrencySelector value={currency} onChange={onCurrencyChange} compact />
       )}
@@ -68,10 +68,10 @@ function NumericInput({ value, onChange, currency, onCurrencyChange, min, max, s
         value={value}
         min={min} max={max} step={step}
         onChange={(e) => onChange(e.target.value)}
-        className="flex-1 min-w-0 px-3 text-sm bg-transparent text-[var(--text-primary)] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+        className="flex-1 min-w-0 px-3 text-sm bg-transparent text-(--text-primary) outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
       />
       {suffix && (
-        <span className="px-3 text-sm text-[var(--text-tertiary)] border-l border-[var(--border-default)] bg-[var(--surface-elevated)] flex items-center select-none shrink-0">
+        <span className="px-3 text-sm text-(--text-tertiary) border-l border-(--border-default) bg-(--surface-elevated) flex items-center select-none shrink-0">
           {suffix}
         </span>
       )}
@@ -81,10 +81,10 @@ function NumericInput({ value, onChange, currency, onCurrencyChange, min, max, s
 
 function StatCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-bg)] p-4 flex flex-col gap-1">
-      <span className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">{label}</span>
-      <span className="text-2xl font-semibold text-[var(--text-primary)] tabular-nums">{value}</span>
-      {sub && <span className="text-xs text-[var(--text-tertiary)]">{sub}</span>}
+    <div className="rounded-md border border-(--border-default) bg-(--surface-bg) p-4 flex flex-col gap-1">
+      <span className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">{label}</span>
+      <span className="text-2xl font-semibold text-(--text-primary) tabular-nums">{value}</span>
+      {sub && <span className="text-xs text-(--text-tertiary)">{sub}</span>}
     </div>
   );
 }
@@ -163,18 +163,18 @@ export default function LoanMortgageCalculatorTool() {
           </div>
 
           <Panel className="py-4">
-            <p className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">Payment Breakdown</p>
-            <div className="flex rounded-full overflow-hidden h-5 w-full border border-[var(--border-default)] mb-3">
+            <p className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-3">Payment Breakdown</p>
+            <div className="flex rounded-full overflow-hidden h-5 w-full border border-(--border-default) mb-3">
               <div style={{ width: `${principalPct}%`, backgroundColor: "var(--color-primary-500)" }} className="h-full transition-all duration-500" />
-              <div style={{ width: `${interestPct}%` }} className="h-full bg-[var(--color-primary-200,#bfdbfe)] transition-all duration-500" />
+              <div style={{ width: `${interestPct}%` }} className="h-full bg-(--color-primary-200,#bfdbfe) transition-all duration-500" />
             </div>
-            <div className="flex items-center gap-5 text-xs text-[var(--text-secondary)]">
+            <div className="flex items-center gap-5 text-xs text-(--text-secondary)">
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-primary-500)] inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-primary-500 inline-block" />
                 Principal ({principalPct.toFixed(1)}%)
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-primary-200,#bfdbfe)] inline-block border border-[var(--border-default)]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-(--color-primary-200,#bfdbfe) inline-block border border-(--border-default)" />
                 Interest ({interestPct.toFixed(1)}%)
               </span>
             </div>
@@ -183,24 +183,23 @@ export default function LoanMortgageCalculatorTool() {
           <Panel className="p-0 overflow-hidden">
             <button
               onClick={() => setShowSchedule((v) => !v)}
-              className="w-full flex items-center justify-between px-5 py-4 text-sm font-medium text-[var(--text-primary)] hover:bg-[var(--surface-bg)] transition-colors"
+              className="w-full flex items-center justify-between px-5 py-4 text-sm font-medium text-(--text-primary) hover:bg-(--surface-bg) transition-colors"
             >
               <span>Amortisation Schedule</span>
-              <span className="text-[var(--text-tertiary)] text-xs">{showSchedule ? "▲ Hide" : "▼ Show"}</span>
+              <span className="text-(--text-tertiary) text-xs">{showSchedule ? "▲ Hide" : "▼ Show"}</span>
             </button>
 
             {showSchedule && (
-              <div className="border-t border-[var(--border-default)]">
-                <div className="flex gap-2 px-5 py-3 border-b border-[var(--border-default)]">
+              <div className="border-t border-(--border-default)">
+                <div className="flex gap-2 px-5 py-3 border-b border-(--border-default)">
                   {(["yearly", "monthly"] as const).map((v) => (
                     <button
                       key={v}
                       onClick={() => setScheduleView(v)}
-                      className={`px-3 py-1 text-xs rounded-[var(--radius-sm)] border transition-colors ${
-                        scheduleView === v
-                          ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/10 text-[var(--text-primary)]"
-                          : "border-[var(--border-default)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                      }`}
+                      className={`px-3 py-1 text-xs rounded-sm border transition-colors ${scheduleView === v
+                          ? "border-primary-500 bg-primary-500/10 text-(--text-primary)"
+                          : "border-(--border-default) text-(--text-secondary) hover:text-(--text-primary)"
+                        }`}
                     >
                       {v.charAt(0).toUpperCase() + v.slice(1)}
                     </button>
@@ -209,37 +208,37 @@ export default function LoanMortgageCalculatorTool() {
 
                 <div className="overflow-x-auto max-h-96">
                   <table className="w-full text-xs">
-                    <thead className="sticky top-0 bg-[var(--surface-elevated)] border-b border-[var(--border-default)]">
+                    <thead className="sticky top-0 bg-(--surface-elevated) border-b border-(--border-default)">
                       <tr>
-                        <th className="px-4 py-2.5 text-left font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">
+                        <th className="px-4 py-2.5 text-left font-semibold text-(--text-tertiary) uppercase tracking-wider">
                           {scheduleView === "yearly" ? "Year" : "Month"}
                         </th>
-                        <th className="px-4 py-2.5 text-right font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">Payment</th>
-                        <th className="px-4 py-2.5 text-right font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">Principal</th>
-                        <th className="px-4 py-2.5 text-right font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">Interest</th>
-                        <th className="px-4 py-2.5 text-right font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">Balance</th>
+                        <th className="px-4 py-2.5 text-right font-semibold text-(--text-tertiary) uppercase tracking-wider">Payment</th>
+                        <th className="px-4 py-2.5 text-right font-semibold text-(--text-tertiary) uppercase tracking-wider">Principal</th>
+                        <th className="px-4 py-2.5 text-right font-semibold text-(--text-tertiary) uppercase tracking-wider">Interest</th>
+                        <th className="px-4 py-2.5 text-right font-semibold text-(--text-tertiary) uppercase tracking-wider">Balance</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[var(--border-default)]">
+                    <tbody className="divide-y divide-(--border-default)">
                       {scheduleView === "yearly"
                         ? yearlySchedule.map((row) => (
-                            <tr key={row.year} className="hover:bg-[var(--surface-bg)] transition-colors">
-                              <td className="px-4 py-2.5 text-[var(--text-primary)] font-medium">{row.year}</td>
-                              <td className="px-4 py-2.5 text-right text-[var(--text-secondary)] tabular-nums">{sym}{fmt(row.totalPayment)}</td>
-                              <td className="px-4 py-2.5 text-right text-[var(--text-secondary)] tabular-nums">{sym}{fmt(row.totalPrincipal)}</td>
-                              <td className="px-4 py-2.5 text-right text-[var(--text-secondary)] tabular-nums">{sym}{fmt(row.totalInterest)}</td>
-                              <td className="px-4 py-2.5 text-right text-[var(--text-primary)] tabular-nums font-medium">{sym}{fmt(row.balance)}</td>
-                            </tr>
-                          ))
+                          <tr key={row.year} className="hover:bg-(--surface-bg) transition-colors">
+                            <td className="px-4 py-2.5 text-(--text-primary) font-medium">{row.year}</td>
+                            <td className="px-4 py-2.5 text-right text-(--text-secondary) tabular-nums">{sym}{fmt(row.totalPayment)}</td>
+                            <td className="px-4 py-2.5 text-right text-(--text-secondary) tabular-nums">{sym}{fmt(row.totalPrincipal)}</td>
+                            <td className="px-4 py-2.5 text-right text-(--text-secondary) tabular-nums">{sym}{fmt(row.totalInterest)}</td>
+                            <td className="px-4 py-2.5 text-right text-(--text-primary) tabular-nums font-medium">{sym}{fmt(row.balance)}</td>
+                          </tr>
+                        ))
                         : schedule.map((row) => (
-                            <tr key={row.month} className="hover:bg-[var(--surface-bg)] transition-colors">
-                              <td className="px-4 py-2.5 text-[var(--text-primary)] font-medium">{row.month}</td>
-                              <td className="px-4 py-2.5 text-right text-[var(--text-secondary)] tabular-nums">{sym}{fmt(row.payment)}</td>
-                              <td className="px-4 py-2.5 text-right text-[var(--text-secondary)] tabular-nums">{sym}{fmt(row.principal)}</td>
-                              <td className="px-4 py-2.5 text-right text-[var(--text-secondary)] tabular-nums">{sym}{fmt(row.interest)}</td>
-                              <td className="px-4 py-2.5 text-right text-[var(--text-primary)] tabular-nums font-medium">{sym}{fmt(row.balance)}</td>
-                            </tr>
-                          ))}
+                          <tr key={row.month} className="hover:bg-(--surface-bg) transition-colors">
+                            <td className="px-4 py-2.5 text-(--text-primary) font-medium">{row.month}</td>
+                            <td className="px-4 py-2.5 text-right text-(--text-secondary) tabular-nums">{sym}{fmt(row.payment)}</td>
+                            <td className="px-4 py-2.5 text-right text-(--text-secondary) tabular-nums">{sym}{fmt(row.principal)}</td>
+                            <td className="px-4 py-2.5 text-right text-(--text-secondary) tabular-nums">{sym}{fmt(row.interest)}</td>
+                            <td className="px-4 py-2.5 text-right text-(--text-primary) tabular-nums font-medium">{sym}{fmt(row.balance)}</td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>
