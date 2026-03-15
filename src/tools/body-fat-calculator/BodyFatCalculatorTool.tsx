@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { Panel } from "@/components/layout";
 import { Tab, TabList, Tabs } from "@/components/ui/tab";
-import { Input } from "@/components/ui";
+import { Input, Label } from "@/components/ui";
 import StatBox from "@/components/ui/StatBox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toTitleCase } from "@/lib";
@@ -89,155 +89,138 @@ export default function BodyFatCalculatorTool() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text-(--text-primary) mb-1">Gender</label>
-            <div className="flex items-center gap-2">
-              <Select value={toTitleCase(gender)} onValueChange={v => setGender(v === "male" ? "male" : "female")}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="female">Female</SelectItem>
-                  <SelectItem value="male">Male</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="space-y-2">
+            <Select label="Gender" value={toTitleCase(gender)} onValueChange={v => setGender(v === "male" ? "male" : "female")}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="female">Female</SelectItem>
+                <SelectItem value="male">Male</SelectItem>
+              </SelectContent>
+            </Select>
 
-            <label className="block text-sm font-medium text(--text-primary) mb-1">Age</label>
-            <div className="flex items-center gap-2">
+            <Input
+              label="Age"
+              type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              className="w-full"
+              placeholder="Your age..."
+              trailingText="years"
+              min="1"
+              max="120"
+            />
+            {unit === "metric" ? (
               <Input
                 type="number"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
+                label="Height"
+                value={cm}
+                onChange={(e) => setCm(e.target.value)}
                 className="w-full"
-                placeholder="years"
-                min="1"
-                max="120"
+                placeholder="Your height..."
+                trailingText="cm"
+                min="0"
               />
-              <span className="text-sm text-(--text-secondary)">years</span>
-            </div>
-
-            <label className="block text-sm font-medium text(--text-primary) mb-1">Height</label>
-            {unit === "metric" ? (
-              <div className="flex items-center gap-2">
-                <Input
-                  type="number"
-                  value={cm}
-                  onChange={(e) => setCm(e.target.value)}
-                  className="w-full"
-                  placeholder="cm"
-                  min="0"
-                />
-                <span className="text-sm text-(--text-secondary)">cm</span>
-              </div>
             ) : (
-              <div className="flex items-center gap-2">
-                <Input
-                  type="number"
-                  value={inches}
-                  onChange={(e) => setInches(e.target.value)}
-                  className="w-full"
-                  placeholder="in"
-                  min="0"
-                />
-                <span className="text-sm text-(--text-secondary)">in</span>
-              </div>
+              <Input
+                type="number"
+                label="Height"
+                value={inches}
+                onChange={(e) => setInches(e.target.value)}
+                className="w-full"
+                placeholder="Your height..."
+                trailingText="in"
+                min="0"
+              />
             )}
           </div>
 
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text(--text-primary) mb-1">Neck Circumference</label>
+          <div className="space-y-2">
             {unit === "metric" ? (
-              <div className="flex items-center gap-2">
-                <Input
-                  type="number"
-                  value={neckCm}
-                  onChange={(e) => setNeckCm(e.target.value)}
-                  className="w-full"
-                  placeholder="cm"
-                  min="0"
-                />
-                <span className="text-sm text-(--text-secondary)">cm</span>
-              </div>
+
+              <Input
+                type="number"
+                label="Neck Circumference"
+                value={neckCm}
+                onChange={(e) => setNeckCm(e.target.value)}
+                className="w-full"
+                placeholder="cm"
+                trailingText="cm"
+                min="0"
+              />
+
             ) : (
-              <div className="flex items-center gap-2">
-                <Input
-                  type="number"
-                  value={neckInches}
-                  onChange={(e) => setNeckInches(e.target.value)}
-                  className="w-full"
-                  placeholder="in"
-                  min="0"
-                />
-                <span className="text-sm text-(--text-secondary)">in</span>
-              </div>
+              <Input
+                type="number"
+                label="Neck Circumference"
+                value={neckInches}
+                onChange={(e) => setNeckInches(e.target.value)}
+                className="w-full"
+                placeholder="in"
+                trailingText="in"
+                min="0"
+              />
+
             )}
 
-            <label className="block text-sm font-medium text(--text-primary) mb-1">Waist Circumference</label>
             {unit === "metric" ? (
-              <div className="flex items-center gap-2">
-                <Input
-                  type="number"
-                  value={waistCm}
-                  onChange={(e) => setWaistCm(e.target.value)}
-                  className="w-full"
-                  placeholder="cm"
-                  min="0"
-                />
-                <span className="text-sm text-(--text-secondary)">cm</span>
-              </div>
+              <Input
+                type="number"
+                label="Waist Circumference"
+                value={waistCm}
+                onChange={(e) => setWaistCm(e.target.value)}
+                className="w-full"
+                placeholder="cm"
+                trailingText="cm"
+                min="0"
+              />
             ) : (
-              <div className="flex items-center gap-2">
-                <Input
-                  type="number"
-                  value={waistInches}
-                  onChange={(e) => setWaistInches(e.target.value)}
-                  className="w-full"
-                  placeholder="in"
-                  min="0"
-                />
-                <span className="text-sm text-(--text-secondary)">in</span>
-              </div>
+              <Input
+                type="number"
+                label="Waist Circumference"
+                value={waistInches}
+                onChange={(e) => setWaistInches(e.target.value)}
+                className="w-full"
+                placeholder="in"
+                trailingText="in"
+                min="0"
+              />
             )}
 
             {gender === "female" && (
               <>
-                <label className="block text-sm font-medium text(--text-primary) mb-1">Hip Circumference</label>
                 {unit === "metric" ? (
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      value={hipCm}
-                      onChange={(e) => setHipCm(e.target.value)}
-                      className="w-full"
-                      placeholder="cm"
-                      min="0"
-                    />
-                    <span className="text-sm text-(--text-secondary)">cm</span>
-                  </div>
+                  <Input
+                    type="number"
+                    label="Hip Circumference"
+                    value={hipCm}
+                    onChange={(e) => setHipCm(e.target.value)}
+                    className="w-full"
+                    placeholder="cm"
+                    min="0"
+                  />
                 ) : (
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      value={hipInches}
-                      onChange={(e) => setHipInches(e.target.value)}
-                      className="w-full"
-                      placeholder="in"
-                      min="0"
-                    />
-                    <span className="text-sm text-(--text-secondary)">in</span>
-                  </div>
+                  <Input
+                    type="number"
+                    label="Hip Circumference"
+                    value={hipInches}
+                    onChange={(e) => setHipInches(e.target.value)}
+                    className="w-full"
+                    placeholder="in"
+                    min="0"
+                  />
                 )}
               </>
             )}
           </div>
         </div>
-      </Panel>
+      </Panel >
 
       {result && (
 
         <Panel>
-          <label className="block text-xs text-center font-semibold uppercase tracking-widest text-(--text-tertiary) mb-2">Your estimated body fat</label>
+          <Label>Your estimated body fat</Label>
           <StatBox
             label={result.category}
             value={`${result.value}%`}
@@ -245,7 +228,8 @@ export default function BodyFatCalculatorTool() {
             tooltip="This estimation uses the U.S. Navy Method based on anatomical circumferences. It is a widely used and mostly accurate measurement, though no estimation method is 100% precise without clinical tools like a DEXA scan."
           />
         </Panel>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }
