@@ -9,13 +9,15 @@ export default function StatBox({
     value,
     tooltip,
     url,
-    textSize
+    textSize,
+    prefix
 }: {
     label: string;
     value: string | number;
     tooltip?: string;
     url?: string;
     textSize?: string
+    prefix?: string
 }) {
     const [visible, setVisible] = useState(false);
 
@@ -41,7 +43,8 @@ export default function StatBox({
                 </div>
             )}
 
-            <span className={`text-${textSize ? textSize : "2xl"} font-bold text-primary-500 tabular-nums`} dangerouslySetInnerHTML={{ __html: wrapEmojisWithSpan(`${value}`) }} />
+            {prefix && <Label size="xs">{prefix}</Label>}
+            <span className={`text-${textSize ? textSize : "2xl"} p-4 font-bold text-primary-500 tabular-nums`} dangerouslySetInnerHTML={{ __html: wrapEmojisWithSpan(`${value}`) }} />
             <Label size="xs">{label}</Label>
             {url
                 ? <ExternalLink className="absolute right-2 top-2 opacity-30 size-3" />
