@@ -1,5 +1,34 @@
 import { useState, useMemo } from "react";
 import { Panel } from "@/components/layout";
+import { Tab, TabList, Tabs } from "@/components/ui/tab";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input, Label } from "@/components/ui";
+import { toTitleCase } from "@/lib";
+import StatBox from "@/components/ui/StatBox";
+import { Info } from "lucide-react";
+
+const activityLevels = {
+  "1.2": {
+    label: "Sedentary (little/no exercise)",
+    value: 1.2
+  },
+  "1.375": {
+    label: "Lightly active (1-3 days/week)",
+    value: 1.375
+  },
+  "1.55": {
+    label: "Moderately active (3-5 days/week)",
+    value: 1.55
+  },
+  "1.725": {
+    label: "Very active (6-7 days/week)",
+    value: 1.725
+  },
+  "1.9": {
+    label: "Extra active (physical job/2x day)",
+    value: 1.9
+  }
+};
 
 export default function CalorieCalculatorTool() {
   const [unit, setUnit] = useState<"metric" | "imperial">("metric");
@@ -55,183 +84,141 @@ export default function CalorieCalculatorTool() {
 
   return (
     <div className="space-y-2">
-      <Panel>
-        <div className="flex justify-center mb-6">
-          <div className="flex bg-(--surface-secondary) rounded-xl p-1 border border-(--border-default)">
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${unit === "metric"
-                ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
-                : "text-(--text-secondary) hover:text-(--text-primary)"
-                }`}
-              onClick={() => setUnit("metric")}
-            >
-              Metric
-            </button>
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${unit === "imperial"
-                ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm"
-                : "text-(--text-secondary) hover:text-(--text-primary)"
-                }`}
-              onClick={() => setUnit("imperial")}
-            >
-              US/Imperial
-            </button>
-          </div>
-        </div>
+      <Panel className="flex flex-col gap-2">
+        <Tabs value={unit} onValueChange={(v) => setUnit(v as "metric" | "imperial")}>
+          <TabList>
+            <Tab value="metric">Metric</Tab>
+            <Tab value="imperial">Imperial</Tab>
+          </TabList>
+        </Tabs>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text-(--text-primary) mb-1">Gender</label>
-            <div className="flex bg-(--surface-elevated) rounded-xl p-1 border border-(--border-default)">
-              <button
-                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${gender === "male"
-                  ? "bg-primary-500 text-white shadow-sm"
-                  : "text-(--text-secondary) hover:text-(--text-primary)"
-                  }`}
-                onClick={() => setGender("male")}
-              >
-                Male
-              </button>
-              <button
-                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${gender === "female"
-                  ? "bg-primary-500 text-white shadow-sm"
-                  : "text-(--text-secondary) hover:text-(--text-primary)"
-                  }`}
-                onClick={() => setGender("female")}
-              >
-                Female
-              </button>
-            </div>
+          <div className="space-y-2">
+            <Select label="Gender" value={gender} onValueChange={(v) => setGender(v as "male" | "female")}>
+              <SelectTrigger>
+                {toTitleCase(gender)}
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="male">Male</SelectItem>
+                <SelectItem value="female">Female</SelectItem>
+              </SelectContent>
+            </Select>
 
-            <label className="block text-sm font-medium text(--text-primary) mb-1">Age</label>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
-                placeholder="years"
-                min="1"
-                max="120"
-              />
-              <span className="text-sm text-(--text-secondary)">years</span>
-            </div>
+            <Input
+              type="number"
+              label="Age"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              placeholder="years"
+              trailingText="years"
+              min="1"
+              max="120"
+            />
 
-            <label className="block text-sm font-medium text(--text-primary) mb-1">Activity Level</label>
-            <select
-              value={activity}
-              onChange={(e) => setActivity(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
-            >
-              <option value="1.2">Sedentary (little/no exercise)</option>
-              <option value="1.375">Lightly active (1-3 days/week)</option>
-              <option value="1.55">Moderately active (3-5 days/week)</option>
-              <option value="1.725">Very active (6-7 days/week)</option>
-              <option value="1.9">Extra active (physical job/2x day)</option>
-            </select>
+            <Select label="Activity Level" value={activity} onValueChange={(v) => setActivity(v)}>
+              <SelectTrigger>
+                {activityLevels[activity as keyof typeof activityLevels].label}
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(activityLevels).map(([key, value]) => (
+                  <SelectItem key={key} value={value.value.toString()}>
+                    {value.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text(--text-primary) mb-1">Height</label>
+          <div className="space-y-2">
+
             {unit === "metric" ? (
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={cm}
-                  onChange={(e) => setCm(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
-                  placeholder="cm"
-                  min="0"
-                />
-                <span className="text-sm text-(--text-secondary)">cm</span>
-              </div>
+              <Input
+                label="Height"
+                type="number"
+                value={cm}
+                onChange={(e) => setCm(e.target.value)}
+                placeholder="cm"
+                trailingText="cm"
+                min="0"
+              />
             ) : (
-              <div className="flex items-center gap-2">
-                <input
+              <>
+                <Input
+                  label="Feet"
                   type="number"
                   value={feet}
                   onChange={(e) => setFeet(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
                   placeholder="ft"
+                  trailingText="ft"
                   min="0"
                 />
-                <span className="text-sm text-(--text-secondary)">ft</span>
-                <input
+                <Input
+                  label="Inches"
                   type="number"
                   value={inches}
                   onChange={(e) => setInches(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
                   placeholder="in"
+                  trailingText="in"
                   min="0"
                   max="11"
                 />
-                <span className="text-sm text-(--text-secondary)">in</span>
-              </div>
+              </>
             )}
 
-            <label className="block text-sm font-medium text(--text-primary) mb-1">Weight</label>
             {unit === "metric" ? (
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={kg}
-                  onChange={(e) => setKg(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
-                  placeholder="kg"
-                  min="0"
-                />
-                <span className="text-sm text-(--text-secondary)">kg</span>
-              </div>
+              <Input
+                label="Weight"
+                type="number"
+                value={kg}
+                onChange={(e) => setKg(e.target.value)}
+                placeholder="kg"
+                trailingText="kg"
+                min="0"
+              />
             ) : (
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={lbs}
-                  onChange={(e) => setLbs(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)"
-                  placeholder="lbs"
-                  min="0"
-                />
-                <span className="text-sm text-(--text-secondary)">lbs</span>
-              </div>
+              <Input
+                label="Weight"
+                type="number"
+                value={lbs}
+                onChange={(e) => setLbs(e.target.value)}
+                placeholder="lbs"
+                trailingText="lbs"
+                min="0"
+              />
             )}
           </div>
         </div>
       </Panel>
 
       {results && (
-        <div className="space-y-4">
-          <Panel>
-            <div className="text-center py-4">
-              <h3 className="text-sm font-medium text-(--text-secondary)">Maintain Weight</h3>
-              <div className="text-4xl font-bold text-primary-500 mt-2">
-                {results.maintain.toLocaleString()} <span className="text-lg font-normal text-(--text-tertiary) ml-1">kcal/day</span>
-              </div>
-              <p className="text-xs text-(--text-tertiary) mt-2 max-w-sm mx-auto">
-                Calories needed to maintain your current body weight.
-              </p>
-            </div>
-          </Panel>
+        <div className="space-y-2">
+          <StatBox
+            prefix="Maintain Weight"
+            label="Kcal/day"
+            textSize="6xl"
+            value={results.maintain.toLocaleString()}
+            tooltip="Calories needed to maintain your current body weight"
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <Panel>
-              <h4 className="text-sm font-bold text-(--text-primary) mb-4 text-center">Weight Loss</h4>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center p-3 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
+              <Label>Weight Loss</Label>
+              <div className="space-y-1">
+                <div className="flex justify-between items-center p-2 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
                   <div className="text-sm flex flex-col">
                     <span className="font-semibold text-green-500">Mild Loss</span>
                     <span className="text-xs text-(--text-tertiary)">~0.25 kg / week</span>
                   </div>
                   <div className="text-lg font-bold tabular-nums">{results.mildLoss.toLocaleString()}</div>
                 </div>
-                <div className="flex justify-between items-center p-3 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
+                <div className="flex justify-between items-center p-2 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
                   <div className="text-sm flex flex-col">
                     <span className="font-semibold text-green-500">Weight Loss</span>
                     <span className="text-xs text-(--text-tertiary)">~0.5 kg / week</span>
                   </div>
                   <div className="text-lg font-bold tabular-nums">{results.loss.toLocaleString()}</div>
                 </div>
-                <div className="flex justify-between items-center p-3 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
+                <div className="flex justify-between items-center p-2 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
                   <div className="text-sm flex flex-col">
                     <span className="font-semibold text-yellow-500">Extreme Loss</span>
                     <span className="text-xs text-(--text-tertiary)">~1 kg / week</span>
@@ -242,23 +229,23 @@ export default function CalorieCalculatorTool() {
             </Panel>
 
             <Panel>
-              <h4 className="text-sm font-bold text-(--text-primary) mb-4 text-center">Weight Gain</h4>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center p-3 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
+              <Label>Weight Gain</Label>
+              <div className="space-y-1">
+                <div className="flex justify-between items-center p-2 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
                   <div className="text-sm flex flex-col">
                     <span className="font-semibold text-red-500">Mild Gain</span>
                     <span className="text-xs text-(--text-tertiary)">~0.25 kg / week</span>
                   </div>
                   <div className="text-lg font-bold tabular-nums">{results.mildGain.toLocaleString()}</div>
                 </div>
-                <div className="flex justify-between items-center p-3 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
+                <div className="flex justify-between items-center p-2 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
                   <div className="text-sm flex flex-col">
                     <span className="font-semibold text-red-500">Weight Gain</span>
                     <span className="text-xs text-(--text-tertiary)">~0.5 kg / week</span>
                   </div>
                   <div className="text-lg font-bold tabular-nums">{results.gain.toLocaleString()}</div>
                 </div>
-                <div className="flex justify-between items-center p-3 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
+                <div className="flex justify-between items-center p-2 rounded-lg bg-(--surface-secondary) border border-(--border-default)">
                   <div className="text-sm flex flex-col">
                     <span className="font-semibold text-purple-500">Fast Gain</span>
                     <span className="text-xs text-(--text-tertiary)">~1 kg / week</span>
@@ -268,6 +255,9 @@ export default function CalorieCalculatorTool() {
               </div>
             </Panel>
           </div>
+          <Panel className="flex flex-row items-center justify-center flex-nowrap">
+            <Label icon={Info}>Privacy assurance: Data is not stored or sent to any third party.</Label>
+          </Panel>
         </div>
       )}
     </div>
