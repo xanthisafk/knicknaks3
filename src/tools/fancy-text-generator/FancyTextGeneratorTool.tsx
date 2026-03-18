@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Panel } from "@/components/layout";
 import { ResultRow } from "@/components/advanced/ResultRow";
-import { Textarea } from "@/components/ui";
+import { Label, Textarea } from "@/components/ui";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -245,22 +245,34 @@ export default function FancyTextGeneratorTool() {
   inputRef.current = input;
 
   useEffect(() => {
-    setVisibleVariants([]);
-    if (!input) return;
+    if (!input) {
+      setVisibleVariants([]);
+      return;
+    }
 
     const allVariants = buildAllVariants(input);
     const captured = input;
     let i = 0;
 
+    // Pre-fill with previous data so panel doesn't collapse
+    setVisibleVariants(prev => {
+      if (prev.length === 0) return allVariants.map((v, idx) => idx === 0 ? v : { name: v.name, text: "" });
+      return prev; // keep old results visible while new ones stream in
+    });
+
     function scheduleNext() {
-      if (inputRef.current !== captured) return; // stale — abort
+      if (inputRef.current !== captured) return;
       if (i >= allVariants.length) return;
+      const idx = i;
       const next = allVariants[i++];
-      setVisibleVariants((prev) => [...prev, next]);
+      setVisibleVariants(prev => {
+        const copy = [...prev];
+        copy[idx] = next; // update in-place, no collapse
+        return copy;
+      });
       setTimeout(scheduleNext, 18);
     }
 
-    // Small debounce so rapid keystrokes don't fire a storm of effects
     const debounce = setTimeout(scheduleNext, 80);
     return () => clearTimeout(debounce);
   }, [input]);
@@ -276,20 +288,18 @@ export default function FancyTextGeneratorTool() {
             placeholder="Type something here..."
             rows={3}
           />
-          <p className="text-xs text-(--text-tertiary) text-right">
+          <Label size="xs" className="text-right">
             {input.length} character{input.length !== 1 ? "s" : ""}
-          </p>
+          </Label>
         </div>
       </Panel>
 
       {input.length > 0 && (
         <Panel>
           <div className="space-y-3">
-            <label
-              className="block text-xs font-medium uppercase tracking-wide text-(--text-tertiary) mb-1.5"
-            >
+            <Label>
               Click any style to copy
-            </label>
+            </Label>
             <div className="space-y-2">
               {visibleVariants.map((v, i) => (
                 <ResultRow key={i} label={v.name} value={v.text} />

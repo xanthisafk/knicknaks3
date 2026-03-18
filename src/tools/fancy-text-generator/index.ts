@@ -10,7 +10,6 @@ export const definition: ToolDefinition = {
 
   category: "text",
   icon: "✨",
-  status: "updated",
 
   keywords: [
     "fancy text generator",
@@ -108,5 +107,7 @@ export const definition: ToolDefinition = {
   relatedTools: ["upside-down-text", "zalgo-text"],
 
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-13",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-07",
+  lastUpdated: "2026-03-19",
 };
