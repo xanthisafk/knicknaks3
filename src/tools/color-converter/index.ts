@@ -41,5 +41,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["palette-generator", "contrast-checker", "gradient-maker"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-18",
 };

@@ -1,35 +1,17 @@
 import { useState, useCallback } from "react";
-import { Input } from "@/components/ui";
+import { Input, Label, Slider } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
 import type { HSL, RGB, CMYK } from "@/lib/convertColor";
 import { rgbToHsl, rgbToCmyk, rgbToHex, hexToRgb, hslToRgb, cmykToRgb } from "@lib/convertColor"
+import { ResultRow } from "@/components/advanced/ResultRow";
 
-function ColorValueRow({ label, value, onCopy }: { label: string; value: string; onCopy: () => void }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <div className="flex items-center justify-between py-2 px-3 rounded-md bg-(--surface-secondary)">
-      <span className="text-xs font-medium text-(--text-secondary) w-12">{label}</span>
-      <span className="text-sm font-mono text-(--text-primary) flex-1 ml-3">{value}</span>
-      <button
-        onClick={async () => {
-          await copyToClipboard(value);
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1500);
-        }}
-        className="text-xs text-(--text-tertiary) hover:text-(--text-primary) transition-colors cursor-pointer"
-      >
-        {copied ? "✓" : "Copy"}
-      </button>
-    </div>
-  );
-}
+
 
 export default function ColorConverterTool() {
-  const [hex, setHex] = useState("#3B82F6");
-  const [rgb, setRgb] = useState<RGB>({ r: 59, g: 130, b: 246 });
-  const [hsl, setHsl] = useState<HSL>(() => rgbToHsl({ r: 59, g: 130, b: 246 }));
-  const [cmyk, setCmyk] = useState<CMYK>(() => rgbToCmyk({ r: 59, g: 130, b: 246 }));
+  const [hex, setHex] = useState("#db0d2a");
+  const [rgb, setRgb] = useState<RGB>({ r: 219, g: 13, b: 42 });
+  const [hsl, setHsl] = useState<HSL>(() => rgbToHsl({ r: 219, g: 13, b: 42 }));
+  const [cmyk, setCmyk] = useState<CMYK>(() => rgbToCmyk({ r: 219, g: 13, b: 42 }));
 
   const updateFromRgb = useCallback((newRgb: RGB) => {
     setRgb(newRgb);
@@ -39,6 +21,7 @@ export default function ColorConverterTool() {
   }, []);
 
   const handleHexChange = (value: string) => {
+    if (value[0] !== "#") value = "#" + value;
     setHex(value);
     const parsed = hexToRgb(value);
     if (parsed) updateFromRgb(parsed);
@@ -70,7 +53,7 @@ export default function ColorConverterTool() {
     <div className="space-y-2">
       {/* Color Preview & Picker */}
       <Panel>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <div
             className="w-28 h-28 rounded-lg border-2 border-(--border-default) shadow-sm shrink-0 relative overflow-hidden"
             style={{ backgroundColor: hex }}
@@ -91,19 +74,19 @@ export default function ColorConverterTool() {
               placeholder="#3B82F6"
               className="font-mono"
             />
-            <p className="text-xs text-(--text-tertiary)">Click the swatch to use the color picker</p>
+            <Label size="xs">Click the swatch to use the color picker</Label>
           </div>
         </div>
       </Panel>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         {/* RGB */}
         <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-3">RGB</h3>
+          <Label>RGB</Label>
           <div className="space-y-2">
             {(["r", "g", "b"] as const).map((ch) => (
               <div key={ch} className="flex items-center gap-2">
-                <span className="text-xs font-medium text-(--text-secondary) w-4 uppercase">{ch}</span>
+                <Label size="xs">{ch}</Label>
                 <input
                   type="range"
                   min={0}
@@ -127,7 +110,7 @@ export default function ColorConverterTool() {
 
         {/* HSL */}
         <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-3">HSL</h3>
+          <Label>HSL</Label>
           <div className="space-y-2">
             {([
               { key: "h" as const, label: "H", max: 360 },
@@ -135,7 +118,7 @@ export default function ColorConverterTool() {
               { key: "l" as const, label: "L", max: 100 },
             ]).map(({ key, label, max }) => (
               <div key={key} className="flex items-center gap-2">
-                <span className="text-xs font-medium text-(--text-secondary) w-4">{label}</span>
+                <Label size="xs">{label}</Label>
                 <input
                   type="range"
                   min={0}
@@ -159,11 +142,11 @@ export default function ColorConverterTool() {
 
         {/* CMYK */}
         <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-3">CMYK</h3>
+          <Label>CMYK</Label>
           <div className="space-y-2">
             {(["c", "m", "y", "k"] as const).map((ch) => (
               <div key={ch} className="flex items-center gap-2">
-                <span className="text-xs font-medium text-(--text-secondary) w-4 uppercase">{ch}</span>
+                <Label size="xs">{ch}</Label>
                 <input
                   type="range"
                   min={0}
@@ -188,12 +171,12 @@ export default function ColorConverterTool() {
 
       {/* All values summary */}
       <Panel>
-        <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-3">All Values</h3>
+        <Label>All Values</Label>
         <div className="space-y-2">
-          <ColorValueRow label="HEX" value={hex.toUpperCase()} onCopy={() => copyToClipboard(hex)} />
-          <ColorValueRow label="RGB" value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} onCopy={() => { }} />
-          <ColorValueRow label="HSL" value={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} onCopy={() => { }} />
-          <ColorValueRow label="CMYK" value={`cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`} onCopy={() => { }} />
+          <ResultRow label="HEX" value={hex.toUpperCase()} />
+          <ResultRow label="RGB" value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} />
+          <ResultRow label="HSL" value={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} />
+          <ResultRow label="CMYK" value={`cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`} />
         </div>
       </Panel>
     </div>
