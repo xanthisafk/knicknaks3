@@ -1,8 +1,10 @@
 import { useState, useMemo } from "react";
-import { Input } from "@/components/ui";
+import { Button, Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { hexToRgb } from "@/lib/convertColor";
 import StatBox from "@/components/ui/StatBox";
+import { ArrowRightLeft } from "lucide-react";
+import { ColorPickerSwatch } from "@/components/advanced"
 
 function relativeLuminance(r: number, g: number, b: number): number {
   const [rs, gs, bs] = [r, g, b].map((c) => {
@@ -39,8 +41,8 @@ function checkWCAG(fg: string, bg: string): WCAGResult | null {
 }
 
 export default function ContrastCheckerTool() {
-  const [fg, setFg] = useState("#1a1a2e");
-  const [bg, setBg] = useState("#ffffff");
+  const [fg, setFg] = useState(document.documentElement.dataset.theme === "dark" ? "#ffffff" : "#000000");
+  const [bg, setBg] = useState(document.documentElement.dataset.theme === "dark" ? "#000000" : "#ffffff");
 
   const result = useMemo(() => checkWCAG(fg, bg), [fg, bg]);
 
@@ -80,64 +82,44 @@ export default function ContrastCheckerTool() {
       </Panel>
 
       {/* Color pickers */}
-      <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-4 items-end">
-        <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-3">Foreground (Text)</h3>
-          <div className="flex items-center gap-3">
-            <input
-              type="color"
-              value={fg}
-              onChange={(e) => setFg(e.target.value)}
-              className="w-12 h-12 rounded-md border border-(--border-default) cursor-pointer p-0.5"
-            />
-            <Input
-              value={fg}
-              onChange={(e) => setFg(e.target.value)}
-              placeholder="#1a1a2e"
-              className="font-mono"
-            />
-          </div>
+      <div className="flex flex-col md:flex-row gap-2">
+        <Panel className="grow">
+          <ColorPickerSwatch
+            onChange={setFg}
+            value={fg}
+            label="Foreground color"
+            placeholder="000000"
+            disabled={false}
+          />
         </Panel>
-        <button
+        <Button
           onClick={handleSwap}
-          className="hidden sm:flex self-center items-center justify-center w-10 h-10 rounded-full bg-(--surface-secondary) border border-(--border-default) hover:bg-(--surface-elevated) hover:border-(--border-hover) cursor-pointer text-(--text-secondary) hover:text-(--text-primary) mb-2"
+          variant="secondary"
+          icon={ArrowRightLeft}
           title="Swap colors"
-        >
-          ⇄
-        </button>
-        <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-3">Background</h3>
-          <div className="flex items-center gap-3">
-            <input
-              type="color"
-              value={bg}
-              onChange={(e) => setBg(e.target.value)}
-              className="w-12 h-12 rounded-md border border-(--border-default) cursor-pointer p-0.5"
-            />
-            <Input
-              value={bg}
-              onChange={(e) => setBg(e.target.value)}
-              placeholder="#ffffff"
-              className="font-mono"
-            />
-          </div>
+        />
+        <Panel className="grow">
+          <ColorPickerSwatch
+            onChange={setBg}
+            value={bg}
+            label="Background color"
+            placeholder="000000"
+            disabled={false}
+          />
         </Panel>
       </div>
 
       {/* Results */}
       {result && (
         <>
-          <Panel>
-            <div className="text-center">
-              <p className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-1">Contrast Ratio</p>
-              <p className="text-4xl md:text-5xl font-bold font-mono text-primary-500 tabular-nums">
-                {result.ratio}:1
-              </p>
-              <p className="text-sm mt-2 text-(--text-secondary)">{ratioLabel}</p>
-            </div>
-          </Panel>
+          <StatBox
+            textSize="6xl"
+            prefix="Contrast Ratio"
+            label={ratioLabel}
+            value={result.ratio + ":1"}
+          />
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <StatBox value={result.aa.normal ? "Pass" : "Fail"} label="AA Normal" tooltip="Good contrast for normal text" />
             <StatBox value={result.aa.large ? "Pass" : "Fail"} label="AA Large" tooltip="Good contrast for large text" />
             <StatBox value={result.aaa.normal ? "Pass" : "Fail"} label="AAA Normal" tooltip="Excellent contrast for normal text" />
