@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button, Textarea } from "@/components/ui";
+import { Label, Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { Radio, RadioGroup } from "@/components/ui/radio";
 
 type CaseType =
   | "upper"
@@ -89,72 +89,51 @@ function convertCase(text: string, caseType: CaseType): string {
 export default function CaseConverterTool() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
-  const [activeCase, setActiveCase] = useState<CaseType | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [activeCase, setActiveCase] = useState<CaseType>("upper");
 
   const handleConvert = (caseType: CaseType) => {
     setActiveCase(caseType);
     setOutput(convertCase(input, caseType));
   };
 
-  const handleCopy = async () => {
-    if (await copyToClipboard(output)) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
   return (
     <div className="space-y-2">
       <Panel>
-        <div className="space-y-3">
-          <label className="text-sm font-medium text(--text-primary)">Input Text</label>
-          <Textarea
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value);
-              if (activeCase) setOutput(convertCase(e.target.value, activeCase));
-            }}
-            placeholder="Type or paste your text here..."
-            className="h-36 text-sm"
-          />
-        </div>
+        <Textarea
+          label="Input"
+          value={input}
+          onChange={(e) => {
+            setInput(e.target.value);
+            if (activeCase) setOutput(convertCase(e.target.value, activeCase));
+          }}
+          placeholder="Type or paste your text here..."
+        />
       </Panel>
 
       <Panel>
-        <label className="text-sm font-medium text(--text-primary) mb-3 block">
-          Choose case style
-        </label>
-        <div className="flex flex-wrap gap-2">
+        <Label>Case style</Label>
+
+        <RadioGroup orientation="horizontal" value={activeCase} onValueChange={v => setActiveCase(v as CaseType)}>
           {CASE_OPTIONS.map((opt) => (
-            <Button
-              key={opt.id}
-              variant={activeCase === opt.id ? "primary" : "secondary"}
-              size="sm"
+            <Radio key={opt.id} value={opt.id}
+              label={opt.label}
               onClick={() => handleConvert(opt.id)}
-              title={`Example: ${opt.example}`}
-            >
-              {opt.label}
-            </Button>
+            />
           ))}
-        </div>
+        </RadioGroup>
+
+
       </Panel>
 
       {output && (
         <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Result</label>
-              <Button size="sm" variant="ghost" onClick={handleCopy}>
-                {copied ? "✓ Copied!" : "📋 Copy"}
-              </Button>
-            </div>
-            <Textarea
-              value={output}
-              readOnly
-              className="h-36 text-sm font-mono"
-            />
-          </div>
+
+          <Textarea
+            label="Output"
+            value={output}
+            readOnly
+
+          />
         </Panel>
       )}
     </div>

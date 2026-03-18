@@ -33,8 +33,8 @@ export const definition: ToolDefinition = {
         "the very first letter of the entire sentence, leaving the rest lowercase.",
     },
     {
-       question: "What is camelCase typically used for?",
-       answer: "camelCase is incredibly common in programming (especially JavaScript and Java) for naming variables and functions, where the first word is lowercase and subsequent words start with a capital letter without spaces."
+      question: "What is camelCase typically used for?",
+      answer: "camelCase is incredibly common in programming (especially JavaScript and Java) for naming variables and functions, where the first word is lowercase and subsequent words start with a capital letter without spaces."
     }
   ],
 
@@ -44,5 +44,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["word-counter", "text-to-slug", "string-escaper"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-18",
 };
