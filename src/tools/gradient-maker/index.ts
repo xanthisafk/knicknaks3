@@ -19,5 +19,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Add your desired color stops to the interactive gradient bar. Choose between linear, radial, or conic modes and adjust angles or center positions. See your background render live before clicking to copy the final CSS snippet.",
   relatedTools: ["color-converter", "palette-generator", "box-shadow"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-19",
 };

@@ -7,7 +7,7 @@ import { StopRow } from "./ColorStopRow";
 import SliderRow from "@/components/ui/SliderRow";
 import { TabList, Tabs, Tab } from "@/components/ui/tab";
 import { ResultRow } from "@/components/advanced/ResultRow";
-import { Download } from "lucide-react";
+import { Dice5, Download, Plus } from "lucide-react";
 
 
 let stopId = 1;
@@ -230,14 +230,14 @@ export default function GradientMakerTool() {
 
       {/* Gradient type */}
       <Panel>
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label>Gradient Type</Label>
             <Button
               onClick={randomize}
               size="xs"
-              emoji="🎲"
-              variant="secondary"
+              icon={Dice5}
+              variant="ghost"
             >
               Randomize
             </Button>
@@ -256,7 +256,7 @@ export default function GradientMakerTool() {
       {/* Angle (for linear & conic) */}
       {type !== "radial" && (
         <Panel>
-          <div className="space-y-4">
+          <div className="space-y-2">
             <SliderRow label={type === "linear" ? "Angle" : "Start Angle"} value={angle} min={0} max={360} onChange={setAngle} />
           </div>
 
@@ -265,19 +265,19 @@ export default function GradientMakerTool() {
 
       {/* Color Stops */}
       <Panel>
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label>Color Stops</Label>
             <Button
               onClick={addStop}
               size="xs"
-              emoji="➕"
-              variant="secondary"
+              icon={Plus}
+              variant="ghost"
             >
               Add Stop
             </Button>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-2">
             {stops.map((stop) => (
               <StopRow
                 key={stop.id}
@@ -302,7 +302,7 @@ export default function GradientMakerTool() {
 
       {/* PNG Download */}
       <Panel>
-        <div className="space-y-4">
+        <div className="space-y-2">
           <Label>Export PNG</Label>
           <div className="flex gap-2">
             <Input
