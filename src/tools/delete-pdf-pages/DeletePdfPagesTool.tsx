@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { Button, Input } from "@/components/ui";
+import { Button, Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { PDFDocument } from "pdf-lib";
 import { downloadPdf, formatFileSize } from "@/tools/_pdf-utils";
 import FileDropZone from "@/components/advanced/FileDropZone";
 import { PdfPreviewPanel } from "@/components/advanced/Pdf";
 import { parsePageSelection, pageNumbersToRangeString, getPdfPageCount, isPdf, selectPages, QuickSelect } from "@/lib/pdfHelper";
+import { CornerDownLeft, Trash2 } from "lucide-react";
 
 export default function DeletePdfPagesTool() {
   const [file, setFile] = useState<File | null>(null);
@@ -83,7 +84,6 @@ export default function DeletePdfPagesTool() {
               <p className="text-sm font-medium text(--text-primary) truncate">{file.name}</p>
               <p className="text-xs text-(--text-tertiary)">{formatFileSize(file.size)} · {pageCount} pages</p>
             </div>
-            <button onClick={reset} className="text-xs text-(--text-tertiary) hover:text-error transition-colors cursor-pointer">✕</button>
           </div>
 
           <Input
@@ -95,7 +95,7 @@ export default function DeletePdfPagesTool() {
           />
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text(--text-primary)">Quick Select</label>
+            <Label>Quick Select</Label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 py-2 rounded-md">
               {QuickSelect.map((item) => (
                 <Button
@@ -115,11 +115,11 @@ export default function DeletePdfPagesTool() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <div className="flex items-center gap-4">
-              <Button variant="danger" onClick={handleDelete} disabled={isProcessing || !deleteInput.trim()}>
+            <div className="flex items-center justify-between gap-4">
+              <Button variant="primary" icon={Trash2} onClick={handleDelete} disabled={isProcessing || !deleteInput.trim()}>
                 {isProcessing ? "Removing..." : "Remove Pages and save file"}
               </Button>
-              <Button variant="ghost" onClick={reset}>Choose Another</Button>
+              <Button variant="ghost" icon={CornerDownLeft} onClick={reset}>Choose Another</Button>
             </div>
             {status && (
               <p className={`mt-3 text-sm ${status.startsWith("Error") || status.startsWith("Can't") ? "text-error" : "text(--text-secondary)"}`}>
