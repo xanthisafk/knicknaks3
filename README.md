@@ -1,6 +1,8 @@
 # Knicknaks 🛠️
 
-**Knicknaks** is a collection of free, offline-capable, and privacy-focused web tools designed for daily use. All tools run 100% client-side, meaning your data never leaves your device.
+**Knicknaks** is a collection of free, offline-capable, and privacy-focused web tools designed for daily use. All tools run 100% client-side, meaning your data never leaves your device. 
+
+🌐 **Live Website**: [knicknaks.xanthis.xyz](https://knicknaks.xanthis.xyz)
 
 ## ✨ Key Features
 
@@ -11,38 +13,59 @@
 
 ## 🧰 Available Tools
 
-The project currently includes a wide range of tools categorized for easy access:
+With almost 100 active tools, the project provides a wide range of utility categorized for easy access:
 
 ### 📝 Text & Markdown
 
 - **Markdown Previewer**: Live-syncing editor with side-by-side rendering.
 - **Word & Character Counter**: Real-time stats on your text.
 - **Case Converter**: Effortlessly switch between UPPER, lower, camelCase, etc.
-- ...and many more!
+- **Text Utilities**: Diff checker, sorter, deduplicator, and space remover.
+- **Fun Generators**: Fancy text, Morse code, Zalgo text, and more.
+
+### 📄 PDF Tools
+
+- **Merge, Split & Rearrange**: Combine multiple PDFs, extract pages, or reorder them.
+- **Compress & Convert**: Reduce PDF file size or convert between markdown/images/PDFs.
+- **Security & Utils**: Add passwords, unlock, watermark, or manage page numbers and metadata.
+
+### 🎨 Design & Color
+
+- **Color Utilities**: Color converters (HEX/RGB/HSL), harmony generator, and image color picker.
+- **Accessibility**: Contrast checkers and color blindness simulators.
+- **CSS Generators**: Box shadow, CSS filters, gradients, and placeholder images.
 
 ### 🔄 Encoders & Decoders
 
-- **Base64**: UTF-8 safe encoding and decoding.
-- **URL**: Percent-encoding for web addresses.
-- **HTML Entity**: Convert between characters and HTML entities.
+- **Base64 & URL**: Safe encoding and decoding for web data.
+- **HTML Entity & String**: Convert characters, manipulate strings, or escape code.
+- **Format Converters**: JSON formatter, YAML, text-to-binary/hex/ascii.
 
-### 🔐 Cryptography
+### 🔐 Cryptography & Generators
 
-- **Hash Generator**: Generate SHA-1, SHA-256, MD5 hashes securely.
+- **Hash & Cipher**: Generate SHA, MD5 hashes securely, or use ROT ciphers.
 - **JWT Decoder**: Inspect JSON Web Tokens locally.
-- **Password Generator**: Create strong, cryptographically secure passwords.
+- **Generators**: Cryptographically secure passwords, UUIDs, and ULIDs.
 
 ### 💻 Developer Tools
 
-- **RegEx Tester**: Live playground for regular expressions.
-- **JSON Formatter**: Beautify and validate JSON data.
-- **Screen Info**: Get detailed viewport and device specifications.
+- **RegEx Tester & Cron Parser**: Live playgrounds for regex and chron expressions.
+- **Parsers & Info**: User agent parser, HTTP status codes, and chmod calculator.
+- **Media**: Exif metadata viewer and basic screen recorder.
 
 ### 🧮 Calculators
 
-- **Age Calculator**: Precise age calculations with fun facts.
-- **Percentage Calculator**: Quick math for discounts, growth, and more.
-- **Unix Timestamp**: Convert between Epoch and human-readable dates.
+- **Health & Fitness**: BMI, BMR, Body Fat, Ideal Weight, and Pace calculators.
+- **Finance & Math**: Loan/Mortgage calculator, Percentage calc, and tip calculator.
+- **Time & Dates**: Unix timestamps, age calculations, date differences, and timezone conversions.
+
+## 📚 Documentation
+
+If you want to read more about how we build Knicknaks, check out the following documentations:
+
+- **[Brand Guidelines](docs/BRAND2.md)**: Design rules, logos, colors, and styling choices.
+- **[Component Docs](docs/COMPONENTS.MD)**: Guidelines for building and using our UI components.
+- **[Developer Docs](docs/DEVELOPER.md)**: Architecture details and contribution guidelines.
 
 ## 🚀 Getting Started
 
