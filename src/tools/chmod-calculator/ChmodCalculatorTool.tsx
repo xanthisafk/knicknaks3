@@ -1,6 +1,9 @@
 import { useState, useCallback } from "react";
-import { Button } from "@/components/ui";
+import { Button, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
+import StatBox from "@/components/ui/StatBox";
+import { ResultRow } from "@/components/advanced/ResultRow";
+import { Radio, RadioGroup } from "@/components/ui/radio";
 
 type Scope = "owner" | "group" | "others";
 type Perm = "read" | "write" | "execute";
@@ -88,21 +91,14 @@ export default function ChmodCalculatorTool() {
       {/* Permission Matrix */}
       <Panel>
         <div className="space-y-4">
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
-            Permission Matrix
-          </h3>
+          <Label>Permission Matrix</Label>
 
           {/* Header row */}
           <div className="grid grid-cols-4 gap-2">
             <div />
             {PERMS.map((perm) => (
               <div key={perm} className="text-center">
-                <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider">
-                  {perm}
-                </span>
-                <span className="block text-[10px] text-(--text-tertiary) font-mono mt-0.5">
-                  ({PERM_BITS[perm]})
-                </span>
+                <Label>{perm} ({PERM_BITS[perm]})</Label>
               </div>
             ))}
           </div>
@@ -111,26 +107,20 @@ export default function ChmodCalculatorTool() {
           {SCOPES.map((scope) => (
             <div key={scope} className="grid grid-cols-4 gap-2 items-center">
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-(--text-primary) capitalize">
-                  {scope}
-                </span>
-                <span className="text-[10px] text-(--text-tertiary) font-mono">
-                  {octalDigit(perms[scope])}
-                </span>
+                <Label>{scope} ({octalDigit(perms[scope])})</Label>
               </div>
               {PERMS.map((perm) => (
                 <div key={perm} className="flex justify-center">
-                  <button
+                  <Button
                     onClick={() => toggle(scope, perm)}
-                    className={`w-10 h-10 rounded-md border-2 transition-all duration-200 cursor-pointer flex items-center justify-center text-sm font-bold ${perms[scope][perm]
-                      ? "bg-primary-500 border-primary-500 text-white shadow-sm"
-                      : "bg-(--surface-secondary) border-(--border-default) text-(--text-tertiary) hover:border-(--border-hover) hover:bg-(--surface-elevated)"
-                      }`}
+                    variant={perms[scope][perm] ? "primary" : "secondary"}
+                    size="lg"
+                    className="w-12 h-12"
                     aria-label={`${scope} ${perm}`}
                     aria-pressed={perms[scope][perm]}
                   >
                     {perms[scope][perm] ? perm[0].toUpperCase() : "—"}
-                  </button>
+                  </Button>
                 </div>
               ))}
             </div>
@@ -138,86 +128,45 @@ export default function ChmodCalculatorTool() {
         </div>
       </Panel>
 
-      {/* Result */}
+      {/* Quick Presets */}
       <Panel>
-        <div className="space-y-4">
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
-            Result
-          </h3>
+        <div className="space-y-2">
+          <Label>Quick Presets</Label>
+          <RadioGroup orientation="horizontal" value={octal} onValueChange={v => applyPreset(v)}>
+            {PRESETS.map((preset) => (
+              <Radio key={preset.label} label={`${preset.desc} (${preset.label})`} value={preset.octal} />
+            ))}
+          </RadioGroup>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center relative overflow-hidden group">
-              <div className="absolute inset-0 bg-linear-to-br from-primary-50 to-transparent dark:from-primary-900 opacity-20 transition-opacity group-hover:opacity-40" />
-              <p className="text-xs text-(--text-tertiary) font-medium mb-1 relative z-10">Octal</p>
-              <p className="text-3xl font-bold text-(--text-primary) font-mono tracking-tight relative z-10">
-                {octal}
-              </p>
-            </div>
-            <div className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 flex flex-col items-center justify-center">
-              <p className="text-xs text-(--text-tertiary) font-medium mb-1">Symbolic</p>
-              <p className="text-2xl font-bold text-(--text-primary) font-mono tracking-tight">
-                {symbolic}
-              </p>
-            </div>
-          </div>
-
-          {/* Command */}
-          <div className="flex items-center gap-3">
-            <pre className="flex-1 rounded-md bg-(--surface-secondary) border border-(--border-default) px-4 py-3 text-sm font-mono text-(--text-primary) select-all">
-              {command}
-            </pre>
-            <Button
-              onClick={() => handleCopy(command, "command")}
-              size="sm"
-              variant={copied === "command" ? "primary" : "secondary"}
-            >
-              {copied === "command" ? "✓ Copied!" : "Copy"}
-            </Button>
-          </div>
         </div>
       </Panel>
 
-      {/* Quick Presets */}
+      {/* Result */}
       <Panel>
-        <div className="space-y-3">
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
-            Quick Presets
-          </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {PRESETS.map((preset) => (
-              <button
-                key={preset.label}
-                onClick={() => applyPreset(preset.octal)}
-                className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-md border text-left transition-all duration-200 cursor-pointer ${octal === preset.octal
-                  ? "bg-primary-500 text-white border-primary-500 shadow-sm"
-                  : "bg-(--surface-secondary) text-(--text-primary) border-(--border-default) hover:border-(--border-hover) hover:bg-(--surface-elevated)"
-                  }`}
-              >
-                <div>
-                  <span className="text-sm font-mono font-semibold">{preset.label}</span>
-                  <span className={`block text-[10px] mt-0.5 ${octal === preset.octal ? "text-white/70" : "text-(--text-tertiary)"}`}>
-                    {preset.desc}
-                  </span>
-                </div>
-              </button>
-            ))}
+        <div className="space-y-2">
+          <Label>Result</Label>
+
+          <div className="grid grid-cols-2 gap-2">
+            <StatBox textSize="3xl" label="Octal" value={octal} />
+            <StatBox textSize="3xl" label="Symbolic" value={symbolic} />
           </div>
+
+          {/* Command */}
+          <ResultRow label="Command" value={command} />
         </div>
       </Panel>
 
       {/* Reference Table */}
       <Panel>
         <div className="space-y-3">
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
-            Reference
-          </h3>
+          <Label>Reference</Label>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-(--border-default)">
-                  <th className="text-left py-2 pr-4 text-(--text-secondary) font-medium">Digit</th>
-                  <th className="text-left py-2 pr-4 text-(--text-secondary) font-medium">Symbolic</th>
-                  <th className="text-left py-2 text-(--text-secondary) font-medium">Meaning</th>
+                  <th className="text-start"><Label>Digit</Label></th>
+                  <th className="text-start"><Label>Symbolic</Label></th>
+                  <th className="text-start"><Label>Meaning</Label></th>
                 </tr>
               </thead>
               <tbody className="text-(--text-primary)">
@@ -231,7 +180,7 @@ export default function ChmodCalculatorTool() {
                   ["1", "--x", "Execute only"],
                   ["0", "---", "No permissions"],
                 ].map(([digit, sym, meaning]) => (
-                  <tr key={digit} className="border-b border-(--border-default)/50">
+                  <tr key={digit} className="border-b border-(--border-default)/50 text-start">
                     <td className="py-2 pr-4 font-mono font-semibold">{digit}</td>
                     <td className="py-2 pr-4 font-mono text-(--text-secondary)">{sym}</td>
                     <td className="py-2">{meaning}</td>
