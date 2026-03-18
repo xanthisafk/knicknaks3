@@ -20,6 +20,7 @@ export interface CommandItem {
   emoji?: string;
   group?: string;
   keywords?: string[];
+  tags?: string[];
   onSelect: () => void;
   disabled?: boolean;
 }
@@ -47,12 +48,23 @@ function fuzzyMatch(query: string, text: string): boolean {
   return qi === q.length;
 }
 
-function scoreMatch(query: string, text: string): number {
+/**
+ * Score a single field against the query.
+ * Returns 0 if no match, positive number if matched.
+ */
+function scoreField(query: string, text: string): number {
   const q = query.toLowerCase();
   const t = text.toLowerCase();
+  if (!t) return 0;
+
+  // Exact full match
   if (t === q) return 100;
+  // Starts with query
   if (t.startsWith(q)) return 80;
+  // Contains query as a substring
   if (t.includes(q)) return 60;
+
+  // Fuzzy sequential character match
   let score = 0;
   let qi = 0;
   let lastMatch = -1;
@@ -64,6 +76,55 @@ function scoreMatch(query: string, text: string): number {
     }
   }
   return qi === q.length ? score : 0;
+}
+
+/**
+ * Priority weights for each field.
+ * label > tags > keywords > description (and everything else)
+ */
+const FIELD_WEIGHTS = {
+  label: 1000,
+  tags: 100,
+  keywords: 10,
+  description: 1,
+} as const;
+
+/**
+ * Compute the total weighted score for an item against the query.
+ * Higher = better match.
+ */
+function scoreItem(query: string, item: CommandItem): number {
+  const labelScore = scoreField(query, item.label) * FIELD_WEIGHTS.label;
+
+  const tagsScore =
+    (item.tags ?? []).reduce(
+      (best, tag) => Math.max(best, scoreField(query, tag)),
+      0
+    ) * FIELD_WEIGHTS.tags;
+
+  const keywordsScore =
+    (item.keywords ?? []).reduce(
+      (best, kw) => Math.max(best, scoreField(query, kw)),
+      0
+    ) * FIELD_WEIGHTS.keywords;
+
+  const descScore =
+    scoreField(query, item.description ?? "") * FIELD_WEIGHTS.description;
+
+  return labelScore + tagsScore + keywordsScore + descScore;
+}
+
+/**
+ * Return true if the item has any match across all searchable fields.
+ */
+function itemMatches(query: string, item: CommandItem): boolean {
+  const fields = [
+    item.label,
+    item.description ?? "",
+    ...(item.tags ?? []),
+    ...(item.keywords ?? []),
+  ];
+  return fields.some((f) => fuzzyMatch(query, f));
 }
 
 function renderItemVisual(icon?: LucideIcon, emoji?: string) {
@@ -106,25 +167,13 @@ export function CommandPalette({
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  // Filter & score
+  // Filter & score with priority: label > tags > keywords > description
   const filteredItems = useMemo(() => {
     if (!query.trim()) return items.filter((i) => !i.disabled);
 
     return items
-      .filter((item) => {
-        if (item.disabled) return false;
-        const searchableText = [
-          item.label,
-          item.description ?? "",
-          ...(item.keywords ?? []),
-        ].join(" ");
-        return fuzzyMatch(query, searchableText);
-      })
-      .sort((a, b) => {
-        const aText = [a.label, ...(a.keywords ?? [])].join(" ");
-        const bText = [b.label, ...(b.keywords ?? [])].join(" ");
-        return scoreMatch(query, bText) - scoreMatch(query, aText);
-      });
+      .filter((item) => !item.disabled && itemMatches(query, item))
+      .sort((a, b) => scoreItem(query, b) - scoreItem(query, a));
   }, [items, query]);
 
   // Group items

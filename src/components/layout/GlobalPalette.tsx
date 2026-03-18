@@ -32,6 +32,7 @@ export default function GlobalPalette({ blogPosts = [], isBlog = false }: Global
         emoji: "📝",
         group: "Blog Posts",
         keywords: post.tags,
+
         onSelect: () => {
           window.location.href = `/blog/${post.id}`;
         }
@@ -44,6 +45,7 @@ export default function GlobalPalette({ blogPosts = [], isBlog = false }: Global
       description: t.description,
       emoji: t.icon,
       group: t.category,
+      tags: t.tags,
       keywords: t.keywords,
       onSelect: () => {
         window.location.href = `/tools/${t.category}/${t.slug}`;
