@@ -1,27 +1,30 @@
-import type { ToolDefinition } from "@/tools/_types";
+import type { ToolDefinition } from "../_types";
 
 export const definition: ToolDefinition = {
   name: "Color Blindness Simulator",
   slug: "color-blindness-simulator",
-  description: "See colors like people with vision deficiencies",
+
+  description: "Preview images through color vision deficiency filters",
+
   longDescription:
-    "Evaluate how accessible your visuals truly are by simulating common forms of color blindness directly in your browser. " +
-    "Upload images, UI screenshots, charts, or graphics and instantly preview them through multiple vision deficiency filters such as Protanopia, Deuteranopia, and Tritanopia. " +
-    "All processing happens locally on your device, ensuring complete privacy while helping designers and developers build more inclusive experiences.",
+    "Quickly test how your visuals appear to users with color vision deficiencies. " +
+    "Upload images, UI designs, or charts and instantly simulate conditions like Protanopia, Deuteranopia, and Tritanopia. " +
+    "Use it to catch contrast issues, misleading color cues, and accessibility gaps before shipping. " +
+    "Everything runs locally in your browser for fast, private analysis.",
 
   category: "color",
-  status: "beta",
   icon: "👩‍🦯",
+
   keywords: [
-    "color blindness simulator online",
-    "simulate color blindness",
-    "protanopia simulator",
-    "deuteranopia simulator",
-    "tritanopia simulator",
-    "accessibility color checker",
-    "visual accessibility testing"
+    "color blindness simulator",
+    "color vision deficiency preview",
+    "protanopia deuteranopia tritanopia tool",
+    "accessibility color testing",
+    "simulate color blindness online",
+    "ui accessibility checker"
   ],
-  tags: ["colors", "accessibility", "design"],
+
+  tags: ["accessibility", "design", "colors"],
 
   component: () => import("./ColorBlindnessSimulatorTool"),
 
@@ -32,21 +35,44 @@ export const definition: ToolDefinition = {
 
   faq: [
     {
-      question: "What types of color blindness can this simulator replicate?",
+      question: "What conditions can I simulate?",
       answer:
-        "The simulator can reproduce several common types of color vision deficiencies including Protanopia (red-blind), Deuteranopia (green-blind), Tritanopia (blue-blind), and general reduced color sensitivity."
+        "Common color vision deficiencies including Protanopia (red-blind), Deuteranopia (green-blind), and Tritanopia (blue-blind)."
     },
     {
-      question: "Are my uploaded images sent to a server?",
+      question: "Why should I use this?",
       answer:
-        "No. All image processing and simulation occurs directly within your browser using client-side rendering. Your images never leave your device."
+        "To identify contrast issues and avoid relying on color alone, improving accessibility for a wider audience."
+    },
+    {
+      question: "How accurate are the simulations?",
+      answer:
+        "They use standard color transformation matrices to approximate perception. Useful for design validation, not medical diagnosis."
+    },
+    {
+      question: "Are my images uploaded anywhere?",
+      answer:
+        "No. Processing happens entirely in your browser. Files never leave your device."
+    },
+    {
+      question: "How common is color blindness?",
+      answer:
+        "Roughly 8% of males and 0.5% of females of Northern European descent are affected, most commonly with red or green deficiencies."
+    },
+    {
+      question: "What's the best way to design for accessibility?",
+      answer:
+        "Ensure sufficient contrast, avoid color-only meaning, and pair colors with labels, patterns, or icons."
     }
   ],
 
   howItWorks:
-    "Upload an image or screenshot that you want to evaluate. Select a color vision deficiency type from the available filters and the preview will instantly update to simulate how the image appears to people with that condition.",
+    "Upload an image, choose a simulation mode, and the preview updates instantly to reflect how it appears under that condition.",
 
   relatedTools: ["image-color-picker"],
+
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-05",
+  createdAt: "2026-03-05",
+  launchedAt: "2026-03-09",
+  lastUpdated: "2026-03-18",
 };
