@@ -2,26 +2,36 @@ import { useEffect, useRef, useState } from "react";
 import { Panel } from "../layout";
 import formatMime from "@/lib/formatMime";
 
-export type FileDropZoneProps = {
+type SingleProps = {
+    multiple?: false;
+    onUpload?: (payload: { file: File }) => void;
+};
+
+type MultipleProps = {
+    multiple: true;
+    onUpload?: (payload: { files: File[] }) => void;
+};
+
+export type FileDropZoneProps = (SingleProps | MultipleProps) & {
     maxSize?: number;
     accepts?: string;
     emoji?: string;
-    onUpload?: (payload: { file: File; }) => void;
 };
+
 
 export default function FileDropZone({
     maxSize,
     onUpload,
     accepts = "*",
     emoji = "📁",
+    multiple = false,
     ...rest
-
 }: FileDropZoneProps & React.InputHTMLAttributes<HTMLInputElement>) {
     const ref = useRef<HTMLInputElement>(null);
     const warningTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const [dragging, setDragging] = useState(false);
-    const [_, setFile] = useState<File>();
+    const [_, setFiles] = useState<File[]>([]);
     const [warning, setWarning] = useState("");
 
     useEffect(() => {
@@ -62,30 +72,36 @@ export default function FileDropZone({
         }, 5000);
     }
 
-    function handleFile(f?: File) {
-        if (!f) return;
+    function handleFiles(incoming: File[]) {
+        if (incoming.length === 0) return;
 
-        if (!isValidType(f)) {
+        const invalidType = incoming.find(f => !isValidType(f));
+        if (invalidType) {
             showWarning("Please upload a valid file");
             return;
         }
 
-        if (maxSize && f.size > maxSize * 1024 * 1024) {
-            showWarning(`Image must be smaller than ${maxSize}MB`);
+        const oversized = incoming.find(f => maxSize && f.size > maxSize * 1024 * 1024);
+        if (oversized) {
+            showWarning(`Files must be smaller than ${maxSize}MB`);
             return;
         }
 
-        setFile(f);
+        setFiles(incoming);
 
-        onUpload?.({ file: f });
+        if (multiple) {
+            (onUpload as ((payload: { files: File[] }) => void) | undefined)?.({ files: incoming });
+        } else {
+            (onUpload as ((payload: { file: File }) => void) | undefined)?.({ file: incoming[0] });
+        }
     }
 
     function handleDrop(e: React.DragEvent) {
         e.preventDefault();
         setDragging(false);
 
-        const f = e.dataTransfer.files?.[0];
-        handleFile(f);
+        const dropped = Array.from(e.dataTransfer.files ?? []);
+        handleFiles(multiple ? dropped : dropped.slice(0, 1));
     }
 
     return (
@@ -114,9 +130,10 @@ export default function FileDropZone({
 
                 <div className="text-center">
                     <p className={`text-sm font-medium text-(--text-primary) ${warning ? "text-red-500" : ""}`}>
-                        {
-                            warning
-                                ? warning
+                        {warning
+                            ? warning
+                            : multiple
+                                ? "Drop files here, or click to browse"
                                 : "Drop a file here, or click to browse"
                         }
                     </p>
@@ -127,10 +144,12 @@ export default function FileDropZone({
                     ref={ref}
                     type="file"
                     accept={accepts}
+                    multiple={multiple}
                     className="hidden"
                     {...rest}
                     onChange={(e) => {
-                        handleFile(e.target.files?.[0]);
+                        const picked = Array.from(e.target.files ?? []);
+                        handleFiles(multiple ? picked : picked.slice(0, 1));
                         e.target.value = "";
                     }}
                 />
