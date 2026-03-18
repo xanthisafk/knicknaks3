@@ -11,10 +11,12 @@ import {
   STATUS_INFO,
   CATEGORY_INFO,
   type ToolCategory,
+  type ToolDefinition,
 } from "@/tools/_types";
 import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
 import ToolCard from "@/components/advanced/ToolCard.astro";
+import type { ComponentType } from "react";
 
 export function getStaticPaths() {
   const categories = getActiveCategories();
@@ -60,6 +62,19 @@ const shuffled = [...mosaicEmojis].sort(() => rand() - 0.5);
 
 const pageTitle = info.seoTitle || `${info.label} — Knicknaks`;
 const pageDescription = info.seoDescription || info.description;
+
+const home: ToolDefinition = {
+  name: "Other tools",
+  slug: "/",
+  icon: "🌏",
+  description: "View other tools from different categories",
+  tags: [],
+  category: "encoders",
+  keywords: [],
+  component: function (): Promise<{ default: ComponentType }> {
+    throw new Error("Function not implemented.");
+  },
+};
 ---
 
 <BaseLayout
@@ -72,56 +87,42 @@ const pageDescription = info.seoDescription || info.description;
 
     <main class="flex-1">
       <!-- Hero Section -->
-      <section class="hero-section py-16 md:py-24 relative overflow-hidden">
-        <!-- Packed emoji mosaic background -->
-        <div class="emoji-mosaic" aria-hidden="true">
-          {
-            shuffled.map((emoji, i) => {
-              // Deterministic size variation: cycle through 5 size buckets
-              const sizeClass = `emoji-sz-${(i * 3 + 7) % 5}`;
-              // Deterministic rotation
-              const rot = ((i * 137) % 41) - 20; // -20 to +20 degrees
-              return (
-                <span
-                  class={`mosaic-emoji font-emoji ${sizeClass}`}
-                  style={`--rot: ${rot}deg; animation-delay: ${(i % 20) * 0.04}s`}
-                >
-                  {emoji}
-                </span>
-              );
-            })
-          }
-        </div>
-
-        <!-- Overlay gradient so text stays readable -->
-        <div class="hero-overlay" aria-hidden="true"></div>
+      <section
+        class="doodle-hero min-h-[340px] flex align-center py-16 md:py-24 relative overflow-hidden"
+        style="box-shadow: 0 30px 40px var(--surface-bg);
+        mask: conic-gradient(from -32.5deg at bottom,#0000,#000 1deg 64deg,#0000 65deg) 50%/17.84px 100%
+        "
+      >
+        <!-- <div
+          aria-hidden="true"
+          class="doodle-paper absolute inset-0 w-full h-full"
+        >
+        </div> -->
 
         <!-- Centered hero content -->
         <div
-          class="relative z-10 max-w-3xl mx-auto px-4 flex flex-col items-center justify-center text-center"
-          style="min-height: 200px;"
+          class="max-w-3xl mx-auto px-4 flex flex-col items-center justify-center text-center gap-2"
         >
-          <div class="text-5xl mb-4 font-emoji hero-icon">{info.icon}</div>
+          <div class="text-5xl font-emoji hero-icon">{info.icon}</div>
           <h1
-            class="text-4xl md:text-5xl font-extrabold mb-3 hero-title doodle-underline"
+            class="text-4xl md:text-5xl font-extrabold doodle-underline text-primary-500"
             style="font-family: var(--font-heading);"
           >
             {info.label}
           </h1>
-          {
+          <!-- {
             info.heroTagline && (
-              <p class="text-lg font-semibold mb-2 hero-tagline">
+              <p class="text-lg font-semibold hero-tagline">
                 {info.heroTagline}
               </p>
             )
-          }
-          <p class="text-base md:text-lg max-w-xl mx-auto hero-desc">
+          } -->
+          <p class="text-base mt-8 md:text-lg max-w-xl mx-auto hero-desc">
             {info.heroDescription || info.description}
           </p>
         </div>
       </section>
-
-      <hr class="doodle-divider max-w-full mx-auto" />
+      <!-- <hr class="doodle-divider max-w-full mx-auto" /> -->
 
       <!-- Tool Grid -->
       <section class="pb-16 md:pb-24" id="tools">
@@ -132,6 +133,7 @@ const pageDescription = info.seoDescription || info.description;
                 {categoryTools.map((tool) => (
                   <ToolCard tool={tool} />
                 ))}
+                <ToolCard tool={home} homeCard={true} />
               </div>
             ) : (
               <div class="text-center py-16">
@@ -139,6 +141,7 @@ const pageDescription = info.seoDescription || info.description;
                 <p style="color: var(--text-secondary)">
                   No tools in this category yet. Check back soon!
                 </p>
+                <ToolCard tool={home} homeCard={true} />
               </div>
             )
           }
@@ -158,90 +161,6 @@ const pageDescription = info.seoDescription || info.description;
     align-items: center;
   }
 
-  /* ── Emoji mosaic: absolute fill, flex-wrap packed ── */
-  .emoji-mosaic {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    overflow: hidden;
-    gap: 0;
-  }
-
-  .mosaic-emoji {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transform: rotate(var(--rot, 0deg));
-    line-height: 1;
-    margin: -2px;
-    animation: emojiPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  }
-
-  /* Size variants */
-  .emoji-sz-0 {
-    font-size: 3.5rem;
-    width: 3.8rem;
-    height: 3.8rem;
-  }
-  .emoji-sz-1 {
-    font-size: 5rem;
-    width: 5.4rem;
-    height: 5.4rem;
-  }
-  .emoji-sz-2 {
-    font-size: 4rem;
-    width: 4.4rem;
-    height: 4.4rem;
-  }
-  .emoji-sz-3 {
-    font-size: 6rem;
-    width: 6.4rem;
-    height: 6.4rem;
-  }
-  .emoji-sz-4 {
-    font-size: 2.8rem;
-    width: 3.2rem;
-    height: 3.2rem;
-  }
-
-  @keyframes emojiPop {
-    0% {
-      opacity: 0;
-      transform: rotate(var(--rot, 0deg)) scale(0.4);
-    }
-    70% {
-      opacity: 0.9;
-      transform: rotate(var(--rot, 0deg)) scale(1.1);
-    }
-    100% {
-      opacity: 0.5;
-      transform: rotate(var(--rot, 0deg)) scale(1);
-    }
-  }
-
-  /* ── Overlay: radial gradient using CSS var so it respects dark mode ── */
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: radial-gradient(
-      ellipse 65% 85% at 50% 50%,
-      var(--surface-bg) 25%,
-      transparent 100%
-    );
-  }
-
-  /* Text — no hardcoded white glow, use bg var for the shadow */
-  .hero-title {
-    color: var(--color-primary-500);
-    text-shadow:
-      0 2px 12px var(--surface-bg),
-      0 0 24px var(--surface-bg);
-  }
-
   .hero-tagline {
     text-shadow: 0 1px 8px var(--surface-bg);
   }
@@ -259,6 +178,10 @@ const pageDescription = info.seoDescription || info.description;
     .mosaic-emoji {
       animation: none;
       opacity: 1;
+    }
+
+    .doodle-paper {
+      animation: none;
     }
   }
 </style>

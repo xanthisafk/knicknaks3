@@ -58,7 +58,7 @@ if (isBlog) {
           (window.matchMedia("(prefers-color-scheme: dark)").matches
             ? "dark"
             : "light");
-        document.documentElement.setAttribute("data-theme", pref);
+        document.documentElement.dataset.theme = pref;
       })();
     </script>
 
