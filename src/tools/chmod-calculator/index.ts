@@ -18,7 +18,7 @@ export const definition: ToolDefinition = {
     { question: "Is 777 safe?", answer: "No. It grants full access to everyone. Avoid except for temporary debugging." },
     { question: "What do r, w, x stand for?", answer: "r = read, w = write, x = execute." },
     { question: "How are octal values calculated?", answer: "r=4, w=2, x=1. Add them per user class to get each digit." },
-    { question: "What’s the difference between files and directories?", answer: "Execute allows running files, but for directories it allows entering/traversing." },
+    { question: "What's the difference between files and directories?", answer: "Execute allows running files, but for directories it allows entering/traversing." },
     { question: "What does chmod +x do?", answer: "Adds execute permission without changing other existing permissions." },
     { question: "What is symbolic vs octal mode?", answer: "Symbolic uses letters (u+x), octal uses numbers (755)." },
     { question: "What does 700 mean?", answer: "Owner: rwx (7), Group: --- (0), Others: --- (0). Fully private." }

@@ -62,7 +62,7 @@ export const definition: ToolDefinition = {
     {
       question: "Is there a file size limit?",
       answer:
-        "There is no strict server limit since processing happens locally, but very large PDFs may be limited by your browser’s available memory."
+        "There is no strict server limit since processing happens locally, but very large PDFs may be limited by your browser's available memory."
     },
     {
       question: "Which browsers are supported?",

@@ -183,7 +183,7 @@ export const CATEGORY_INFO: Record<ToolCategory, CategoryDefinition> = {
     seoTitle: "Online Utilities | Miscellaneous Tools",
     seoDescription: "Explore a collection of small, useful tools for edge cases and unique tasks.",
     heroTagline: "For everything else",
-    heroDescription: "A set of practical tools that don’t fit elsewhere but still get the job done.",
+    heroDescription: "A set of practical tools that don't fit elsewhere but still get the job done.",
   },
 };
 

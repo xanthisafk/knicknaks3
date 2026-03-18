@@ -31,7 +31,7 @@ export const definition: ToolDefinition = {
     {
       question: "Which RegEx engine does this tool use?",
       answer:
-        "The tester uses your browser’s native JavaScript Regular Expression engine. This means patterns behave exactly as they would in JavaScript environments such as Node.js or front-end applications."
+        "The tester uses your browser's native JavaScript Regular Expression engine. This means patterns behave exactly as they would in JavaScript environments such as Node.js or front-end applications."
     },
     {
       question: "Which flags are supported?",
@@ -91,7 +91,7 @@ export const definition: ToolDefinition = {
   ],
 
   howItWorks:
-    "Enter your Regular Expression pattern into the pattern field and enable any modifier flags you want to test (such as `g`, `i`, or `m`). Next, paste or type the sample text you want to evaluate into the input area. As you edit either the pattern or the text, the tool immediately evaluates the expression using the browser’s JavaScript RegEx engine. All matching segments are highlighted directly in the text, allowing you to visually confirm the exact matches. If your expression contains capture groups using parentheses `()`, the tool also lists each group’s extracted value so you can inspect how specific parts of the pattern behave. This real-time feedback helps you quickly refine patterns, debug unexpected matches, and experiment with different flags or quantifiers.",
+    "Enter your Regular Expression pattern into the pattern field and enable any modifier flags you want to test (such as `g`, `i`, or `m`). Next, paste or type the sample text you want to evaluate into the input area. As you edit either the pattern or the text, the tool immediately evaluates the expression using the browser's JavaScript RegEx engine. All matching segments are highlighted directly in the text, allowing you to visually confirm the exact matches. If your expression contains capture groups using parentheses `()`, the tool also lists each group's extracted value so you can inspect how specific parts of the pattern behave. This real-time feedback helps you quickly refine patterns, debug unexpected matches, and experiment with different flags or quantifiers.",
 
   relatedTools: ["string-escaper", "json-formatter"],
   schemaType: "WebApplication",
