@@ -110,21 +110,48 @@
 
 .doodle-hero {
   position: relative;
-  padding-bottom: 4rem; /* breathing room before the wave */
+  width: 100%;
+  padding: 3rem 2rem 4rem;
+  box-sizing: border-box;
+
+  background-image: radial-gradient(
+    circle,
+    oklch(0.75 0.02 50 / 0.35) 1px,
+    transparent 1px
+  );
+  background-size: 2rem 2rem;
+  background-position: 0 0;
+
+  border: 1.5px solid oklch(0.82 0.04 60 / 0.6);
+  border-radius: 4px;
+
+  /* Remove the mask — pseudo-element handles the edge now */
+  overflow: visible; /* was hidden */
 }
 
+/* Jagged SVG bottom edge */
 .doodle-hero::after {
   content: "";
   position: absolute;
+  bottom: 10px;        /* nudge it so it sits on the border */
   left: 0;
-  right: 0;
-  bottom: 0;
-  height: 20px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='20'%3E%3Cpath d='M0 10 C20 4, 40 16, 60 10 S100 4, 120 10 S160 16, 180 10 S200 4, 200 10' fill='none' stroke='%23d4a55a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") repeat-x center bottom;
-  background-size: 200px 20px;
-  opacity: 0.55;
+  width: 100%;
+  height: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='12'%3E%3Cpath d='M0 6 L10 2 L20 8 L30 2 L40 8 L50 2 L60 8 L70 2 L80 6' fill='none' stroke='%23d4a55a' stroke-width='1.5' stroke-linecap='round' opacity='0.4'/%3E%3C/svg%3E") repeat-x center;
+  pointer-events: none;
 }
 
+[data-theme="dark"] .doodle-hero {
+  background-image: radial-gradient(
+    circle,
+    oklch(0.55 0.02 260 / 0.35) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+  border-color: oklch(0.45 0.03 260 / 0.5);
+}
+
+/* Swap stroke color for dark mode */
 [data-theme="dark"] .doodle-hero::after {
-  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='12'%3E%3Cpath d='M0 6 L10 2 L20 8 L30 2 L40 8 L50 2 L60 8 L70 2 L80 6' fill='none' stroke='%238899cc' stroke-width='1.5' stroke-linecap='round' opacity='0.4'/%3E%3C/svg%3E") repeat-x center;
 }
