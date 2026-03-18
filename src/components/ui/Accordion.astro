@@ -1,4 +1,6 @@
 ---
+import { ChevronDown } from "lucide-react";
+
 /**
  * Accordion component (Astro)
  *
@@ -64,38 +66,33 @@ if (contentType === "markdown") {
     ]}
   >
     {/* Icon / Emoji */}
-    {labelIcon ? (
-      <span class="shrink-0 [&>svg]:w-4 [&>svg]:h-4" set:html={labelIcon} />
-    ) : labelEmoji ? (
-      <span class="font-emoji text-base leading-none shrink-0" aria-hidden="true">
-        {labelEmoji}
-      </span>
-    ) : null}
+    {
+      labelIcon ? (
+        <span class="shrink-0 [&>svg]:w-4 [&>svg]:h-4" set:html={labelIcon} />
+      ) : labelEmoji ? (
+        <span
+          class="font-emoji text-base leading-none shrink-0"
+          aria-hidden="true"
+        >
+          {labelEmoji}
+        </span>
+      ) : null
+    }
 
     <span class="flex-1">{label}</span>
-
-    {/* Chevron */}
-    <svg
-      class="w-4 h-4 shrink-0 text-(--text-tertiary) transition-transform duration-250 group-open:rotate-180"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <polyline points="6 9 12 15 18 9"></polyline>
-    </svg>
+    <ChevronDown
+      className="w-4 h-4 shrink-0 text-(--text-tertiary) transition-transform duration-250 group-open:rotate-180"
+    />
   </summary>
 
   <div class="px-4 pb-4 pt-1">
-    {contentType === "text" ? (
-      <p class="text-sm text-(--text-secondary) leading-relaxed">{content}</p>
-    ) : (
-      <div class="prose prose-sm max-w-none" set:html={renderedContent} />
-    )}
+    {
+      contentType === "text" ? (
+        <p class="text-sm text-(--text-secondary) leading-relaxed">{content}</p>
+      ) : (
+        <div class="prose prose-sm max-w-none" set:html={renderedContent} />
+      )
+    }
   </div>
 </details>
 
