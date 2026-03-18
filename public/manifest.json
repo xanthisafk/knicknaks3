@@ -4,6 +4,7 @@
   "description": "Free, fast, and privacy-friendly tools that run entirely in your device.",
   "start_url": "/",
   "display": "minimal-ui",
+  "orientation": "landscape",
   "background_color": "#090d14",
   "theme_color": "#090d14",
   "categories": [
