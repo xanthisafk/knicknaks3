@@ -5,7 +5,6 @@ import SliderRow from "@/components/ui/SliderRow";
 import { TabList, Tabs, Tab } from "@/components/ui/tab";
 import { toTitleCase } from "@/lib";
 import { Plus, X } from "lucide-react";
-import { ColorPicker } from "pdfjs-dist";
 
 interface ShadowLayer {
   id: number;

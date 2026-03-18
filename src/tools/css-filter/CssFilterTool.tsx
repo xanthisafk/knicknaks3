@@ -3,7 +3,7 @@ import { Button, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import SliderRow from "@/components/ui/SliderRow";
 import FileDropZone from "@/components/advanced/FileDropZone";
-import { CornerDownLeft, Download, Eye, EyeClosed } from "lucide-react";
+import { CornerDownLeft, Download } from "lucide-react";
 import { ResultRow } from "@/components/advanced/ResultRow";
 
 interface FilterState {
