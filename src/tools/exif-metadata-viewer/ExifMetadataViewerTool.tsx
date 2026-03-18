@@ -7,8 +7,8 @@ import { GpsMap } from "@/components/advanced/GpsMap";
 import { ALL_KNOWN_KEYS, FIELD_SECTIONS, buildFileFields, checkIntegrity, extractGpsCoords, formatValue, tryDecodeRawValue, type IntegrityResult } from "@/lib/imageHelper";
 import { ResultRow } from "@/components/advanced/ResultRow";
 import FileDropZone from "@/components/advanced/FileDropZone";
-import { Loader2 } from "lucide-react";
-import { Input } from "@/components/ui";
+import { Check, Copy, CornerDownLeft, Loader2, Search, X } from "lucide-react";
+import { Button, Input, Label } from "@/components/ui";
 
 
 export default function ExifMetadataViewerTool() {
@@ -202,15 +202,23 @@ export default function ExifMetadataViewerTool() {
               </div>
               <div className="flex items-center gap-2 flex-wrap">
                 {parsed && (
-                  <button onClick={copyAll}
-                    className="px-3 py-1.5 text-xs rounded-md border border-(--border-default) bg-(--surface-bg) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-500 transition-colors">
-                    {copyAllDone ? "✓ Copied" : "Copy all"}
-                  </button>
+                  <Button
+                    onClick={copyAll}
+                    variant="ghost"
+                    icon={copyAllDone ? Check : Copy}
+                    size="sm"
+                  >
+                    {copyAllDone ? "Copied" : "Copy all"}
+                  </Button>
                 )}
-                <button onClick={reset}
-                  className="px-3 py-1.5 text-xs rounded-md border border-(--border-default) bg-(--surface-bg) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary-500 transition-colors">
-                  ↩ New file
-                </button>
+                <Button
+                  onClick={reset}
+                  variant="secondary"
+                  icon={CornerDownLeft}
+                  size="sm"
+                >
+                  New file
+                </Button>
               </div>
             </div>
           </Panel>
@@ -254,7 +262,7 @@ export default function ExifMetadataViewerTool() {
           {!loading && warning && (
             <Panel className="p-4">
               <div className="flex items-start gap-2 text-sm text-(--text-secondary)">
-                <span className="shrink-0">⚠️</span>
+                <span className="shrink-0 font-emoji">⚠️</span>
                 <span>{warning}</span>
               </div>
             </Panel>
@@ -262,36 +270,39 @@ export default function ExifMetadataViewerTool() {
 
           {/* ── GPS Map ── */}
           {!loading && gpsCoords && (
-            <Panel className="p-5">
+            <Panel>
               <GpsMap lat={gpsCoords.lat} lon={gpsCoords.lon} />
             </Panel>
           )}
 
-          {/* ── Search ── */}
-          {!loading && parsed && (
-            <Panel className="p-3">
+
+          {/* ── Metadata sections ── */}
+          <Panel className="overflow-hidden space-y-2">
+            {!loading && parsed && <>
               <div className="flex items-center gap-2">
-                <span className="text-(--text-tertiary) text-sm">🔍</span>
                 <Input
                   type="text"
                   placeholder="Filter fields..."
                   value={search}
+                  leadingIcon={Search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="flex-1 text-sm bg-transparent outline-none text-(--text-primary) placeholder:text-(--text-tertiary)"
                 />
                 {search && (
                   <>
-                    <span className="text-[11px] text-(--text-tertiary)">{totalVisible} match{totalVisible !== 1 ? "es" : ""}</span>
-                    <button onClick={() => setSearch("")}
-                      className="text-(--text-tertiary) hover:text-(--text-primary) text-xs transition-colors ml-1">✕</button>
+                    <Button
+                      variant="ghost"
+                      icon={X}
+                      onClick={() => setSearch("")}
+                      title="Clear search"
+                    />
                   </>
                 )}
               </div>
-            </Panel>
-          )}
-
-          {/* ── Metadata sections ── */}
-          <Panel className="overflow-hidden">
+              {search &&
+                <Label>{totalVisible} match{totalVisible !== 1 ? "es" : ""}</Label>
+              }
+            </>}
             {!loading && parsed && FIELD_SECTIONS.map(({ section, icon, keys }) => {
               const rows = sectionRows(keys, section);
               const unfiltered = (() => {
@@ -313,6 +324,7 @@ export default function ExifMetadataViewerTool() {
                 }).length;
               })();
               if (unfiltered === 0) return null;
+              if (search && rows.length === 0) return null;
               const isOpen = openSections.has(section);
 
               return (<div className="hover:bg-(--surface-bg) rounded-md border border-(--border-default) mb-2">

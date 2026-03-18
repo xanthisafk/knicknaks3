@@ -1,3 +1,6 @@
+import { Label } from "@/components/ui";
+import { ChevronDown, ChevronUp } from "lucide-react";
+
 export function SectionHeader({ icon, title, count, open, onToggle }: {
     icon: string; title: string; count: number; open: boolean; onToggle: () => void;
 }) {
@@ -8,8 +11,8 @@ export function SectionHeader({ icon, title, count, open, onToggle }: {
         >
             <span className="font-emoji">{icon}</span>
             <span className="text-sm font-semibold text-(--text-primary) flex-1">{title}</span>
-            <span className="text-[11px] text-(--text-tertiary) mr-1">{count} field{count !== 1 ? "s" : ""}</span>
-            <span className="text-(--text-tertiary) text-xs">{open ? "▴" : "▾"}</span>
+            <Label className="text-xs text-(--text-tertiary) mr-1">{count} field{count !== 1 ? "s" : ""}</Label>
+            <span className="text-(--text-tertiary) text-xs">{open ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}</span>
         </button>
     );
 }

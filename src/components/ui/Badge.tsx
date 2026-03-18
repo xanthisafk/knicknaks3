@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type BadgeVariant = "primary" | "secondary" | "warning" | "danger" | "ghost";
+type BadgeVariant = "primary" | "secondary" | "success" | "warning" | "danger" | "ghost";
 type IconPosition = "left" | "right";
 
 interface BadgeProps {
@@ -18,6 +18,7 @@ const variantStyles: Record<BadgeVariant, string> = {
     "bg-primary-100 text-primary-700 border-primary-200",
   secondary:
     "bg-(--surface-secondary) text-(--text-secondary) border-(--border-default)",
+  success: "bg-green-500/10 text-green-600 border-green-500/20",
   warning:
     "bg-[oklch(0.92_0.08_75)] text-[oklch(0.45_0.14_75)] border-[oklch(0.82_0.12_75)]",
   danger:

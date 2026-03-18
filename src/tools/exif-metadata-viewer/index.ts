@@ -12,7 +12,7 @@ export const definition: ToolDefinition = {
     "All processing happens locally inside your browser, ensuring your photos remain completely private and are never uploaded to a server.",
 
   category: "media",
-  status: "updated",
+  featured: true,
   icon: "📷",
 
   keywords: [
@@ -113,5 +113,5 @@ export const definition: ToolDefinition = {
   relatedTools: ["image-color-picker", "color-blindness-simulator"],
 
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-13",
+  lastUpdated: "2026-03-19",
 };
