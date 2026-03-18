@@ -130,7 +130,7 @@ export default function DateDifferenceCalculatorTool() {
 
         {/* Presets */}
         <div className="mt-4 flex items-center gap-2 flex-wrap">
-          <span className="text-xs text-(--text-tertiary)">Quick:</span>
+          <Label>Quick:</Label>
           <RadioGroup value={currentPreset} onValueChange={v => {
             setPreset(v);
             setCurrentPreset(v);
