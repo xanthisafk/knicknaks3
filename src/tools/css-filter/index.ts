@@ -19,5 +19,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Upload your image or use the default demo. Manipulate the range sliders for various CSS filters to see your image dynamically alter in real-time. Once satisfied, click to copy the compiled `filter:` CSS string for your stylesheet.",
   relatedTools: ["box-shadow", "gradient-maker"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-18",
 };

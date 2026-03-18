@@ -1,8 +1,10 @@
 import { useState, useCallback, useMemo } from "react";
-import { Button } from "@/components/ui";
+import { Button, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import SliderRow from "@/components/ui/SliderRow";
 import FileDropZone from "@/components/advanced/FileDropZone";
+import { CornerDownLeft, Download, Eye, EyeClosed } from "lucide-react";
+import { ResultRow } from "@/components/advanced/ResultRow";
 
 interface FilterState {
   brightness: number;
@@ -72,11 +74,11 @@ function buildTailwind(state: FilterState) {
 
 export default function CssFilterTool() {
   const [filters, setFilters] = useState<FilterState>({ ...DEFAULTS });
-  const [copied, setCopied] = useState(false);
-  const [copiedTw, setCopiedTw] = useState(false);
 
   const [image, setImage] = useState<string | null>(null);
-  const [showGradient, setShowGradient] = useState(true);
+  const [imageName, setImageName] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
 
   const updateFilter = useCallback((key: keyof FilterState, value: number) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -93,69 +95,90 @@ export default function CssFilterTool() {
 
   const handleUpload = (e: any) => {
     const file = e.file;
+    setImageName(file.name);
+    setImageFile(file);
     const url = URL.createObjectURL(file);
     setImage(url);
   };
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(`filter: ${filterCSS};`);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const handleDownload = useCallback(() => {
+    if (!image) return;
 
-  const handleCopyTw = async () => {
-    await navigator.clipboard.writeText(tailwindCSS);
-    setCopiedTw(true);
-    setTimeout(() => setCopiedTw(false), 2000);
-  };
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+
+      const ctx = canvas.getContext("2d")!;
+      ctx.filter = filterCSS !== "none" ? filterCSS : "none";
+      ctx.drawImage(img, 0, 0);  // No background fill → transparency preserved
+
+      const isPng = imageFile?.name.match(/\.(png|webp)$/i);
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) return;
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = `filtered-${imageName}`;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        },
+        isPng ? "image/png" : "image/jpeg",
+        0.95  // quality — ignored for PNG (lossless), applies to JPEG
+      );
+    };
+
+    img.crossOrigin = "anonymous";
+    img.src = image;
+  }, [image, imageFile, imageName, filterCSS]);
 
   return (
     <div className="space-y-2">
 
       {/* Uploader */}
-      <Panel>
-        <FileDropZone emoji="🖼️" accepts="image/*" onUpload={handleUpload} />
-      </Panel>
+
+      {!image && <FileDropZone emoji="🖼️" accepts="image/png,image/jpeg,image/webp,image/bmp" onUpload={handleUpload} />}
+      {image && <Panel>
+        <div className="flex justify-between items-center">
+          <Label>{imageName}</Label>
+          <Button
+            onClick={() => { setImage(null); setImageName(""); }}
+            variant="ghost"
+            size="xs"
+            icon={CornerDownLeft}
+          >
+            New Image
+          </Button>
+        </div>
+      </Panel>}
+
 
       {/* Preview + Filters */}
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 gap-2">
 
         {/* Preview */}
         <Panel>
-          <div className="space-y-3">
+          <div className="space-y-2">
 
             <div className="flex justify-between items-center">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-(--text-tertiary)">
-                Preview
-              </h3>
-
-              <button
-                onClick={() => setShowGradient((v) => !v)}
-                className="text-xs text-primary-500 hover:underline cursor-pointer"
-              >
-                {showGradient ? "Hide Demo BG" : "Show Demo BG"}
-              </button>
+              <Label>Preview</Label>
             </div>
 
             <div
               className="rounded-lg border border-(--border-default) overflow-hidden relative"
               style={
-                showGradient
-                  ? {
-                    background:
-                      "repeating-conic-gradient(var(--border-default) 0% 25%, transparent 0% 50%) 0 0 / 20px 20px",
-                  }
-                  : undefined
+                { background: "repeating-conic-gradient(var(--border-default) 0% 25%, transparent 0% 50%) 0 0 / 20px 20px", }
               }
             >
               <div
-                className="w-full aspect-video flex items-center justify-center"
+                className="h-[500px] aspect-auto flex items-center justify-center"
                 style={{ filter: filterCSS !== "none" ? filterCSS : undefined }}
               >
                 {image ? (
                   <img
                     src={image}
-                    className="max-h-full max-w-full object-contain"
+                    className="max-h-full max-w-full object-fill"
                   />
                 ) : (
                   <div className="text-sm text-(--text-tertiary)">
@@ -168,25 +191,22 @@ export default function CssFilterTool() {
         </Panel>
 
         {/* Filters */}
-        <Panel>
-          <div className="space-y-4">
+        <Panel className="space-y-4">
+          <div className="flex justify-between">
+            <Label>Filters</Label>
+            <Button
+              onClick={resetAll}
+              variant="ghost"
+              size="xs"
+              icon={CornerDownLeft}
+            >
+              Reset
+            </Button>
+          </div>
 
-            <div className="flex justify-between">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-(--text-tertiary)">
-                Filters
-              </h3>
-
-              <button
-                onClick={resetAll}
-                className="text-xs text-primary-500 hover:underline"
-              >
-                Reset
-              </button>
-            </div>
-
-            {FILTER_DEFS.map((def) => (
+          {FILTER_DEFS.map((def) => (
+            <div key={def.key} className="w-full">
               <SliderRow
-                key={def.key}
                 label={def.label}
                 value={filters[def.key]}
                 min={def.min}
@@ -196,47 +216,23 @@ export default function CssFilterTool() {
                 onChange={(v) => updateFilter(def.key, v)}
                 onReset={() => resetFilter(def.key)}
               />
-            ))}
-          </div>
+            </div>
+          ))}
+          {image && <Button
+            icon={Download}
+            className="w-full"
+            onClick={handleDownload}
+          >
+            Download Filtered Image
+          </Button>}
         </Panel>
       </div>
 
-      {/* CSS Output */}
-      <Panel>
-        <div className="space-y-3">
-          <div className="flex justify-between items-center">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-(--text-tertiary)">
-              CSS Output
-            </h3>
-
-            <Button onClick={handleCopy} size="sm">
-              {copied ? "✓ Copied!" : "Copy"}
-            </Button>
-          </div>
-
-          <pre className="p-4 rounded-lg bg-(--surface-secondary) border border-(--border-default) font-mono text-sm">
-            {`filter: ${filterCSS};`}
-          </pre>
-        </div>
-      </Panel>
-
-      {/* Tailwind Output */}
-      <Panel>
-        <div className="space-y-3">
-          <div className="flex justify-between items-center">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-(--text-tertiary)">
-              Tailwind Output
-            </h3>
-
-            <Button onClick={handleCopyTw} size="sm">
-              {copiedTw ? "✓ Copied!" : "Copy"}
-            </Button>
-          </div>
-
-          <pre className="p-4 rounded-lg bg-(--surface-secondary) border border-(--border-default) font-mono text-sm">
-            {tailwindCSS}
-          </pre>
-        </div>
+      {/* Output */}
+      <Panel className="space-y-2">
+        <Label>Output</Label>
+        <ResultRow label="CSS" value={filterCSS} />
+        <ResultRow label="Tailwind" value={tailwindCSS} />
       </Panel>
 
     </div>
