@@ -4,6 +4,8 @@ import { ResultRow } from "@/components/advanced/ResultRow";
 import { Panel } from "@/components/layout";
 import { DateInput } from "@/components/ui/DateInput";
 import { Radio, RadioGroup } from "@/components/ui/radio";
+import { Button, Label } from "@/components/ui";
+import { LucideArrowRightLeft } from "lucide-react";
 
 
 interface Diff {
@@ -116,14 +118,11 @@ export default function DateDifferenceCalculatorTool() {
             <DateInput label="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
           </div>
 
-          <button
+          <Button
             onClick={swap}
             title="Swap dates"
-            className="justify-self-end sm:mb-1 w-9 h-9 flex items-center justify-center rounded-full border border-(--border-default) bg-(--surface-bg) text-(--text-tertiary) hover:text-(--text-primary) hover:border-primary-500 transition-colors text-base shrink-0"
-          >
-            ⇄
-          </button>
-
+            variant="ghost"
+            icon={LucideArrowRightLeft} />
           <div className="flex-1">
             <DateInput label="End Date" value={endDate} onChange={e => setEndDate(e.target.value)} />
           </div>
@@ -164,7 +163,7 @@ export default function DateDifferenceCalculatorTool() {
           </Panel>
 
           <Panel className="flex flex-col gap-2">
-            <p className="text-xs font-semibold tracking-widest text-(--text-tertiary) uppercase mb-0">Breakdown by Day Type</p>
+            <Label>Breakdown by Day Type</Label>
             <ResultRow label="Workdays (Mon-Fri)" value={`${diff.workdays.toLocaleString()} days`} />
             <ResultRow label="Weekend Days (Sat-Sun)" value={`${diff.weekends.toLocaleString()} days`} />
           </Panel>

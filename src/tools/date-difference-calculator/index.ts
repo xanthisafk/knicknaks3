@@ -47,5 +47,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["timezone-converter", "loan-mortgage-calculator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-06",
+  createdAt: "2026-03-06",
+  launchedAt: "2026-03-06",
+  lastUpdated: "2026-03-19",
 };
