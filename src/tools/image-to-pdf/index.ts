@@ -3,13 +3,20 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Image to PDF",
   slug: "image-to-pdf",
-  description: "Convert images to PDF securely in your browser",
+  description: "Convert images into a single PDF locally in your browser",
   longDescription:
-    "Instantly compile multiple photos or graphics into a clean, shareable PDF document. Upload high-resolution images (PNG, JPG, WebP), easily drag-and-drop to reorder them, and generate a multi-page PDF with exactly one image per page. " +
-    "Processing is handled entirely locally using WebAssembly and pdf-lib, ensuring your personal photos are never uploaded or stored on external servers.",
+    "Combine multiple images (PNG, JPG, BMP, WebP) into a single PDF. Reorder files and rotate them if needed and generate your document instantly. " +
+    "All processing runs locally in your browser. Your files never leave your device.",
   category: "pdf",
   icon: "🖼️",
-  keywords: ["image to pdf converter", "jpg to pdf online", "convert png to pdf", "photo to pdf maker", "combine images to pdf", "secure image converter", "local document creator"],
+  keywords: [
+    "image to pdf converter",
+    "jpg to pdf",
+    "png to pdf",
+    "photo to pdf",
+    "combine images to pdf",
+    "local pdf generator"
+  ],
   tags: ["pdf", "converter"],
 
   component: () => import("./ImageToPdfTool"),
@@ -21,23 +28,41 @@ export const definition: ToolDefinition = {
 
   faq: [
     {
-      question: "Will the PDF compress my high-quality images?",
-      answer: "No, our tool embeds your images directly into the PDF structure precisely as you upload them, maintaining their original resolution and quality without applying lossy compression."
+      question: "Will my images lose quality?",
+      answer: "No. Images are embedded as-is without additional compression, preserving their original resolution."
     },
     {
-      question: "Is there a limit to how many photos I can upload?",
-      answer: "Technically no, but extremely large batches (e.g., 100+ high-res photos) might cause your web browser to run out of memory since all processing happens locally on your device rather than on a server."
+      question: "Are my files uploaded anywhere?",
+      answer: "No. Everything runs locally in your browser—no files are sent to any server."
     },
     {
-      question: "Are my personal pictures kept private?",
-      answer: "Yes. Our client-side architecture means your photos are processed directly on your computer. Nothing is ever transmitted across the internet."
+      question: "How many images can I convert at once?",
+      answer: "There's no fixed limit, but very large batches may slow down or crash your browser due to memory constraints."
+    },
+    {
+      question: "Can I reorder images before creating the PDF?",
+      answer: "Yes. You can drag and drop files to set the exact page order before conversion."
+    },
+    {
+      question: "What file formats are supported?",
+      answer: "PNG, JPG, BMP and WebP images are supported."
+    },
+    {
+      question: "Does each image become a separate page?",
+      answer: "Yes. Each uploaded image is placed on its own PDF page."
+    },
+    {
+      question: "Do I need to install anything?",
+      answer: "No installation is required—everything runs directly in your browser."
     }
   ],
 
   howItWorks:
-    "Upload a batch of image files. Use the visual drag-and-drop interface to meticulously reorder the sequence if necessary, then click 'Convert'. Your browser directly constructs a PDF stream with one image cleanly fitted per page and triggers an immediate download.",
+    "Upload images, reorder, rotate, and set page size if needed, set a filename, then click convert. A PDF is generated locally with one image per page and downloaded instantly.",
 
   relatedTools: ["pdf-to-images", "merge-pdf", "compress-pdf"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-19",
+  lastUpdated: "2026-03-19",
 };
