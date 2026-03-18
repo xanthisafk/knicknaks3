@@ -11,6 +11,7 @@ import { CATEGORY_INFO, STATUS_INFO } from "@/tools/_types";
 import { ToolWrapper } from "@/components/advanced/ToolWrapper";
 import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
+import Accordion from "@/components/ui/Accordion.astro";
 
 // Generate static paths: /tools/:category/:slug
 export function getStaticPaths() {
@@ -85,10 +86,15 @@ function buildLicenseSentence(license: typeof tool.license) {
       <div class="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12">
         <!-- Breadcrumb -->
         <nav class="mb-6 text-sm" aria-label="Breadcrumb">
-          <ol class="flex items-center gap-2" style="color: var(--text-tertiary)">
+          <ol
+            class="flex items-center gap-2"
+            style="color: var(--text-tertiary)"
+          >
             <li>
-              <a href="/" class="hover:opacity-80 transition-opacity" style="color: var(--text-tertiary)"
-                >Home</a
+              <a
+                href="/"
+                class="hover:opacity-80 transition-opacity"
+                style="color: var(--text-tertiary)">Home</a
               >
             </li>
             <li>/</li>
@@ -96,8 +102,7 @@ function buildLicenseSentence(license: typeof tool.license) {
               <a
                 href={`/tools/${tool.category}`}
                 class="hover:opacity-80 transition-opacity"
-                style="color: var(--text-tertiary)"
-                >{categoryInfo.label}</a
+                style="color: var(--text-tertiary)">{categoryInfo.label}</a
               >
             </li>
             <li>/</li>
@@ -125,9 +130,7 @@ function buildLicenseSentence(license: typeof tool.license) {
                     class="flex items-center gap-1.5 text-xs uppercase font-bold tracking-wider px-2.5 py-1 rounded-full border"
                     style="background: var(--surface-secondary); color: var(--text-secondary); border-color: var(--border-default)"
                   >
-                    <span class="font-emoji">
-                      {STATUS_INFO[status].icon}
-                    </span>
+                    <span class="font-emoji">{STATUS_INFO[status].icon}</span>
                     {STATUS_INFO[status].label}
                   </div>
                 )
@@ -168,12 +171,16 @@ function buildLicenseSentence(license: typeof tool.license) {
         <!-- License Attribution -->
         {
           tool.license && (
-            <div class="text-sm mt-6 opacity-80" style="color: var(--text-secondary)">
+            <div
+              class="text-sm mt-6 opacity-80"
+              style="color: var(--text-secondary)"
+            >
               <p>
                 {tool.license.isModified
                   ? "This tool uses a modified version of "
                   : "This tool uses "}
-                {tool.license.originalProjectName && tool.license.originalProjectUrl ? (
+                {tool.license.originalProjectName &&
+                tool.license.originalProjectUrl ? (
                   <>
                     <a
                       href={tool.license.originalProjectUrl}
@@ -186,12 +193,19 @@ function buildLicenseSentence(license: typeof tool.license) {
                     </a>
                   </>
                 ) : tool.license.originalProjectName ? (
-                  <em class="font-semibold">{tool.license.originalProjectName}</em>
+                  <em class="font-semibold">
+                    {tool.license.originalProjectName}
+                  </em>
                 ) : null}
                 {tool.license.originalAuthor && (
-                  <> by <strong>{tool.license.originalAuthor}</strong></>
+                  <>
+                    {" "}
+                    by <strong>{tool.license.originalAuthor}</strong>
+                  </>
                 )}
-                {(tool.license.originalProjectName || tool.license.originalAuthor) && " "}
+                {(tool.license.originalProjectName ||
+                  tool.license.originalAuthor) &&
+                  " "}
                 {tool.license.originalProjectName || tool.license.originalAuthor
                   ? "licensed under "
                   : "Licensed under "}
@@ -203,7 +217,8 @@ function buildLicenseSentence(license: typeof tool.license) {
                   style="color: var(--text-primary)"
                 >
                   {tool.license.licenseName}
-                </a>.{" "}
+                </a>
+                .{" "}
                 <a
                   href={tool.license.licenseUrl}
                   target="_blank"
@@ -212,7 +227,8 @@ function buildLicenseSentence(license: typeof tool.license) {
                   style="color: var(--text-tertiary)"
                 >
                   View license
-                </a>.
+                </a>
+                .
               </p>
             </div>
           )
@@ -228,7 +244,10 @@ function buildLicenseSentence(license: typeof tool.license) {
               >
                 <span class="font-emoji">⚙️</span> How It Works
               </h2>
-              <p class="leading-relaxed mt-2" style="color: var(--text-secondary)">
+              <p
+                class="leading-relaxed mt-2"
+                style="color: var(--text-secondary)"
+              >
                 {tool.howItWorks}
               </p>
             </section>
@@ -247,23 +266,7 @@ function buildLicenseSentence(license: typeof tool.license) {
               </h2>
               <div class="mt-2 space-y-2">
                 {tool.faq.map((item) => (
-                  <details
-                    class="group border rounded-lg overflow-hidden"
-                    style="border-color: var(--border-default)"
-                  >
-                    <summary
-                      class="flex items-center justify-between cursor-pointer p-4 font-medium transition-colors"
-                      style="color: var(--text-primary)"
-                    >
-                      {item.question}
-                      <span class="group-open:rotate-180 transition-transform" style="color: var(--text-tertiary)">
-                        ▾
-                      </span>
-                    </summary>
-                    <div class="px-4 pb-4 text-sm leading-relaxed" style="color: var(--text-secondary)">
-                      {item.answer}
-                    </div>
-                  </details>
+                  <Accordion label={item.question} content={item.answer} />
                 ))}
               </div>
             </section>
@@ -291,10 +294,16 @@ function buildLicenseSentence(license: typeof tool.license) {
                     <div class="flex items-start gap-3">
                       <span class="text-xl font-emoji">{related.icon}</span>
                       <div>
-                        <h3 class="text-sm font-semibold" style="color: var(--text-primary)">
+                        <h3
+                          class="text-sm font-semibold"
+                          style="color: var(--text-primary)"
+                        >
                           {related.name}
                         </h3>
-                        <p class="text-xs mt-1" style="color: var(--text-secondary)">
+                        <p
+                          class="text-xs mt-1"
+                          style="color: var(--text-secondary)"
+                        >
                           {related.description}
                         </p>
                       </div>
