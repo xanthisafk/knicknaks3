@@ -10,7 +10,6 @@ export const definition: ToolDefinition = {
 
   category: "text",
   icon: "🔎",
-  status: "updated",
 
   keywords: [
     "find and replace text online",
@@ -97,5 +96,7 @@ export const definition: ToolDefinition = {
   relatedTools: ["regex-tester", "text-diff"],
 
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-13",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-13",
+  lastUpdated: "2026-03-19",
 };

@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
-import { Input, Textarea, Button, Toggle } from "@/components/ui";
+import { Input, Textarea, Button, Toggle, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
 
 interface MatchInfo {
@@ -181,73 +181,71 @@ export default function FindReplaceTool() {
             label="Source Text"
             onChange={(e) => setSource(e.target.value)}
             placeholder="Paste or type your text here..."
-            className="h-36 text-sm"
           />
-          <p className="text-xs text-(--text-tertiary) text-right">
+          <Label size="xs" className="text-right">
             {source.length} character{source.length !== 1 ? "s" : ""}
-          </p>
+          </Label>
         </div>
       </Panel>
 
       {/* Find & Replace Inputs */}
-      <Panel>
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              label="Find"
-              value={find}
-              onChange={(e) => setFind(e.target.value)}
-              placeholder={useRegex ? "[a-z]+" : "Search term..."}
-              error={error}
-            />
-            <Input
-              label="Replace with"
-              value={replace}
-              onChange={(e) => setReplace(e.target.value)}
-              placeholder={useRegex ? "Use $1, $2 for groups" : "Replacement text..."}
-            />
-          </div>
+      {source &&
+        <Panel>
+          <div className="space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Input
+                label="Find"
+                value={find}
+                onChange={(e) => setFind(e.target.value)}
+                placeholder={useRegex ? "[a-z]+" : "Search term..."}
+                error={error}
+              />
+              <Input
+                label="Replace with"
+                value={replace}
+                onChange={(e) => setReplace(e.target.value)}
+                placeholder={useRegex ? "Use $1, $2 for groups" : "Replacement text..."}
+              />
+            </div>
 
-          {/* Options */}
-          <div className="flex flex-wrap items-center gap-4 pt-2">
-            <Toggle
-              label="Case Sensitive"
-              checked={caseSensitive}
-              onChange={setCaseSensitive}
-            />
-            <Toggle
-              label="Regex"
-              checked={useRegex}
-              onChange={setUseRegex}
-            />
-            <Toggle
-              label="Global"
-              checked={globalReplace}
-              onChange={setGlobalReplace}
-            />
+            {/* Options */}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Toggle
+                label="Case Sensitive"
+                checked={caseSensitive}
+                onChange={setCaseSensitive}
+              />
+              <Toggle
+                label="Regex"
+                checked={useRegex}
+                onChange={setUseRegex}
+              />
+              <Toggle
+                label="Global"
+                checked={globalReplace}
+                onChange={setGlobalReplace}
+              />
 
-            {matches.length > 0 && (
-              <span className="ml-auto text-xs text-(--text-tertiary) font-medium">
-                {matches.length} match{matches.length !== 1 ? "es" : ""}
-              </span>
-            )}
+              {matches.length > 0 && (
+                <span className="ml-auto text-xs text-(--text-tertiary) font-medium">
+                  {matches.length} match{matches.length !== 1 ? "es" : ""}
+                </span>
+              )}
+            </div>
           </div>
-        </div>
-      </Panel>
+        </Panel>}
 
       {/* Highlighted Preview */}
       {source && find && !error && matches.length > 0 && (
         <Panel>
-          <div className="space-y-3">
+          <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label
-                className="block text-xs font-medium uppercase tracking-wide text-(--text-tertiary) mb-1.5"
-              >
+              <Label>
                 Highlighted Matches
-              </label>
-              <span className="text-xs text-(--text-tertiary)">
+              </Label>
+              <Label size="xs">
                 {matches.length} match{matches.length !== 1 ? "es" : ""}
-              </span>
+              </Label>
             </div>
             <div className="px-3 py-3 rounded-md bg-(--surface-secondary) border border-(--border-default) text-sm text-(--text-primary) whitespace-pre-wrap break-all font-mono max-h-48 overflow-y-auto">
               {highlighted}
@@ -259,26 +257,13 @@ export default function FindReplaceTool() {
       {/* Result Preview */}
       {source && find && replace !== undefined && matches.length > 0 && (
         <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label
-                className="block text-xs font-medium uppercase tracking-wide text-(--text-tertiary) mb-1.5"
-              >
-                Result Preview
-              </label>
-            </div>
-            <div className="px-3 py-3 rounded-md bg-(--surface-secondary) border border-(--border-default) text-sm text-(--text-primary) whitespace-pre-wrap break-all font-mono max-h-48 overflow-y-auto select-all">
-              {replacedText}
-            </div>
-            <div className="flex items-center gap-3">
-              <Button onClick={handleApply}>
-                Apply to Source
-              </Button>
-              <Button onClick={handleCopy} variant={copied ? "primary" : "secondary"}>
-                {copied ? "✓ Copied!" : "Copy Result"}
-              </Button>
-            </div>
-          </div>
+          <Textarea
+            readOnly={true}
+            value={replacedText}
+            label={"Result Preview"}
+            rows={10}
+            className="font-mono"
+          />
         </Panel>
       )}
 
@@ -287,7 +272,7 @@ export default function FindReplaceTool() {
         <Panel>
           <div className="text-center py-8 text-(--text-tertiary)">
             <p className="text-4xl mb-3 font-emoji">🔎</p>
-            <p className="text-sm">Paste your text above, then enter a search term to find and replace</p>
+            <Label>Paste your text above, then enter a search term to find and replace</Label>
           </div>
         </Panel>
       )}
