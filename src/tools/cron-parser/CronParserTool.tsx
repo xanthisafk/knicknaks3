@@ -1,7 +1,10 @@
 import { useState, useMemo } from "react";
-import { Input } from "@/components/ui";
+import { Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import cronstrue from "cronstrue";
+import StatBox from "@/components/ui/StatBox";
+import { ResultRow } from "@/components/advanced/ResultRow";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const PRESETS: { label: string; value: string }[] = [
   { label: "Every minute", value: "* * * * *" },
@@ -136,114 +139,83 @@ export default function CronParserTool() {
     <div className="space-y-2">
       {/* Input */}
       <Panel>
-        <div className="space-y-4">
-          <Input
-            label="Cron Expression"
-            value={expression}
-            onChange={(e) => setExpression(e.target.value)}
-            placeholder="* * * * *"
-            className="font-mono text-base"
-            error={error || undefined}
-          />
+        <div className="space-y-2">
+          <div className="flex flex-col md:flex-row gap-2">
+            <Input
+              label="Cron Expression"
+              value={expression}
+              onChange={(e) => setExpression(e.target.value)}
+              placeholder="* * * * *"
+              className="font-mono text-base grow"
+              error={error || undefined}
+            />
+
+            <Select label="Preset" value={expression} onValueChange={(value) => setExpression(value)}>
+              <SelectTrigger>
+                {PRESETS.find((preset) => preset.value === expression)?.label || "Select a preset"}
+              </SelectTrigger>
+              <SelectContent>
+                {PRESETS.map((preset) => (
+                  <SelectItem key={preset.value} value={preset.value}>
+                    {preset.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
           {/* Field breakdown */}
           {parts.length >= 5 && (
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
+
               {FIELD_LABELS.map((label, i) => (
-                <div
-                  key={label}
-                  className="flex flex-col items-center gap-1 p-2 rounded-md bg-(--surface-secondary)"
-                >
-                  <span className="font-mono text-sm font-semibold text-(--text-primary)">
-                    {parts[i] ?? "—"}
-                  </span>
-                  <span className="text-[10px] text-(--text-secondary) text-center leading-tight">
-                    {label}
-                  </span>
-                  <span className="text-[10px] text-(--text-tertiary)">
-                    {FIELD_RANGES[i]}
-                  </span>
+                <div className="grow" key={label + i} >
+                  <StatBox prefix={FIELD_RANGES[i]} label={label} value={parts[i]} />
                 </div>
               ))}
             </div>
           )}
+          {description && <>
+            <div className="flex flex-col gap-2">
+              <Label>Parsed Description</Label>
+              <span>{description}</span>
+            </div>
+          </>}
         </div>
       </Panel>
-
-      {/* Human-readable description */}
-      {description && (
-        <Panel>
-          <div className="space-y-2">
-            <h3 className="text-sm font-medium text-(--text-primary)">Plain English</h3>
-            <p className="text-base text-(--text-primary) font-medium">
-              {description}
-            </p>
-          </div>
-        </Panel>
-      )}
 
       {/* Next runs */}
       {nextRuns.length > 0 && (
         <Panel>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-(--text-primary)">Next 5 Runs</h3>
+          <div className="space-y-2">
+            <Label>Next 5 Runs</Label>
             <div className="space-y-1.5">
               {nextRuns.map((date, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 px-3 py-2 rounded-md bg-(--surface-secondary)"
-                >
-                  <span className="text-xs font-medium text-(--text-tertiary) w-5">{i + 1}</span>
-                  <span className="font-mono text-sm text-(--text-primary)">
-                    {date.toLocaleString(undefined, {
-                      weekday: "short",
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
-                </div>
+                <ResultRow label={`${i + 1}.`} value={date.toLocaleString(undefined, {
+                  weekday: "short",
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })} />
               ))}
             </div>
           </div>
         </Panel>
       )}
 
-      {/* Presets */}
-      <Panel>
-        <div className="space-y-3">
-          <h3 className="text-sm font-medium text-(--text-primary)">Quick Presets</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {PRESETS.map((preset) => (
-              <button
-                key={preset.value}
-                onClick={() => setExpression(preset.value)}
-                className={`flex items-center justify-between gap-2 px-3 py-2 rounded-md border text-left cursor-pointer ${expression === preset.value
-                  ? "bg-primary-500 text-white border-primary-500"
-                  : "bg-(--surface-secondary) text-(--text-primary) border-(--border-default) hover:border-(--border-hover)"
-                  }`}
-              >
-                <span className="text-sm">{preset.label}</span>
-                <span className="font-mono text-xs opacity-70">{preset.value}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </Panel>
-
       {/* Cheat sheet */}
       <Panel>
         <div className="space-y-3">
-          <h3 className="text-sm font-medium text-(--text-primary)">Cheat Sheet</h3>
+          <Label>Cheat Sheet</Label>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-(--border-default)">
-                  <th className="text-left py-2 pr-4 text-(--text-secondary) font-medium">Symbol</th>
-                  <th className="text-left py-2 pr-4 text-(--text-secondary) font-medium">Meaning</th>
-                  <th className="text-left py-2 text-(--text-secondary) font-medium">Example</th>
+                  <th className="text-start"><Label>Symbol</Label></th>
+                  <th className="text-start"><Label>Meaning</Label></th>
+                  <th className="text-start"><Label>Example</Label></th>
                 </tr>
               </thead>
               <tbody className="text-(--text-primary)">
@@ -253,10 +225,10 @@ export default function CronParserTool() {
                   ["-", "Range", "1-5 (Mon to Fri)"],
                   ["/", "Step", "*/10 (every 10)"],
                 ].map(([sym, meaning, example]) => (
-                  <tr key={sym} className="border-b border-(--border-default)/50">
+                  <tr key={sym} className="border-b border-(--border-default)/50 text-start">
                     <td className="py-2 pr-4 font-mono font-semibold">{sym}</td>
-                    <td className="py-2 pr-4">{meaning}</td>
-                    <td className="py-2 font-mono text-xs text-(--text-secondary)">{example}</td>
+                    <td className="py-2 pr-4 font-mono text-(--text-secondary)">{meaning}</td>
+                    <td className="py-2">{example}</td>
                   </tr>
                 ))}
               </tbody>

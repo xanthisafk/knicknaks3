@@ -19,5 +19,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Type your raw cron expression (like `0 12 * * 1-5`) into the input field. The parser instantly tokenizes the string, generating a human-readable descriptive sentence alongside a list of the exact next 5 chronological execution timestamps.",
   relatedTools: ["unix-timestamp", "time-duration"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-18",
 };
