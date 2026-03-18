@@ -7,7 +7,6 @@ export const definition: ToolDefinition = {
   longDescription: "Create beautiful, complex drop shadows for your web projects with our CSS Box Shadow Generator. Use intuitive visual sliders to dial in the perfect X/Y offset, blur radius, spread, and exact color opacity. Copy the cross-browser compatible CSS code snippet right to your clipboard.",
   category: "dev",
   icon: "🟫",
-  status: "new",
   keywords: ["css box shadow generator", "drop shadow css tool", "box shadow css code", "visual shadow editor", "css blur spread offset", "web design shadow tool", "css styling generator"],
   tags: ["design", "css", "developer"],
   component: () => import("./BoxShadowTool"),
@@ -20,5 +19,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Simply adjust the visual sliders to customize the horizontal (X) and vertical (Y) offset, blur radius, spread, and shadow color/opacity. Watch the real-time preview update as you tweak values, then click to copy the ready-to-use CSS snippet.",
   relatedTools: ["gradient-maker", "css-filter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  lastUpdated: "2026-03-18",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-05"
 };
