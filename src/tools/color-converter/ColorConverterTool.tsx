@@ -4,6 +4,7 @@ import { Panel } from "@/components/layout";
 import type { HSL, RGB, CMYK } from "@/lib/convertColor";
 import { rgbToHsl, rgbToCmyk, rgbToHex, hexToRgb, hslToRgb, cmykToRgb } from "@lib/convertColor"
 import { ResultRow } from "@/components/advanced/ResultRow";
+import { ColorPickerSwatch } from "@/components/advanced";
 
 
 
@@ -53,30 +54,12 @@ export default function ColorConverterTool() {
     <div className="space-y-2">
       {/* Color Preview & Picker */}
       <Panel>
-        <div className="flex items-center gap-4">
-          <div
-            className="w-28 h-28 rounded-lg border-2 border-(--border-default) shadow-sm shrink-0 relative overflow-hidden"
-            style={{ backgroundColor: hex }}
-          >
-            <input
-              type="color"
-              value={hex}
-              onChange={handlePickerChange}
-              className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-              title="Pick a color"
-            />
-          </div>
-          <div className="flex-1 space-y-2">
-            <Input
-              label="HEX"
-              value={hex}
-              onChange={(e) => handleHexChange(e.target.value)}
-              placeholder="#3B82F6"
-              className="font-mono"
-            />
-            <Label size="xs">Click the swatch to use the color picker</Label>
-          </div>
-        </div>
+        <ColorPickerSwatch
+          onChange={handleHexChange}
+          value={hex}
+          label="Your Color"
+          hint="Select your color"
+        />
       </Panel>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
