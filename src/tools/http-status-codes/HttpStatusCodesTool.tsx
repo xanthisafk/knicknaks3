@@ -3,6 +3,8 @@ import { Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ResultRow } from "@/components/advanced/ResultRow";
+import { LucideArrowUpRightFromSquare, Search } from "lucide-react";
+import StatBox from "@/components/ui/StatBox";
 
 interface Parsed {
   id: string;
@@ -106,15 +108,13 @@ export default function HttpStatusCodesTool() {
     <div className="space-y-2">
       <Panel>
         <div className="flex flex-col sm:flex-row gap-2">
-          <div className="flex-1">
-            <Input
-              value={search}
-              leadingEmoji={"🔎"}
-              onChange={e => setSearch(e.target.value)}
-              placeholder="Search by code or description..."
-              className="w-full" />
-          </div>
-          {/* <Select value={category} onValueChange={setCategory}>
+          <Input
+            value={search}
+            leadingIcon={Search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search by code or description..."
+            className="flex-5" />
+          <Select value={category} onValueChange={setCategory}>
             <SelectTrigger>
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
@@ -125,14 +125,7 @@ export default function HttpStatusCodesTool() {
                 </SelectItem>
               ))}
             </SelectContent>
-          </Select> */}
-          <select
-            value={category}
-            onChange={e => setCategory(e.target.value)}
-            className="px-3 py-2 rounded-md bg-(--surface-elevated) text(--text-primary) border border-(--border-default) text-sm"
-          >
-            {CATEGORIES.map(c => <option key={c}>{c}</option>)}
-          </select>
+          </Select>
         </div>
       </Panel>
 
@@ -141,7 +134,11 @@ export default function HttpStatusCodesTool() {
           <Label>{cat}</Label>
           <div className="space-y-2">
             {codes.map(c =>
-              <ResultRow key={c.id} label={c.id} value={c.description} />
+              <ResultRow
+                key={c.id}
+                label={c.id}
+                value={c.description}
+                externalLink={`https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/${c.id}`} />
             )}
           </div>
         </Panel>
@@ -150,6 +147,8 @@ export default function HttpStatusCodesTool() {
       {filtered.length === 0 && (
         <p className="text-center text-sm text-(--text-tertiary)">No matching status codes</p>
       )}
+      <StatBox prefix="Check out" label="For cat images related to HTTP codes" value={"http.cat"} url="https://http.cat" tooltip="Not sponsored :D" />
+
     </div>
   );
 }

@@ -16,8 +16,10 @@ export const definition: ToolDefinition = {
     { question: "Are these official status codes?", answer: "Yes, our reference primarily covers standard status codes defined by the Internet Engineering Task Force (IETF) in RFCs like RFC 9110, alongside common unofficial codes used by major servers like Nginx or Cloudflare." },
     { question: "When should I use 400 vs 422?", answer: "Use `400 Bad Request` for malformed syntax that the server couldn't parse. Use `422 Unprocessable Entity` when the syntax is mathematically correct, but the underlying data fails semantic business validation rules." }
   ],
-  howItWorks: "Quickly locate codes by typing the exact 3-digit number or a descriptive word into the search bar. You can also filter exclusively by category (like 2xx or 4xx). Click on any individual status code card to unpack detailed usage scenarios and best practices.",
+  howItWorks: "Quickly locate codes by typing the exact 3-digit number or a descriptive word into the search bar. You can also filter exclusively by category (like 2xx or 4xx). Click on the external link icon to learn more on MDN.",
   relatedTools: ["url-parser", "url-builder"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-13",
+  createdAt: "2026-03-13",
+  launchedAt: "2026-03-13",
+  lastUpdated: "2026-03-19",
 };
