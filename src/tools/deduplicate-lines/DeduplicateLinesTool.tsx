@@ -45,44 +45,28 @@ export default function DeduplicateLinesTool() {
 
   return (
     <div className="space-y-2">
-      <Panel>
+      <Panel className="space-y-2">
+        <Textarea
+          value={input}
+          label="Input"
+          onChange={(e) => setInput(e.target.value)}
+          placeholder={"apple\nbanana\napple\ncherry\nbanana"}
+        />
         <div className="flex flex-wrap items-center gap-4">
           <Toggle label="Ignore case" checked={ignoreCase} onChange={setIgnoreCase} />
           <Toggle label="Trim whitespace" checked={trimWhitespace} onChange={setTrimWhitespace} />
           {removed > 0 && (
             <span className="text-sm text-primary-600 font-medium ml-auto">
-              🧹 {removed} duplicate{removed > 1 ? "s" : ""} removed ({totalLines} → {totalLines - removed} lines)
+              <span className="font-emoji">🧹</span> {removed} duplicate{removed > 1 ? "s" : ""} removed ({totalLines} → {totalLines - removed} lines)
             </span>
           )}
         </div>
       </Panel>
+      <Panel>
+        <Textarea value={result} readOnly label="Output" />
+      </Panel>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Panel>
-          <div className="space-y-3">
-            <label className="text-sm font-medium text(--text-primary)">Input</label>
-            <Textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={"apple\nbanana\napple\ncherry\nbanana"}
-              className="h-56 text-sm"
-            />
-          </div>
-        </Panel>
-        <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Unique Lines</label>
-              {result && (
-                <Button size="sm" variant="ghost" onClick={handleCopy}>
-                  {copied ? "✓ Copied!" : "📋 Copy"}
-                </Button>
-              )}
-            </div>
-            <Textarea value={result} readOnly className="h-56 text-sm" />
-          </div>
-        </Panel>
-      </div>
+
     </div>
   );
 }

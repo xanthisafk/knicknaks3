@@ -19,5 +19,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Paste your raw text or list into the input box. The tool scans every line in real-time, instantly identifying and removing redundant entries. Check the options to ignore case or trim whitespace for more aggressive cleaning before copying the result.",
   relatedTools: ["text-sorter", "word-counter", "remove-line-breaks"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-19",
 };
