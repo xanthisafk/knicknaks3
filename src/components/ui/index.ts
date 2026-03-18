@@ -14,3 +14,4 @@ export * from "./CommandPalette";
 export * from "./CommandPalette";
 export * from "./Label";
 export * from "./CopyButton";
+export * from "./InlineFileDrop";

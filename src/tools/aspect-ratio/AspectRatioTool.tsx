@@ -1,12 +1,11 @@
 import { useState, useCallback } from "react";
-import { Input, Button, Label } from "@/components/ui";
+import { Input, Button, Label, InlineFileDrop } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { gcd } from "@/lib/maths";
 import { Radio, RadioGroup } from "@/components/ui/radio";
 import { Tabs, Tab, TabList, TabPanels, TabPanel } from "@/components/ui/tab";
 import StatBox from "@/components/ui/StatBox";
 import { CornerDownLeft } from "lucide-react";
-import InlineFileDrop from "@/components/InlineFileDrop";
 
 
 function parseRatio(str: string): [number, number] | null {

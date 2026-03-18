@@ -8,7 +8,7 @@ export type InlineFileDropProps = {
     onUpload?: (payload: { file: File }) => void;
 };
 
-export default function InlineFileDrop({
+export function InlineFileDrop({
     accepts = "*",
     maxSize,
     emoji = "📎",
