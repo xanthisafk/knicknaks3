@@ -123,16 +123,23 @@ const structuredData = {
                         <ToolCard tool={tool} previewOnly={true} />
                       ))}
                       {/* "View all" card */}
-                      <a
-                        href={`/tools/${category}`}
-                        class="group flex flex-col items-center justify-center p-5 rounded-lg border border-dashed no-underline transition-colors"
-                        style="border-color: var(--border-default); color: var(--text-secondary); background: var(--surface-bg)"
-                      >
-                        <span class="text-3xl mb-2 font-emoji">{info.icon}</span>
-                        <span class="font-semibold text-sm" style="color: var(--text-primary)">
-                          View all {totalCount} tools →
-                        </span>
-                      </a>
+                      {totalCount > 3 && (
+                        <a
+                          href={`/tools/${category}`}
+                          class="group flex flex-col items-center justify-center p-5 rounded-lg border border-dashed no-underline transition-colors"
+                          style="border-color: var(--border-default); color: var(--text-secondary); background: var(--surface-bg)"
+                        >
+                          <span class="text-3xl mb-2 font-emoji">
+                            {info.icon}
+                          </span>
+                          <span
+                            class="font-semibold text-sm"
+                            style="color: var(--text-primary)"
+                          >
+                            View all {totalCount} tools →
+                          </span>
+                        </a>
+                      )}
                     </div>
                   </div>
                 );
