@@ -1,10 +1,11 @@
 import { useState, useMemo } from "react";
-import { Button } from "@/components/ui";
+import { Button, Input, Label, Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { copyToClipboard } from "@/lib/utils";
 import ColorCard from "@/components/advanced/ColorCard";
 import { hexToHsl, hslToHex, wrapHue } from "@/lib/convertColor";
 import type { HSL } from "@/lib/convertColor";
+import { Tab, TabList, Tabs } from "@/components/ui/tab";
 
 // ===== Harmony generators =====
 type HarmonyMode = "complementary" | "analogous" | "triadic" | "split" | "tetradic" | "monochromatic";
@@ -45,7 +46,7 @@ function generateHarmony(hsl: HSL, mode: HarmonyMode): string[] {
 }
 
 export default function PaletteGeneratorTool() {
-  const [hex, setHex] = useState("#f500d8");
+  const [hex, setHex] = useState("#db0d2a");
   const [mode, setMode] = useState<HarmonyMode>("analogous");
 
   const hsl = useMemo(() => hexToHsl(hex), [hex]);
@@ -65,93 +66,70 @@ export default function PaletteGeneratorTool() {
   let cssVars = `  --seed-color: ${hex.toLowerCase()};` + "\n";
   cssVars += activePalette.map((c, i) => `  --${mode}-${i + 1}: ${c.toLowerCase()};`).join("\n");
   const cssOutput = `:root {\n${cssVars}\n}`;
-  const [copiedCSS, setCopiedCSS] = useState(false);
 
   return (
     <div className="space-y-2">
       {/* Seed color */}
       <Panel>
-        <div className="space-y-4">
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Seed Color</h3>
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-lg border-2 border-(--border-default) shadow-sm shrink-0 relative overflow-hidden" style={{ backgroundColor: hex }}>
-              <input
-                type="color"
-                value={hex}
-                onChange={handlePickerChange}
-                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                title="Pick a color"
-              />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-3 rounded-md bg-(--surface-secondary) border border-(--border-default) px-3 py-2.5 focus-within:ring-2 focus-within:ring-primary-500 focus-within:border-primary-500 transition-shadow">
-                <span className="text-xs font-medium text-(--text-tertiary)">HEX</span>
-                <input
-                  type="text"
-                  value={hex}
-                  onChange={(e) => handleHexInput(e.target.value)}
-                  className="flex-1 bg-transparent text-sm font-mono text-(--text-primary) outline-none"
-                  placeholder="#3B82F6"
-                />
-              </div>
-            </div>
+        <div className="flex items-center gap-4">
+          <div
+            className="w-28 h-28 rounded-lg border-2 border-(--border-default) shadow-sm shrink-0 relative overflow-hidden"
+            style={{ backgroundColor: hex }}
+          >
+            <input
+              type="color"
+              value={hex}
+              onChange={handlePickerChange}
+              className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+              title="Pick a color"
+            />
+          </div>
+          <div className="flex-1 space-y-2">
+            <Input
+              label="Seed color"
+              value={hex}
+              onChange={(e) => handleHexInput(e.target.value)}
+              placeholder="#3B82F6"
+              className="font-mono"
+            />
+            <Label size="xs">Click the swatch to use the color picker</Label>
           </div>
         </div>
       </Panel>
 
+
       {
         <Panel>
           <div className="space-y-4">
-            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">Harmony Mode</h3>
-            <div className="flex flex-wrap gap-1 p-1 bg-(--surface-secondary) rounded-lg border border-(--border-default)">
-              {HARMONIES.map(({ id, label }) => (
-                <button
-                  key={id}
-                  onClick={() => setMode(id)}
-                  className={`px-3 py-2 rounded-md text-xs font-medium transition-all duration-200 cursor-pointer ${mode === id
-                    ? "bg-white dark:bg-(--surface-primary) text-(--text-primary) shadow-sm border border-(--border-default)"
-                    : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface-elevated) border border-transparent"
-                    }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
+            <Label>Harmony Mode</Label>
+            <Tabs value={mode} onValueChange={v => setMode(v as HarmonyMode)}>
+              <TabList>
+                {HARMONIES.map(({ id, label }) => (
+                  <Tab key={id} value={id}>{label}</Tab>
+                ))}
+              </TabList>
+            </Tabs>
           </div>
         </Panel>
       }
 
       {/* Palette preview */}
-      <Panel>
-        <div className="space-y-4">
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">
-            Generated Palette
-          </h3>
+      <Panel className="space-y-4">
+        <div className="space-y-2">
+          <Label>Generated Palette</Label>
           <div className="flex gap-3">
             {activePalette.map((c, i) => (
-              <ColorCard color={c} />
+              <ColorCard key={c + i} color={c} />
             ))}
           </div>
         </div>
-      </Panel>
-
-      {/* CSS Output */}
-      <Panel>
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase">CSS Variables</h3>
-            <Button
-              onClick={async () => { await copyToClipboard(cssOutput); setCopiedCSS(true); setTimeout(() => setCopiedCSS(false), 2000); }}
-              size="sm"
-              variant={copiedCSS ? "primary" : "secondary"}
-            >
-              {copiedCSS ? "✓ Copied!" : "Copy CSS"}
-            </Button>
-          </div>
-          <pre className="rounded-lg bg-(--surface-secondary) border border-(--border-default) p-4 text-sm font-mono text-(--text-primary) whitespace-pre-wrap break-all select-all leading-relaxed overflow-x-auto">
-            {cssOutput}
-          </pre>
-        </div>
+        <Textarea
+          label="CSS Variables"
+          readOnly={true}
+          value={cssOutput}
+          className="font-mono"
+          rows={8}
+        />
       </Panel>
     </div>
   );
