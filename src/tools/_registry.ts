@@ -87,7 +87,7 @@ export function getToolStatus(tool: ToolDefinition): ToolStatus | undefined {
     return "new";
   }
   // 3. updated: updatedAt < 14d
-  if (isWithin14Days(tool.updatedAt)) {
+  if (isWithin14Days(tool.lastUpdated)) {
     return "updated";
   }
   // 4. popular: manual flag
@@ -101,8 +101,8 @@ export function getToolStatus(tool: ToolDefinition): ToolStatus | undefined {
 // ===== Status priority for sorting =====
 const STATUS_PRIORITY: Record<string, number> = {
   featured: 0,
-  popular: 1,
-  new: 2,
+  new: 1,
+  popular: 2,
   updated: 3,
   beta: 4,
 };
