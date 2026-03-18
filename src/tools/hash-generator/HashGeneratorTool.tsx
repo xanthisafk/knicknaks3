@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from "react";
 import { Button, Label, Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { ResultRow } from "@/components/advanced/ResultRow";
-import { CornerDownLeft, Loader2 } from "lucide-react";
+import { CornerDownLeft, Loader2, Upload } from "lucide-react";
 
 const ALGORITHMS = ["SHA-1", "SHA-256", "SHA-384", "SHA-512"] as const;
 type Algorithm = (typeof ALGORITHMS)[number];
@@ -88,7 +88,7 @@ export default function HashGeneratorTool() {
               <Button
                 size="md"
                 variant="secondary"
-                emoji={fileName ? "📂" : "📁"}
+                icon={Upload}
                 onClick={() => fileRef.current?.click()}
               >
                 {fileName ? "Change File" : "Hash a file"}
