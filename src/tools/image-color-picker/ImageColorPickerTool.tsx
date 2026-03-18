@@ -7,7 +7,7 @@ import { Panel } from "@/components/layout";
 import FileDropZone from "@/components/advanced/FileDropZone";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button, Label } from "@/components/ui";
-import { Check, Copy, CornerDownLeft, Droplets, Pipette } from "lucide-react";
+import { Check, Copy, CornerDownLeft, Droplets, Pipette, X } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -178,56 +178,54 @@ export default function ImageColorPickerTool() {
         : (
           <>
             {/* Toolbar */}
-            <Panel className="space-y-2">
-              <div className="flex items-center flex-row gap-2 justify-evenly flex-wrap">
+            <Panel className="space-y-1.5">
+              {/* Row 1: filename + clear button */}
+              <div className="flex items-center justify-between">
                 <Label>{imageName}</Label>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <div className="flex-1" />
+                <Button onClick={reset} icon={CornerDownLeft} variant="ghost" size="xs">
+                  New image
+                </Button>
+              </div>
 
-                  {/* Global format selector */}
-                  <div className="flex items-center gap-1.5">
-                    <Label size="xs">Format</Label>
-                    <Select value={globalFormat} onValueChange={(e) => setGlobalFormat(e as ColorFormat)}>
-                      <SelectTrigger>{globalFormat.toUpperCase()}</SelectTrigger>
-                      <SelectContent>
-                        {(["hex", "rgb", "rgba", "hsl", "hsla", "oklch"] as ColorFormat[]).map((f) => (
-                          <SelectItem key={f} value={f}>{f.toUpperCase()}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+              {/* Row 2: format | eyedropper | slider (grows) | copy */}
+              <div className="flex items-center gap-2">
+                <Select value={globalFormat} onValueChange={(e) => setGlobalFormat(e as ColorFormat)}>
+                  <SelectTrigger>{globalFormat.toUpperCase()}</SelectTrigger>
+                  <SelectContent>
+                    {(["hex", "rgb", "rgba", "hsl", "hsla", "oklch"] as ColorFormat[]).map((f) => (
+                      <SelectItem key={f} value={f}>{f.toUpperCase()}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
-                  {/* Eyedropper button — uses native EyeDropper API */}
-                  {eyedropperSupported && (
-                    <Button
-                      variant="secondary"
-                      onClick={activateEyedropper}
-                      disabled={eyedropperPicking}
-                      title="Pick any colour from anywhere on screen using the browser eyedropper"
-                      icon={eyedropperPicking ? Droplets : Pipette}
-                    >
-                      {eyedropperPicking ? "Picking..." : "Eyedropper"}
-                    </Button>
-                  )}
-
-                  {/* Max colors slider */}
-                  <div className="flex grow items-center gap-2">
-                    <Label size="xs">Colors</Label>
-                    <input type="range" min={4} max={16} value={colorCount}
-                      onChange={(e) => setColorCount(Number(e.target.value))}
-                      className="w-full accent-primary-500" />
-                    <span className="text-xs font-mono text-(--text-primary) w-4">{colorCount}</span>
-                    <Button onClick={copyAll}
-                      variant="secondary"
-                      icon={copiedAll ? Check : Copy}
-                      className={copiedAll ? "text-green-500" : ""}
-                    />
-                  </div>
-
-                  <Button onClick={reset} icon={CornerDownLeft} variant="ghost">
-                    New image
+                {eyedropperSupported && (
+                  <Button
+                    variant="secondary"
+                    onClick={activateEyedropper}
+                    disabled={eyedropperPicking}
+                    title="Pick any colour from anywhere on screen using the browser eyedropper"
+                    icon={eyedropperPicking ? Droplets : Pipette}
+                  >
+                    {eyedropperPicking ? "Picking..." : "Eyedropper"}
                   </Button>
+                )}
+
+                <div className="flex flex-1 items-center gap-2 min-w-0">
+                  <Label size="xs" className="shrink-0">Colors</Label>
+                  <input
+                    type="range" min={4} max={16} value={colorCount}
+                    onChange={(e) => setColorCount(Number(e.target.value))}
+                    className="flex-1 accent-primary-500"
+                  />
+                  <span className="text-xs font-mono text-(--text-primary) w-4 shrink-0">{colorCount}</span>
                 </div>
+
+                <Button
+                  onClick={copyAll}
+                  variant="secondary"
+                  icon={copiedAll ? Check : Copy}
+                  className={copiedAll ? "text-green-500" : ""}
+                />
               </div>
             </Panel>
 

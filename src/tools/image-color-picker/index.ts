@@ -9,7 +9,6 @@ export const definition: ToolDefinition = {
     "The tool generates usable palettes with HEX and RGB values that designers and developers can immediately copy. All color analysis runs locally in your browser for maximum speed and privacy.",
 
   category: "color",
-  status: "beta",
   icon: "🖌️",
   keywords: [
     "image color picker online",
@@ -47,5 +46,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["color-blindness-simulator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-05",
+  createdAt: "2026-03-05",
+  launchedAt: "2026-03-05",
+  lastUpdated: "2026-03-19",
 };
