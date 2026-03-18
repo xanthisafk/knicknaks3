@@ -6,6 +6,7 @@ import ColorCard from "@/components/advanced/ColorCard";
 import { hexToHsl, hslToHex, wrapHue } from "@/lib/convertColor";
 import type { HSL } from "@/lib/convertColor";
 import { Tab, TabList, Tabs } from "@/components/ui/tab";
+import { ColorPickerSwatch } from "@/components/advanced";
 
 // ===== Harmony generators =====
 type HarmonyMode = "complementary" | "analogous" | "triadic" | "split" | "tetradic" | "monochromatic";
@@ -71,30 +72,14 @@ export default function PaletteGeneratorTool() {
     <div className="space-y-2">
       {/* Seed color */}
       <Panel>
-        <div className="flex items-center gap-4">
-          <div
-            className="w-28 h-28 rounded-lg border-2 border-(--border-default) shadow-sm shrink-0 relative overflow-hidden"
-            style={{ backgroundColor: hex }}
-          >
-            <input
-              type="color"
-              value={hex}
-              onChange={handlePickerChange}
-              className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-              title="Pick a color"
-            />
-          </div>
-          <div className="flex-1 space-y-2">
-            <Input
-              label="Seed color"
-              value={hex}
-              onChange={(e) => handleHexInput(e.target.value)}
-              placeholder="#3B82F6"
-              className="font-mono"
-            />
-            <Label size="xs">Click the swatch to use the color picker</Label>
-          </div>
-        </div>
+
+        <ColorPickerSwatch
+          onChange={handleHexInput}
+          value={hex}
+          label="Seed Color"
+          hint="Select your seed color"
+        />
+
       </Panel>
 
 
