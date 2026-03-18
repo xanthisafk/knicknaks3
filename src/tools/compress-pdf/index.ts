@@ -3,14 +3,21 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Compress PDF",
   slug: "compress-pdf",
-  description: "Reduce PDF file size securely in your browser",
+  description: "Make PDF files smaller quickly in your browser",
   longDescription:
-    "Compress and optimize your PDF files instantly with our secure, client-side PDF compressor. By running entirely in your browser using WebAssembly and pdf-lib, this tool significantly reduces file sizes by stripping redundant objects and re-serializing documents. " +
-    "Perfect for preparing large PDFs for email attachments or web hosting without compromising privacy.",
+    "Shrink PDF file size in seconds directly in your browser. This tool removes unnecessary data and rebuilds the file to reduce size without affecting how it looks. No uploads, no tracking—everything stays on your device. Ideal for email attachments, uploads, and faster sharing.",
   category: "pdf",
   icon: "📦",
-  keywords: ["compress pdf online", "reduce pdf file size", "shrink pdf document", "optimize pdf for web", "secure pdf compression local", "make pdf smaller", "pdf size reducer"],
-  tags: ["pdf", "optimize"],
+  keywords: [
+    "compress pdf",
+    "reduce pdf size",
+    "make pdf smaller",
+    "shrink pdf",
+    "pdf compressor online",
+    "optimize pdf",
+    "small pdf file"
+  ],
+  tags: ["pdf", "compress"],
 
   component: () => import("./CompressPdfTool"),
 
@@ -21,23 +28,53 @@ export const definition: ToolDefinition = {
 
   faq: [
     {
-      question: "How much smaller will my PDF get?",
-      answer: "Reduction results vary depending on the original file. PDFs burdened with unoptimized images, redundant metadata, or heavily embedded redundant objects benefit the most. Documents that are already highly optimized may see minimal changes.",
+      question: "How much can a PDF be compressed?",
+      answer: "It depends on the file. Large or unoptimized PDFs usually shrink more than already optimized ones.",
     },
     {
-      question: "Are my PDF files kept private?",
-      answer: "Absolutely. All compression algorithms execute completely locally inside your web browser. Your sensitive documents are never uploaded to our servers, ensuring 100% data privacy."
+      question: "Is this tool safe to use?",
+      answer: "Yes. Your files never leave your device. Everything runs in your browser.",
     },
     {
-      question: "Will the compression lower the quality of my PDF?",
-      answer: "No visible quality is lost. Our tool utilizes lossless optimization techniques by reconstructing the internal PDF structure and removing unnecessary bloat without degrading the actual content."
+      question: "Will the quality change?",
+      answer: "No. The tool keeps the visual quality the same while reducing file size.",
+    },
+    {
+      question: "Do I need to install anything?",
+      answer: "No installation is required. Just open the tool and upload your file.",
+    },
+    {
+      question: "Can I use this on mobile?",
+      answer: "Yes. It works on most modern phones and tablets.",
+    },
+    {
+      question: "Is there a file size limit?",
+      answer: "Limits depend on your browser and device performance.",
+    },
+    {
+      question: "Does it work offline?",
+      answer: "Yes. Once loaded, the tool can run without an internet connection.",
+    },
+    {
+      question: "What kind of PDFs work best?",
+      answer: "Files with images, metadata, or extra embedded data usually see better results.",
+    },
+    {
+      question: "Can I compress multiple PDFs?",
+      answer: "This version supports one file at a time.",
+    },
+    {
+      question: "Will it remove content from my PDF?",
+      answer: "No. It only removes unnecessary data, not actual content.",
     }
   ],
 
   howItWorks:
-    "Drop your bulky PDF into the upload zone. The tool instantly parses the file locally, then re-encodes the entire document by creating a fresh internal structure, effectively stripping out unnecessary embedded bloat before returning a lean, compressed file ready for download.",
+    "Upload your PDF and press Compress & Download. The tool rebuilds the file and removes extra data to make it smaller.",
 
   relatedTools: ["merge-pdf", "image-to-pdf", "pdf-metadata"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  launchedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  lastUpdated: "2026-03-18",
 };

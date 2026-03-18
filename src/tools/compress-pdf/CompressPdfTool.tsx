@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { Button } from "@/components/ui";
+import { Button, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { PdfDropZone } from "@/components/advanced/PdfDropZone";
 import { PDFDocument } from "pdf-lib";
 import { downloadPdf, formatFileSize } from "@/tools/_pdf-utils";
+import { Check, CornerDownLeft, Download, TriangleAlert, X } from "lucide-react";
+import StatBox from "@/components/ui/StatBox";
+import { cn } from "@/lib";
 
 export default function CompressPdfTool() {
   const [file, setFile] = useState<File | null>(null);
@@ -52,10 +55,10 @@ export default function CompressPdfTool() {
       if (compressed < original) {
         downloadPdf(compressedBytes, `compressed_${file.name}`);
         const pct = ((1 - compressed / original) * 100).toFixed(1);
-        setStatus(`✓ Reduced by ${pct}% (${formatFileSize(original)} → ${formatFileSize(compressed)})`);
+        setStatus(`Reduced by ${pct}% (${formatFileSize(original)} → ${formatFileSize(compressed)})`);
       } else {
         downloadPdf(compressedBytes, `compressed_${file.name}`);
-        setStatus("ℹ️ File is already well-optimized. Saved re-encoded copy.");
+        setStatus("File is already well-optimized. Saved re-encoded copy.");
       }
     } catch (err) {
       setStatus(`Error: ${err instanceof Error ? err.message : "Failed"}`);
@@ -72,28 +75,15 @@ export default function CompressPdfTool() {
         {!file ? (
           <PdfDropZone onFiles={handleFile} />
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-2">
             <div className="flex items-center gap-3 px-3 py-2 rounded-md bg-(--surface-secondary) border border-(--border-default)">
-              <span>📄</span>
+              <span className="font-emoji">📄</span>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-(--text-primary) truncate">{file.name}</p>
                 <p className="text-xs text-(--text-tertiary)">{formatFileSize(file.size)}</p>
               </div>
-              <button onClick={reset} className="text-xs text-(--text-tertiary) hover:text-error transition-colors cursor-pointer">✕</button>
+              <Button variant="ghost" onClick={reset} size="sm" icon={X} />
             </div>
-
-            {result && (
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-3 rounded-md bg-(--surface-secondary) text-center">
-                  <p className="text-xs text-(--text-tertiary)">Original</p>
-                  <p className="text-lg font-semibold text-(--text-primary)">{formatFileSize(result.original)}</p>
-                </div>
-                <div className="p-3 rounded-md bg-(--surface-secondary) text-center">
-                  <p className="text-xs text-(--text-tertiary)">Compressed</p>
-                  <p className="text-lg font-semibold text-(--text-primary)">{formatFileSize(result.compressed)}</p>
-                </div>
-              </div>
-            )}
           </div>
         )}
       </Panel>
@@ -101,17 +91,39 @@ export default function CompressPdfTool() {
       {file && (
         <Panel>
           <div className="flex items-center gap-4">
-            <Button onClick={handleCompress} disabled={isProcessing}>
+            <Button onClick={handleCompress} disabled={isProcessing} icon={Download}>
               {isProcessing ? "Compressing..." : "Compress & Download"}
             </Button>
-            <Button variant="ghost" onClick={reset}>Choose Another</Button>
+            <Button variant="ghost" onClick={reset} icon={CornerDownLeft}>Choose Another</Button>
           </div>
-          {status && (
-            <p className={`mt-3 text-sm ${status.startsWith("Error") ? "text-error" : "text-(--text-secondary)"}`}>
-              {status}
-            </p>
-          )}
+
         </Panel>
+      )}
+
+      {result && (
+        <>
+          <Panel className="space-y-2">
+            {status && (
+              <Label
+                className={cn(
+                  status.startsWith("Error") && "text-error!",
+                  status.startsWith("File") && "text-warning-300!",
+                  status.startsWith("Reduced") && "text-success!",
+                )}
+                icon={
+                  status.startsWith("Error") ? X : status.startsWith("File") ? TriangleAlert : Check
+                }
+              >
+                {status}
+              </Label>
+            )}
+            <div className="flex flex-col md:flex-row gap-2 grow">
+              <div className="grow"><StatBox textSize="5xl" label="Original" value={formatFileSize(result.original)} /></div>
+              <div className="grow"><StatBox textSize="5xl" label="Compressed" value={formatFileSize(result.compressed)} /></div>
+            </div>
+          </Panel>
+
+        </>
       )}
     </div>
   );
