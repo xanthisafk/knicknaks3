@@ -265,11 +265,12 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 }
 
 const textareaBase = [
-  "w-full bg-transparent text-(--text-primary) text-sm",
+  "w-full text-(--text-primary) text-sm",
   "placeholder:text-(--text-tertiary)",
   // Suppress ALL native focus styles — the wrapper handles the ring
   "outline-none focus:outline-none ring-0 focus:ring-0 border-none focus:border-none",
   "py-2 min-h-40 resize-y",
+
 ].join(" ");
 
 const textareaWrapperBase = [
@@ -331,6 +332,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         <div
           className={cn(
             textareaWrapperBase,
+            props.readOnly ? "bg-(--surface-secondary)" : "bg-(--surface-elevated)",
             error &&
             "border-error focus-within:border-error focus-within:ring-error/30"
           )}
@@ -340,7 +342,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           <textarea
             ref={ref}
             id={inputId}
-            className={cn(textareaBase)}
+            className={cn(textareaBase,
+
+            )}
             aria-invalid={!!error}
             aria-describedby={
               error
