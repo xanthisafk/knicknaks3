@@ -45,7 +45,7 @@ function ClaimRow({ name, value }: { name: string; value: unknown }) {
   const formatted = formatTimestamp(value);
   return (
     <div className="flex items-start gap-3 py-1.5">
-      <code className="text-xs font-[family-name:var(--font-mono)] text-[var(--color-primary-600)] flex-shrink-0 min-w-[60px]">
+      <code className="text-xs font-mono text-primary-600 shrink-0 min-w-[60px]">
         {name}
       </code>
       <div className="flex-1">
@@ -53,7 +53,7 @@ function ClaimRow({ name, value }: { name: string; value: unknown }) {
           {typeof value === "object" ? JSON.stringify(value) : String(value)}
         </span>
         {formatted && (
-          <span className="text-xs text-[var(--text-tertiary)] ml-2">({formatted})</span>
+          <span className="text-xs text-(--text-tertiary) ml-2">({formatted})</span>
         )}
       </div>
     </div>
@@ -83,10 +83,10 @@ function JsonBlock({ title, data, color }: { title: string; data: Record<string,
             {copied ? "✓ Copied!" : "📋 Copy"}
           </Button>
         </div>
-        <pre className="text-xs font-[family-name:var(--font-mono)] bg-[var(--surface-secondary)] rounded-[var(--radius-md)] p-3 overflow-x-auto whitespace-pre-wrap text(--text-primary)">
+        <pre className="text-xs font-mono bg-(--surface-secondary) rounded-md p-3 overflow-x-auto whitespace-pre-wrap text(--text-primary)">
           {json}
         </pre>
-        <div className="divide-y divide-[var(--border-default)]">
+        <div className="divide-y divide-(--border-default)">
           {Object.entries(data).map(([key, value]) => (
             <ClaimRow key={key} name={key} value={value} />
           ))}
@@ -122,15 +122,15 @@ export default function JwtDecoderTool() {
             value={token}
             onChange={(e) => setToken(e.target.value)}
             placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-            className="h-28 font-[family-name:var(--font-mono)] text-xs"
+            className="h-28 font-mono text-xs"
           />
           {isInvalid && (
-            <p className="text-sm text-[var(--color-error)]" role="alert">
+            <p className="text-sm text-(--color-error)" role="alert">
               ❌ Invalid JWT format. A JWT should have 3 parts separated by dots.
             </p>
           )}
           {isExpired !== null && (
-            <p className={`text-sm font-medium ${isExpired ? "text-[var(--color-error)]" : "text-[var(--color-success)]"}`}>
+            <p className={`text-sm font-medium ${isExpired ? "text-(--color-error)" : "text-(--color-success)"}`}>
               {isExpired ? "⚠️ This token is expired" : "✅ This token is still valid"}
             </p>
           )}
@@ -148,7 +148,7 @@ export default function JwtDecoderTool() {
         <Panel padding="sm">
           <div className="flex items-center gap-2">
             <span className="text-xs font-medium text(--text-secondary)">Signature:</span>
-            <code className="text-xs font-[family-name:var(--font-mono)] text-[var(--text-tertiary)] break-all">
+            <code className="text-xs font-mono text-(--text-tertiary) break-all">
               {decoded.signature}
             </code>
           </div>
