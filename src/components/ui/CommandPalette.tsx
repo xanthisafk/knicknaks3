@@ -333,7 +333,7 @@ export function CommandPalette({
             Array.from(grouped.entries()).map(([group, groupItems]) => (
               <div key={group}>
                 {group && (
-                  <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-(--text-tertiary)">
+                  <div className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-(--text-tertiary)">
                     {group}
                   </div>
                 )}
@@ -356,7 +356,6 @@ export function CommandPalette({
                       className={cn(
                         "flex items-center gap-3 px-3 py-2.5 rounded-md",
                         "cursor-pointer select-none",
-                        "transition-colors duration-(--duration-fast)",
                         isActive
                           ? "bg-primary-500 text-white"
                           : "text-(--text-primary) hover:bg-(--surface-secondary)"
