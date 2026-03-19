@@ -202,7 +202,7 @@ export interface IDBConfig {
     dbName: string;
     version: number;
     collections: CollectionSchema[];
-    /** Optional per-version migration hooks. Key = version number (1, 2, 3 …) */
+    /** Optional per-version migration hooks. Key = version number (1, 2, 3 ...) */
     migrations?: Record<number, MigrationFn>;
 }
 

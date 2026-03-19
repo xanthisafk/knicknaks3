@@ -151,6 +151,17 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
 /* ===== CSS CUSTOM PROPERTIES (Semantic Tokens) ===== */
 :root {
   /* Surfaces */
