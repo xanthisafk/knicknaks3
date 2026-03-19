@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /* ===== DESIGN TOKENS ===== */
 @theme {
   /* --- Colors --- */
@@ -312,8 +313,13 @@ h6 {
   --tw-prose-td-borders: var(--border-default);
 
   /* Fix for prose adding backticks to inline code */
-  code::before { content: "" !important; }
-  code::after { content: "" !important; }
+  code::before {
+    content: "" !important;
+  }
+
+  code::after {
+    content: "" !important;
+  }
 }
 
 /* Ensure code blocks in prose don't have double padding/background when using Shiki */
@@ -328,32 +334,8 @@ h6 {
   border: none !important;
 }
 
-/* ===== COMPONENT ANIMATIONS ===== */
-
-/* Indeterminate progress bar */
-@keyframes kk-progress-indeterminate {
-  0% {
-    width: 0%;
-    margin-left: 0%;
-  }
-  50% {
-    width: 60%;
-    margin-left: 20%;
-  }
-  100% {
-    width: 0%;
-    margin-left: 100%;
-  }
-}
-
-.kk-progress-indeterminate {
-  animation: kk-progress-indeterminate 1.8s var(--ease-in-out) infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kk-progress-indeterminate {
-    animation: none;
-    width: 100% !important;
-    opacity: 0.5;
-  }
+/* global.css */
+.knicknaks-codeblock pre {
+    margin: 0;
+    padding: 0.75rem;
 }
