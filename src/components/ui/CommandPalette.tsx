@@ -157,7 +157,7 @@ export function CommandPalette({
   items,
   isOpen,
   onClose,
-  placeholder = "Type a command…",
+  placeholder = "Type a command...",
   emptyMessage = "No results found.",
   className,
   header,

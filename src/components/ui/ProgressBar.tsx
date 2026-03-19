@@ -56,7 +56,7 @@ export function ProgressBar({
           {label && <span className="font-medium">{label}</span>}
           {showLabel && (
             <span className="tabular-nums ml-auto">
-              {indeterminate ? "…" : `${Math.round(pct)}%`}
+              {indeterminate ? "..." : `${Math.round(pct)}%`}
             </span>
           )}
         </div>

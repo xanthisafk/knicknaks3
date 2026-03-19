@@ -65,7 +65,7 @@ function MarkdownContent({ content }: { content: string }) {
       }
     });
     return (
-      <p className="text-sm text-(--text-tertiary) italic">Loading…</p>
+      <p className="text-sm text-(--text-tertiary) italic">Loading...</p>
     );
   }
 

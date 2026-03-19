@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 type BadgeVariant = "primary" | "secondary" | "success" | "warning" | "danger" | "ghost";
 type IconPosition = "left" | "right";
 
-interface BadgeProps {
+interface BadgeProps extends React.ComponentProps<"span"> {
   variant?: BadgeVariant;
   icon?: LucideIcon;
   emoji?: string;
@@ -49,6 +49,7 @@ export function Badge({
   text,
   iconPos = "left",
   className,
+  ...props
 }: BadgeProps) {
   const visual = renderVisual(icon, emoji);
 
@@ -62,6 +63,7 @@ export function Badge({
         variantStyles[variant],
         className
       )}
+      {...props}
     >
       {iconPos === "left" && visual}
       <span>{text}</span>

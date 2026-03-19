@@ -6,7 +6,7 @@ type ButtonVariant = "primary" | "secondary" | "warning" | "danger" | "ghost";
 type ButtonSize = "xs" | "s" | "sm" | "m" | "md" | "l" | "lg" | "xl";
 type IconPosition = "left" | "right";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ComponentProps<'button'> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   icon?: LucideIcon;

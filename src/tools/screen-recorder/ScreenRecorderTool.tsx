@@ -422,7 +422,7 @@ export default function ScreenRecorderTool() {
     // Order matters:
     //   1. Show 3-2-1 countdown while user is still on *our* tab
     //   2. Call getDisplayMedia (browser opens picker, user may switch tabs)
-    //   3. Wait 1 extra second so user can see "Recording starts in 1…" before we go
+    //   3. Wait 1 extra second so user can see "Recording starts in 1..." before we go
     //   4. Start MediaRecorder
     //
     const startRecording = async () => {
@@ -460,7 +460,7 @@ export default function ScreenRecorderTool() {
         streamRef.current = screenStream;
 
         // Phase 3: post-getDisplayMedia 1s pause (user may have switched tabs;
-        // show "Starting…" so they know something is happening if they switch back)
+        // show "Starting..." so they know something is happening if they switch back)
         setState("countdown-post");
         await sleep(1000);
 
@@ -627,7 +627,7 @@ export default function ScreenRecorderTool() {
                                 <div className="pl-1 space-y-2">
                                     {micPermission === "asking" && (
                                         <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>
-                                            Requesting microphone access…
+                                            Requesting microphone access...
                                         </p>
                                     )}
 
@@ -712,7 +712,7 @@ export default function ScreenRecorderTool() {
                         {state === "countdown-pre" ? (
                             <>
                                 <p className="text-sm font-medium" style={{ color: "var(--text-tertiary)" }}>
-                                    Get ready — recording starts in…
+                                    Get ready — recording starts in...
                                 </p>
                                 <span
                                     key={countdown}
@@ -727,13 +727,13 @@ export default function ScreenRecorderTool() {
                                     {countdown}
                                 </span>
                                 <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
-                                    Pick your screen source when prompted…
+                                    Pick your screen source when prompted...
                                 </p>
                             </>
                         ) : (
                             <>
                                 <p className="text-sm font-medium" style={{ color: "var(--text-tertiary)" }}>
-                                    Starting…
+                                    Starting...
                                 </p>
                                 <span
                                     className="text-4xl"
@@ -805,7 +805,7 @@ export default function ScreenRecorderTool() {
                 <Panel>
                     <div className="space-y-3">
                         <p className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>
-                            🎞️ Compositing webcam onto recording…
+                            🎞️ Compositing webcam onto recording...
                         </p>
                         <ProgressBar value={compositePct} max={100} variant="success" showLabel />
                         <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
