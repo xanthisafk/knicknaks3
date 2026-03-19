@@ -41,7 +41,7 @@ export default function PlaylistLoader({ onLoad, isLoading, setIsLoading, initia
 
     setIsLoading(true);
     setError('');
-    loadUrl();
+    loadUrl(url);
   };
 
   const loadUrl = async (link?: string) => {
