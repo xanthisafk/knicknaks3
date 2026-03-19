@@ -35,11 +35,6 @@ export default function PlaylistLoader({ onLoad, isLoading, setIsLoading, initia
     }
   };
 
-  // temp
-  useEffect(() => {
-    loadUrl('https://iptv-org.github.io/iptv/index.m3u');
-  }, [])
-
   const handleLoadUrl = async (e: React.SubmitEvent) => {
     e.preventDefault();
     if (!url.trim()) return;
@@ -50,7 +45,7 @@ export default function PlaylistLoader({ onLoad, isLoading, setIsLoading, initia
   };
 
   const loadUrl = async (link?: string) => {
-    link = link || "https://iptv-org.github.io/iptv/index.m3u";
+    if (!link) return;
     try {
       const res = await fetch(link);
       if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
