@@ -1,6 +1,11 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getAllTools, getToolBySlug, getRelatedTools, getToolStatus } from "@/tools/_registry";
+import {
+  getAllTools,
+  getToolBySlug,
+  getRelatedTools,
+  getToolStatus,
+} from "@/tools/_registry";
 import { CATEGORY_INFO, STATUS_INFO } from "@/tools/_types";
 import { ToolWrapper } from "@/components/advanced/ToolWrapper";
 import Header from "@/components/layout/Header.astro";
@@ -98,9 +103,7 @@ if (tool.faq?.length) {
               {
                 status && (
                   <div class="flex items-center gap-1.5 text-xs uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-(--surface-secondary) text(--text-secondary) border border-(--border-default)">
-                    <span class="font-emoji">
-                      {STATUS_INFO[status].icon}
-                    </span>
+                    <span class="font-emoji">{STATUS_INFO[status].icon}</span>
                     {STATUS_INFO[status].label}
                   </div>
                 )
@@ -108,7 +111,7 @@ if (tool.faq?.length) {
             </div>
 
             <p class="text(--text-secondary) text-lg">
-              {tool.longDescription ?? tool.description}
+              {tool.description}
             </p>
 
             {
