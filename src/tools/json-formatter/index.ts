@@ -41,5 +41,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["json-validator", "json-to-csv", "yaml-formatter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-19",
 };
