@@ -40,6 +40,7 @@
     "fuse.js": "^7.1.0",
     "hls.js": "^1.6.15",
     "iptv-playlist-parser": "^0.15.2",
+    "jose": "^6.2.2",
     "kokoro-js": "^1.2.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.577.0",

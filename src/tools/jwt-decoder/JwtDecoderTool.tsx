@@ -1,7 +1,9 @@
 import { useState, useMemo } from "react";
-import { Textarea, Button } from "@/components/ui";
+import { Textarea, Button, Label, Input, Badge } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { TriangleAlert, ShieldCheck, ShieldX, Loader2, Check, X } from "lucide-react";
+import CodeBlock from "@/components/advanced/CodeBlock";
+import { jwtVerify, importSPKI } from "jose";
 
 function base64UrlDecode(str: string): string {
   let base64 = str.replace(/-/g, "+").replace(/_/g, "/");
@@ -32,72 +34,13 @@ function decodeJWT(token: string): DecodedJWT | null {
   }
 }
 
-function formatTimestamp(value: unknown): string | null {
-  if (typeof value !== "number") return null;
-  // Unix timestamps in JWT are in seconds
-  if (value > 1e9 && value < 1e11) {
-    return new Date(value * 1000).toLocaleString();
-  }
-  return null;
-}
-
-function ClaimRow({ name, value }: { name: string; value: unknown }) {
-  const formatted = formatTimestamp(value);
-  return (
-    <div className="flex items-start gap-3 py-1.5">
-      <code className="text-xs font-mono text-primary-600 shrink-0 min-w-[60px]">
-        {name}
-      </code>
-      <div className="flex-1">
-        <span className="text-sm text(--text-primary) break-all">
-          {typeof value === "object" ? JSON.stringify(value) : String(value)}
-        </span>
-        {formatted && (
-          <span className="text-xs text-(--text-tertiary) ml-2">({formatted})</span>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function JsonBlock({ title, data, color }: { title: string; data: Record<string, unknown>; color: string }) {
-  const [copied, setCopied] = useState(false);
-  const json = JSON.stringify(data, null, 2);
-
-  const handleCopy = async () => {
-    if (await copyToClipboard(json)) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
-  return (
-    <Panel>
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color }}>
-            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
-            {title}
-          </h3>
-          <Button size="sm" variant="ghost" onClick={handleCopy}>
-            {copied ? "✓ Copied!" : "📋 Copy"}
-          </Button>
-        </div>
-        <pre className="text-xs font-mono bg-(--surface-secondary) rounded-md p-3 overflow-x-auto whitespace-pre-wrap text(--text-primary)">
-          {json}
-        </pre>
-        <div className="divide-y divide-(--border-default)">
-          {Object.entries(data).map(([key, value]) => (
-            <ClaimRow key={key} name={key} value={value} />
-          ))}
-        </div>
-      </div>
-    </Panel>
-  );
-}
+type VerifyStatus = "idle" | "loading" | "valid" | "invalid";
 
 export default function JwtDecoderTool() {
   const [token, setToken] = useState("");
+  const [secret, setSecret] = useState("");
+  const [verifyStatus, setVerifyStatus] = useState<VerifyStatus>("idle");
+  const [verifyError, setVerifyError] = useState<string | null>(null);
 
   const decoded = useMemo(() => {
     if (!token.trim()) return null;
@@ -106,28 +49,68 @@ export default function JwtDecoderTool() {
 
   const isInvalid = token.trim().length > 0 && !decoded;
 
-  // Check token expiration
+  const alg = decoded?.header?.alg as string | undefined;
+  const isAsymmetric = alg && (alg.startsWith("RS") || alg.startsWith("ES") || alg.startsWith("PS"));
+  const secretLabel = isAsymmetric ? "Public Key (PEM)" : "Secret Key";
+  const secretPlaceholder = isAsymmetric
+    ? "-----BEGIN PUBLIC KEY-----\n..."
+    : "your-secret-key";
+
   const isExpired = useMemo(() => {
     if (!decoded?.payload?.exp) return null;
     const exp = decoded.payload.exp as number;
     return Date.now() / 1000 > exp;
   }, [decoded]);
 
+  async function handleVerify(e: React.ChangeEvent<HTMLInputElement>) {
+    const secret = e.target.value;
+    setSecret(secret);
+
+    if (!token.trim() || !decoded || !secret.trim()) return;
+    setVerifyStatus("loading");
+    setVerifyError(null);
+
+    try {
+      let key: CryptoKey | Uint8Array;
+
+      if (isAsymmetric) {
+        key = await importSPKI(secret.trim(), alg!);
+      } else {
+        key = new TextEncoder().encode(secret.trim());
+      }
+
+      await jwtVerify(token.trim(), key, { algorithms: alg ? [alg] : undefined });
+      setVerifyStatus("valid");
+    } catch (err) {
+      setVerifyStatus("invalid");
+      setVerifyError(err instanceof Error ? err.message : "Verification failed");
+    }
+  }
+
   return (
-    <div className="space-y-2">
-      <Panel>
-        <div className="space-y-3">
-          <label className="text-sm font-medium text(--text-primary)">Paste JWT Token</label>
+    <div className="flex flex-row gap-2">
+      <Panel className="flex-1">
+        <div className="space-y-2">
           <Textarea
             value={token}
-            onChange={(e) => setToken(e.target.value)}
-            placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-            className="h-28 font-mono text-xs"
+            label="Your JWT Token"
+            onChange={(e) => {
+              setToken(e.target.value);
+              setVerifyStatus("idle");
+              setVerifyError(null);
+            }}
+            placeholder="Enter your token here..."
+          />
+          <Input
+            label={secretLabel}
+            value={secret}
+            onChange={handleVerify}
+            placeholder={secretPlaceholder}
           />
           {isInvalid && (
-            <p className="text-sm text-(--color-error)" role="alert">
-              ❌ Invalid JWT format. A JWT should have 3 parts separated by dots.
-            </p>
+            <Label icon={TriangleAlert} size="s" variant="danger" role="alert">
+              Invalid JWT format. A JWT should have 3 parts separated by dots.
+            </Label>
           )}
           {isExpired !== null && (
             <p className={`text-sm font-medium ${isExpired ? "text-(--color-error)" : "text-(--color-success)"}`}>
@@ -136,24 +119,44 @@ export default function JwtDecoderTool() {
           )}
         </div>
       </Panel>
-
-      {decoded && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <JsonBlock title="Header" data={decoded.header} color="var(--color-primary-500)" />
-          <JsonBlock title="Payload" data={decoded.payload} color="var(--color-accent-500)" />
-        </div>
-      )}
-
-      {decoded && (
-        <Panel padding="sm">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text(--text-secondary)">Signature:</span>
-            <code className="text-xs font-mono text-(--text-tertiary) break-all">
-              {decoded.signature}
-            </code>
-          </div>
+      {!decoded &&
+        <Panel className="flex-2">
+          <p>Enter a JWT token to decode it.</p>
         </Panel>
-      )}
+      }
+
+      {decoded &&
+        <div className="flex flex-col gap-2 flex-2">
+          <div className="flex flex-col md:flex-col gap-2">
+            <Panel className="flex-1">
+              <CodeBlock
+                code={JSON.stringify(decoded.header, null, 2)}
+                langHint="json"
+                label="Header"
+              />
+            </Panel>
+            <Panel className="flex-1">
+              <CodeBlock
+                code={JSON.stringify(decoded.payload, null, 2)}
+                langHint="json"
+                label="Payload"
+              />
+            </Panel>
+          </div>
+
+          <Panel padding="sm">
+            <div className="flex items-center gap-2">
+              <Label>Signature:</Label>
+              <code className="text-xs font-mono break-all">
+                {decoded.signature}
+              </code>
+              {verifyStatus === "valid" && <Badge icon={Check} text="Valid" variant="success" />}
+              {verifyStatus === "invalid" && <Badge icon={X} text="Invalid" variant="danger" />}
+            </div>
+          </Panel>
+
+        </div>
+      }
     </div>
   );
 }

@@ -126,7 +126,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             className={cn(
                 "knicknaks-codeblock",
                 className,
-                "relative font-mono text-sm shadow-sm overflow-hidden rounded-lg",
+                "relative h-full w-full font-mono text-sm overflow-hidden rounded-lg",
                 maxHeight && `max-h-[${maxHeight}]`,
             )}
             data-lang={lang}
