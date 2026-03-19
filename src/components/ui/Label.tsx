@@ -6,16 +6,16 @@ import { Tooltip } from "./Tooltip";
 
 type LabelSize = "xs" | "s" | "m" | "l" | "xl";
 type LabelFont = "body" | "heading" | "mono" | "brand";
+type LabelVariant = "primary" | "secondary" | "danger" | "success" | "warning" | "info" | "default";
 
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
-  /** Label text — or pass children instead */
   text?: string;
   children?: ReactNode;
   size?: LabelSize;
   font?: LabelFont;
   icon?: LucideIcon;
+  variant?: LabelVariant;
   emoji?: string;
-  /** When provided, renders an ℹ info icon with a hover tooltip */
   tooltip?: string;
   className?: string;
 }
@@ -35,6 +35,16 @@ const fontStyles: Record<LabelFont, string> = {
   brand: "font-brand",
 };
 
+const variantStyles: Record<LabelVariant, string> = {
+  primary: "",                            // gray from base class
+  default: "text-inherit",               // default text color from context
+  secondary: "text-(--color-secondary)!",
+  danger: "text-(--color-error)!",
+  success: "text-(--color-success)!",
+  warning: "text-(--color-warning)!",
+  info: "text-(--color-info)!",
+};
+
 const iconSizeMap: Record<LabelSize, number> = {
   xs: 10,
   s: 12,
@@ -43,18 +53,14 @@ const iconSizeMap: Record<LabelSize, number> = {
   xl: 18,
 };
 
-function renderVisual(
-  icon?: LucideIcon,
-  emoji?: string,
-  size: LabelSize = "m"
-) {
+function renderVisual(icon?: LucideIcon, emoji?: string, size: LabelSize = "m") {
   const Icon = icon;
   if (Icon) {
     return (
       <Icon
         size={iconSizeMap[size]}
         aria-hidden="true"
-        className="shrink-0 text-(--text-tertiary)"
+        className="shrink-0"
       />
     );
   }
@@ -77,6 +83,7 @@ export function Label({
   emoji,
   tooltip,
   className,
+  variant = "primary",
   ...props
 }: LabelProps) {
   const visual = renderVisual(icon, emoji, size);
@@ -91,6 +98,7 @@ export function Label({
         "select-none",
         sizeStyles[size],
         fontStyles[font],
+        variantStyles[variant],
         className
       )}
       {...props}
