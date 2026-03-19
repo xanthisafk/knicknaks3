@@ -4,9 +4,6 @@ export const definition: ToolDefinition = {
   name: "Base64 Encoder / Decoder",
   slug: "base64",
   description: "Encode and decode text and data to/from Base64",
-  longDescription:
-    "Convert text to Base64 encoding and back with our developer-friendly Base64 Encoder / Decoder tool. Supports standard Base64 (RFC 4648) and URL-safe Base64 variants. " +
-    "Features live on-the-fly conversion mode, character counting, clipboard integration, and one-click input/output swapping for seamless data handling.",
   category: "encoders",
   icon: "🔄",
   keywords: ["base64 encoder", "base64 decoder", "url safe base64", "btoa function online", "atob", "encode to base64", "binary to text encoding", "base64 conversion tool"],

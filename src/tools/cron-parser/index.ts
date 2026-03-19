@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "Cron Expression Parser",
   slug: "cron-parser",
   description: "Translate complex cron expressions into human-readable time",
-  longDescription: "Eliminate the guesswork of server scheduling. The Cron Expression Parser translates cryptic Unix cron strings into plain, easy-to-understand English. It also accurately calculates and displays the next several scheduled execution times, ensuring your automated tasks run exactly when you intend them to.",
   category: "dev",
   icon: "⏰",
   keywords: ["cron parser", "cron expression reader", "cron to english", "crontab calculator", "cron schedule explainer", "linux task scheduling", "next cron run time previewer"],

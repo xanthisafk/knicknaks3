@@ -4,9 +4,6 @@ export const definition: ToolDefinition = {
   name: "Color Converter",
   slug: "color-converter",
   description: "Convert colors between HEX, RGB, HSL, and CMYK formats",
-  longDescription:
-    "Seamlessly translate colors across web and print formats with our Color Converter. Convert precisely between visual HEX codes, standard RGB values, CSS-friendly HSL variables, and print-ready CMYK formats. Features a live rendering preview " +
-    "swatch, an interactive visual color picker, and one-click rapid copy integration for each specific output format.",
   category: "color",
   icon: "🎨",
   keywords: ["color converter online", "hex to rgb calculator", "rgb to hsl converter", "css color format tool", "cmyk print color code", "html color picker", "color translation format"],

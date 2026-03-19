@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "BMR Calculator",
   slug: "bmr-calculator",
   description: "Calculate your Basal Metabolic Rate (BMR)",
-  longDescription: "The BMR (Basal Metabolic Rate) Calculator helps you discover the exact number of calories your body requires to maintain basic life-sustaining functions while completely at rest. Essential for diet planning, weight loss, and muscle gain.",
   category: "health",
   icon: "🔋",
   keywords: ["bmr calculator online", "basal metabolic rate computation", "resting metabolism calculator", "daily calorie burn rate", "energy expenditure calculator", "fitness calorie tracking", "mifflin st jeor equation", "weight loss tool"],

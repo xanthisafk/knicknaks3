@@ -6,12 +6,6 @@ export const definition: ToolDefinition = {
 
   description: "Preview images through color vision deficiency filters",
 
-  longDescription:
-    "Quickly test how your visuals appear to users with color vision deficiencies. " +
-    "Upload images, UI designs, or charts and instantly simulate conditions like Protanopia, Deuteranopia, and Tritanopia. " +
-    "Use it to catch contrast issues, misleading color cues, and accessibility gaps before shipping. " +
-    "Everything runs locally in your browser for fast, private analysis.",
-
   category: "color",
   icon: "👩‍🦯",
 

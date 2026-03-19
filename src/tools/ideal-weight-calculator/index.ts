@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "Ideal Weight Calculator",
   slug: "ideal-weight-calculator",
   description: "Calculate your ideal body weight based on scientific formulas",
-  longDescription: "Determine a healthy weight target tailored to your specific body type. Our Ideal Weight Calculator instantly processes your height and gender through four widely-recognized scientific formulas (Robinson, Miller, Devine, and Hamwi) to provide you with a comprehensive and realistic ideal weight range.",
   category: "health",
   icon: "⚖️",
   keywords: ["ideal weight calculator", "healthy weight target", "ibw calculator", "devine formula weight", "calculate my perfect weight", "healthy body weight range", "metrics weight calculator"],

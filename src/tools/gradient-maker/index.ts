@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "Gradient Maker",
   slug: "gradient-maker",
   description: "Visual CSS gradient builder. Select stops, angle and type",
-  longDescription: "Design beautiful, responsive CSS backgrounds with our interactive Gradient Maker. Seamlessly generate complex, multi-stop linear, radial, and conic gradients using a live visual editor. Perfect for UI developers looking to export clean, cross-browser compatible CSS code.",
   category: "color",
   icon: "🌈",
   keywords: ["css gradient generator", "radial background maker", "linear gradient builder", "conic css backgrounds", "visual gradient editor", "css color stops tool", "ui design backgrounds"],

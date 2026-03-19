@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "Deduplicate Lines",
   slug: "deduplicate-lines",
   description: "Remove duplicate lines from text lists",
-  longDescription: "Clean up your data effortlessly with the Deduplicate Lines tool. Simply paste any list or text block, and our algorithm will instantly strip out repetitive lines while maintaining the exact original order of the remaining unique items. Ideal for processing CSVs, cleaning email lists, and formatting code.",
   category: "text",
   icon: "🧹",
   keywords: ["deduplicate lines online", "remove duplicate text", "unique line filter", "clean up lists", "delete repeated lines", "strip duplicate words", "text list deduplicator"],

@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "Age Calculator",
   slug: "age-calculator",
   description: "Calculate precise age and get some fun stats!",
-  longDescription: "Our free online Age Calculator helps you determine your exact age in years, months, and days between your birth date and any target date. Perfect for calculating age for forms, events, or tracking milestones.",
   category: "calculators",
   icon: "🎂",
   keywords: ["age calculator", "calculate age online", "date of birth calculator", "age difference", "years months days calculator", "exact age calculator", "birthday calculator", "chronological age"],

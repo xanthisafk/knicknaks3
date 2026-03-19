@@ -5,9 +5,6 @@ export const definition: ToolDefinition = {
   slug: "find-replace",
   description: "Find and replace text instantly with optional Regex support.",
 
-  longDescription:
-    "Quickly scan and modify large blocks of text with our advanced Find & Replace utility. Easily perform simple text substitutions or leverage the immense power of full JavaScript Regular Expressions (Regex) complete with capture group replacements in a live preview environment.",
-
   category: "text",
   icon: "🔎",
 

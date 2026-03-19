@@ -4,8 +4,6 @@ export const definition: ToolDefinition = {
   name: "Compress PDF",
   slug: "compress-pdf",
   description: "Make PDF files smaller quickly in your browser",
-  longDescription:
-    "Shrink PDF file size in seconds directly in your browser. This tool removes unnecessary data and rebuilds the file to reduce size without affecting how it looks. No uploads, no tracking—everything stays on your device. Ideal for email attachments, uploads, and faster sharing.",
   category: "pdf",
   icon: "📦",
   keywords: [

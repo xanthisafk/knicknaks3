@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "CSS Filter Generator",
   slug: "css-filter",
   description: "Generate CSS image filters. Adjust blur, brightness, contrast, and more",
-  longDescription: "Effortlessly design striking image effects right in your browser. The CSS Filter Generator provides an intuitive slider interface to fine-tune visual properties like blur, brightness, contrast, grayscale, and hue-rotation. Live-preview your changes on a sample image and copy the generated CSS directly into your project.",
   category: "dev",
   icon: "🔆",
   keywords: ["css filter generator", "css image effects builder", "blur effect css", "brightness contrast css tool", "grayscale image css", "visual css filters ui", "photo filter css code"],

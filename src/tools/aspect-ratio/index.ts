@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "Aspect Ratio Calculator",
   slug: "aspect-ratio",
   description: "Instantly scale dimensions proportionally",
-  longDescription: "Use our Aspect Ratio Calculator to easily calculate and maintain proportional dimensions for images, videos, and UI elements. Perfect for web developers, designers, and video editors who need to scale media perfectly.",
   category: "calculators",
   icon: "📐",
   keywords: ["aspect ratio calculator", "image aspect ratio", "video dimensions", "scale image online", "proportion calculator", "16:9 calculator", "width and height calculator", "responsive design tools"],

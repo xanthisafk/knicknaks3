@@ -4,9 +4,6 @@ export const definition: ToolDefinition = {
   name: "Case Converter",
   slug: "case-converter",
   description: "Convert text between UPPERCASE, lowercase, and more",
-  longDescription:
-    "Convert text between multiple casing styles instantly with our versatile Case Converter. Supports regular UPPERCASE and lowercase, as well as developer-friendly formats like Title Case, " +
-    "Sentence case, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, and dot.case.",
   category: "text",
   icon: "🔤",
   keywords: ["case converter online", "uppercase to lowercase", "change text case", "camelcase converter", "snake case to camel case", "title case capitalization", "pascalcase string formatting", "text formatting tool"],

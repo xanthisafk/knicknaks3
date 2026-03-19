@@ -6,9 +6,6 @@ export const definition: ToolDefinition = {
   description:
     "Generate color harmonies from a single HEX color",
 
-  longDescription:
-    "Design better interfaces with mathematically precise color harmonies. Enter a single seed HEX color and instantly generate structured color relationships including triadic, analogous, complementary, and cascading monochromatic palettes. This tool helps designers and developers quickly explore balanced color systems for UI design, branding, and CSS variables without manually calculating color wheel relationships.",
-
   category: "color",
   icon: "💐",
 

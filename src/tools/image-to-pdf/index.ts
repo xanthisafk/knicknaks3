@@ -4,9 +4,6 @@ export const definition: ToolDefinition = {
   name: "Image to PDF",
   slug: "image-to-pdf",
   description: "Convert images into a single PDF locally in your browser",
-  longDescription:
-    "Combine multiple images (PNG, JPG, BMP, WebP) into a single PDF. Reorder files and rotate them if needed and generate your document instantly. " +
-    "All processing runs locally in your browser. Your files never leave your device.",
   category: "pdf",
   icon: "🖼️",
   keywords: [

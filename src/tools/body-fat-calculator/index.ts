@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "Body Fat Calculator",
   slug: "body-fat-calculator",
   description: "Estimate your body fat percentage",
-  longDescription: "Our free Body Fat Calculator provides a reliable estimation of your total body fat percentage using the proven U.S. Navy circumference method. An excellent tool for tracking fat loss and body recomposition beyond just weighing yourself on a scale.",
   category: "health",
   icon: "📉",
   keywords: ["body fat calculator", "us navy body fat method", "measure body fat percentage", "fitness tracking tools", "fat loss calculator", "body composition calculator", "neck waist hip measurements"],

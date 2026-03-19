@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "BMI Calculator",
   slug: "bmi-calculator",
   description: "Calculate your Body Mass Index (BMI)",
-  longDescription: "Our free BMI (Body Mass Index) Calculator provides an immediate and accurate assessment of your body weight relative to your height. Use it to determine whether you are underweight, normal weight, overweight, or obese according to standard World Health Organization (WHO) categories.",
   category: "health",
   icon: "⚖️",
   keywords: ["bmi calculator", "calculate body mass index", "bmi checker online", "healthy weight calculator", "weight category finder", "who bmi calculation", "fitness tools", "health metrics"],

@@ -4,10 +4,6 @@ export const definition: ToolDefinition = {
   name: "Fancy Text Generator",
   slug: "fancy-text-generator",
   description: "Generate stylish Unicode text you can copy and paste anywhere.",
-
-  longDescription:
-    "Level up your social media bios and posts! The Fancy Text Generator seamlessly transforms standard text strings into an array of aesthetically pleasing Unicode variants. Generate cool cursive, bold, script, and fraktur fonts that you can copy and paste anywhere.",
-
   category: "text",
   icon: "✨",
 

@@ -5,12 +5,6 @@ export const definition: ToolDefinition = {
   slug: "exif-metadata-viewer",
   description:
     "View and inspect EXIF metadata from photos directly in your browser.",
-
-  longDescription:
-    "Inspect hidden metadata embedded in photos using this EXIF metadata viewer. Upload an image to instantly view details such as camera model, lens type, shutter speed, ISO, GPS coordinates, and capture date. " +
-    "This tool is useful for photographers, developers, and privacy-conscious users who want to analyze or verify image metadata. " +
-    "All processing happens locally inside your browser, ensuring your photos remain completely private and are never uploaded to a server.",
-
   category: "media",
   featured: true,
   icon: "📷",

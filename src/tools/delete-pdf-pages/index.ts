@@ -4,9 +4,6 @@ export const definition: ToolDefinition = {
   name: "Delete PDF Pages",
   slug: "delete-pdf-pages",
   description: "Remove selected pages from a PDF securely in your browser",
-  longDescription:
-    "Remove unwanted pages from a PDF directly in your browser. Upload your document, choose the pages or ranges you want to delete, and download the cleaned file instantly. " +
-    "All processing runs locally, so your files never leave your device.",
 
   category: "pdf",
   icon: "🗑️",

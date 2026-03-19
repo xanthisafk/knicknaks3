@@ -4,9 +4,6 @@ export const definition: ToolDefinition = {
   name: "IPTV Player",
   slug: "iptv-player",
   description: "Play M3U and M3U8 IPTV streams instantly in your browser",
-  longDescription:
-    "Play IPTV fast with a clean, reliable browser player. Load M3U or M3U8 playlists, open channels, and start streaming in seconds. No installs and no uploads—everything runs on your device. Great for testing playlists, checking streams, or watching your own IPTV anywhere.",
-
   category: "media",
   icon: "📺",
 
@@ -58,7 +55,7 @@ export const definition: ToolDefinition = {
       answer: "Yes. It works on modern phones and tablets."
     },
     {
-      question: "Why won’t some streams play?",
+      question: "Why won't some streams play?",
       answer: "Some providers block playback or require authentication."
     },
     {
