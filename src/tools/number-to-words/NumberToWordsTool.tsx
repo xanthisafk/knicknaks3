@@ -55,12 +55,12 @@ export default function NumberToWordsTool() {
           value={input}
           onChange={e => setInput(e.target.value)}
           placeholder="e.g. 1542 or 3.14"
-          className="font-[family-name:var(--font-mono)] text-lg"
+          className="font-mono text-lg"
         />
       </Panel>
 
       {result && "error" in result ? (
-        <p className="text-sm text-[var(--color-error)] px-1">{result.error}</p>
+        <p className="text-sm text-(--color-error) px-1">{result.error}</p>
       ) : result ? (
         <div className="space-y-3">
           {[
@@ -71,7 +71,7 @@ export default function NumberToWordsTool() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text(--text-primary)">{r.label}</span>
-                  <button onClick={async () => { await copyToClipboard(r.value); setCopied(r.label); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) cursor-pointer">{copied === r.label ? "✓ Copied" : "Copy"}</button>
+                  <button onClick={async () => { await copyToClipboard(r.value); setCopied(r.label); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-(--text-tertiary) hover:text(--text-primary) cursor-pointer">{copied === r.label ? "✓ Copied" : "Copy"}</button>
                 </div>
                 <p className="text(--text-primary) capitalize leading-relaxed">{r.value}</p>
               </div>
