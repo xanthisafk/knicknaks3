@@ -5,13 +5,7 @@ export const definition: ToolDefinition = {
   slug: "loan-mortgage-calculator",
   description:
     "Calculate monthly payments, interest for loans",
-
-  longDescription:
-    "Estimate monthly loan repayments quickly using this loan and mortgage calculator. Enter the loan amount, interest rate, and repayment term to see your monthly payment, total interest paid, and a full amortisation breakdown. " +
-    "Ideal for planning mortgages, car loans, personal loans, or financial budgeting.",
-
   category: "calculators",
-  status: "alpha",
   icon: "🏦",
 
   keywords: [
@@ -50,5 +44,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["tip-calculator", "date-difference-calculator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-06",
+  createdAt: "2026-03-06",
+  launchedAt: "2026-03-06",
+  lastUpdated: "2026-03-20",
 };
