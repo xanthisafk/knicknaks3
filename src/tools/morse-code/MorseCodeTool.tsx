@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Textarea, Button, Input } from "@/components/ui";
 import { Panel } from "@/components/layout";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Download, Pause, Play } from "lucide-react";
 
 const MORSE_CODE_DICT: Record<string, string> = {
   "A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".", "F": "..-.",
@@ -262,113 +264,87 @@ export default function MorseCodeTool() {
   const displayMorse = morseStyle === "unicode" ? toUnicode(morse) : morse;
 
   return (
-    <div className="space-y-2">
-      <Panel>
-        <div className="space-y-6">
-          {/* Text input */}
-          <div>
-            <label className="text-sm font-medium text-[var(--text-primary)] block mb-2">
-              Text Input
-            </label>
-            <Textarea
-              value={text}
-              onChange={(e) => handleTextChange(e.target.value)}
-              placeholder="Enter text to translate to Morse Code..."
-              className="min-h-[120px]"
-            />
+    <div className="flex flex-col md:flex-row gap-2">
+      <div className="flex-1 flex flex-col gap-2">
+        <Panel>
+          <Textarea
+            label="Text input"
+            value={text}
+            onChange={(e) => handleTextChange(e.target.value)}
+            placeholder="Enter text to translate to Morse Code..."
+            rows={10}
+            className="font-mono"
+          />
+        </Panel>
+
+
+        <Panel className="flex flex-col gap-3">
+          <Input
+            type="number"
+            label="Speed (WPM)"
+            value={wpm}
+            onChange={(e) =>
+              setWpm(Math.max(1, Math.min(100, parseInt(e.target.value) || 20)))
+            }
+            min={1}
+            max={100}
+          />
+          <Select
+            label="Output Style"
+            value={morseStyle}
+            onValueChange={v => setMorseStyle(v as MorseStyle)}
+          >
+            <SelectTrigger>
+              {morseStyle === "ascii" ? ". - (ASCII)" : "· − (Unicode)"}
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ascii">ASCII</SelectItem>
+              <SelectItem value="unicode">Unicode</SelectItem>
+            </SelectContent>
+          </Select>
+        </Panel>
+      </div>
+
+      {/* Output */}
+      <div className="flex-1 flex flex-col gap-2">
+        <Panel className="space-y-3">
+          <Textarea
+            label="Morse Code"
+            value={displayMorse}
+            onChange={(e) => handleMorseChange(e.target.value)}
+            placeholder="Enter morse code (e.g. .... . .-.. .-.. ---)"
+            className="font-mono"
+            dir="auto"
+            rows={10}
+          />
+
+          <div className="flex flex-row justify-between gap-2">
+            <Button
+              onClick={playMorse}
+              variant={"primary"}
+              disabled={!morse.trim()}
+              icon={isPlaying ? Pause : Play}
+            >
+              {isPlaying ? "Stop" : "Play Audio"}
+            </Button>
+            <Button
+              onClick={downloadAudio}
+              variant="secondary"
+              disabled={!morse.trim() || isDownloading}
+              icon={Download}
+            >
+              {isDownloading ? "Generating..." : "Download WAV"}
+            </Button>
           </div>
 
-          {/* Controls row */}
-          <div className="flex flex-col md:flex-row md:items-end gap-4">
-            <div className="w-full md:w-48">
-              <Input
-                type="number"
-                label="Speed (WPM)"
-                value={wpm}
-                onChange={(e) =>
-                  setWpm(Math.max(1, Math.min(100, parseInt(e.target.value) || 20)))
-                }
-                min={1}
-                max={100}
-              />
-            </div>
+        </Panel>
+      </div>
 
-            {/* Style toggle */}
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-[var(--text-primary)]">
-                Output Style
-              </label>
-              <div className="flex rounded-[var(--radius-md)] overflow-hidden border border-[var(--border-default)]">
-                <button
-                  onClick={() => setMorseStyle("ascii")}
-                  className={`px-4 py-2 text-sm font-mono transition-colors ${morseStyle === "ascii"
-                    ? "bg-[var(--color-primary-500)] text-white"
-                    : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                    }`}
-                >
-                  . - (ASCII)
-                </button>
-                <button
-                  onClick={() => setMorseStyle("unicode")}
-                  className={`px-4 py-2 text-sm font-mono transition-colors border-l border-[var(--border-default)] ${morseStyle === "unicode"
-                    ? "bg-[var(--color-primary-500)] text-white"
-                    : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                    }`}
-                >
-                  · − (Unicode)
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Morse output */}
-          <div>
-            <div className="flex justify-between mb-2 items-center">
-              <label className="text-sm font-medium text-[var(--text-primary)]">
-                Morse Code
-              </label>
-              <div className="flex gap-2">
-                <Button
-                  onClick={downloadAudio}
-                  variant="secondary"
-                  className="px-4 py-2"
-                  disabled={!morse.trim() || isDownloading}
-                >
-                  {isDownloading ? "Generating..." : "⬇ Download WAV"}
-                </Button>
-                <Button
-                  onClick={playMorse}
-                  variant={isPlaying ? "secondary" : "primary"}
-                  className="px-6 py-2"
-                  disabled={!morse.trim()}
-                >
-                  {isPlaying ? (
-                    <span className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                      Stop
-                    </span>
-                  ) : (
-                    "🔊 Play Audio"
-                  )}
-                </Button>
-              </div>
-            </div>
-            <Textarea
-              value={displayMorse}
-              onChange={(e) => handleMorseChange(e.target.value)}
-              placeholder="Enter morse code (e.g. .... . .-.. .-.. ---)"
-              className="min-h-[120px] font-mono text-lg tracking-widest"
-              dir="auto"
-            />
-          </div>
-        </div>
-      </Panel>
-
-      <Panel>
-        <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">
+      {/* <Panel>
+        <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-4">
           Translator Tips
         </h3>
-        <ul className="text-sm text-[var(--text-secondary)] space-y-2 list-disc list-inside">
+        <ul className="text-sm text-(--text-secondary) space-y-2 list-disc list-inside">
           <li>Letters are separated by a space.</li>
           <li>
             Words are separated by a slash (<code>/</code>) or three spaces.
@@ -383,7 +359,7 @@ export default function MorseCodeTool() {
           </li>
           <li>Adjust the WPM setting to speed up or slow down playback.</li>
         </ul>
-      </Panel>
+      </Panel> */}
     </div>
   );
 }

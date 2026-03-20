@@ -3,21 +3,67 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Text to Morse Code",
   slug: "morse-code",
-  description: "Convert and listen to morse code",
-  longDescription: "Learn, translate, and listen to authentic Morse code right in your browser. Our Text to Morse Code converter translates standard English text into classic dots and dashes (and vice versa). Click 'Play' to hear your translated message transmitted audibly via the browser's Web Audio API.",
+  description: "Convert text to Morse code and play audio",
   category: "encoders",
   icon: "📡",
-  keywords: ["morse code translator", "encode text to morse", "decode morse code online", "audio morse code player", "dots and dashes converter", "learn morse code audio", "sos telegraph generator"],
+  keywords: [
+    "morse code translator",
+    "text to morse code",
+    "decode morse code",
+    "morse code audio",
+    "dots and dashes converter",
+    "learn morse code",
+    "morse code player"
+  ],
   tags: ["encoding", "audio", "fun"],
   component: () => import("./MorseCodeTool"),
   capabilities: { supportsOffline: true, supportsClipboard: true },
   faq: [
-    { question: "Can I actually hear the Morse code?", answer: "Yes! Click the Play button to instantly generate and listen to authentic telegraph audio tones utilizing your browser's Web Audio API." },
-    { question: "What characters does the translator support?", answer: "The converter seamlessly supports all standard English alphabet letters (A-Z), numerical digits (0-9), and common punctuation marks typically used in modern Morse code." },
-    { question: "How does the decoder handle spacing?", answer: "In standard Morse code, letters are separated by a single space, and individual words are separated by a slash (`/`) or three spaces. Ensure proper spacing when pasting code for accurate decoding." }
+    {
+      question: "Can I hear the Morse code?",
+      answer: "Yes. Click play to hear the audio instantly."
+    },
+    {
+      question: "What characters are supported?",
+      answer: "Letters, numbers, and common punctuation."
+    },
+    {
+      question: "How should I format Morse code?",
+      answer: "Use spaces between letters and a slash or three spaces between words."
+    },
+    {
+      question: "How are letters separated?",
+      answer: "Each letter is separated by a single space."
+    },
+    {
+      question: "How are words separated?",
+      answer: "Use a slash (/) or three spaces between words."
+    },
+    {
+      question: "What display styles are available?",
+      answer: "You can switch between . - and · − styles. Both work the same."
+    },
+    {
+      question: "Can I download the audio?",
+      answer: "Yes. Use Download WAV to save the audio file."
+    },
+    {
+      question: "Can I control playback speed?",
+      answer: "Yes. Adjust the WPM setting to change speed."
+    },
+    {
+      question: "Does it work offline?",
+      answer: "Yes. Once loaded, it runs without internet."
+    },
+    {
+      question: "Is it free to use?",
+      answer: "Yes. You can translate and play Morse code for free."
+    }
   ],
-  howItWorks: "Type or paste standard text into the top box to immediately see the Morse code equivalent below. Alternatively, paste existing dots and dashes to decode the hidden message. Press the 'Play' button to hear the audio transmission.",
+  howItWorks: "Type text to convert it to Morse code or paste Morse to decode it. Play the audio or download it.",
   relatedTools: ["text-to-hex", "base64"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-21",
 };
