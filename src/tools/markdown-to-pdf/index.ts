@@ -35,5 +35,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["markdown-preview", "image-to-pdf", "merge-pdf"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-20",
 };
