@@ -19,5 +19,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Begin typing standard Markdown syntax in the left-hand editor pane. As you type, the right-hand preview pane automatically updates in real-time, displaying exactly how your structured formatting (headers, bolding, lists) will eventually render on the web.",
   relatedTools: ["word-counter", "lorem-ipsum"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-20",
 };

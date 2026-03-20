@@ -61,42 +61,42 @@ export default function MarkdownPreviewTool() {
   const [html, setHtml] = useState<string>("");
 
   useEffect(() => {
-  const renderMarkdown = async () => {
-    const shikiTheme = theme === "dark" ? "github-dark" : "github-light";
+    const renderMarkdown = async () => {
+      const shikiTheme = theme === "dark" ? "github-dark" : "github-light";
 
-    try {
-      const highlighter = await getHighlighter();
+      try {
+        const highlighter = await getHighlighter();
 
-      const result = await marked.parse(input, {
-        async: true,
-        gfm: true,
-        breaks: true,
-        walkTokens: async (token) => {
-          if (token.type === "code") {
-            try {
-              const html = highlighter.codeToHtml(token.text, {
-                lang: token.lang || "text",
-                theme: shikiTheme,
-              });
+        const result = await marked.parse(input, {
+          async: true,
+          gfm: true,
+          breaks: true,
+          walkTokens: async (token) => {
+            if (token.type === "code") {
+              try {
+                const html = highlighter.codeToHtml(token.text, {
+                  lang: token.lang || "text",
+                  theme: shikiTheme,
+                });
 
-              token.type = "html";
-              token.text = html;
-            } catch (e) {
-              console.warn("Shiki error:", e);
+                token.type = "html";
+                token.text = html;
+              } catch (e) {
+                console.warn("Shiki error:", e);
+              }
             }
-          }
-        },
-      });
+          },
+        });
 
-      setHtml(result as string);
-    } catch (e) {
-      console.error("Markdown render error:", e);
-      setHtml("<p>Error rendering Markdown</p>");
-    }
-  };
+        setHtml(result as string);
+      } catch (e) {
+        console.error("Markdown render error:", e);
+        setHtml("<p>Error rendering Markdown</p>");
+      }
+    };
 
-  renderMarkdown();
-}, [input, theme]);
+    renderMarkdown();
+  }, [input, theme]);
 
   const handleCopyHtml = async () => {
     if (await copyToClipboard(html)) {
@@ -136,7 +136,7 @@ export default function MarkdownPreviewTool() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your Markdown here..."
-            className="flex-1 w-full p-4 bg-transparent text(--text-primary) font-[family-name:var(--font-mono)] text-sm resize-none border-none outline-none min-h-[400px]"
+            className="flex-1 w-full p-4 bg-transparent text(--text-primary) font-mono text-sm resize-none border-none outline-none min-h-[400px]"
             spellCheck={false}
           />
         </Panel>
@@ -154,7 +154,7 @@ export default function MarkdownPreviewTool() {
                       [&_.shiki]:p-4
                       [&_.shiki]:rounded-md
                       [&_.shiki]:overflow-x-auto
-                      [&_.shiki]:font-[family-name:var(--font-mono)]
+                      [&_.shiki]:font-mono
                       [&_.shiki]:text-sm
                       [&_.shiki]:leading-6"
             dangerouslySetInnerHTML={{ __html: html }}
