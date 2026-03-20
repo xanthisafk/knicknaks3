@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import * as exifr from "exifr";
 import { Panel } from "@/components/layout";
 import { IntegrityBadge } from "./IntegrityBadge";
-import { SectionHeader } from "./SectionHeader";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { GpsMap } from "@/components/advanced/GpsMap";
 import { ALL_KNOWN_KEYS, FIELD_SECTIONS, buildFileFields, checkIntegrity, extractGpsCoords, formatValue, tryDecodeRawValue, type IntegrityResult } from "@/lib/imageHelper";
 import { ResultRow } from "@/components/advanced/ResultRow";
