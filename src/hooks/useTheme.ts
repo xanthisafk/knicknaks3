@@ -13,10 +13,21 @@ export function useTheme() {
     const initial = stored ?? systemPref;
     setThemeState(initial);
     document.documentElement.setAttribute("data-theme", initial);
+
+    const observer = new MutationObserver(() => {
+      const current = document.documentElement.getAttribute("data-theme") as Theme | null;
+      if (current) setThemeState(current);
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   const setTheme = useCallback((newTheme: Theme) => {
-    setThemeState(newTheme);
     localStorage.setItem(STORAGE_KEY, newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
   }, []);

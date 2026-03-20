@@ -323,19 +323,42 @@ h6 {
 }
 
 /* Ensure code blocks in prose don't have double padding/background when using Shiki */
-.prose pre {
+.prose pre:not(.shiki) {
   padding: 0 !important;
   background-color: transparent !important;
 }
 
-.prose pre code {
+.prose pre:not(.shiki) code {
   padding: 0 !important;
   background-color: transparent !important;
   border: none !important;
 }
 
-/* global.css */
+/* Let Shiki's background come through — it sets it via inline style */
+.prose .shiki {
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem !important;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  background-color: revert !important; /* allows Shiki's inline style bg to win */
+}
+
+.prose .shiki code {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: inherit;
+}
+
 .knicknaks-codeblock pre {
-    margin: 0;
-    padding: 0.75rem;
+  margin: 0;
+  padding: 0;
+}
+
+.knicknaks-codeblock .shiki {
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
 }

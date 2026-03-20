@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import { marked } from "marked";
 import { getSingletonHighlighter } from 'shiki';
-import { Button } from "@/components/ui";
+import { Button, CopyButton, Label, Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
 import { useTheme } from "@/hooks/useTheme";
+import { FlaskConical, Loader2, Trash2 } from "lucide-react";
 
-const SAMPLE_MARKDOWN = `# Hello Markdown! 👋
+const SAMPLE_MARKDOWN = `# Hello Knicknaks! 👋
 
-This is a **live preview** of your Markdown content.
+<a target="_blank"
+ href="https://tenor.com/view/cecesrhaccc1-on-tiktok-cecesrhaccc1-wave-wave-cat-cecesgif-gif-13285291531648506491">![Cat waving](/content/tools/cecesrhaccc1-on-tiktok-cecesrhaccc1.gif)</a>
+
+
+This is a **live preview** of sample Markdown content.
 
 ## Features
 
@@ -19,9 +23,24 @@ This is a **live preview** of your Markdown content.
 
 ### Code Block
 
-\`\`\`javascript
-function greet(name) {
-  return \`Hello, \${name}!\`;
+\`\`\`python
+def greet(name):
+  return (f"Hello, {name}!")
+\`\`\`
+
+### Multi language support in code
+
+- SQL
+\`\`\`sql
+SELECT * FROM users;
+\`\`\`
+
+- JSON
+\`\`\`json
+{
+  "name": "John Doe",
+  "age": 30,
+  "email": "[EMAIL_ADDRESS]"
 }
 \`\`\`
 
@@ -48,7 +67,28 @@ function getHighlighter() {
   if (!highlighterPromise) {
     highlighterPromise = getSingletonHighlighter({
       themes: ["github-dark", "github-light"],
-      langs: ["javascript", "ts", "tsx", "json", "bash", "html", "css"],
+      langs: [
+        // Web
+        "javascript", "typescript", "tsx", "jsx", "html", "css", "scss",
+
+        // Data & config
+        "json", "yaml", "toml", "xml", "csv",
+
+        // Shell
+        "bash", "sh", "powershell", "batch",
+
+        // Backend
+        "python", "ruby", "php", "java", "kotlin", "swift", "go", "rust", "c", "cpp", "csharp",
+
+        // Query
+        "sql", "graphql",
+
+        // Infra / DevOps
+        "dockerfile", "nginx", "terraform",
+
+        // Docs & misc
+        "markdown", "latex", "diff",
+      ],
     });
   }
   return highlighterPromise;
@@ -57,108 +97,85 @@ function getHighlighter() {
 export default function MarkdownPreviewTool() {
   const { theme } = useTheme();
   const [input, setInput] = useState(SAMPLE_MARKDOWN);
-  const [copiedHtml, setCopiedHtml] = useState(false);
   const [html, setHtml] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const renderMarkdown = async () => {
+      setLoading(true);
       const shikiTheme = theme === "dark" ? "github-dark" : "github-light";
 
       try {
         const highlighter = await getHighlighter();
+        const renderer = new marked.Renderer();
 
-        const result = await marked.parse(input, {
-          async: true,
+        renderer.code = ({ text, lang }) => {
+          try {
+            return highlighter.codeToHtml(text, {
+              lang: lang || "text",
+              theme: shikiTheme,
+            });
+          } catch {
+            return `<pre class="shiki"><code>${text}</code></pre>`;
+          }
+        };
+
+        const result = marked.parse(input, {
+          renderer,
           gfm: true,
           breaks: true,
-          walkTokens: async (token) => {
-            if (token.type === "code") {
-              try {
-                const html = highlighter.codeToHtml(token.text, {
-                  lang: token.lang || "text",
-                  theme: shikiTheme,
-                });
-
-                token.type = "html";
-                token.text = html;
-              } catch (e) {
-                console.warn("Shiki error:", e);
-              }
-            }
-          },
         });
 
         setHtml(result as string);
       } catch (e) {
         console.error("Markdown render error:", e);
         setHtml("<p>Error rendering Markdown</p>");
+      } finally {
+        setLoading(false);
       }
     };
 
     renderMarkdown();
   }, [input, theme]);
 
-  const handleCopyHtml = async () => {
-    if (await copyToClipboard(html)) {
-      setCopiedHtml(true);
-      setTimeout(() => setCopiedHtml(false), 2000);
-    }
-  };
-
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => setInput(SAMPLE_MARKDOWN)}
-          >
-            📝 Load Sample
-          </Button>
-          <Button size="sm" variant="ghost" onClick={() => setInput("")}>
-            Clear
-          </Button>
-        </div>
-        <Button size="sm" variant="secondary" onClick={handleCopyHtml}>
-          {copiedHtml ? "✓ Copied!" : "📋 Copy HTML"}
-        </Button>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4" style={{ minHeight: "600px" }}>
-        {/* Editor */}
-        <Panel padding="none" className="flex flex-col overflow-hidden border border-(--border-default)">
-          <div className="px-4 py-2 border-b border-(--border-default) bg-(--surface-secondary) flex justify-between items-center">
-            <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider">✏️ Editor</span>
-            <span className="text-[10px] text-(--text-tertiary)">{input.length} characters</span>
-          </div>
-          <textarea
+    <div className="space-y-2">
+      <div className="flex flex-col md:flex-row gap-2">
+        <Panel className="flex-1 max-h-fit flex flex-col gap-3">
+          <Textarea
+            label="Markdown"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your Markdown here..."
-            className="flex-1 w-full p-4 bg-transparent text(--text-primary) font-mono text-sm resize-none border-none outline-none min-h-[400px]"
-            spellCheck={false}
-          />
-        </Panel>
-
-        {/* Preview */}
-        <Panel padding="none" className="flex flex-col overflow-hidden border border-(--border-default) bg-(--surface-primary)">
-          <div className="px-4 py-2 border-b border-(--border-default) bg-(--surface-secondary) uppercase tracking-wider">
-            <span className="text-xs font-medium text-(--text-secondary)">👁️ Preview</span>
+            className="font-mono"
+            rows={40}
+            spellCheck={false} />
+          <div className="flex justify-between">
+            <Button
+              icon={FlaskConical}
+              variant="secondary"
+              size="sm"
+              onClick={() => setInput(SAMPLE_MARKDOWN)}
+            >Load Sample</Button>
+            <Button
+              icon={Trash2}
+              variant="ghost"
+              size="sm"
+              onClick={() => setInput("")}
+            >Clear</Button>
           </div>
-          <div
-            className="flex-1 p-6 overflow-y-auto prose prose-sm max-w-none
-                      dark:prose-invert
-                      [&_pre]:bg-transparent
-                      [&_.shiki]:bg-transparent
-                      [&_.shiki]:p-4
-                      [&_.shiki]:rounded-md
-                      [&_.shiki]:overflow-x-auto
-                      [&_.shiki]:font-mono
-                      [&_.shiki]:text-sm
-                      [&_.shiki]:leading-6"
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
+        </Panel>
+        <Panel className="flex-1 space-y-3 max-h-fit">
+          <div className="flex justify-between">
+            <Label>Preview</Label>
+            <CopyButton text={html} label="Copy HTML" />
+          </div>
+          {loading
+            ? <div className="flex flex-col items-center justify-center gap-6">
+              <Loader2 size="64" color="var(--color-primary-500)" className="animate-spin" />
+              <h3 className="text-(--text-tertiary)">Rendering...</h3>
+            </div>
+            : <div className="prose prose-sm max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: html }} />}
         </Panel>
       </div>
     </div>
