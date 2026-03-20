@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "JWT Decoder",
   slug: "jwt-decoder",
   description: "Decode and inspect JSON Web Tokens in your browser",
-  longDescription: "Debug authentication issues efficiently with our secure JWT Decoder. Instantly unpack Base64Url-encoded tokens to read their header metadata algorithms and inspect sensitive payload claims. All decoding is processed strictly client-side to guarantee your session tokens remain private.",
   category: "dev",
   icon: "🎫",
   keywords: ["jwt decoder online", "json web token parser", "decode jwt payload", "inspect jwt header", "read jwt claims", "secure token reader", "auth token debugger"],
@@ -14,10 +13,23 @@ export const definition: ToolDefinition = {
   faq: [
     { question: "Is my session token kept safe?", answer: "Yes, 100% safe. This tool simply base64-decodes the string entirely inside your own browser window. No data is ever transmitted across a network, ensuring your active session cannot be hijacked." },
     { question: "Can this verify the JWT cryptographic signature?", answer: "No, this utility decodes the structural header and readable payload only. Verifying the signature portion to prove authenticity requires access to a private backend secret key, which should never be exposed to front-end tools." },
-    { question: "Can I edit the payload to forge a new token?", answer: "While you can read the payload, you cannot forge a valid replacement token without the server's private signing key. Any manipulation of the decoded payload will invalidate the original cryptographic signature." }
+    { question: "Can I edit the payload to forge a new token?", answer: "While you can read the payload, you cannot forge a valid replacement token without the server's private signing key. Any manipulation of the decoded payload will invalidate the original cryptographic signature." },
+    { question: "What parts of the JWT are decoded?", answer: "The tool decodes the Header and Payload sections into readable JSON. The Signature is displayed but not decoded, as it is a cryptographic hash rather than base64-encoded JSON." },
+    { question: "Why does my token fail to decode?", answer: "Common causes include malformed tokens, missing sections (JWTs must have three parts separated by dots), or improper base64url encoding. Ensure the token is copied exactly as issued." },
+    { question: "Does this support base64url encoding?", answer: "Yes. JWTs use base64url encoding (a URL-safe variant of base64), and this tool automatically handles the necessary character substitutions and padding." },
+    { question: "Can this tool handle expired tokens?", answer: "Yes. Expired tokens can still be decoded since expiration only affects validation, not readability. You can inspect the 'exp' claim to see when it expired." },
+    { question: "What are standard JWT claims?", answer: "Common claims include 'iss' (issuer), 'sub' (subject), 'aud' (audience), 'exp' (expiration time), 'iat' (issued at), and 'nbf' (not before). These provide metadata about the token's purpose and validity." },
+    { question: "Is this tool suitable for production debugging?", answer: "Yes, for inspection purposes. It is particularly useful for debugging authentication flows, inspecting claims, and verifying token structure during development." },
+    // { question: "Does this work offline?", answer: "Yes. The decoder runs entirely in your browser and does not require an internet connection after the page has loaded." },
+    { question: "Are any logs or analytics collected from my input?", answer: "No. The decoding process happens entirely client-side, and no token data is stored, logged, or transmitted externally." },
+    { question: "Can this decode encrypted JWTs (JWE)?", answer: "No. Encrypted JWTs (JWE) require decryption keys and are not readable like signed JWTs (JWS). This tool only supports decoding standard signed tokens." },
+    { question: "Why is the output formatted as JSON?", answer: "JWT payloads are JSON objects encoded as base64url strings. Formatting them improves readability and makes it easier to inspect nested claims and values." },
+    { question: "What should I do if my payload looks empty or incorrect?", answer: "Check that the token is valid and properly encoded. Also verify that you're pasting the full token and not a truncated or partially copied string." }
   ],
   howItWorks: "Paste your raw JWT string into the input box. The tool automatically detects the three distinct sections (Header, Payload, and Signature) separated by dots, Base64-decodes them, and instantly formats the output as clean, colorized JSON.",
   relatedTools: ["base64", "json-formatter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-20",
 };
