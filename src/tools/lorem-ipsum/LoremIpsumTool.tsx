@@ -102,7 +102,7 @@ export default function LoremIpsumTool() {
             <select
               value={mode}
               onChange={(e) => setMode(e.target.value as Mode)}
-              className="px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm cursor-pointer"
+              className="px-3 py-2 rounded-md bg-(--surface-elevated) text(--text-primary) border border-(--border-default) text-sm cursor-pointer"
             >
               <option value="paragraphs">Paragraphs</option>
               <option value="sentences">Sentences</option>
@@ -118,7 +118,7 @@ export default function LoremIpsumTool() {
               max={100}
               value={count}
               onChange={(e) => setCount(Math.max(1, parseInt(e.target.value) || 1))}
-              className="w-24 px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm"
+              className="w-24 px-3 py-2 rounded-md bg-(--surface-elevated) text(--text-primary) border border-(--border-default) text-sm"
             />
           </div>
 
@@ -127,7 +127,7 @@ export default function LoremIpsumTool() {
               type="checkbox"
               checked={startWithLorem}
               onChange={(e) => setStartWithLorem(e.target.checked)}
-              className="w-4 h-4 rounded accent-[var(--color-primary-500)]"
+              className="w-4 h-4 rounded accent-primary-500"
             />
             <span className="text-sm text(--text-primary)">Start with "Lorem ipsum..."</span>
           </label>
