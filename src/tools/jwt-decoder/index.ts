@@ -27,7 +27,7 @@ export const definition: ToolDefinition = {
     { question: "What should I do if my payload looks empty or incorrect?", answer: "Check that the token is valid and properly encoded. Also verify that you're pasting the full token and not a truncated or partially copied string." }
   ],
   howItWorks: "Paste your raw JWT string into the input box. The tool automatically detects the three distinct sections (Header, Payload, and Signature) separated by dots, Base64-decodes them, and instantly formats the output as clean, colorized JSON.",
-  relatedTools: ["base64", "json-formatter"],
+  relatedTools: ["jwt-encoder", "base64", "json-formatter"],
   schemaType: "WebApplication",
   createdAt: "2026-03-03",
   launchedAt: "2026-03-03",
