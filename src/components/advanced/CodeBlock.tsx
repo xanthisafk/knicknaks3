@@ -3,6 +3,7 @@ import { createHighlighter, type Highlighter, type BundledLanguage, type Bundled
 import { Loader2 } from "lucide-react";
 import { CopyButton, Label } from "../ui";
 import { cn } from "@/lib";
+import { useTheme } from "@/hooks/useTheme";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -31,8 +32,6 @@ const LANG_ALIASES: Record<string, BundledLanguage> = {
     docker: "dockerfile", txt: FALLBACK_LANG, plaintext: FALLBACK_LANG,
 };
 
-// Keep the list small — Shiki lazy-loads langs not in this array, but
-// pre-bundling the common ones avoids a dynamic import on first render.
 const BUNDLED_LANGS: BundledLanguage[] = [
     "javascript", "typescript", "jsx", "tsx", "python", "rust", "go",
     "java", "css", "html", "json", "yaml", "bash", "sql", "markdown",
@@ -85,6 +84,9 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
     const [loading, setLoading] = useState(true);
     const cancelled = useRef(false);
 
+    const { theme } = useTheme();
+    const activeTheme = theme === "dark" ? darkTheme : lightTheme;
+
     const lang = useMemo(() => resolveLang(langHint), [langHint]);
 
     useEffect(() => {
@@ -92,22 +94,17 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
         setLoading(true);
 
         getHighlighter(lightTheme, darkTheme).then(async (h) => {
-            // Dynamically load the language if it wasn't pre-bundled
             if (lang !== FALLBACK_LANG && !BUNDLED_LANGS.includes(lang)) {
                 await h.loadLanguage(lang).catch(() => {/* ignore unknown lang */ });
             }
-            const parsedTheme = document.documentElement.dataset.theme === "dark" ? darkTheme : lightTheme;
 
             if (cancelled.current) return;
 
             let rendered: string;
             try {
-                rendered = h.codeToHtml(code, {
-                    lang,
-                    theme: parsedTheme,
-                });
+                rendered = h.codeToHtml(code, { lang, theme: activeTheme });
             } catch {
-                rendered = h.codeToHtml(code, { lang: FALLBACK_LANG, theme: parsedTheme });
+                rendered = h.codeToHtml(code, { lang: FALLBACK_LANG, theme: activeTheme });
             }
 
             if (!cancelled.current) {
@@ -117,7 +114,8 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
         });
 
         return () => { cancelled.current = true; };
-    }, [code, lang, lightTheme, darkTheme]);
+        // activeTheme is derived from `theme`, so it drives re-highlighting on toggle
+    }, [code, lang, lightTheme, darkTheme, theme]);
 
     // ── Render ────────────────────────────────────────────────────────────────
 
@@ -132,9 +130,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             data-lang={lang}
         >
             {loading ? (
-                <div
-                    className="flex justify-center items-center p-1.5"
-                >
+                <div className="flex justify-center items-center p-1.5">
                     <Loader2 className="animate-spin" />
                 </div>
             ) : (
@@ -147,9 +143,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
                         <CopyButton text={code} />
                     </div>
                     <div
-                        className={cn(
-                            wrapLines ? "overflow-x-hidden" : "overflow-x-auto",
-                        )}
+                        className={cn(wrapLines ? "overflow-x-hidden" : "overflow-x-auto")}
                         // biome-ignore lint/security/noDangerouslySetInnerHtml
                         dangerouslySetInnerHTML={{ __html: html }}
                     />
