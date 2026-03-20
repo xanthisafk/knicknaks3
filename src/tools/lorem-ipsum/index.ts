@@ -42,5 +42,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["word-counter", "markdown-preview"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-20",
 };

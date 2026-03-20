@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Button, Textarea } from "@/components/ui";
+import { Button, Input, Textarea, Toggle } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { toTitleCase } from "@/lib/utils";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 
 const LOREM_WORDS = [
   "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit",
@@ -68,7 +69,6 @@ export default function LoremIpsumTool() {
   const [count, setCount] = useState(3);
   const [startWithLorem, setStartWithLorem] = useState(true);
   const [output, setOutput] = useState("");
-  const [copied, setCopied] = useState(false);
 
   const generate = () => {
     let result = "";
@@ -86,73 +86,55 @@ export default function LoremIpsumTool() {
     setOutput(result);
   };
 
-  const handleCopy = async () => {
-    if (await copyToClipboard(output)) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
   return (
-    <div className="space-y-2">
-      <Panel>
-        <div className="flex flex-wrap items-end gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text(--text-primary)">Mode</label>
-            <select
-              value={mode}
-              onChange={(e) => setMode(e.target.value as Mode)}
-              className="px-3 py-2 rounded-md bg-(--surface-elevated) text(--text-primary) border border-(--border-default) text-sm cursor-pointer"
-            >
-              <option value="paragraphs">Paragraphs</option>
-              <option value="sentences">Sentences</option>
-              <option value="words">Words</option>
-            </select>
-          </div>
+    <div className="flex flex-col md:flex-row gap-2">
+      <Panel className="flex-1 flex flex-col gap-3">
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text(--text-primary)">Count</label>
-            <input
-              type="number"
-              min={1}
-              max={100}
-              value={count}
-              onChange={(e) => setCount(Math.max(1, parseInt(e.target.value) || 1))}
-              className="w-24 px-3 py-2 rounded-md bg-(--surface-elevated) text(--text-primary) border border-(--border-default) text-sm"
-            />
-          </div>
+        <Select label="Mode" value={mode} onValueChange={(value) => setMode(value as Mode)}>
+          <SelectTrigger>{toTitleCase(mode)}</SelectTrigger>
+          <SelectContent>
+            <SelectItem value="paragraphs">Paragraphs</SelectItem>
+            <SelectItem value="sentences">Sentences</SelectItem>
+            <SelectItem value="words">Words</SelectItem>
+          </SelectContent>
+        </Select>
 
-          <label className="inline-flex items-center gap-2 cursor-pointer select-none pb-1">
-            <input
-              type="checkbox"
-              checked={startWithLorem}
-              onChange={(e) => setStartWithLorem(e.target.checked)}
-              className="w-4 h-4 rounded accent-primary-500"
-            />
-            <span className="text-sm text(--text-primary)">Start with "Lorem ipsum..."</span>
-          </label>
+        <Input
+          label="Count"
+          type="number"
+          min={1}
+          max={100}
+          value={count}
+          onChange={(e) => setCount(Math.max(1, parseInt(e.target.value) || 1))}
+        />
 
-          <Button onClick={generate}>Generate</Button>
-        </div>
+        <Toggle
+          label='Start with "Lorem ipsum"'
+          checked={startWithLorem}
+          onChange={setStartWithLorem}
+        />
+
+        <Button onClick={generate}>Generate</Button>
+
       </Panel>
 
-      {output && (
-        <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Generated Text</label>
-              <Button size="sm" variant="ghost" onClick={handleCopy}>
-                {copied ? "✓ Copied!" : "📋 Copy"}
-              </Button>
-            </div>
+      {!output ?
+        (
+          <Panel className="flex-2 flex flex-col items-center justify-center gap-6">
+            <span className="font-emoji text-6xl">📜</span>
+            <h3 className="text-(--text-tertiary)">Output will show up here</h3>
+          </Panel>
+        )
+        : (
+          <Panel className="flex-2">
             <Textarea
+              label="Generated Text"
               value={output}
+              placeholder="Output will show up here"
               readOnly
-              className="h-64 text-sm"
             />
-          </div>
-        </Panel>
-      )}
+          </Panel>
+        )}
     </div>
   );
 }
