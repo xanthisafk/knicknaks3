@@ -3,13 +3,18 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Merge PDF",
   slug: "merge-pdf",
-  description: "Combine multiple PDFs into one in your browser",
-  longDescription:
-    "Effortlessly consolidate your documents by uploading two or more PDF files and merging them together into one unified file. " +
-    "Utilize our drag-and-drop interface to manually reorder files before executing the merge. All processing happens 100% locally using pdf-lib—ensuring strict privacy since no data ever leaves your device.",
+  description: "Merge PDF files quickly in your browser",
   category: "pdf",
   icon: "📑",
-  keywords: ["merge pdf online", "combine multiple pdfs", "join pdf files", "concatenate pdf documents", "secure local pdf merger", "pdf binder tool", "browser pdf compiler"],
+  keywords: [
+    "merge pdf",
+    "combine pdf files",
+    "join pdf",
+    "pdf merger online",
+    "merge pdf files free",
+    "combine multiple pdfs",
+    "pdf joiner"
+  ],
   tags: ["pdf", "merge"],
 
   component: () => import("./MergePdfTool"),
@@ -21,24 +26,53 @@ export const definition: ToolDefinition = {
 
   faq: [
     {
-      question: "Is there a maximum file size limit?",
-      answer: "There is no hardcoded server limit since all merging leverages your device's local memory. Generally, most modern browsers handle merging documents totaling up to ~100 MB without performance degradation.",
+      question: "Is there a file size limit?",
+      answer: "It depends on your device. Most browsers handle large files without issues."
     },
     {
-      question: "Are my sensitive documents uploaded to a server?",
-      answer: "No. Unlike traditional online PDF tools, this application processes the entire merge operation locally within your browser tab using JavaScript. Your files are never uploaded, ensuring complete data sovereignty.",
+      question: "Are my files uploaded?",
+      answer: "No. All merging happens locally in your browser."
     },
     {
-      question: "Can I choose the order in which the files are merged?",
-      answer: "Yes, after uploading your initial batch of files, you can visually drag and drop the file list items to perfectly arrange their sequential order before clicking the 'Merge' button."
+      question: "Can I change the file order?",
+      answer: "Yes. Drag and drop files to set the order before merging."
+    },
+    {
+      question: "Do I need to install anything?",
+      answer: "No. Just open the tool and upload your files."
+    },
+    {
+      question: "Can I merge more than two PDFs?",
+      answer: "Yes. You can merge multiple files at once."
+    },
+    {
+      question: "Will the quality change?",
+      answer: "No. The original content and quality are preserved."
+    },
+    // {
+    //   question: "Does it work offline?",
+    //   answer: "Yes. Once loaded, it can run without internet."
+    // },
+    {
+      question: "Can I use it on mobile?",
+      answer: "Yes. It works on modern phones and tablets."
+    },
+    {
+      question: "Is it free to use?",
+      answer: "Yes. You can merge PDFs without cost."
+    },
+    {
+      question: "Will it remove anything from my PDFs?",
+      answer: "No. It simply combines files without altering content."
     }
   ],
 
   howItWorks:
-    "Drop or manually select multiple PDF files into the designated dropzone. Visually drag and reorder them into your preferred sequence, then click 'Merge'. " +
-    "Your browser will stitch them together instantly and automatically trigger the download of your new, combined PDF document.",
+    "Upload your PDF files, arrange them in order, then click merge. Download your combined PDF instantly.",
 
   relatedTools: ["split-pdf", "rotate-pdf", "rearrange-pdf"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-21",
 };

@@ -3,13 +3,20 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Markdown to PDF",
   slug: "markdown-to-pdf",
-  description: "Convert Markdown text into formatted PDF file",
+  description: "Convert Markdown to PDF instantly in your browser",
   longDescription:
-    "Write in standard Markdown format, verify the output in a live preview pane, and instantly export the final document as a high-quality PDF. " +
-    "This robust tool bridges marked.js for rapid HTML rendering with pdf-lib for strict PDF generation. Fully localized zero-server architecture guarantees total privacy.",
+    "Turn Markdown into a clean, formatted PDF in seconds. Write or paste your Markdown, preview it live, and export instantly. No installs, no uploads—everything runs locally on your device. Perfect for notes, docs, and reports.",
   category: "pdf",
   icon: "📝",
-  keywords: ["markdown to pdf converter", "md to pdf export", "save markdown as document", "render markdown pdf", "markdown text compiler", "local pdf generator", "github markdown to pdf"],
+  keywords: [
+    "markdown to pdf",
+    "md to pdf",
+    "convert markdown to pdf",
+    "markdown pdf export",
+    "markdown converter",
+    "save markdown as pdf",
+    "online markdown to pdf"
+  ],
   tags: ["pdf", "converter", "markdown"],
 
   component: () => import("./MarkdownToPdfTool"),
@@ -21,21 +28,53 @@ export const definition: ToolDefinition = {
 
   faq: [
     {
-      question: "Are my documents kept private during conversion?",
-      answer: "Yes, absolutely. All Markdown parsing into HTML and the subsequent PDF file generation happens exclusively within your own browser's memory using JavaScript. No text is ever transmitted."
+      question: "Are my files private?",
+      answer: "Yes. Everything runs locally in your browser."
     },
     {
-      question: "Are GitHub Flavored Markdown (GFM) features supported?",
-      answer: "Yes, standard GFM extensions such as data tables, code blocks, task lists, and strikethroughs are fully supported and will render correctly in the exported PDF."
+      question: "Does it support GitHub Markdown?",
+      answer: "Yes. Tables, code blocks, and task lists are supported."
+    },
+    {
+      question: "Do I need to install anything?",
+      answer: "No. Just open the tool and start writing."
+    },
+    {
+      question: "Can I paste Markdown text?",
+      answer: "Yes. You can type or paste content directly."
+    },
+    {
+      question: "Is there a live preview?",
+      answer: "Yes. You can see formatting before exporting."
+    },
+    {
+      question: "Will formatting stay the same in the PDF?",
+      answer: "Yes. The PDF matches the preview output."
+    },
+    // {
+    //   question: "Does it work offline?",
+    //   answer: "Yes. Once loaded, it works without internet."
+    // },
+    {
+      question: "Can I use it on mobile?",
+      answer: "Yes. It works on modern devices."
+    },
+    {
+      question: "Is it free to use?",
+      answer: "Yes. You can convert Markdown to PDF for free."
+    },
+    {
+      question: "What is this best used for?",
+      answer: "Notes, documentation, and simple reports."
     }
   ],
 
   howItWorks:
-    "Type or paste your raw Markdown syntax into the main editor. Review the integrated live HTML preview to ensure formatting is correct, then click 'Export to PDF' to prompt a direct file download of your newly compiled document.",
+    "Write or paste Markdown, preview it, then export to PDF instantly.",
 
   relatedTools: ["markdown-preview", "image-to-pdf", "merge-pdf"],
   schemaType: "WebApplication",
   createdAt: "2026-03-03",
   launchedAt: "2026-03-03",
-  updatedAt: "2026-03-21",
+  lastUpdated: "2026-03-21",
 };

@@ -1,123 +1,90 @@
-import { useState, useCallback } from "react";
-import { Button } from "@/components/ui";
+import { useState } from "react";
+import { Button, Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { PdfDropZone, PdfFileList } from "@/components/advanced/PdfDropZone";
 import { PDFDocument } from "pdf-lib";
 import { downloadPdf } from "@/tools/_pdf-utils";
+import FileDropZone from "@/components/advanced/FileDropZone";
+import { ArrowDown, ArrowUp, ArrowUpDown, Check, Loader2, Merge, Trash2, TriangleAlert } from "lucide-react";
 
 export default function MergePdfTool() {
   const [files, setFiles] = useState<File[]>([]);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState<{ ok: boolean; msg: string } | null>(null);
+  const [merging, setMerging] = useState(false);
+  const [filename, setFilename] = useState("merged");
 
-  const handleFiles = useCallback((newFiles: File[]) => {
-    setFiles((prev) => [...prev, ...newFiles]);
-    setStatus("");
-  }, []);
-
-  const handleRemove = useCallback((index: number) => {
-    setFiles((prev) => prev.filter((_, i) => i !== index));
-  }, []);
-
-  const moveFile = useCallback((from: number, direction: "up" | "down") => {
-    setFiles((prev) => {
-      const next = [...prev];
-      const to = direction === "up" ? from - 1 : from + 1;
-      if (to < 0 || to >= next.length) return prev;
-      [next[from], next[to]] = [next[to], next[from]];
+  const move = (i: number, dir: -1 | 1) =>
+    setFiles(f => {
+      const next = [...f];
+      const j = i + dir;
+      if (j < 0 || j >= next.length) return f;
+      [next[i], next[j]] = [next[j], next[i]];
       return next;
     });
-  }, []);
 
   const handleMerge = async () => {
-    if (files.length < 2) return;
-    setIsProcessing(true);
-    setStatus("Merging...");
-
+    setMerging(true);
+    setStatus(null);
     try {
       const merged = await PDFDocument.create();
-
       for (const file of files) {
-        const bytes = await file.arrayBuffer();
-        const src = await PDFDocument.load(bytes, { ignoreEncryption: true });
-        const pages = await merged.copyPages(src, src.getPageIndices());
-        pages.forEach((page) => merged.addPage(page));
+        const src = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: true });
+        (await merged.copyPages(src, src.getPageIndices())).forEach(p => merged.addPage(p));
       }
-
-      const mergedBytes = await merged.save();
-      downloadPdf(mergedBytes, "merged.pdf");
-      setStatus(`✓ Merged ${files.length} files successfully!`);
+      downloadPdf(await merged.save(), `${filename || "merged"}.pdf`);
+      setStatus({ ok: true, msg: `Merged ${files.length} files successfully!` });
     } catch (err) {
-      setStatus(`Error: ${err instanceof Error ? err.message : "Failed to merge"}`);
+      setStatus({ ok: false, msg: err instanceof Error ? err.message : "Failed to merge" });
     } finally {
-      setIsProcessing(false);
+      setMerging(false);
     }
   };
 
   return (
     <div className="space-y-2">
-      <Panel>
-        <div className="space-y-4">
-          <PdfDropZone onFiles={handleFiles} multiple maxFiles={20} />
-          <PdfFileList files={files} onRemove={handleRemove} />
+      <FileDropZone
+        multiple
+        accepts=".pdf"
+        emoji="📑"
+        onUpload={f => { setFiles(prev => [...prev, ...f.files]); setStatus(null); }}
+      />
 
-          {files.length > 1 && (
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text(--text-primary)">
-                Reorder Files
-              </h3>
-              <div className="space-y-1">
-                {files.map((file, i) => (
-                  <div
-                    key={`order-${file.name}-${i}`}
-                    className="flex items-center gap-2 text-sm text(--text-secondary)"
-                  >
-                    <span className="w-6 text-center text-xs text-(--text-tertiary)">
-                      {i + 1}
-                    </span>
-                    <span className="flex-1 truncate">{file.name}</span>
-                    <button
-                      onClick={() => moveFile(i, "up")}
-                      disabled={i === 0}
-                      className="px-1.5 py-0.5 text-xs rounded bg-(--surface-secondary) disabled:opacity-30 hover:bg-(--surface-elevated) transition-colors cursor-pointer disabled:cursor-default"
-                    >
-                      ↑
-                    </button>
-                    <button
-                      onClick={() => moveFile(i, "down")}
-                      disabled={i === files.length - 1}
-                      className="px-1.5 py-0.5 text-xs rounded bg-(--surface-secondary) disabled:opacity-30 hover:bg-(--surface-elevated) transition-colors cursor-pointer disabled:cursor-default"
-                    >
-                      ↓
-                    </button>
-                  </div>
-                ))}
+      {files.length > 1 && (
+        <Panel className="space-y-4">
+          <div className="space-y-1">
+            <Label icon={ArrowUpDown}>Order &amp; Remove</Label>
+            {files.map((file, i) => (
+              <div key={`${file.name}-${i}`} className="flex items-center gap-2 text-sm text-(--text-secondary) hover:bg-(--surface-secondary) rounded-md p-1 transition-colors">
+                <span className="w-6 text-center text-xs text-(--text-tertiary)">{i + 1}</span>
+                <span className="flex-1 truncate">{file.name}</span>
+                <Button onClick={() => move(i, -1)} disabled={i === 0} variant="ghost" size="sm" icon={ArrowUp} />
+                <Button onClick={() => move(i, 1)} disabled={i === files.length - 1} variant="ghost" size="sm" icon={ArrowDown} />
+                <Button onClick={() => setFiles(f => f.filter((_, j) => j !== i))} variant="ghost" size="sm" icon={Trash2} />
               </div>
-            </div>
-          )}
-        </div>
-      </Panel>
-
-      <Panel>
-        <div className="flex items-center gap-4">
-          <Button
-            onClick={handleMerge}
-            disabled={files.length < 2 || isProcessing}
-          >
-            {isProcessing ? "Merging..." : `Merge ${files.length} Files`}
-          </Button>
-          {files.length > 0 && (
-            <Button variant="ghost" onClick={() => { setFiles([]); setStatus(""); }}>
+            ))}
+          </div>
+          <Input
+            label="Filename"
+            placeholder="merged"
+            trailingText=".pdf"
+            value={filename}
+            onChange={e => setFilename(e.target.value)}
+          />
+          <div className="flex items-center flex-row justify-between gap-2">
+            <Button onClick={handleMerge} disabled={merging} icon={merging ? Loader2 : Merge}>
+              {merging ? "Merging…" : `Merge ${files.length} Files`}
+            </Button>
+            <Button icon={Trash2} variant="ghost" onClick={() => { setFiles([]); setStatus(null); }}>
               Clear All
             </Button>
+          </div>
+
+          {status && (
+            <Label icon={status.ok ? Check : TriangleAlert} variant={status.ok ? "success" : "danger"}>
+              {status.msg}
+            </Label>
           )}
-        </div>
-        {status && (
-          <p className={`mt-3 text-sm ${status.startsWith("Error") ? "text-(--color-error)" : "text(--text-secondary)"}`}>
-            {status}
-          </p>
-        )}
-      </Panel>
+        </Panel>
+      )}
     </div>
   );
 }
