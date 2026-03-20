@@ -72,21 +72,21 @@ export default function MergePdfTool() {
                     key={`order-${file.name}-${i}`}
                     className="flex items-center gap-2 text-sm text(--text-secondary)"
                   >
-                    <span className="w-6 text-center text-xs text-[var(--text-tertiary)]">
+                    <span className="w-6 text-center text-xs text-(--text-tertiary)">
                       {i + 1}
                     </span>
                     <span className="flex-1 truncate">{file.name}</span>
                     <button
                       onClick={() => moveFile(i, "up")}
                       disabled={i === 0}
-                      className="px-1.5 py-0.5 text-xs rounded bg-[var(--surface-secondary)] disabled:opacity-30 hover:bg-[var(--surface-elevated)] transition-colors cursor-pointer disabled:cursor-default"
+                      className="px-1.5 py-0.5 text-xs rounded bg-(--surface-secondary) disabled:opacity-30 hover:bg-(--surface-elevated) transition-colors cursor-pointer disabled:cursor-default"
                     >
                       ↑
                     </button>
                     <button
                       onClick={() => moveFile(i, "down")}
                       disabled={i === files.length - 1}
-                      className="px-1.5 py-0.5 text-xs rounded bg-[var(--surface-secondary)] disabled:opacity-30 hover:bg-[var(--surface-elevated)] transition-colors cursor-pointer disabled:cursor-default"
+                      className="px-1.5 py-0.5 text-xs rounded bg-(--surface-secondary) disabled:opacity-30 hover:bg-(--surface-elevated) transition-colors cursor-pointer disabled:cursor-default"
                     >
                       ↓
                     </button>
@@ -113,7 +113,7 @@ export default function MergePdfTool() {
           )}
         </div>
         {status && (
-          <p className={`mt-3 text-sm ${status.startsWith("Error") ? "text-[var(--color-error)]" : "text(--text-secondary)"}`}>
+          <p className={`mt-3 text-sm ${status.startsWith("Error") ? "text-(--color-error)" : "text(--text-secondary)"}`}>
             {status}
           </p>
         )}
