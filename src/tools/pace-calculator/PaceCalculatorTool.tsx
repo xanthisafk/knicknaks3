@@ -126,13 +126,13 @@ export default function PaceCalculatorTool() {
             <div className="space-y-2">
               <label className="block text-sm font-medium text-(--text-primary)">Time</label>
               <div className="flex items-center gap-2">
-                <input type="number" value={timeHrs} onChange={(e) => setTimeHrs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="hr" min="0" />
+                <input type="number" value={timeHrs} onChange={(e) => setTimeHrs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="hr" min="0" />
                 <span className="text-xs text-(--text-secondary)">h</span>
 
-                <input type="number" value={timeMins} onChange={(e) => setTimeMins(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="min" min="0" max="59" />
+                <input type="number" value={timeMins} onChange={(e) => setTimeMins(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="min" min="0" max="59" />
                 <span className="text-xs text-(--text-secondary)">m</span>
 
-                <input type="number" value={timeSecs} onChange={(e) => setTimeSecs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="sec" min="0" max="59" />
+                <input type="number" value={timeSecs} onChange={(e) => setTimeSecs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="sec" min="0" max="59" />
                 <span className="text-xs text-(--text-secondary)">s</span>
               </div>
             </div>
@@ -143,9 +143,9 @@ export default function PaceCalculatorTool() {
               <label className="block text-sm font-medium text-(--text-primary)">Distance</label>
               <div className="flex items-center gap-2">
                 {["km", "mi", "m"].includes(distUnit) && (
-                  <input type="number" value={distValue} onChange={(e) => setDistValue(e.target.value)} className="flex-1 px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="Distance" min="0" step="0.01" />
+                  <input type="number" value={distValue} onChange={(e) => setDistValue(e.target.value)} className="flex-1 px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="Distance" min="0" step="0.01" />
                 )}
-                <select value={distUnit} onChange={(e) => setDistUnit(e.target.value)} className="flex-1 px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)">
+                <select value={distUnit} onChange={(e) => setDistUnit(e.target.value)} className="flex-1 px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)">
                   <option value="km">Kilometers (km)</option>
                   <option value="mi">Miles (mi)</option>
                   <option value="m">Meters (m)</option>
@@ -162,12 +162,12 @@ export default function PaceCalculatorTool() {
             <div className="space-y-2">
               <label className="block text-sm font-medium text-(--text-primary)">Pace</label>
               <div className="flex items-center gap-2">
-                <input type="number" value={paceMins} onChange={(e) => setPaceMins(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="min" min="0" />
+                <input type="number" value={paceMins} onChange={(e) => setPaceMins(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="min" min="0" />
                 <span className="text-xs text-(--text-secondary)">m</span>
-                <input type="number" value={paceSecs} onChange={(e) => setPaceSecs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)" placeholder="sec" min="0" max="59" />
+                <input type="number" value={paceSecs} onChange={(e) => setPaceSecs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="sec" min="0" max="59" />
                 <span className="text-xs text-(--text-secondary)">s</span>
                 <span className="text-sm font-medium px-2 text-(--text-primary)">per</span>
-                <select value={paceUnit} onChange={(e) => setPaceUnit(e.target.value as "km" | `mi`)} className="w-full px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)">
+                <select value={paceUnit} onChange={(e) => setPaceUnit(e.target.value as "km" | `mi`)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)">
                   <option value="km">km</option>
                   <option value="mi">mi</option>
                 </select>
@@ -178,7 +178,7 @@ export default function PaceCalculatorTool() {
           {calculateMode === "pace" && (
             <div className="space-y-2">
               <label className="block text-sm font-medium text-(--text-primary)">Pace Format</label>
-              <select value={paceUnit} onChange={(e) => setPaceUnit(e.target.value as "km" | `mi`)} className="w-full md:w-1/2 px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-default)] text-(--text-primary)">
+              <select value={paceUnit} onChange={(e) => setPaceUnit(e.target.value as "km" | `mi`)} className="w-full md:w-1/2 px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)">
                 <option value="km">Minutes per km</option>
                 <option value="mi">Minutes per mile</option>
               </select>
