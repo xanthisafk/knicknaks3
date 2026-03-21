@@ -1,7 +1,8 @@
-import { useState, useCallback } from "react";
-import { Button, Toggle } from "@/components/ui";
+import { useState } from "react";
+import { Button, CopyButton, Input, Label, Toggle } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { ResultRow } from "@/components/advanced/ResultRow";
+import { Trash2 } from "lucide-react";
 
 const CHAR_SETS = {
   uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -33,13 +34,13 @@ function calculateEntropy(length: number, charSets: Record<string, boolean>): nu
   return Math.round(length * Math.log2(poolSize));
 }
 
-function getStrength(entropy: number): { label: string; color: string; percent: number } {
-  if (entropy >= 128) return { label: "Overkill 🛡️", color: "var(--color-primary-500)", percent: 100 };
-  if (entropy >= 80) return { label: "Very Strong 💪", color: "var(--color-success)", percent: 85 };
-  if (entropy >= 60) return { label: "Strong ✅", color: "oklch(0.7 0.15 145)", percent: 70 };
-  if (entropy >= 40) return { label: "Moderate ⚠️", color: "var(--color-warning)", percent: 50 };
-  if (entropy >= 20) return { label: "Weak 🟠", color: "oklch(0.65 0.2 50)", percent: 30 };
-  return { label: "Very Weak ❌", color: "var(--color-error)", percent: 15 };
+type StrengthLevel = "weak" | "moderate" | "strong" | "excellent";
+
+function getStrength(entropy: number): { level: StrengthLevel; colorClass: string; label: string } {
+  if (entropy >= 128) return { level: "excellent", colorClass: "text-green-500", label: "Excellent" };
+  if (entropy >= 80) return { level: "strong", colorClass: "text-green-300", label: "Strong" };
+  if (entropy >= 60) return { level: "moderate", colorClass: "text-yellow-500", label: "Moderate" };
+  return { level: "weak", colorClass: "text-red-500", label: "Weak" };
 }
 
 export default function PasswordGeneratorTool() {
@@ -50,106 +51,90 @@ export default function PasswordGeneratorTool() {
     digits: true,
     symbols: true,
   });
-  const [password, setPassword] = useState("");
-  const [copied, setCopied] = useState(false);
+  const [amount, setAmount] = useState(10);
+  const [passwords, setPasswords] = useState<string[]>([]);
 
   const entropy = calculateEntropy(length, charSets);
   const strength = getStrength(entropy);
 
-  const generate = useCallback(() => {
-    setPassword(generatePassword(length, charSets));
-    setCopied(false);
-  }, [length, charSets]);
-
-  const handleCopy = async () => {
-    if (await copyToClipboard(password)) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
+  const generate = () => {
+    const newPasswords = Array.from({ length: amount }, () =>
+      generatePassword(length, charSets)
+    );
+    setPasswords(newPasswords);
   };
 
   const handleToggle = (key: string, value: boolean) => {
-    // Prevent disabling all character sets
     const newSets = { ...charSets, [key]: value };
     if (Object.values(newSets).every((v) => !v)) return;
     setCharSets(newSets);
   };
 
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col md:flex-row gap-2">
       {/* Controls */}
-      <Panel>
-        <div className="space-y-5">
-          {/* Length slider */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Length</label>
-              <span className="text-sm font-mono text-primary-500 font-bold">
-                {length}
-              </span>
-            </div>
-            <input
-              type="range"
-              min={4}
-              max={128}
-              value={length}
-              onChange={(e) => setLength(parseInt(e.target.value))}
-              className="w-full accent-primary-500"
-            />
-            <div className="flex justify-between text-xs text-(--text-tertiary)">
-              <span>4</span>
-              <span>128</span>
-            </div>
-          </div>
-
-          {/* Character set toggles */}
-          <div className="flex flex-wrap gap-4">
-            <Toggle label="A-Z" checked={charSets.uppercase} onChange={(v) => handleToggle("uppercase", v)} />
-            <Toggle label="a-z" checked={charSets.lowercase} onChange={(v) => handleToggle("lowercase", v)} />
-            <Toggle label="0-9" checked={charSets.digits} onChange={(v) => handleToggle("digits", v)} />
-            <Toggle label="!@#$" checked={charSets.symbols} onChange={(v) => handleToggle("symbols", v)} />
-          </div>
-
-          {/* Entropy bar */}
-          <div className="space-y-1.5">
-            <div className="flex items-center justify-between text-xs">
-              <span className="text(--text-secondary)">Entropy: {entropy} bits</span>
-              <span style={{ color: strength.color }} className="font-medium">{strength.label}</span>
-            </div>
-            <div className="h-2 w-full rounded-full bg-(--surface-secondary) overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all duration-300"
-                style={{ width: `${strength.percent}%`, backgroundColor: strength.color }}
-              />
-            </div>
-          </div>
-
-          <Button onClick={generate} className="w-full">
-            ⚡ Generate Password
-          </Button>
+      <Panel className="flex-1 space-y-4">
+        <Input
+          type="number"
+          label="Length"
+          value={length}
+          onChange={(e) => setLength(Math.min(512, Math.max(1, Number(e.target.value))))}
+          min={1}
+          max={512}
+        />
+        <div className="grid grid-cols-4 md:grid-cols-2 gap-2">
+          <Toggle label="A-Z" checked={charSets.uppercase} onChange={(v) => handleToggle("uppercase", v)} />
+          <Toggle label="a-z" checked={charSets.lowercase} onChange={(v) => handleToggle("lowercase", v)} />
+          <Toggle label="0-9" checked={charSets.digits} onChange={(v) => handleToggle("digits", v)} />
+          <Toggle label="!@#$" checked={charSets.symbols} onChange={(v) => handleToggle("symbols", v)} />
         </div>
+
+        {/* Entropy indicator */}
+        <div className="flex items-center justify-between">
+          <Label className={`text-sm font-medium ${strength.colorClass}`}>
+            Entropy: {entropy} bits
+          </Label>
+          <Label className={`text-xs font-semibold uppercase tracking-wide ${strength.colorClass}`}>
+            {strength.label}
+          </Label>
+        </div>
+
+        <Input
+          type="number"
+          label="Amount"
+          value={amount}
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            if (value < 1 || value > 100) return;
+            setAmount(value);
+          }}
+          min={1}
+          max={100}
+          helperText="Maximum: 100"
+        />
+        <Button onClick={generate} className="w-full">
+          Generate Passwords
+        </Button>
       </Panel>
 
       {/* Result */}
-      {password && (
-        <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Your Password</label>
-              <Button size="sm" variant="ghost" onClick={handleCopy}>
-                {copied ? "✓ Copied!" : "📋 Copy"}
-              </Button>
-            </div>
-            <div
-              className="px-4 py-3 rounded-md bg-(--surface-secondary) font-mono text-base break-all text(--text-primary) select-all cursor-pointer border border-(--border-default)"
-              onClick={handleCopy}
-              role="button"
-              tabIndex={0}
-              title="Click to copy"
-            >
-              {password}
+      {passwords.length === 0 ? (
+        <Panel className="flex-2 flex flex-col items-center justify-center gap-6">
+          <span className="font-emoji text-6xl">#️⃣</span>
+          <h3 className="text-(--text-tertiary)">Generated passwords will appear here</h3>
+        </Panel>
+      ) : (
+        <Panel className="flex-2 space-y-2">
+          <div className="flex items-center justify-between">
+            <Label>Generated Passwords</Label>
+            <div className="flex gap-2">
+              <CopyButton label="Copy All" text={passwords.join("\n")} />
+              <Button size="s" variant="secondary" onClick={() => setPasswords([])} icon={Trash2} />
             </div>
           </div>
+          {passwords.map((password, index) => (
+            <ResultRow key={index} label={`${index + 1}.`} value={password} />
+          ))}
         </Panel>
       )}
     </div>

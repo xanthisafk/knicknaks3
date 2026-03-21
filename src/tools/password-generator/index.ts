@@ -34,5 +34,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Use the sliders and checkboxes to configure your desired password length and required character types. Click 'Generate' to create a new secure string. The visual entropy bar instantly displays its relative cryptographic strength.",
   relatedTools: ["hash-generator", "uuid-generator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-22",
 };
