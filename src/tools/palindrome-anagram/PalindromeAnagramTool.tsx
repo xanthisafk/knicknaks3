@@ -54,7 +54,7 @@ export default function PalindromeAnagramTool() {
       <Panel>
         <div className="space-y-6">
           <div>
-            <label className="text-sm font-medium text-[var(--text-primary)] block mb-2">Phrase 1 (Palindrome Check base)</label>
+            <label className="text-sm font-medium text-(--text-primary) block mb-2">Phrase 1 (Palindrome Check base)</label>
             <Textarea
               value={text1}
               onChange={(e) => setText1(e.target.value)}
@@ -64,7 +64,7 @@ export default function PalindromeAnagramTool() {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-[var(--text-primary)] block mb-2">Phrase 2 (Target for Anagram Check)</label>
+            <label className="text-sm font-medium text-(--text-primary) block mb-2">Phrase 2 (Target for Anagram Check)</label>
             <Textarea
               value={text2}
               onChange={(e) => setText2(e.target.value)}
@@ -81,19 +81,19 @@ export default function PalindromeAnagramTool() {
 
       {(clean1.length > 0 || clean2.length > 0) && (
         <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">Results</h3>
+          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-4">Results</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Palindrome Result */}
-            <div className={`rounded-[var(--radius-lg)] p-6 flex flex-col items-center justify-center text-center transition-colors border ${clean1.length === 0
-                ? "bg-[var(--surface-secondary)] border-[var(--border-default)]"
-                : isText1Palindrome
-                  ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800"
-                  : "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
+            <div className={`rounded-lg p-6 flex flex-col items-center justify-center text-center transition-colors border ${clean1.length === 0
+              ? "bg-(--surface-secondary) border-(--border-default)"
+              : isText1Palindrome
+                ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800"
+                : "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
               }`}>
-              <div className="text-sm text-[var(--text-secondary)] mb-2 font-medium">Phrase 1 is a Palindrome</div>
+              <div className="text-sm text-(--text-secondary) mb-2 font-medium">Phrase 1 is a Palindrome</div>
               {clean1.length === 0 ? (
-                <span className="text-xl font-bold text-[var(--text-tertiary)]">Awaiting Input</span>
+                <span className="text-xl font-bold text-(--text-tertiary)">Awaiting Input</span>
               ) : isText1Palindrome ? (
                 <span className="text-2xl font-bold text-green-600 dark:text-green-400">Yes!</span>
               ) : (
@@ -102,15 +102,15 @@ export default function PalindromeAnagramTool() {
             </div>
 
             {/* Anagram Result */}
-            <div className={`rounded-[var(--radius-lg)] p-6 flex flex-col items-center justify-center text-center transition-colors border ${clean1.length === 0 || clean2.length === 0
-                ? "bg-[var(--surface-secondary)] border-[var(--border-default)]"
-                : isAnagram
-                  ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800"
-                  : "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
+            <div className={`rounded-lg p-6 flex flex-col items-center justify-center text-center transition-colors border ${clean1.length === 0 || clean2.length === 0
+              ? "bg-(--surface-secondary) border-(--border-default)"
+              : isAnagram
+                ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800"
+                : "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
               }`}>
-              <div className="text-sm text-[var(--text-secondary)] mb-2 font-medium">Phrases are Anagrams</div>
+              <div className="text-sm text-(--text-secondary) mb-2 font-medium">Phrases are Anagrams</div>
               {clean1.length === 0 || clean2.length === 0 ? (
-                <span className="text-xl font-bold text-[var(--text-tertiary)]">Awaiting Both Inputs</span>
+                <span className="text-xl font-bold text-(--text-tertiary)">Awaiting Both Inputs</span>
               ) : isAnagram ? (
                 <span className="text-2xl font-bold text-green-600 dark:text-green-400">Yes!</span>
               ) : (
