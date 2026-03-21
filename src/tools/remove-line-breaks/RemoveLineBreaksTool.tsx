@@ -43,9 +43,9 @@ export default function RemoveLineBreaksTool() {
                 <button
                   key={p.label}
                   onClick={() => setSeparator(p.value)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-[var(--radius-md)] transition-colors cursor-pointer ${separator === p.value
-                      ? "bg-[var(--color-primary-500)] text-white"
-                      : "bg-[var(--surface-secondary)] text(--text-secondary) hover:text(--text-primary)"
+                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer ${separator === p.value
+                    ? "bg-primary-500 text-white"
+                    : "bg-(--surface-secondary) text(--text-secondary) hover:text(--text-primary)"
                     }`}
                 >
                   {p.label}
@@ -58,7 +58,7 @@ export default function RemoveLineBreaksTool() {
             <input
               value={separator}
               onChange={(e) => setSeparator(e.target.value)}
-              className="w-24 px-3 py-1.5 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm font-[family-name:var(--font-mono)]"
+              className="w-24 px-3 py-1.5 rounded-md bg-(--surface-elevated) text(--text-primary) border border-(--border-default) text-sm font-mono"
             />
           </div>
         </div>
