@@ -16,12 +16,12 @@ function CalcCard({
   return (
     <Panel>
       <h3 className="text-sm font-semibold text(--text-primary) mb-1">{label}</h3>
-      <p className="text-xs text-[var(--text-tertiary)] mb-3">{formula}</p>
+      <p className="text-xs text-(--text-tertiary) mb-3">{formula}</p>
       <div className="space-y-3">
         {children}
         {result && (
-          <div className="px-3 py-2 rounded-[var(--radius-md)] bg-[var(--color-primary-50)] dark:bg-[var(--color-primary-900)]/20 border border-[var(--color-primary-200)] dark:border-[var(--color-primary-800)]">
-            <span className="text-sm font-medium text-[var(--color-primary-600)]">= {result}</span>
+          <div className="px-3 py-2 rounded-md bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800">
+            <span className="text-sm font-medium text-primary-600">= {result}</span>
           </div>
         )}
       </div>
