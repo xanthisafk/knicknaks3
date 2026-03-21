@@ -84,7 +84,7 @@ export default function PasswordGeneratorTool() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium text(--text-primary)">Length</label>
-              <span className="text-sm font-[family-name:var(--font-mono)] text-[var(--color-primary-500)] font-bold">
+              <span className="text-sm font-mono text-primary-500 font-bold">
                 {length}
               </span>
             </div>
@@ -94,9 +94,9 @@ export default function PasswordGeneratorTool() {
               max={128}
               value={length}
               onChange={(e) => setLength(parseInt(e.target.value))}
-              className="w-full accent-[var(--color-primary-500)]"
+              className="w-full accent-primary-500"
             />
-            <div className="flex justify-between text-xs text-[var(--text-tertiary)]">
+            <div className="flex justify-between text-xs text-(--text-tertiary)">
               <span>4</span>
               <span>128</span>
             </div>
@@ -116,7 +116,7 @@ export default function PasswordGeneratorTool() {
               <span className="text(--text-secondary)">Entropy: {entropy} bits</span>
               <span style={{ color: strength.color }} className="font-medium">{strength.label}</span>
             </div>
-            <div className="h-2 w-full rounded-full bg-[var(--surface-secondary)] overflow-hidden">
+            <div className="h-2 w-full rounded-full bg-(--surface-secondary) overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-300"
                 style={{ width: `${strength.percent}%`, backgroundColor: strength.color }}
@@ -141,7 +141,7 @@ export default function PasswordGeneratorTool() {
               </Button>
             </div>
             <div
-              className="px-4 py-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] font-[family-name:var(--font-mono)] text-base break-all text(--text-primary) select-all cursor-pointer border border-[var(--border-default)]"
+              className="px-4 py-3 rounded-md bg-(--surface-secondary) font-mono text-base break-all text(--text-primary) select-all cursor-pointer border border-(--border-default)"
               onClick={handleCopy}
               role="button"
               tabIndex={0}
