@@ -1,5 +1,9 @@
 import { useState, useMemo } from "react";
 import { Panel } from "@/components/layout";
+import { Tab, TabList, Tabs } from "@/components/ui/tab";
+import { Input } from "@/components/ui";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import StatBox from "@/components/ui/StatBox";
 
 const DISTANCES: Record<string, number> = {
   m: 1,
@@ -11,191 +15,146 @@ const DISTANCES: Record<string, number> = {
   marathon: 42195,
 };
 
-export default function PaceCalculatorTool() {
-  const [calculateMode, setCalculateMode] = useState<"pace" | "time" | "distance">("pace");
+const DISTANCE_OPTIONS = [
+  { value: "m", label: "Meters" },
+  { value: "km", label: "Kilometers" },
+  { value: "mi", label: "Miles" },
+  { value: "5k", label: "5K" },
+  { value: "10k", label: "10K" },
+  { value: "half-marathon", label: "Half Marathon" },
+  { value: "marathon", label: "Marathon" },
+];
 
-  // Time
+const PACE_OPTIONS = [
+  { value: "km", label: "Kilometer" },
+  { value: "mi", label: "Mile" },
+];
+
+type Mode = "pace" | "time" | "distance";
+
+const toNum = (val: string) => parseFloat(val) || 0;
+
+function formatTime(totalSecs: number): string {
+  const h = Math.floor(totalSecs / 3600);
+  const m = Math.floor((totalSecs % 3600) / 60);
+  const s = totalSecs % 60;
+  return h > 0
+    ? `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`
+    : `${m}:${String(s).padStart(2, "0")}`;
+}
+
+function getDistanceMeters(distValue: string, distUnit: string): number {
+  const fixed = ["5k", "10k", "half-marathon", "marathon"];
+  return fixed.includes(distUnit)
+    ? DISTANCES[distUnit]
+    : toNum(distValue) * (DISTANCES[distUnit] ?? 1);
+}
+
+export default function PaceCalculatorTool() {
+  const [mode, setMode] = useState<Mode>("pace");
+
   const [timeHrs, setTimeHrs] = useState("0");
   const [timeMins, setTimeMins] = useState("30");
   const [timeSecs, setTimeSecs] = useState("0");
 
-  // Distance
   const [distValue, setDistValue] = useState("5");
   const [distUnit, setDistUnit] = useState("km");
 
-  // Pace
   const [paceMins, setPaceMins] = useState("6");
   const [paceSecs, setPaceSecs] = useState("0");
-  const [paceUnit, setPaceUnit] = useState("km"); // "per km" or "per mi"
+  const [paceUnit, setPaceUnit] = useState("km");
 
   const result = useMemo(() => {
-    const parseNum = (val: string) => parseFloat(val) || 0;
+    const timeTotalSecs = toNum(timeHrs) * 3600 + toNum(timeMins) * 60 + toNum(timeSecs);
+    const paceTotalSecs = toNum(paceMins) * 60 + toNum(paceSecs);
+    const distMeters = getDistanceMeters(distValue, distUnit);
+    const paceMultiplier = paceUnit === "km" ? 1000 : 1609.344;
 
-    let timeSecsTotal = parseNum(timeHrs) * 3600 + parseNum(timeMins) * 60 + parseNum(timeSecs);
-    let paceSecsTotal = parseNum(paceMins) * 60 + parseNum(paceSecs);
-
-    let distanceMeters = 0;
-    if (distUnit in DISTANCES) {
-      if (distUnit === "m" || distUnit === "km" || distUnit === "mi") {
-        distanceMeters = parseNum(distValue) * DISTANCES[distUnit];
-      } else {
-        distanceMeters = DISTANCES[distUnit]; // predefined
+    if (mode === "pace") {
+      if (timeTotalSecs <= 0 || distMeters <= 0) return null;
+      const paceSec = (timeTotalSecs / distMeters) * paceMultiplier;
+      let pM = Math.floor(paceSec / 60);
+      let pS = Math.round(paceSec % 60);
+      if (pS === 60) {
+        pS = 0;
+        pM++;
       }
+      return { label: "Pace", value: `${pM}:${String(pS).padStart(2, "0")} / ${paceUnit}` };
     }
 
-    if (calculateMode === "pace") {
-      if (timeSecsTotal <= 0 || distanceMeters <= 0) return null;
-      let paceDistMultiplier = paceUnit === "km" ? 1000 : 1609.344;
-      let newPaceSecsTotal = (timeSecsTotal / distanceMeters) * paceDistMultiplier;
-
-      let pM = Math.floor(newPaceSecsTotal / 60);
-      let pS = Math.floor(newPaceSecsTotal % 60);
-      return { type: "pace", label: "Pace", value: `${pM}:${pS.toString().padStart(2, "0")} / ${paceUnit}` };
+    if (mode === "time") {
+      if (paceTotalSecs <= 0 || distMeters <= 0) return null;
+      const totalSecs = Math.round((paceTotalSecs / paceMultiplier) * distMeters);
+      return { label: "Time", value: formatTime(totalSecs) };
     }
-    else if (calculateMode === "time") {
-      if (paceSecsTotal <= 0 || distanceMeters <= 0) return null;
-      let paceDistMultiplier = paceUnit === "km" ? 1000 : 1609.344;
 
-      // seconds per meter
-      let secPerMeter = paceSecsTotal / paceDistMultiplier;
-      let newTimeSecsTotal = Math.round(secPerMeter * distanceMeters);
-
-      let tH = Math.floor(newTimeSecsTotal / 3600);
-      let tM = Math.floor((newTimeSecsTotal % 3600) / 60);
-      let tS = newTimeSecsTotal % 60;
-
-      let str = tH > 0 ? `${tH}:${tM.toString().padStart(2, "0")}:${tS.toString().padStart(2, "0")}` : `${tM}:${tS.toString().padStart(2, "0")}`;
-      return { type: "time", label: "Time", value: str };
-    }
-    else if (calculateMode === "distance") {
-      if (paceSecsTotal <= 0 || timeSecsTotal <= 0) return null;
-      let paceDistMultiplier = paceUnit === "km" ? 1000 : 1609.344;
-
-      let secPerMeter = paceSecsTotal / paceDistMultiplier;
-      let newDistMeters = Math.round(timeSecsTotal / secPerMeter);
-
-      let newDistVal = 0;
-      let newDistLabel = distUnit;
-
-      if (distUnit === "km") { newDistVal = newDistMeters / 1000; }
-      else if (distUnit === "mi") { newDistVal = newDistMeters / 1609.344; }
-      else if (distUnit === "m") { newDistVal = newDistMeters; }
-      else {
-        // fallback generic generic
-        newDistVal = newDistMeters / 1000;
-        newDistLabel = "km";
-      }
-
-      return { type: "distance", label: "Distance", value: `${newDistVal.toFixed(2)} ${newDistLabel}` };
+    if (mode === "distance") {
+      if (paceTotalSecs <= 0 || timeTotalSecs <= 0) return null;
+      const meters = (timeTotalSecs / paceTotalSecs) * paceMultiplier;
+      const resolvedUnit = ["5k", "10k", "half-marathon", "marathon"].includes(distUnit) ? "km" : distUnit;
+      const divisor = resolvedUnit === "km" ? 1000 : resolvedUnit === "mi" ? 1609.344 : 1;
+      return { label: "Distance", value: `${(meters / divisor).toFixed(2)} ${resolvedUnit}` };
     }
 
     return null;
-  }, [calculateMode, timeHrs, timeMins, timeSecs, distValue, distUnit, paceMins, paceSecs, paceUnit]);
+  }, [mode, timeHrs, timeMins, timeSecs, distValue, distUnit, paceMins, paceSecs, paceUnit]);
+
+  const paceUnitSelect = (
+    <Select label="Pace Unit" value={paceUnit} onValueChange={setPaceUnit}>
+      <SelectTrigger>{PACE_OPTIONS.find((o) => o.value === paceUnit)?.label}</SelectTrigger>
+      <SelectContent>
+        {PACE_OPTIONS.map((o) => (
+          <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
 
   return (
     <div className="space-y-2">
-      <Panel>
-        <div className="flex justify-center mb-6">
-          <div className="flex bg-(--surface-secondary) rounded-xl p-1 border border-(--border-default)">
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${calculateMode === "pace" ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm" : "text-(--text-secondary) hover:text-(--text-primary)"
-                }`}
-              onClick={() => setCalculateMode("pace")}
-            >
-              Calculate Pace
-            </button>
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${calculateMode === "time" ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm" : "text-(--text-secondary) hover:text-(--text-primary)"
-                }`}
-              onClick={() => setCalculateMode("time")}
-            >
-              Calculate Time
-            </button>
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${calculateMode === "distance" ? "bg-(--surface-elevated) text-(--text-primary) shadow-sm" : "text-(--text-secondary) hover:text-(--text-primary)"
-                }`}
-              onClick={() => setCalculateMode("distance")}
-            >
-              Calculate Distance
-            </button>
-          </div>
-        </div>
+      <Panel className="space-y-3">
+        <Tabs value={mode} onValueChange={(v) => setMode(v as Mode)}>
+          <TabList>
+            <Tab value="pace">Calculate Pace</Tab>
+            <Tab value="time">Calculate Time</Tab>
+            <Tab value="distance">Calculate Distance</Tab>
+          </TabList>
+        </Tabs>
 
-        <div className="space-y-6">
-          {calculateMode !== "time" && (
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-(--text-primary)">Time</label>
-              <div className="flex items-center gap-2">
-                <input type="number" value={timeHrs} onChange={(e) => setTimeHrs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="hr" min="0" />
-                <span className="text-xs text-(--text-secondary)">h</span>
-
-                <input type="number" value={timeMins} onChange={(e) => setTimeMins(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="min" min="0" max="59" />
-                <span className="text-xs text-(--text-secondary)">m</span>
-
-                <input type="number" value={timeSecs} onChange={(e) => setTimeSecs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="sec" min="0" max="59" />
-                <span className="text-xs text-(--text-secondary)">s</span>
-              </div>
+        <div className="space-y-3">
+          {mode !== "time" && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <Input type="number" label="Time (Hours)" value={timeHrs} trailingText="hr" onChange={(e) => setTimeHrs(e.target.value)} className="flex-1" />
+              <Input type="number" label="Time (Minutes)" value={timeMins} trailingText="min" onChange={(e) => setTimeMins(e.target.value)} className="flex-1" />
+              <Input type="number" label="Time (Seconds)" value={timeSecs} trailingText="sec" onChange={(e) => setTimeSecs(e.target.value)} className="flex-1" />
             </div>
           )}
 
-          {calculateMode !== "distance" && (
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-(--text-primary)">Distance</label>
-              <div className="flex items-center gap-2">
-                {["km", "mi", "m"].includes(distUnit) && (
-                  <input type="number" value={distValue} onChange={(e) => setDistValue(e.target.value)} className="flex-1 px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="Distance" min="0" step="0.01" />
-                )}
-                <select value={distUnit} onChange={(e) => setDistUnit(e.target.value)} className="flex-1 px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)">
-                  <option value="km">Kilometers (km)</option>
-                  <option value="mi">Miles (mi)</option>
-                  <option value="m">Meters (m)</option>
-                  <option value="5k">5K</option>
-                  <option value="10k">10K</option>
-                  <option value="half-marathon">Half Marathon</option>
-                  <option value="marathon">Marathon</option>
-                </select>
-              </div>
+          {mode !== "distance" && (
+            <Select label="Distance" value={distUnit} onValueChange={setDistUnit}>
+              <SelectTrigger>{DISTANCE_OPTIONS.find((o) => o.value === distUnit)?.label}</SelectTrigger>
+              <SelectContent>
+                {DISTANCE_OPTIONS.map((o) => (
+                  <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+
+          {mode !== "pace" && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <Input type="number" label="Pace (Minutes)" value={paceMins} trailingText="mins" onChange={(e) => setPaceMins(e.target.value)} className="flex-1" />
+              <Input type="number" label="Pace (Seconds)" value={paceSecs} trailingText="secs" onChange={(e) => setPaceSecs(e.target.value)} className="flex-1" />
+              {paceUnitSelect}
             </div>
           )}
 
-          {calculateMode !== "pace" && (
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-(--text-primary)">Pace</label>
-              <div className="flex items-center gap-2">
-                <input type="number" value={paceMins} onChange={(e) => setPaceMins(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="min" min="0" />
-                <span className="text-xs text-(--text-secondary)">m</span>
-                <input type="number" value={paceSecs} onChange={(e) => setPaceSecs(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)" placeholder="sec" min="0" max="59" />
-                <span className="text-xs text-(--text-secondary)">s</span>
-                <span className="text-sm font-medium px-2 text-(--text-primary)">per</span>
-                <select value={paceUnit} onChange={(e) => setPaceUnit(e.target.value as "km" | `mi`)} className="w-full px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)">
-                  <option value="km">km</option>
-                  <option value="mi">mi</option>
-                </select>
-              </div>
-            </div>
-          )}
-
-          {calculateMode === "pace" && (
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-(--text-primary)">Pace Format</label>
-              <select value={paceUnit} onChange={(e) => setPaceUnit(e.target.value as "km" | `mi`)} className="w-full md:w-1/2 px-3 py-2 rounded-xl bg-(--surface-elevated) border border-(--border-default) text-(--text-primary)">
-                <option value="km">Minutes per km</option>
-                <option value="mi">Minutes per mile</option>
-              </select>
-            </div>
-          )}
+          {mode === "pace" && paceUnitSelect}
         </div>
       </Panel>
 
       {result && (
-        <Panel>
-          <div className="text-center py-6 space-y-4">
-            <h3 className="text-sm font-medium text-(--text-secondary)">Your Calculated {result.label}</h3>
-            <div className="text-5xl font-bold text-primary-500">
-              {result.value}
-            </div>
-          </div>
-        </Panel>
+        <StatBox label={`Your Calculated ${result.label}`} textSize="6xl" value={result.value} />
       )}
     </div>
   );
