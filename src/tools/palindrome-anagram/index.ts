@@ -19,5 +19,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Enter a single word or sentence into the first box to test if it passes as a valid palindrome. To check for an anagram, type a second phrase into the target box; the tool will instantly compare the letter frequencies to see if they match perfectly.",
   relatedTools: ["word-counter", "reverse-text"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  lastUpdated: "2026-03-22",
 };

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Textarea, Input, Button } from "@/components/ui";
+import { Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
+import StatBox from "@/components/ui/StatBox";
 
 function cleanText(text: string): string {
   // Remove non-alphanumeric characters and convert to lower case
@@ -44,82 +45,30 @@ export default function PalindromeAnagramTool() {
   const isText1Palindrome = checkPalindrome(clean1);
   const isAnagram = checkAnagram(clean1, clean2);
 
-  const clearInputs = () => {
-    setText1("");
-    setText2("");
-  };
-
   return (
-    <div className="space-y-2">
-      <Panel>
-        <div className="space-y-6">
-          <div>
-            <label className="text-sm font-medium text-(--text-primary) block mb-2">Phrase 1 (Palindrome Check base)</label>
-            <Textarea
-              value={text1}
-              onChange={(e) => setText1(e.target.value)}
-              placeholder="e.g. A man, a plan, a canal: Panama"
-              className="min-h-[100px]"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-(--text-primary) block mb-2">Phrase 2 (Target for Anagram Check)</label>
-            <Textarea
-              value={text2}
-              onChange={(e) => setText2(e.target.value)}
-              placeholder="e.g. Panama canal plan, a man, a"
-              className="min-h-[100px]"
-            />
-          </div>
-
-          <div className="flex justify-end pt-2">
-            <Button variant="ghost" onClick={clearInputs}>Clear Fields</Button>
-          </div>
-        </div>
-      </Panel>
-
-      {(clean1.length > 0 || clean2.length > 0) && (
+    <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-(--text-tertiary) uppercase mb-4">Results</h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Palindrome Result */}
-            <div className={`rounded-lg p-6 flex flex-col items-center justify-center text-center transition-colors border ${clean1.length === 0
-              ? "bg-(--surface-secondary) border-(--border-default)"
-              : isText1Palindrome
-                ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800"
-                : "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
-              }`}>
-              <div className="text-sm text-(--text-secondary) mb-2 font-medium">Phrase 1 is a Palindrome</div>
-              {clean1.length === 0 ? (
-                <span className="text-xl font-bold text-(--text-tertiary)">Awaiting Input</span>
-              ) : isText1Palindrome ? (
-                <span className="text-2xl font-bold text-green-600 dark:text-green-400">Yes!</span>
-              ) : (
-                <span className="text-2xl font-bold text-red-600 dark:text-red-400">No</span>
-              )}
-            </div>
-
-            {/* Anagram Result */}
-            <div className={`rounded-lg p-6 flex flex-col items-center justify-center text-center transition-colors border ${clean1.length === 0 || clean2.length === 0
-              ? "bg-(--surface-secondary) border-(--border-default)"
-              : isAnagram
-                ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800"
-                : "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
-              }`}>
-              <div className="text-sm text-(--text-secondary) mb-2 font-medium">Phrases are Anagrams</div>
-              {clean1.length === 0 || clean2.length === 0 ? (
-                <span className="text-xl font-bold text-(--text-tertiary)">Awaiting Both Inputs</span>
-              ) : isAnagram ? (
-                <span className="text-2xl font-bold text-green-600 dark:text-green-400">Yes!</span>
-              ) : (
-                <span className="text-2xl font-bold text-red-600 dark:text-red-400">No</span>
-              )}
-            </div>
-          </div>
+          <Textarea
+            label="Phrase 1"
+            value={text1}
+            onChange={(e) => setText1(e.target.value)}
+            placeholder="e.g. A man, a plan, a canal: Panama"
+            className="min-h-[100px]"
+          />
         </Panel>
-      )}
+        <Panel>
+          <Textarea
+            label="Phrase 2"
+            value={text2}
+            onChange={(e) => setText2(e.target.value)}
+            placeholder="e.g. Panama canal plan, a man, a"
+            className="min-h-[100px]"
+          />
+        </Panel>
+        <StatBox label="Palindrome" textSize="6xl" value={isText1Palindrome ? "YES" : "NO"} />
+        <StatBox label="Anagram" textSize="6xl" value={isAnagram ? "YES" : "NO"} />
+      </div>
     </div>
   );
 }
