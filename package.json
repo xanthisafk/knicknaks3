@@ -1,7 +1,7 @@
 {
   "name": "knicknaks",
   "type": "module",
-  "version": "3.76.0",
+  "version": "3.78.0",
   "description": "Free, offline-capable web app with useful day-to-day tools",
   "scripts": {
     "dev": "npm version minor --no-git-tag-version && astro dev",
@@ -53,6 +53,7 @@
     "react-virtuoso": "^4.18.3",
     "recharts": "^3.8.0",
     "shiki": "^3.23.0",
+    "to-words": "^5.3.0",
     "typescript": "^5.9.3",
     "zod": "^3.24.4"
   },

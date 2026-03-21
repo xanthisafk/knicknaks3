@@ -1,84 +1,182 @@
 import { useState, useMemo } from "react";
-import { Input, Button } from "@/components/ui";
+import { ToWords } from "to-words";
+import { Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { CURRENCIES } from "@/lib";
+import { ResultRow } from "@/components/advanced/ResultRow";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
+import { TriangleAlert } from "lucide-react";
 
-const ONES = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
-const TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
-const SCALES = ["", "thousand", "million", "billion", "trillion"];
+// ─── Locale mapping ───────────────────────────────────────────────────────────
+// Maps each currency code to the best to-words locale.
 
-function numToWords(n: number): string {
-  if (n < 0) return "negative " + numToWords(-n);
-  if (n === 0) return "zero";
-  if (n < 20) return ONES[n];
-  if (n < 100) return TENS[Math.floor(n / 10)] + (n % 10 ? "-" + ONES[n % 10] : "");
-  if (n < 1000) return ONES[Math.floor(n / 100)] + " hundred" + (n % 100 ? " " + numToWords(n % 100) : "");
+const CURRENCY_LOCALE: Record<string, string> = {
+  // Indian numbering — lakh, crore, arab…
+  INR: "en-IN",
 
-  for (let i = SCALES.length - 1; i >= 1; i--) {
-    const scale = Math.pow(1000, i);
-    if (n >= scale) {
-      const head = numToWords(Math.floor(n / scale));
-      const tail = n % scale;
-      return head + " " + SCALES[i] + (tail ? " " + numToWords(tail) : "");
-    }
-  }
-  return n.toString();
+  // East Asian
+  JPY: "ja-JP",
+  CNY: "zh-CN",
+  KRW: "ko-KR",
+
+  // European
+  EUR: "de-DE",
+  GBP: "en-GB",
+  CHF: "de-CH",
+  SEK: "sv-SE",
+  NOK: "nb-NO",
+  DKK: "da-DK",
+  PLN: "pl-PL",
+  CZK: "cs-CZ",
+  HUF: "hu-HU",
+  TRY: "tr-TR",
+  RUB: "ru-RU",
+
+  // Middle-East / Africa
+  SAR: "ar-SA",
+  AED: "ar-AE",
+  ILS: "he-IL",
+  NGN: "en-NG",
+  ZAR: "en-ZA",
+
+  // South / South-East Asia
+  THB: "th-TH",
+  VND: "vi-VN",
+  IDR: "id-ID",
+  MYR: "ms-MY",
+  SGD: "en-SG",
+
+  // Americas & Oceania
+  USD: "en-US",
+  CAD: "en-US",
+  AUD: "en-AU",
+  BRL: "pt-BR",
+  MXN: "es-MX",
+  NZD: "en-NZ",
+  HKD: "en-HK",
+};
+
+// Currency name overrides for locales that would otherwise use a wrong default
+type CurrencyOverride = {
+  name: string;
+  plural: string;
+  symbol: string;
+  fractionalUnit: { name: string; plural: string; symbol: string };
+};
+
+const CURRENCY_OPTS: Record<string, CurrencyOverride> = {
+  CAD: { name: "Dollar", plural: "Dollars", symbol: "C$", fractionalUnit: { name: "Cent", plural: "Cents", symbol: "" } },
+  AUD: { name: "Dollar", plural: "Dollars", symbol: "A$", fractionalUnit: { name: "Cent", plural: "Cents", symbol: "" } },
+  NZD: { name: "Dollar", plural: "Dollars", symbol: "NZ$", fractionalUnit: { name: "Cent", plural: "Cents", symbol: "" } },
+  SGD: { name: "Dollar", plural: "Dollars", symbol: "S$", fractionalUnit: { name: "Cent", plural: "Cents", symbol: "" } },
+  HKD: { name: "Dollar", plural: "Dollars", symbol: "HK$", fractionalUnit: { name: "Cent", plural: "Cents", symbol: "" } },
+  GBP: { name: "Pound", plural: "Pounds", symbol: "£", fractionalUnit: { name: "Penny", plural: "Pence", symbol: "" } },
+  CHF: { name: "Franc", plural: "Francs", symbol: "₣", fractionalUnit: { name: "Rappen", plural: "Rappen", symbol: "" } },
+  NGN: { name: "Naira", plural: "Naira", symbol: "₦", fractionalUnit: { name: "Kobo", plural: "Kobo", symbol: "" } },
+  ZAR: { name: "Rand", plural: "Rand", symbol: "R", fractionalUnit: { name: "Cent", plural: "Cents", symbol: "" } },
+  MYR: { name: "Ringgit", plural: "Ringgit", symbol: "RM", fractionalUnit: { name: "Sen", plural: "Sen", symbol: "" } },
+  IDR: { name: "Rupiah", plural: "Rupiah", symbol: "Rp", fractionalUnit: { name: "Sen", plural: "Sen", symbol: "" } },
+};
+
+// ─── Converter factory ────────────────────────────────────────────────────────
+
+function makeConverter(currencyCode: string, forCurrency: boolean) {
+  const localeCode = CURRENCY_LOCALE[currencyCode] ?? "en-US";
+  const currencyOptions = CURRENCY_OPTS[currencyCode];
+
+  return new ToWords({
+    localeCode,
+    converterOptions: {
+      currency: forCurrency,
+      ignoreDecimal: false,
+      ignoreZeroCurrency: false,
+      doNotAddOnly: false,
+      ...(forCurrency && currencyOptions ? { currencyOptions } : {}),
+    },
+  });
 }
 
-function convert(input: string): { words: string; currency: string } | { error: string } {
-  const n = parseFloat(input.replace(/,/g, ""));
-  if (isNaN(n)) return { error: "Please enter a valid number" };
-  if (Math.abs(n) > 999_999_999_999_999) return { error: "Number too large (max: 999 trillion)" };
+// ─── Component ────────────────────────────────────────────────────────────────
 
-  const whole = Math.floor(Math.abs(n));
-  const decimals = Math.round((Math.abs(n) - whole) * 100);
-
-  const words = (n < 0 ? "negative " : "") + numToWords(whole) + (decimals > 0 ? " point " + numToWords(decimals) : "");
-  const dollar = numToWords(whole) + " dollar" + (whole !== 1 ? "s" : "");
-  const cents = decimals > 0 ? " and " + numToWords(decimals) + " cent" + (decimals !== 1 ? "s" : "") : "";
-  const currency = (n < 0 ? "negative " : "") + dollar + cents;
-
-  return { words, currency };
-}
+const DEFAULT_CURRENCY = "INR";
 
 export default function NumberToWordsTool() {
   const [input, setInput] = useState("");
-  const [copied, setCopied] = useState<string | null>(null);
+  const [currencyCode, setCurrencyCode] = useState(DEFAULT_CURRENCY);
 
-  const result = useMemo(() => input ? convert(input) : null, [input]);
+  const result = useMemo(() => {
+    const raw = input.trim().replace(/,/g, "");
+    if (!raw) return null;
+
+    const n = parseFloat(raw);
+    if (isNaN(n)) return { error: "Please enter a valid number" };
+    if (Math.abs(n) > 999_999_999_999_999)
+      return { error: "Number too large (max: 999 trillion)" };
+
+    try {
+      const wordsConverter = makeConverter(currencyCode, false);
+      const currencyConverter = makeConverter(currencyCode, true);
+      return {
+        words: wordsConverter.convert(n),
+        currency: currencyConverter.convert(Math.abs(n)),
+      };
+    } catch (e: unknown) {
+      return { error: e instanceof Error ? e.message : "Conversion failed" };
+    }
+  }, [input, currencyCode]);
+
+  const selectedCurrency = CURRENCIES.find((c) => c.code === currencyCode);
 
   return (
     <div className="space-y-2">
-      <Panel>
+      <Panel className="flex flex-col md:flex-row gap-2">
+        <div className="flex-1">
+          <Select label="Currency" value={currencyCode} onValueChange={setCurrencyCode}>
+            <SelectTrigger>
+              {selectedCurrency
+                ? `${selectedCurrency.symbol}  ${selectedCurrency.name}`
+                : "Select Currency"}
+            </SelectTrigger>
+            <SelectContent>
+              {CURRENCIES.map((c) => (
+                <SelectItem key={c.code} value={c.code}>
+                  {c.symbol}&nbsp;&nbsp;{c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
         <Input
           label="Number"
           value={input}
-          onChange={e => setInput(e.target.value)}
-          placeholder="e.g. 1542 or 3.14"
-          className="font-mono text-lg"
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="e.g. 500000 or 3.14"
+          className="font-mono flex-1"
+          inputMode="decimal"
         />
       </Panel>
 
-      {result && "error" in result ? (
-        <p className="text-sm text-(--color-error) px-1">{result.error}</p>
-      ) : result ? (
-        <div className="space-y-3">
-          {[
-            { label: "Words", value: result.words },
-            { label: "Currency (USD)", value: result.currency },
-          ].map(r => (
-            <Panel key={r.label}>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text(--text-primary)">{r.label}</span>
-                  <button onClick={async () => { await copyToClipboard(r.value); setCopied(r.label); setTimeout(() => setCopied(null), 1500); }} className="text-xs text-(--text-tertiary) hover:text(--text-primary) cursor-pointer">{copied === r.label ? "✓ Copied" : "Copy"}</button>
-                </div>
-                <p className="text(--text-primary) capitalize leading-relaxed">{r.value}</p>
-              </div>
-            </Panel>
-          ))}
-        </div>
-      ) : null}
+      {result && (
+        <Panel className="space-y-2">
+          {"error" in result
+            ? <Label icon={TriangleAlert} variant="danger">{result.error}</Label>
+            : [
+              { label: "In Words", value: result.words },
+              {
+                label: `Currency (${selectedCurrency?.symbol ?? currencyCode})`,
+                value: result.currency,
+              },
+            ].map((r) => (
+              <ResultRow key={r.label} label={r.label} value={r.value} />
+            ))}
+        </Panel>
+      )}
     </div>
   );
 }
