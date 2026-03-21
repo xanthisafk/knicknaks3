@@ -57,7 +57,7 @@ export default function PdfToImagesTool() {
         canvas.width = viewport.width;
         canvas.height = viewport.height;
         const ctx = canvas.getContext("2d")!;
-        await page.render({ canvasContext: ctx, viewport }).promise;
+        await page.render({ canvasContext: ctx as CanvasRenderingContext2D, canvas, viewport }).promise;
 
         const blob = await new Promise<Blob>((resolve) =>
           canvas.toBlob((b) => resolve(b!), `image/${format}`, 0.92)
@@ -100,9 +100,9 @@ export default function PdfToImagesTool() {
   const scaleButton = (label: string, value: number) => (
     <button
       onClick={() => setScale(value)}
-      className={`px-3 py-1.5 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer ${scale === value
-        ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
-        : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
+      className={`px-3 py-1.5 text-sm rounded-md border transition-colors cursor-pointer ${scale === value
+        ? "bg-primary-500 text-white border-primary-500"
+        : "bg-(--surface-secondary) text(--text-primary) border-(--border-default) hover:border-(--border-hover)"
         }`}
     >
       {label}
@@ -116,13 +116,13 @@ export default function PdfToImagesTool() {
           <PdfDropZone onFiles={handleFile} />
         ) : (
           <div className="space-y-4">
-            <div className="flex items-center gap-3 px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)]">
+            <div className="flex items-center gap-3 px-3 py-2 rounded-md bg-(--surface-secondary) border border-(--border-default)">
               <span>📄</span>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text(--text-primary) truncate">{file.name}</p>
-                <p className="text-xs text-[var(--text-tertiary)]">{formatFileSize(file.size)} · {pageCount} pages</p>
+                <p className="text-xs text-(--text-tertiary)">{formatFileSize(file.size)} · {pageCount} pages</p>
               </div>
-              <button onClick={reset} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--color-error)] transition-colors cursor-pointer">✕</button>
+              <button onClick={reset} className="text-xs text-(--text-tertiary) hover:text-(--color-error) transition-colors cursor-pointer">✕</button>
             </div>
 
             <div className="space-y-3">
@@ -132,9 +132,9 @@ export default function PdfToImagesTool() {
                   <button
                     key={f}
                     onClick={() => setFormat(f)}
-                    className={`px-4 py-2 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer uppercase ${format === f
-                      ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
-                      : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
+                    className={`px-4 py-2 text-sm rounded-md border transition-colors cursor-pointer uppercase ${format === f
+                      ? "bg-primary-500 text-white border-primary-500"
+                      : "bg-(--surface-secondary) text(--text-primary) border-(--border-default) hover:border-(--border-hover)"
                       }`}
                   >
                     {f === "jpeg" ? "JPG" : f}
@@ -169,7 +169,7 @@ export default function PdfToImagesTool() {
             <Button variant="ghost" onClick={reset}>Choose Another</Button>
           </div>
           {status && (
-            <p className={`mt-3 text-sm ${status.startsWith("Error") ? "text-[var(--color-error)]" : "text(--text-secondary)"}`}>
+            <p className={`mt-3 text-sm ${status.startsWith("Error") ? "text-(--color-error)" : "text(--text-secondary)"}`}>
               {status}
             </p>
           )}
@@ -181,8 +181,8 @@ export default function PdfToImagesTool() {
           <h3 className="text-sm font-medium text(--text-primary) mb-3">Rendered Pages</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {images.map((img, i) => (
-              <div key={i} className="flex flex-col gap-1.5 p-2 rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-secondary)]">
-                <img src={img.url} alt={img.name} className="w-full rounded-[var(--radius-sm)] shadow-sm cursor-pointer" onClick={() => downloadImage(img)} />
+              <div key={i} className="flex flex-col gap-1.5 p-2 rounded-md border border-(--border-default) bg-(--surface-secondary)">
+                <img src={img.url} alt={img.name} className="w-full rounded-sm shadow-sm cursor-pointer" onClick={() => downloadImage(img)} />
                 <p className="text-xs text(--text-secondary) truncate">{img.name}</p>
               </div>
             ))}
