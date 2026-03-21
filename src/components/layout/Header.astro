@@ -1,4 +1,7 @@
 ---
+import { ChefHat } from "lucide-react";
+import { Badge } from "../ui";
+
 interface Props {
   activeTab?: "tools" | "blog";
 }
@@ -24,6 +27,14 @@ const { activeTab } = Astro.props;
         </span>
       </a>
       <div class="flex items-center gap-4 text-sm font-medium">
+        {
+          import.meta.env.DEV && (
+            <Badge variant="secondary" icon={ChefHat} text="DEV MODE" />
+          )
+        }
+
+        <div class="w-px h-4 bg-[--border-default] mx-1"></div>
+
         <a
           href="/"
           class={`${activeTab === "tools" ? "text-primary-600 border-primary-500" : "text-(--text-secondary) hover:text-(--text-primary) border-transparent"} border-b-2 py-5 transition-colors`}
@@ -79,20 +90,6 @@ const { activeTab } = Astro.props;
 
 <script is:inline>
   // ── Theme toggle ──────────────────────────────────────────────────────────
-  const updateThemeColor = () => {
-    const rootStyles = getComputedStyle(document.documentElement);
-    const color = rootStyles.getPropertyValue("--surface-bg").trim();
-
-    let meta = document.querySelector('meta[name="theme-color"]');
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.setAttribute("name", "theme-color");
-      document.head.appendChild(meta);
-    }
-
-    meta.setAttribute("content", color);
-  };
-
   document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("theme-toggle-btn");
     if (btn) {

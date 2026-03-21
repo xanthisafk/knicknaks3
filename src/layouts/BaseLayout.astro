@@ -49,8 +49,27 @@ if (isBlog) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#fcf7f8" id="meta-theme-color" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
     <!-- Theme initialization (prevent FOUC) -->
     <script is:inline>
+      const updateThemeColor = () => {
+        const rootStyles = getComputedStyle(document.documentElement);
+        const color = rootStyles.getPropertyValue("--surface-bg").trim();
+
+        let meta = document.querySelector('meta[name="theme-color"]');
+        if (!meta) {
+          meta = document.createElement("meta");
+          meta.setAttribute("name", "theme-color");
+          document.head.appendChild(meta);
+        }
+
+        meta.setAttribute("content", color);
+      };
+
       (function () {
         const stored = localStorage.getItem("knicknaks-theme");
         const pref =
@@ -59,6 +78,7 @@ if (isBlog) {
             ? "dark"
             : "light");
         document.documentElement.dataset.theme = pref;
+        updateThemeColor();
       })();
     </script>
 
@@ -89,11 +109,6 @@ if (isBlog) {
       rel="stylesheet"
     />
 
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#fcf7f8" id="meta-theme-color" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-
     <!-- Structured Data -->
     {
       structuredData && (
@@ -105,15 +120,26 @@ if (isBlog) {
     }
   </head>
   <body>
+    <input
+      type="hidden"
+      id="kk-sw-dev"
+      value={import.meta.env.DEV ? "true" : "false"}
+    />
     <slot />
 
     <GlobalPalette client:load blogPosts={searchPosts} isBlog={isBlog} />
 
     <!-- Service Worker Registration -->
     <script is:inline>
-      if ("serviceWorker" in navigator) {
+      const isDev = document.getElementById("kk-sw-dev")?.value === "true";
+      if (!isDev && "serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker.register("/sw.js").catch(() => {});
+        });
+      } else if (isDev && "serviceWorker" in navigator) {
+        // Unregister any stale SW from a previous production build served locally
+        navigator.serviceWorker.getRegistrations().then((regs) => {
+          regs.forEach((r) => r.unregister());
         });
       }
     </script>
