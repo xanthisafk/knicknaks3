@@ -42,14 +42,14 @@ export default function PlaceholderImageTool() {
               <label className="text-sm font-medium text(--text-primary)">Background</label>
               <div className="flex gap-2 items-center">
                 <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="w-10 h-9 rounded cursor-pointer border-0" />
-                <span className="text-sm font-[family-name:var(--font-mono)] text(--text-secondary)">{bgColor.toUpperCase()}</span>
+                <span className="text-sm font-mono text(--text-secondary)">{bgColor.toUpperCase()}</span>
               </div>
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text(--text-primary)">Text Color</label>
               <div className="flex gap-2 items-center">
                 <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)} className="w-10 h-9 rounded cursor-pointer border-0" />
-                <span className="text-sm font-[family-name:var(--font-mono)] text(--text-secondary)">{textColor.toUpperCase()}</span>
+                <span className="text-sm font-mono text(--text-secondary)">{textColor.toUpperCase()}</span>
               </div>
             </div>
           </div>
@@ -59,7 +59,7 @@ export default function PlaceholderImageTool() {
 
       {/* Preview */}
       <Panel>
-        <div className="flex items-center justify-center overflow-hidden rounded-[var(--radius-md)]" style={{ minHeight: "120px" }}>
+        <div className="flex items-center justify-center overflow-hidden rounded-md" style={{ minHeight: "120px" }}>
           <img src={dataUri} alt={displayLabel} style={{ maxWidth: "100%", maxHeight: "240px" }} />
         </div>
       </Panel>
