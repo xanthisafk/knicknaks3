@@ -14,9 +14,24 @@ export function useTheme() {
     setThemeState(initial);
     document.documentElement.setAttribute("data-theme", initial);
 
+    const updateThemeColor = () => {
+      const rootStyles = getComputedStyle(document.documentElement);
+      const color = rootStyles.getPropertyValue("--surface-bg").trim();
+
+      let meta = document.querySelector('meta[name="theme-color"]');
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("name", "theme-color");
+        document.head.appendChild(meta);
+      }
+
+      meta.setAttribute("content", color);
+    };
+
     const observer = new MutationObserver(() => {
       const current = document.documentElement.getAttribute("data-theme") as Theme | null;
       if (current) setThemeState(current);
+      setTimeout(() => updateThemeColor(), 150);
     });
 
     observer.observe(document.documentElement, {

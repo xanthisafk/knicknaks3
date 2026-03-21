@@ -79,6 +79,20 @@ const { activeTab } = Astro.props;
 
 <script is:inline>
   // ── Theme toggle ──────────────────────────────────────────────────────────
+  const updateThemeColor = () => {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const color = rootStyles.getPropertyValue("--surface-bg").trim();
+
+    let meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.setAttribute("name", "theme-color");
+      document.head.appendChild(meta);
+    }
+
+    meta.setAttribute("content", color);
+  };
+
   document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("theme-toggle-btn");
     if (btn) {
@@ -86,6 +100,7 @@ const { activeTab } = Astro.props;
         const current = document.documentElement.getAttribute("data-theme");
         const next = current === "dark" ? "light" : "dark";
         document.documentElement.setAttribute("data-theme", next);
+        setTimeout(() => updateThemeColor(), 150);
         localStorage.setItem("knicknaks-theme", next);
       });
     }
