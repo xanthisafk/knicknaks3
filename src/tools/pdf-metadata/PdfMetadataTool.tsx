@@ -81,7 +81,7 @@ export default function PdfMetadataTool() {
   return (
     <div className="space-y-2">
       {!file ? (
-        <FileDropZone accepts=".pdf" onUpload={f => handleFile(f.file)} />
+        <FileDropZone accepts=".pdf" onUpload={f => handleFile(f.file)} emoji="📄" />
       ) : (
         <Panel className="flex flex-col gap-3">
 
