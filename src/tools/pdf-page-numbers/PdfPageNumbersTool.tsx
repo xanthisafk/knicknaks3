@@ -80,9 +80,9 @@ export default function PdfPageNumbersTool() {
   const posButton = (label: string, active: boolean, onClick: () => void) => (
     <button
       onClick={onClick}
-      className={`px-3 py-1.5 text-sm rounded-[var(--radius-md)] border transition-colors cursor-pointer ${active
-        ? "bg-[var(--color-primary-500)] text-white border-[var(--color-primary-500)]"
-        : "bg-[var(--surface-secondary)] text(--text-primary) border-[var(--border-default)] hover:border-[var(--border-hover)]"
+      className={`px-3 py-1.5 text-sm rounded-md border transition-colors cursor-pointer ${active
+        ? "bg-primary-500 text-white border-primary-500"
+        : "bg-(--surface-secondary) text(--text-primary) border-(--border-default) hover:border-(--border-hover)"
         }`}
     >
       {label}
@@ -96,13 +96,13 @@ export default function PdfPageNumbersTool() {
           <PdfDropZone onFiles={handleFile} />
         ) : (
           <div className="space-y-4">
-            <div className="flex items-center gap-3 px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)]">
+            <div className="flex items-center gap-3 px-3 py-2 rounded-md bg-(--surface-secondary) border border-(--border-default)">
               <span>📄</span>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text(--text-primary) truncate">{file.name}</p>
-                <p className="text-xs text-[var(--text-tertiary)]">{formatFileSize(file.size)} · {pageCount} pages</p>
+                <p className="text-xs text-(--text-tertiary)">{formatFileSize(file.size)} · {pageCount} pages</p>
               </div>
-              <button onClick={reset} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--color-error)] transition-colors cursor-pointer">✕</button>
+              <button onClick={reset} className="text-xs text-(--text-tertiary) hover:text-(--color-error) transition-colors cursor-pointer">✕</button>
             </div>
 
             <div className="space-y-3">
@@ -152,7 +152,7 @@ export default function PdfPageNumbersTool() {
             <Button variant="ghost" onClick={reset}>Choose Another</Button>
           </div>
           {status && (
-            <p className={`mt-3 text-sm ${status.startsWith("Error") ? "text-[var(--color-error)]" : "text(--text-secondary)"}`}>
+            <p className={`mt-3 text-sm ${status.startsWith("Error") ? "text-(--color-error)" : "text(--text-secondary)"}`}>
               {status}
             </p>
           )}
