@@ -47,9 +47,9 @@ export default function RotCipherTool() {
                 max={25}
                 value={shift}
                 onChange={(e) => handleShiftChange(parseInt(e.target.value))}
-                className="w-40 accent-[var(--color-primary-500)]"
+                className="w-40 accent-primary-500"
               />
-              <span className="text-lg font-bold font-[family-name:var(--font-mono)] text-[var(--color-primary-500)] w-8 text-center tabular-nums">
+              <span className="text-lg font-bold font-mono text-primary-500 w-8 text-center tabular-nums">
                 {shift}
               </span>
             </div>
@@ -59,9 +59,9 @@ export default function RotCipherTool() {
               <button
                 key={n}
                 onClick={() => handleShiftChange(n)}
-                className={`px-3 py-1 text-xs font-medium rounded-[var(--radius-md)] transition-colors cursor-pointer ${shift === n
-                    ? "bg-[var(--color-primary-500)] text-white"
-                    : "bg-[var(--surface-secondary)] text(--text-secondary) hover:text(--text-primary)"
+                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${shift === n
+                  ? "bg-primary-500 text-white"
+                  : "bg-(--surface-secondary) text(--text-secondary) hover:text(--text-primary)"
                   }`}
               >
                 ROT{n}
@@ -99,14 +99,14 @@ export default function RotCipherTool() {
               value={output}
               readOnly
               placeholder="Ciphered text will appear here..."
-              className="h-48 text-sm font-[family-name:var(--font-mono)]"
+              className="h-48 text-sm font-mono"
             />
           </div>
         </Panel>
       </div>
 
       <Panel padding="sm">
-        <p className="text-xs text-[var(--text-tertiary)] text-center">
+        <p className="text-xs text-(--text-tertiary) text-center">
           💡 To decode, apply ROT{26 - shift} (or{" "}
           <button
             onClick={() => handleShiftChange(26 - shift)}
