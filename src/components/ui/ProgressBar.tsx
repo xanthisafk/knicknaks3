@@ -4,7 +4,7 @@ type ProgressVariant = "primary" | "success" | "warning" | "danger" | "info";
 type ProgressSize = "xs" | "s" | "m" | "l";
 
 interface ProgressBarProps {
-  /** Current value (0–100) */
+  /** Current value (0-100) */
   value: number;
   /** Maximum value (default 100) */
   max?: number;

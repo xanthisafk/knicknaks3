@@ -31,7 +31,7 @@ function extractUrlsFromHtml(html, baseOrigin) {
             try {
                 const url = new URL(raw, baseOrigin);
                 if (url.origin === baseOrigin) urls.add(url.pathname + url.search);
-            } catch (_) { /* malformed – skip */ }
+            } catch (_) { /* malformed - skip */ }
         }
     }
 
@@ -47,7 +47,7 @@ async function fetchAndCache(cache, url) {
             await cache.put(url, response);
             return true;
         }
-    } catch (_) { /* network error – ignore */ }
+    } catch (_) { /* network error - ignore */ }
     return false;
 }
 
@@ -78,7 +78,7 @@ async function cacheEntireSite() {
             }
             await cache.put("/sitemap.xml", sitemapRes.clone());
         }
-    } catch (_) { /* no sitemap – fine */ }
+    } catch (_) { /* no sitemap - fine */ }
 
     // ── Breadth-first HTML crawl ─────────────────────────────────────────────
     const allAssets = new Set(APP_SHELL);
@@ -112,7 +112,7 @@ async function cacheEntireSite() {
                     queue.push(url);
                 }
             }
-        } catch (_) { /* fetch failed – skip page */ }
+        } catch (_) { /* fetch failed - skip page */ }
     }
 
     // ── Cache all discovered assets in parallel (batched) ───────────────────

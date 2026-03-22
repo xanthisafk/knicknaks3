@@ -119,7 +119,7 @@ export async function renderPageThumbnail(
   if (pageNumber < 1 || pageNumber > pdf.numPages) {
     await loadingTask.destroy();
     throw new RangeError(
-      `Page ${pageNumber} is out of range (1–${pdf.numPages})`
+      `Page ${pageNumber} is out of range (1-${pdf.numPages})`
     );
   }
 

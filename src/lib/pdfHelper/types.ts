@@ -3,7 +3,7 @@ export interface ThumbnailOptions {
   scale?: number;
   /** Output image format. Default: "image/jpeg" */
   format?: "image/jpeg" | "image/png" | "image/webp";
-  /** JPEG/WebP quality 0–1. Default: 0.85 */
+  /** JPEG/WebP quality 0-1. Default: 0.85 */
   quality?: number;
   /** Signal to abort an in-progress render pass. */
   signal?: AbortSignal;
@@ -41,72 +41,72 @@ export const QuickSelect: {
   label: string;
   select: PageSelector;
 }[] = [
-  {
-    key: "all",
-    label: "All",
-    select: (total) => Array.from({ length: total }, (_, i) => i + 1),
-  },
-  {
-    key: "allbutcover",
-    label: "All but first",
-    select: (total) => Array.from({ length: total - 1 }, (_, i) => i + 2),
-  },
-  {
-    key: "allbutlast",
-    label: "All but last",
-    select: (total) => Array.from({ length: total - 1 }, (_, i) => i + 1),
-  },
-  // {
-  //   key: "allbutcoverandlast",
-  //   label: "All but first and last",
-  //   select: (total) => Array.from({ length: total - 2 }, (_, i) => i + 2),
-  // },
-  {
-    key: "odd",
-    label: "Odd pages",
-    select: (total) =>
-      Array.from({ length: total }, (_, i) => i + 1).filter((p) => p % 2),
-  },
-  {
-    key: "even",
-    label: "Even pages",
-    select: (total) =>
-      Array.from({ length: total }, (_, i) => i + 1).filter((p) => p % 2 === 0),
-  },
-  {
-    key: "firsthalf",
-    label: "First half",
-    select: (total) =>
-      Array.from({ length: Math.floor(total / 2) }, (_, i) => i + 1),
-  },
-  {
-    key: "secondhalf",
-    label: "Second half",
-    select: (total) =>
-      Array.from(
-        { length: total - Math.floor(total / 2) },
-        (_, i) => i + Math.floor(total / 2) + 1
-      ),
-  },
-  // {
-  //   key: "coveronly",
-  //   label: "Only first page",
-  //   select: () => [1],
-  // },
-  // {
-  //   key: "lastonly",
-  //   label: "Only last page",
-  //   select: (total) => [total],
-  // },
-  {
-    key: "coverandlast",
-    label: "First and last page",
-    select: (total) => (total > 1 ? [1, total] : [1]),
-  },
-  // {
-  //   key: "everythird",
-  //   label: "Every third page",
-  //   select: (total) =>
-  //     Array.from({ length: total }, (_, i) => i + 1).filter((_, i) => i % 3 === 0),
-  // },
-];
+    {
+      key: "all",
+      label: "All",
+      select: (total) => Array.from({ length: total }, (_, i) => i + 1),
+    },
+    {
+      key: "allbutcover",
+      label: "All but first",
+      select: (total) => Array.from({ length: total - 1 }, (_, i) => i + 2),
+    },
+    {
+      key: "allbutlast",
+      label: "All but last",
+      select: (total) => Array.from({ length: total - 1 }, (_, i) => i + 1),
+    },
+    // {
+    //   key: "allbutcoverandlast",
+    //   label: "All but first and last",
+    //   select: (total) => Array.from({ length: total - 2 }, (_, i) => i + 2),
+    // },
+    {
+      key: "odd",
+      label: "Odd pages",
+      select: (total) =>
+        Array.from({ length: total }, (_, i) => i + 1).filter((p) => p % 2),
+    },
+    {
+      key: "even",
+      label: "Even pages",
+      select: (total) =>
+        Array.from({ length: total }, (_, i) => i + 1).filter((p) => p % 2 === 0),
+    },
+    {
+      key: "firsthalf",
+      label: "First half",
+      select: (total) =>
+        Array.from({ length: Math.floor(total / 2) }, (_, i) => i + 1),
+    },
+    {
+      key: "secondhalf",
+      label: "Second half",
+      select: (total) =>
+        Array.from(
+          { length: total - Math.floor(total / 2) },
+          (_, i) => i + Math.floor(total / 2) + 1
+        ),
+    },
+    // {
+    //   key: "coveronly",
+    //   label: "Only first page",
+    //   select: () => [1],
+    // },
+    // {
+    //   key: "lastonly",
+    //   label: "Only last page",
+    //   select: (total) => [total],
+    // },
+    {
+      key: "coverandlast",
+      label: "First and last page",
+      select: (total) => (total > 1 ? [1, total] : [1]),
+    },
+    // {
+    //   key: "everythird",
+    //   label: "Every third page",
+    //   select: (total) =>
+    //     Array.from({ length: total }, (_, i) => i + 1).filter((_, i) => i % 3 === 0),
+    // },
+  ];
