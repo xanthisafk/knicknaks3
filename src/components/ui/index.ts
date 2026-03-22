@@ -15,3 +15,6 @@ export * from "./CommandPalette";
 export * from "./Label";
 export * from "./CopyButton";
 export * from "./InlineFileDrop";
+export * from "./Emoji";
+export * from "./ColorInput";
+export * from "./FileInfoBar";
