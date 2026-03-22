@@ -77,5 +77,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["image-to-pdf", "split-pdf", "compress-pdf"],
   schemaType: "WebApplication",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
   lastUpdated: "2026-03-23",
 };
