@@ -30,7 +30,7 @@ export default function RegexTesterTool() {
   );
 
   return (
-    <Container gap="2">
+    <Container>
       <Panel className="space-y-2">
         <div className="flex gap-3 items-end">
           <div className="flex-1">
