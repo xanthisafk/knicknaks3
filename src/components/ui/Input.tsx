@@ -182,7 +182,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             type={type}
-            className={cn(inputBase, isNumber && "tabular-nums")}
+            className={cn(
+              inputBase,
+              isNumber && "tabular-nums",
+              (props.readOnly || props.disabled) ? "bg-(--surface-secondary)" : "bg-(--surface-elevated)",
+            )}
             aria-invalid={!!error}
             aria-describedby={
               error
@@ -355,7 +359,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         <div
           className={cn(
             textareaWrapperBase,
-            props.readOnly ? "bg-(--surface-secondary)" : "bg-(--surface-elevated)",
+            (props.readOnly || props.disabled) ? "bg-(--surface-secondary)" : "bg-(--surface-elevated)",
             error &&
             "border-error focus-within:border-error focus-within:ring-error/30"
           )}
