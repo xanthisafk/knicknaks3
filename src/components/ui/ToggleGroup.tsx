@@ -13,9 +13,11 @@ export function ToggleGroup({ options, value, onChange, label }: ToggleGroupProp
     return (
         <div className="h-full flex flex-col gap-1.5">
             {label && (
-                <label className="block text-xs font-medium uppercase tracking-wide text-(--text-tertiary) mb-1.5">
-                    {label}
-                </label>
+                <div className="max-h-4">
+                    <label className="block text-xs font-medium uppercase tracking-wide text-(--text-tertiary) mb-1.5">
+                        {label}
+                    </label>
+                </div>
             )}
             <div
                 className="min-h-full flex border border-(--border-default) rounded-md overflow-hidden h-9"
