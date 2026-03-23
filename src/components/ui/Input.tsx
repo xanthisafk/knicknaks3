@@ -5,11 +5,12 @@ import {
   type TextareaHTMLAttributes,
   type ReactNode,
 } from "react";
-import type { LucideIcon } from "lucide-react";
+import { Eraser, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "./Label";
 import { CopyButton } from "./CopyButton";
 import { PasteButton } from "./PasteButton";
+import { Button } from "./Button";
 
 // ===== Shared helpers =====
 
@@ -71,6 +72,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
   allowCopy?: boolean;
   handlePaste?: (value: string) => void;
+  onClear?: () => void;
 
   error?: string;
   helperText?: string;
@@ -118,6 +120,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       id,
       type,
       allowCopy = false,
+      onClear,
       handlePaste,
       ...props
     },
@@ -166,6 +169,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {(allowCopy || handlePaste) && <div className="flex gap-0.5 flex-row">
             {handlePaste && <PasteButton onPaste={handlePaste} />}
             {allowCopy && <CopyButton text={`${props.value}`} />}
+            {onClear && <Button size="xs" icon={Eraser} variant="ghost" title="Clear" aria-label="Clear" onClick={onClear}></Button>}
           </div>}
         </div>
 
@@ -282,6 +286,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   helperText?: string;
   allowCopy?: boolean;
   handlePaste?: (value: string) => void;
+  onClear?: () => void;
 }
 
 const textareaBase = [
@@ -319,6 +324,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       helperText,
       className,
       id,
+      onClear,
       handlePaste,
       ...props
     },
@@ -352,6 +358,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           {(allowCopy || handlePaste) && <div className="flex gap-0.5 flex-row">
             {handlePaste && <PasteButton onPaste={handlePaste} />}
             {allowCopy && <CopyButton text={`${props.value}`} />}
+            {onClear && <Button size="xs" icon={Eraser} variant="ghost" title="Clear" aria-label="Clear" onClick={onClear}></Button>}
           </div>}
 
         </div>
