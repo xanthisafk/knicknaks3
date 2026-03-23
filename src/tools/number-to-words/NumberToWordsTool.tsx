@@ -16,7 +16,7 @@ import { TriangleAlert } from "lucide-react";
 // Maps each currency code to the best to-words locale.
 
 const CURRENCY_LOCALE: Record<string, string> = {
-  // Indian numbering — lakh, crore, arab…
+  // Indian numbering — lakh, crore, arab...
   INR: "en-IN",
 
   // East Asian

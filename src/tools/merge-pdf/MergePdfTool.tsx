@@ -71,7 +71,7 @@ export default function MergePdfTool() {
           />
           <div className="flex items-center flex-row justify-between gap-2">
             <Button onClick={handleMerge} disabled={merging} icon={merging ? Loader2 : Merge}>
-              {merging ? "Merging…" : `Merge ${files.length} Files`}
+              {merging ? "Merging..." : `Merge ${files.length} Files`}
             </Button>
             <Button icon={Trash2} variant="ghost" onClick={() => { setFiles([]); setStatus(null); }}>
               Clear All

@@ -267,7 +267,7 @@ export default function PdfPageNumbersTool() {
   const handleSave = async () => {
     if (!file || !template || !pdfBytes) return;
     setIsProcessing(true);
-    setStatus({ type: "info", message: "Adding page numbers…" });
+    setStatus({ type: "info", message: "Adding page numbers..." });
     try {
       const pdf = await PDFDocument.load(pdfBytes.slice(0), { ignoreEncryption: true });
       const pdfKey = FONT_OPTIONS.find(f => f.value === fontFamily)?.pdfKey ?? "Helvetica";
@@ -295,7 +295,7 @@ export default function PdfPageNumbersTool() {
         let x: number;
         if (alternatingMargin) {
           // i is 0-based. Even index = right-hand page (inner margin on left for book binding)
-          const innerIsLeft = i % 2 === 1; // page index 1,3,5… = left-hand pages, inner margin on right
+          const innerIsLeft = i % 2 === 1; // page index 1,3,5... = left-hand pages, inner margin on right
           x = innerIsLeft ? width - MARGIN - textWidth : MARGIN;
         } else {
           x = hPos === "left" ? MARGIN
@@ -408,7 +408,7 @@ export default function PdfPageNumbersTool() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-end">
                 <Select value="" onValueChange={setTemplate} label="Load a preset">
                   <SelectTrigger>
-                    {PRESETS.find(p => p.template === template)?.label || "Choose preset…"}
+                    {PRESETS.find(p => p.template === template)?.label || "Choose preset..."}
                   </SelectTrigger>
                   <SelectContent>
                     {PRESETS.map(p => (
@@ -476,7 +476,7 @@ export default function PdfPageNumbersTool() {
                 icon={isProcessing ? Loader2 : Save}
                 className="w-full"
               >
-                {isProcessing ? "Adding…" : "Add Page Numbers & Download"}
+                {isProcessing ? "Adding..." : "Add Page Numbers & Download"}
               </Button>
               {status && (
                 <Label

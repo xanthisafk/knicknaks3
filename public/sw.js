@@ -121,13 +121,13 @@ async function cacheEntireSite() {
     let cached = visited.size; // pages already cached
     const total = visited.size + assets.length;
 
-    broadcastProgress(cached, total, "Caching pages…");
+    broadcastProgress(cached, total, "Caching pages...");
 
     for (let i = 0; i < assets.length; i += BATCH) {
         const batch = assets.slice(i, i + BATCH);
         await Promise.allSettled(batch.map(url => fetchAndCache(cache, url)));
         cached += batch.length;
-        broadcastProgress(cached, total, "Caching assets…");
+        broadcastProgress(cached, total, "Caching assets...");
     }
 
     broadcastProgress(total, total, "Ready for offline use!");
@@ -281,7 +281,7 @@ self.addEventListener("message", (event) => {
         event.waitUntil(
             (async () => {
                 // 1. Broadcast that a refresh has started so the UI can show a spinner
-                broadcastProgress(0, 1, "Clearing old cache…");
+                broadcastProgress(0, 1, "Clearing old cache...");
 
                 // 2. Delete the old cache fully before doing anything else,
                 //    so in-flight fetch handlers don't race against a half-deleted store
