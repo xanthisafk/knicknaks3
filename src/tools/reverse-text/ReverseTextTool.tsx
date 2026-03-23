@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
-import { Button, Textarea } from "@/components/ui";
+import { Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { Box, Container } from "@/components/layout/Primitive";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 
 type Mode = "characters" | "words" | "lines";
 
@@ -24,67 +25,56 @@ function reverseText(text: string, mode: Mode): string {
 export default function ReverseTextTool() {
   const [input, setInput] = useState("");
   const [mode, setMode] = useState<Mode>("characters");
-  const [copied, setCopied] = useState(false);
 
   const output = useMemo(() => reverseText(input, mode), [input, mode]);
 
-  const handleCopy = async () => {
-    if (await copyToClipboard(output)) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
   const MODES: { id: Mode; label: string }[] = [
-    { id: "characters", label: "🔤 Characters" },
-    { id: "words", label: "📝 Words" },
-    { id: "lines", label: "📃 Lines" },
+    { id: "characters", label: "Characters" },
+    { id: "words", label: "Words" },
+    { id: "lines", label: "Lines" },
   ];
 
   return (
-    <div className="space-y-2">
-      <Panel>
-        <label className="text-sm font-medium text(--text-primary) mb-3 block">Reverse mode</label>
-        <div className="flex flex-wrap gap-2">
-          {MODES.map((m) => (
-            <Button
-              key={m.id}
-              variant={mode === m.id ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => setMode(m.id)}
-            >
-              {m.label}
-            </Button>
-          ))}
-        </div>
-      </Panel>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <Container cols={2}>
+      <Box>
         <Panel>
-          <div className="space-y-3">
-            <label className="text-sm font-medium text(--text-primary)">Input</label>
-            <Textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Hello World"
-              className="h-48 text-sm"
-            />
-          </div>
+          <Textarea
+            label="Input"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Hello World"
+            handlePaste={setInput}
+            allowCopy={false}
+            onClear={() => setInput("")}
+          />
+          <Select
+            label="Reverse mode"
+            value={mode}
+            onValueChange={(v) => setMode(v as Mode)}
+          >
+            <SelectTrigger>
+              {MODES.find((m) => m.id === mode)?.label}
+            </SelectTrigger>
+            <SelectContent>
+              {MODES.map((m) => (
+                <SelectItem key={m.id} value={m.id}>
+                  {m.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </Panel>
+      </Box>
+      <Box>
         <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Reversed</label>
-              {output && (
-                <Button size="sm" variant="ghost" onClick={handleCopy}>
-                  {copied ? "✓ Copied!" : "📋 Copy"}
-                </Button>
-              )}
-            </div>
-            <Textarea value={output} readOnly className="h-48 text-sm" />
-          </div>
+          <Textarea
+            label="Output"
+            value={output}
+            placeholder="Output will show up here..."
+            disabled
+          />
         </Panel>
-      </div>
-    </div>
+      </Box>
+    </Container>
   );
 }
