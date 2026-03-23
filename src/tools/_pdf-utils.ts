@@ -53,7 +53,7 @@ export async function renderPageToDataUrl(
   canvas.height = viewport.height;
   const ctx = canvas.getContext("2d")!;
 
-  await page.render({ canvasContext: ctx, viewport }).promise;
+  await page.render({ canvasContext: ctx as CanvasRenderingContext2D, canvas, viewport }).promise;
   return canvas.toDataURL("image/png");
 }
 
@@ -74,7 +74,7 @@ export async function renderAllPageThumbnails(
     canvas.width = viewport.width;
     canvas.height = viewport.height;
     const ctx = canvas.getContext("2d")!;
-    await page.render({ canvasContext: ctx, viewport }).promise;
+    await page.render({ canvasContext: ctx as CanvasRenderingContext2D, canvas, viewport }).promise;
     thumbnails.push(canvas.toDataURL("image/png"));
   }
 
@@ -83,7 +83,7 @@ export async function renderAllPageThumbnails(
 
 /** Trigger a download of PDF bytes */
 export function downloadPdf(bytes: Uint8Array, filename: string): void {
-  const blob = new Blob([bytes], { type: "application/pdf" });
+  const blob = new Blob([bytes as unknown as ArrayBuffer], { type: "application/pdf" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;

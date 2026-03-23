@@ -3,15 +3,20 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Rearrange PDF Pages",
   slug: "rearrange-pdf",
-  description: "Reorder PDF pages",
-  longDescription:
-    "Fix scrambled documents quickly. Upload your PDF to generate visual page thumbnails, allowing you to seamlessly drag and drop individual pages into a perfectly sequential order. " +
-    "This zero-server tool writes the new structural arrangement exclusively utilizing your local device resources via pdf-lib.",
+  description: "Reorder PDF pages visually and download instantly",
   category: "pdf",
   icon: "🔀",
   status: "updated",
-  keywords: ["rearrange pdf pages", "reorder pdf online", "move pdf pages order", "sort pdf document online", "visual pdf page organizer", "drag and drop pdf sorter", "local pdf restructure"],
-  tags: ["pdf", "edit"],
+  keywords: [
+    "rearrange pdf pages",
+    "reorder pdf online",
+    "change pdf page order",
+    "organize pdf pages",
+    "sort pdf pages visually",
+    "move pdf pages",
+    "pdf page organizer"
+  ],
+  tags: ["pdf", "edit", "pages"],
 
   component: () => import("./RearrangePdfTool"),
 
@@ -22,19 +27,25 @@ export const definition: ToolDefinition = {
 
   faq: [
     {
-      question: "Is there a limit to how many pages I can rearrange?",
-      answer: "Because rendering thumbnails and restructuring the document happens locally on your computer, very massive files (e.g., 500+ pages) may temporarily slow down older web browsers due to memory constraints."
+      question: "How do I change the order of pages?",
+      answer: "Use the arrow controls on each page preview to move pages left or right until they are in the desired order, then save the file."
     },
     {
-      question: "Is this tool safe for modifying legal or medical documents?",
-      answer: "Yes. Due to its rigid serverless design, your uploaded PDF is processed completely offline inside your browser environment, guaranteeing total data residency and privacy."
+      question: "Is there a limit on file size or page count?",
+      answer: "Large PDFs may take longer to load or process since everything runs in your browser. Performance depends on your device and available memory."
+    },
+    {
+      question: "Are my files uploaded anywhere?",
+      answer: "No. All processing, including thumbnail generation and reordering, happens locally in your browser."
     }
   ],
 
   howItWorks:
-    "Upload a multi-page PDF document. The tool will parse the file and generate sequence boxes representing each page. Simply click and drag these boxes left or right into your newly desired configuration. Click 'Save PDF' to directly download the manipulated file.",
+    "Upload a PDF to generate page previews. Adjust the order using the controls on each page, then click 'Save Reordered PDF' to download the updated document.",
 
-  relatedTools: ["merge-pdf", "split-pdf", "rotate-pdf", "delete-pdf-pages"],
+  relatedTools: ["split-pdf", "rotate-pdf", "delete-pdf-pages"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-23",
 };
