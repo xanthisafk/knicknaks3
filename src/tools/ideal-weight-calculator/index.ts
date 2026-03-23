@@ -18,5 +18,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Select your biological gender and input your precise height. The calculator instantly runs your data through the Robinson, Miller, Devine, and Hamwi formulas, displaying a suggested healthy weight bracket in both kilograms and pounds.",
   relatedTools: ["bmi-calculator", "calorie-calculator", "body-fat-calculator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-13",
+  updatedAt: "2026-03-13",
 };

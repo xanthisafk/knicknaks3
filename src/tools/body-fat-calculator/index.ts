@@ -18,7 +18,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Grab a flexible tape measure. Input your accurate standing height, neck circumference, waist circumference, and (for females) hip circumference. The tool performs the specific logarithmic U.S. Navy equations to estimate your fat composition.",
   relatedTools: ["bmi-calculator", "ideal-weight-calculator", "calorie-calculator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-18",
+  updatedAt: "2026-03-18",
   createdAt: "2026-03-03",
   launchedAt: "2026-03-05"
 };

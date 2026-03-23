@@ -18,7 +18,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Simply enter your current height and weight. Our tool uses standard health formulas to calculate your exact BMI number and visually indicates which World Health Organization weight categorization you fall into.",
   relatedTools: ["calorie-calculator", "bmr-calculator", "ideal-weight-calculator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-18",
+  updatedAt: "2026-03-18",
   createdAt: "2026-03-03",
   launchedAt: "2026-03-05"
 };

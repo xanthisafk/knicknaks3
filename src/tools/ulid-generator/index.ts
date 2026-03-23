@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Click the 'Generate' button to immediately create a single ULID string, or use the batch feature to instantly spawn up to 100 unique identifiers at once. Simply click on any generated ID block to automatically copy it to your clipboard.",
   relatedTools: ["uuid-generator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

@@ -107,5 +107,5 @@ export const definition: ToolDefinition = {
   relatedTools: ["image-color-picker", "color-blindness-simulator"],
 
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-19",
+  updatedAt: "2026-03-19",
 };

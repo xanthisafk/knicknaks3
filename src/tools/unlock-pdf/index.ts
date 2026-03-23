@@ -35,5 +35,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["protect-pdf", "pdf-metadata", "merge-pdf"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-04",
+  updatedAt: "2026-03-04",
 };

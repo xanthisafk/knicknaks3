@@ -40,5 +40,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["base64", "html-entities", "url-builder"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

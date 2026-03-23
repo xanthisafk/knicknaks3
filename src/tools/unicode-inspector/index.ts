@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Simply type or paste any text, symbol, or emoji sequence into the input box. The tool automatically maps the string into an array, pulling down the official Unicode metadata for every individual component.",
   relatedTools: ["html-entities", "base64", "text-to-ascii"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

@@ -92,5 +92,5 @@ export const definition: ToolDefinition = {
 
   createdAt: "2026-03-20",
   launchedAt: "2026-03-20",
-  lastUpdated: "2026-03-20",
+  updatedAt: "2026-03-20",
 };

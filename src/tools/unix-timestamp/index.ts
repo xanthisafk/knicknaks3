@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "To decode, enter your raw timestamp integer into the first box to instantly see its human-readable translation. Alternatively, utilize the calendar widget in the lower section to select a date and time, instantly turning it into an epoch number.",
   relatedTools: ["age-calculator", "time-duration"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

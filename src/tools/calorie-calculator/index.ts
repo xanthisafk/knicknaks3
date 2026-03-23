@@ -18,7 +18,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Simply enter your age, gender, accurate height, current weight, and average weekly activity level. The calculator instantly processes these variables through proven nutritional formulas to present your customized daily caloric targets.",
   relatedTools: ["bmr-calculator", "bmi-calculator", "ideal-weight-calculator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-18",
+  updatedAt: "2026-03-18",
   createdAt: "2026-03-03",
   launchedAt: "2026-03-05"
 };

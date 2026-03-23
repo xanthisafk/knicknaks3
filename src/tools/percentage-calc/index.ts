@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Select the specific type of percentage calculation you need from the dropdown menu (e.g., 'What is X% of Y?'). Input your two numerical values into the active fields. The mathematical engine calculates and displays the precise result dynamically as you type.",
   relatedTools: ["gst-calc", "tip-calculator", "unit-converter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

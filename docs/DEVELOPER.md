@@ -126,7 +126,7 @@ This interactive script will prompt you for details and generate the files.
 | `howItWorks`      |          | Explanation text                 |
 | `relatedTools`    |          | Array of related tool slugs      |
 | `capabilities`    |          | Feature flags                    |
-| `lastUpdated`     |          | ISO date string                  |
+| `updatedAt`       |          | ISO date string                  |
 
 ### Categories
 

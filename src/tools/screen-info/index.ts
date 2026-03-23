@@ -18,5 +18,5 @@ export const definition: ToolDefinition = {
   howItWorks: "The tool queries your browser's native `window` and `screen` APIs upon loading. It displays the extracted data inside clean, organized cards. Try dragging the edges of your browser window to see the Viewport dimensions update instantly in real-time.",
   relatedTools: ["user-agent-parser"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

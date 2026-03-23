@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Type your secret message into the input field and select your desired alphabetical shift value using the slider (defaults to 13). The tool will output the ciphered text instantly. To decode a message, simply paste it in and ensure the exact same shift value is selected.",
   relatedTools: ["base64", "hash-generator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

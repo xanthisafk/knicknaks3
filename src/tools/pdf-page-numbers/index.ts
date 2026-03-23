@@ -35,5 +35,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["watermark-pdf", "rotate-pdf", "merge-pdf"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

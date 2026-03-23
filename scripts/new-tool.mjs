@@ -79,7 +79,6 @@ export const definition: ToolDefinition = {
   description: "${description}",
   category: "${category}",
   icon: "${icon}",
-  status: "alpha",
   keywords: ${JSON.stringify(keywords)},
 
   component: () => import("./${componentName}Tool"),
@@ -88,17 +87,18 @@ export const definition: ToolDefinition = {
     supportsOffline: true,
   },
 
-  lastUpdated: "${new Date().toISOString().split("T")[0]}",
+  createdAt: "${new Date().toISOString().split("T")[0]}",
 };
 `;
 
   // Write component
   const componentContent = `export default function ${componentName}Tool() {
   return (
-    <div className="space-y-4">
-      <p className="text(--text-secondary)">
-        ${componentName} tool — ready to build!
-      </p>
+    <div className="flex flex-col justify-center items-center gap-6">
+    <span className="font-emoji text-6xl">👷‍♂️</span>
+      <h1>
+        ${componentName} tool — Coming soon!
+      </h1>
     </div>
   );
 }

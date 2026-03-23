@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Paste your original text block into the left-hand 'Original Data' panel, and your modified text into the right-hand 'New Data' panel. The tool will automatically sync the scrolling and color-code the specific structural changes between the two versions.",
   relatedTools: ["find-replace", "deduplicate-lines"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

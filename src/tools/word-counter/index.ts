@@ -40,5 +40,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["case-converter", "text-sorter", "lorem-ipsum"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

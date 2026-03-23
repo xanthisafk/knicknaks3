@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Upon loading, the tool automatically reads your own browser's native `navigator.userAgent` property. To test other strings, simply paste any raw UA header text into the input box to instantly dissect the software components.",
   relatedTools: ["screen-info", "url-parser", "http-status-codes"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

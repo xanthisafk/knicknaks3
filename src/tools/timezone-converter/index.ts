@@ -46,5 +46,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["date-difference-calculator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-06",
+  updatedAt: "2026-03-06",
 };

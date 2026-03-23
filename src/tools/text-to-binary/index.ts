@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "To encode, type a standard phrase into the box to see its binary bytes (padded to 8 bits by default). To decode, paste your raw 010101 string sequences separated by spaces to immediately reveal the translated textual phrase.",
   relatedTools: ["text-to-hex", "text-to-ascii"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

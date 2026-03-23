@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Simply type or paste your rough blog title or messy sentence into the primary text field. The tool instantly lowercases the string, strips out non-url-safe characters, and replaces all remaining spaces with clean hyphens.",
   relatedTools: ["case-converter", "url-encoder"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

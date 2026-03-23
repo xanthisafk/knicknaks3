@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Enter any standard integer between 1 and 3999 to see its exact Roman numeral translation. Conversely, toggle the mode and type a valid Roman string (like 'XIV') to instantly reveal its corresponding modern digit value.",
   relatedTools: ["number-to-words", "base-converter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

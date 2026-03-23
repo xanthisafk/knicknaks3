@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Paste your raw, messy text into the input field. Select your desired replacement character (such as a 'Space', 'Comma', or entirely 'None') and click 'Format'. The tool strips the invisible line break characters (`\\n` and `\\r`) instantly.",
   relatedTools: ["deduplicate-lines", "text-sorter", "word-counter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

@@ -49,5 +49,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["loan-mortgage-calculator", "date-difference-calculator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-06",
+  updatedAt: "2026-03-06",
 };

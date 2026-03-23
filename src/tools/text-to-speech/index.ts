@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks:
     "Upon initialization, your browser downloads a compact version of the Kokoro ONNX machine learning model. After selecting a distinct voice profile, you input your desired script. Clicking 'Generate' triggers your local CPU to synthesize the text into incredibly human-sounding audio.",
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

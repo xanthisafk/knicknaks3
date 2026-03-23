@@ -35,5 +35,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["merge-pdf", "rotate-pdf", "delete-pdf-pages"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Enter standard text into the box to see its raw numerical representation updated live. To reverse the process, change the mode and enter a sequence of delimited digits to spawn the corresponding textual characters.",
   relatedTools: ["text-to-hex", "unicode-inspector"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

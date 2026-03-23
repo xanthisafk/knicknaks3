@@ -95,5 +95,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["string-escaper", "json-formatter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-12",
+  updatedAt: "2026-03-12",
 };

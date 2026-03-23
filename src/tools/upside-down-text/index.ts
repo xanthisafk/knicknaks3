@@ -20,5 +20,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Type your joke or message into the main input field. As you type, the engine instantly matches your standard string against a large dictionary array of inverted Unicode characters, displaying the flipped result below.",
   relatedTools: ["fancy-text-generator", "zalgo-text", "reverse-text"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-04",
+  updatedAt: "2026-03-04",
 };

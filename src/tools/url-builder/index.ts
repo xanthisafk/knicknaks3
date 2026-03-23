@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Select your desired network protocol and input the base Host/Domain. Fill out optional fields like Port numbers or specific file paths. Click the '+' button to add dynamic Query Parameters. The final URL string updates live as you type, ready to be copied.",
   relatedTools: ["url-parser", "url-encoder", "http-status-codes"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

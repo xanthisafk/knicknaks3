@@ -36,5 +36,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["ulid-generator", "password-generator", "hash-generator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

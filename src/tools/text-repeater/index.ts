@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Enter the base word or phrase you wish to copy into the primary input field. Select how many times to duplicate it using the number dial, choose your separator character, and instantly click to copy the generated mass output.",
   relatedTools: ["lorem-ipsum", "text-diff"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

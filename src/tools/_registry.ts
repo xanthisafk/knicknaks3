@@ -75,22 +75,21 @@ function isWithin14Days(dateStr: string | undefined): boolean {
  * `featured` is NOT a status — it controls homepage selection priority only.
  */
 export function getToolStatus(tool: ToolDefinition): ToolStatus | undefined {
-  // 1. beta: createdAt < 14d and no launchedAt
+  if (tool.status) {
+    return tool.status;
+  }
   if (isWithin14Days(tool.createdAt) && !tool.launchedAt) {
     return "beta";
   }
-  // 2. new: createdAt < 14d and has launchedAt, or launchedAt itself < 14d
   if (
     (isWithin14Days(tool.createdAt) && tool.launchedAt) ||
     isWithin14Days(tool.launchedAt)
   ) {
     return "new";
   }
-  // 3. updated: updatedAt < 14d
-  if (isWithin14Days(tool.lastUpdated)) {
+  if (isWithin14Days(tool.updatedAt)) {
     return "updated";
   }
-  // 4. popular: manual flag
   if (tool.popular === true) {
     return "popular";
   }

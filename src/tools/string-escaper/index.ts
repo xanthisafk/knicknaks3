@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Paste your raw text into the input box and select your target programming context (e.g., JavaScript or SQL). The output instantly updates to show the safely escaped string. Click the toggle to perform the reverse 'unescape' action.",
   relatedTools: ["html-entities", "url-encoder", "json-formatter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

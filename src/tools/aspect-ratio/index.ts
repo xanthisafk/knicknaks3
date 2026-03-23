@@ -18,7 +18,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Enter the original width and height to discover the aspect ratio, or enter a target dimension along with the ratio to automatically calculate the exact matching width or height required for proportional scaling.",
   relatedTools: ["placeholder-image", "contrast-checker"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-18",
+  updatedAt: "2026-03-18",
   createdAt: "2026-03-03",
   launchedAt: "2026-03-05"
 };

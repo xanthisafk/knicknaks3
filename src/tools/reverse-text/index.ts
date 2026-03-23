@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Simply type or paste your standard text into the primary input box. Choose the specific modifier (Characters, Words, or Lines) via the options menu. The application instantly processes the string array and outputs the reversed format.",
   relatedTools: ["case-converter", "upside-down-text", "text-sorter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

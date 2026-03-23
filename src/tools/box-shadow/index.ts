@@ -18,7 +18,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Simply adjust the visual sliders to customize the horizontal (X) and vertical (Y) offset, blur radius, spread, and shadow color/opacity. Watch the real-time preview update as you tweak values, then click to copy the ready-to-use CSS snippet.",
   relatedTools: ["gradient-maker", "css-filter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-18",
+  updatedAt: "2026-03-18",
   createdAt: "2026-03-03",
   launchedAt: "2026-03-05"
 };

@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Scroll through the categorized visual swatches or use the search bar to find a specific color family like 'blue' or 'slate'. Click the toggle to switch between v3 and v4, and click any color block to copy its details.",
   relatedTools: ["color-converter", "palette-generator", "gradient-maker"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

@@ -18,7 +18,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Type any number into the input field and specify its current base. The tool instantly computes and displays the equivalent value across all major programming bases and any custom radix you choose.",
   relatedTools: ["rot-cipher", "base64"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-18",
+  updatedAt: "2026-03-18",
   createdAt: "2026-03-03",
   launchedAt: "2026-03-05"
 };

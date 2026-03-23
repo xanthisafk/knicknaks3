@@ -18,7 +18,7 @@ export const definition: ToolDefinition = {
     supportsFileInput: true,
     supportsOffline: true,
   },
-  
+
   faq: [
     {
       question: "Will the watermark cover my original text?",
@@ -35,5 +35,5 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["pdf-page-numbers", "rotate-pdf", "protect-pdf"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-04",
+  updatedAt: "2026-03-04",
 };

@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Input your exact target pixel width and height. Optionally override the visual background and text colors using exact Hex values, and type out a custom label. Instantly copy the resulting lightweight `<svg>` code, Data URI format, or click to download the raw file.",
   relatedTools: ["aspect-ratio", "color-converter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

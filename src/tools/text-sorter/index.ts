@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Paste your raw, unorganized list into the input box. Use the toggles to dictate the sorting behavior (A-Z, Reverse, Numeric, Case-Sensitivity). The list instantly reorganizes itself visually as you make changes.",
   relatedTools: ["word-counter", "deduplicate-lines", "case-converter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

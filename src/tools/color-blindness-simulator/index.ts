@@ -68,5 +68,5 @@ export const definition: ToolDefinition = {
   schemaType: "WebApplication",
   createdAt: "2026-03-05",
   launchedAt: "2026-03-09",
-  lastUpdated: "2026-03-18",
+  updatedAt: "2026-03-18",
 };

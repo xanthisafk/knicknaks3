@@ -18,7 +18,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Provide your biological age, gender, exact height, and weight. The calculator instantly processes this data strictly using the validated Mifflin-St Jeor scientific formula to report your daily resting burned calories.",
   relatedTools: ["calorie-calculator", "bmi-calculator", "body-fat-calculator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-18",
+  updatedAt: "2026-03-18",
   createdAt: "2026-03-03",
   launchedAt: "2026-03-05"
 };

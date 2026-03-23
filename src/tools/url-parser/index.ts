@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Paste your raw URL string into the top master input. The tool instantly slices the string at specific delimiters, filling the properties panel below. You can then edit the individual property fields to dynamically rebuild the master link.",
   relatedTools: ["url-encoder", "url-builder", "http-status-codes"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

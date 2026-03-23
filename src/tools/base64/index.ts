@@ -43,7 +43,7 @@ export const definition: ToolDefinition = {
   relatedTools: ["url-encoder", "hash-generator"],
 
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-18",
+  updatedAt: "2026-03-18",
   createdAt: "2026-03-03",
   launchedAt: "2026-03-05"
 };

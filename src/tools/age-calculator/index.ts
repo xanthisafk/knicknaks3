@@ -18,7 +18,7 @@ export const definition: ToolDefinition = {
   howItWorks: "Simply enter your birth date and an optional target date. The calculator instantly processes the dates and displays your exact age in years, months, days, along with additional bonus statistics.",
   relatedTools: ["unix-timestamp", "percentage-calc"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-15",
+  updatedAt: "2026-03-15",
   createdAt: "2026-03-03",
   launchedAt: "2026-03-05"
 };

@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Select 'Encode' to type a standard alphabetic phrase and watch it transform into pure base-16 numerical bytes. Select 'Decode' to paste formatted 0-9/A-F hexadecimal sequences to instantly reveal the underlying text.",
   relatedTools: ["text-to-binary", "text-to-ascii", "base-converter"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

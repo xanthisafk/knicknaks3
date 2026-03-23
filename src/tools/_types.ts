@@ -193,6 +193,8 @@ export const TOOL_STATUSES = [
   "beta",
   "popular",
   "updated",
+  "pinned",
+  "alpha",
 ] as const;
 
 export type ToolStatus = (typeof TOOL_STATUSES)[number];
@@ -202,6 +204,8 @@ export const STATUS_INFO: Record<ToolStatus, { label: string; icon: string }> = 
   new: { label: "New", icon: "✨" },
   updated: { label: "Updated", icon: "🔨" },
   beta: { label: "Beta", icon: "🧪" },
+  pinned: { label: "Pinned", icon: "📌" },
+  alpha: { label: "Alpha", icon: "👷‍♀️" },
 };
 
 // ===== FAQ Schema =====
@@ -248,6 +252,7 @@ export interface ToolDefinition {
   // Manual flags
   featured?: boolean;
   popular?: boolean;
+  status?: ToolStatus;
 
   // Component (lazy-loaded)
   component: () => Promise<{ default: ComponentType }>;
@@ -257,7 +262,6 @@ export interface ToolDefinition {
   howItWorks?: string;
   relatedTools?: string[];
   ogImage?: string;
-  lastUpdated?: string;
 
   // Schema.org
   schemaType?: "WebApplication" | "SoftwareApplication";
@@ -302,7 +306,6 @@ export const toolDefinitionSchema = z.object({
   howItWorks: z.string().optional(),
   relatedTools: z.array(z.string()).optional(),
   ogImage: z.string().optional(),
-  lastUpdated: z.string().optional(),
   schemaType: z.enum(["WebApplication", "SoftwareApplication"]).optional(),
   capabilities: z
     .object({

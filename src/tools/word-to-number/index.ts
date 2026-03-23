@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Type either a standard digit (e.g., '1024') or a written phrase (e.g., 'one thousand twenty-four') into the input field. The tool continuously evaluates the string type, simultaneously translating it into its exact structural opposite.",
   relatedTools: ["number-to-words", "percentage-calc"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };

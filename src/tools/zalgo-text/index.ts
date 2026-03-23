@@ -19,5 +19,5 @@ export const definition: ToolDefinition = {
   howItWorks: "Type your standard text into the main input box. Use the slider to dictate the 'intensity' of the corruption (how heavily the diacritics are stacked). The corrupted output displays instantly, ready to be highlighted and copied.",
   relatedTools: ["upside-down-text", "fancy-text-generator"],
   schemaType: "WebApplication",
-  lastUpdated: "2026-03-03",
+  updatedAt: "2026-03-03",
 };
