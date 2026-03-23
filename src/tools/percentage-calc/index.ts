@@ -3,21 +3,39 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Percentage Calculator",
   slug: "percentage-calc",
-  description: "Perform accurate percentage math",
-  longDescription: "Eliminate math errors with our comprehensive Percentage Calculator. Instantly solve everyday percentage problems including finding X% of Y, calculating percentage increase/decrease, resolving reverse percentages, and determining profit margins. Essential for shopping discounts, finance, and academic math.",
+  description: "Quickly compute percentages, changes, and value adjustments",
   category: "calculators",
   icon: "📊",
-  keywords: ["percentage calculator online", "calculate percent increase", "discount price finder", "percent of a number", "margin percentage tool", "growth rate math", "reverse percentage calculator"],
-  tags: ["calculator", "math"],
+  keywords: [
+    "percentage calculator",
+    "percent increase decrease",
+    "percent change formula",
+    "what is x percent of y",
+    "percentage difference",
+    "discount calculator",
+    "markup and markdown calculator"
+  ],
+  tags: ["calculator", "math", "percentage"],
   component: () => import("./PercentageCalcTool"),
   capabilities: { supportsOffline: true },
   faq: [
-    { question: "How do I calculate a percentage discount?", answer: "Select the 'Decrease X by Y%' mode. Enter the original price as your first number, and the discount percentage as your second. The tool instantly outputs your final sale price." },
-    { question: "What is the formula for percentage increase?", answer: "To find the percentage increase between an old and new value, subtract the old value from the new, divide that result by the old value, and finally multiply by 100. Or, just use the 'Percentage Difference' mode in our tool!" },
-    { question: "Does this tool work offline?", answer: "Yes! Once loaded in your browser, the calculator engine runs entirely locally, meaning you can perform complex math equations without an active internet connection." }
+    {
+      question: "How do I calculate a percentage discount?",
+      answer: "Use the 'Increase / Decrease X by Y%' section. Enter the original value and the percentage to instantly see the reduced amount."
+    },
+    {
+      question: "What is the formula for percentage change?",
+      answer: "((new value - original value) / original value) x 100. The tool calculates this automatically in the '% Change from X to Y' section."
+    },
+    {
+      question: "Can I use this without internet?",
+      answer: "Yes. Once loaded, all calculations run locally in your browser."
+    }
   ],
-  howItWorks: "Select the specific type of percentage calculation you need from the dropdown menu (e.g., 'What is X% of Y?'). Input your two numerical values into the active fields. The mathematical engine calculates and displays the precise result dynamically as you type.",
+  howItWorks: "Enter values into any section (percent of, ratio, change, or adjustment). Results update instantly as you type, with no manual calculation required.",
   relatedTools: ["gst-calc", "tip-calculator", "unit-converter"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-23",
 };

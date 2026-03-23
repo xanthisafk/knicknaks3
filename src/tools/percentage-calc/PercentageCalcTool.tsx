@@ -1,168 +1,77 @@
-import { useState, useMemo } from "react";
-import { Input } from "@/components/ui";
-import { Panel } from "@/components/layout";
+// PercentageCalcTool.tsx
+import { useState } from "react";
+import { PercentCard } from "./PercentCard";
 
-function CalcCard({
-  label,
-  formula,
-  children,
-  result,
-}: {
-  label: string;
-  formula: string;
-  children: React.ReactNode;
-  result: string;
-}) {
-  return (
-    <Panel>
-      <h3 className="text-sm font-semibold text(--text-primary) mb-1">{label}</h3>
-      <p className="text-xs text-(--text-tertiary) mb-3">{formula}</p>
-      <div className="space-y-3">
-        {children}
-        {result && (
-          <div className="px-3 py-2 rounded-md bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800">
-            <span className="text-sm font-medium text-primary-600">= {result}</span>
-          </div>
-        )}
-      </div>
-    </Panel>
-  );
-}
+const parseInputs = (...vals: string[]) => vals.map(parseFloat);
+const hasInvalid = (...nums: number[]) => nums.some(isNaN);
 
 export default function PercentageCalcTool() {
-  // What is X% of Y?
-  const [pctOf_x, setPctOf_x] = useState("");
-  const [pctOf_y, setPctOf_y] = useState("");
-  const pctOfResult = useMemo(() => {
-    const x = parseFloat(pctOf_x);
-    const y = parseFloat(pctOf_y);
-    if (isNaN(x) || isNaN(y)) return "";
-    return ((x / 100) * y).toFixed(2);
-  }, [pctOf_x, pctOf_y]);
+  const [vals, setVals] = useState({
+    pctOf_x: "", pctOf_y: "",
+    isWhat_x: "", isWhat_y: "",
+    change_x: "", change_y: "",
+    adj_x: "", adj_y: "",
+  });
 
-  // X is what % of Y?
-  const [isWhat_x, setIsWhat_x] = useState("");
-  const [isWhat_y, setIsWhat_y] = useState("");
-  const isWhatResult = useMemo(() => {
-    const x = parseFloat(isWhat_x);
-    const y = parseFloat(isWhat_y);
-    if (isNaN(x) || isNaN(y) || y === 0) return "";
-    return ((x / y) * 100).toFixed(2) + "%";
-  }, [isWhat_x, isWhat_y]);
+  const set = (key: keyof typeof vals) =>
+    (e: React.ChangeEvent<HTMLInputElement>) =>
+      setVals(v => ({ ...v, [key]: e.target.value }));
 
-  // % change from X to Y
-  const [change_x, setChange_x] = useState("");
-  const [change_y, setChange_y] = useState("");
-  const changeResult = useMemo(() => {
-    const x = parseFloat(change_x);
-    const y = parseFloat(change_y);
-    if (isNaN(x) || isNaN(y) || x === 0) return "";
+  const computePctOf = () => {
+    const [x, y] = parseInputs(vals.pctOf_x, vals.pctOf_y);
+    return hasInvalid(x, y) ? "" : ((x / 100) * y).toFixed(2);
+  };
+
+  const computeIsWhat = () => {
+    const [x, y] = parseInputs(vals.isWhat_x, vals.isWhat_y);
+    return hasInvalid(x, y) || y === 0 ? "" : ((x / y) * 100).toFixed(2) + "%";
+  };
+
+  const computeChange = () => {
+    const [x, y] = parseInputs(vals.change_x, vals.change_y);
+    if (hasInvalid(x, y) || x === 0) return "";
     const change = ((y - x) / x) * 100;
-    const prefix = change > 0 ? "+" : "";
-    return `${prefix}${change.toFixed(2)}%`;
-  }, [change_x, change_y]);
+    return `${change > 0 ? "+" : ""}${change.toFixed(2)}%`;
+  };
 
-  // Increase/decrease X by Y%
-  const [adj_x, setAdj_x] = useState("");
-  const [adj_y, setAdj_y] = useState("");
-  const adjIncreaseResult = useMemo(() => {
-    const x = parseFloat(adj_x);
-    const y = parseFloat(adj_y);
-    if (isNaN(x) || isNaN(y)) return "";
-    return (x * (1 + y / 100)).toFixed(2);
-  }, [adj_x, adj_y]);
-  const adjDecreaseResult = useMemo(() => {
-    const x = parseFloat(adj_x);
-    const y = parseFloat(adj_y);
-    if (isNaN(x) || isNaN(y)) return "";
-    return (x * (1 - y / 100)).toFixed(2);
-  }, [adj_x, adj_y]);
+  const computeAdj = () => {
+    const [x, y] = parseInputs(vals.adj_x, vals.adj_y);
+    if (hasInvalid(x, y)) return "";
+    const inc = (x * (1 + y / 100)).toFixed(2);
+    const dec = (x * (1 - y / 100)).toFixed(2);
+    return `↑ ${inc}  |  ↓ ${dec}`;
+  };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <CalcCard label="What is X% of Y?" formula="(X / 100) x Y" result={pctOfResult}>
-        <div className="flex items-center gap-2">
-          <Input
-            value={pctOf_x}
-            onChange={(e) => setPctOf_x(e.target.value)}
-            placeholder="X"
-            type="number"
-            className="text-center"
-          />
-          <span className="text-sm text(--text-secondary)">% of</span>
-          <Input
-            value={pctOf_y}
-            onChange={(e) => setPctOf_y(e.target.value)}
-            placeholder="Y"
-            type="number"
-            className="text-center"
-          />
-        </div>
-      </CalcCard>
-
-      <CalcCard label="X is what % of Y?" formula="(X / Y) x 100" result={isWhatResult}>
-        <div className="flex items-center gap-2">
-          <Input
-            value={isWhat_x}
-            onChange={(e) => setIsWhat_x(e.target.value)}
-            placeholder="X"
-            type="number"
-            className="text-center"
-          />
-          <span className="text-sm text(--text-secondary)">of</span>
-          <Input
-            value={isWhat_y}
-            onChange={(e) => setIsWhat_y(e.target.value)}
-            placeholder="Y"
-            type="number"
-            className="text-center"
-          />
-        </div>
-      </CalcCard>
-
-      <CalcCard label="% Change from X to Y" formula="((Y − X) / X) x 100" result={changeResult}>
-        <div className="flex items-center gap-2">
-          <Input
-            value={change_x}
-            onChange={(e) => setChange_x(e.target.value)}
-            placeholder="From"
-            type="number"
-            className="text-center"
-          />
-          <span className="text-sm text(--text-secondary)">→</span>
-          <Input
-            value={change_y}
-            onChange={(e) => setChange_y(e.target.value)}
-            placeholder="To"
-            type="number"
-            className="text-center"
-          />
-        </div>
-      </CalcCard>
-
-      <CalcCard
+    <div className="flex flex-col gap-2">
+      <PercentCard
+        label="What is X% of Y?"
+        formula="(X / 100) x Y"
+        input1={{ value: vals.pctOf_x, onChange: set("pctOf_x"), placeholder: "Value of X", leadingText: "X", trailingText: "% of" }}
+        input2={{ value: vals.pctOf_y, onChange: set("pctOf_y"), placeholder: "Value of Y", leadingText: "Y", trailingText: "" }}
+        result={computePctOf()}
+      />
+      <PercentCard
+        label="X is what % of Y?"
+        formula="(X / Y) x 100"
+        input1={{ value: vals.isWhat_x, onChange: set("isWhat_x"), placeholder: "Value of X", leadingText: "X", trailingText: "of" }}
+        input2={{ value: vals.isWhat_y, onChange: set("isWhat_y"), placeholder: "Value of Y", leadingText: "Y", trailingText: "%" }}
+        result={computeIsWhat()}
+      />
+      <PercentCard
+        label="% Change from X to Y"
+        formula="((Y - X) / X) x 100"
+        input1={{ value: vals.change_x, onChange: set("change_x"), placeholder: "From", leadingText: "From", trailingText: "% to" }}
+        input2={{ value: vals.change_y, onChange: set("change_y"), placeholder: "To", leadingText: "To", trailingText: "%" }}
+        result={computeChange()}
+      />
+      <PercentCard
         label="Increase / Decrease X by Y%"
         formula="X x (1 ± Y/100)"
-        result={adjIncreaseResult ? `↑ ${adjIncreaseResult}  |  ↓ ${adjDecreaseResult}` : ""}
-      >
-        <div className="flex items-center gap-2">
-          <Input
-            value={adj_x}
-            onChange={(e) => setAdj_x(e.target.value)}
-            placeholder="Value"
-            type="number"
-            className="text-center"
-          />
-          <span className="text-sm text(--text-secondary)">by</span>
-          <Input
-            value={adj_y}
-            onChange={(e) => setAdj_y(e.target.value)}
-            placeholder="%"
-            type="number"
-            className="text-center"
-          />
-        </div>
-      </CalcCard>
+        input1={{ value: vals.adj_x, onChange: set("adj_x"), placeholder: "Value", leadingText: "X", trailingText: "by" }}
+        input2={{ value: vals.adj_y, onChange: set("adj_y"), placeholder: "%", leadingText: "Y", trailingText: "%" }}
+        result={computeAdj()}
+      />
     </div>
   );
 }
