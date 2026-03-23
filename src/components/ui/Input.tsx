@@ -9,6 +9,7 @@ import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "./Label";
 import { CopyButton } from "./CopyButton";
+import { PasteButton } from "./PasteButton";
 
 // ===== Shared helpers =====
 
@@ -68,6 +69,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   /** Trailing text (e.g. "px", "kg") — shown after the input */
   trailingText?: string | ReactNode;
 
+  allowCopy?: boolean;
+  handlePaste?: (value: string) => void;
+
   error?: string;
   helperText?: string;
 }
@@ -113,6 +117,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       className,
       id,
       type,
+      allowCopy = false,
+      handlePaste,
       ...props
     },
     forwardedRef
@@ -144,15 +150,24 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className={cn("flex flex-col gap-1.5", className)}>
-        {label && (
-          <Label
-            htmlFor={inputId}
-            text={label}
-            icon={labelIcon}
-            emoji={labelEmoji}
-            tooltip={labelTooltip}
-          />
-        )}
+        <div className={cn(
+          "flex flex-row max-h-4",
+          label ? "justify-between" : "justify-end"
+        )}>
+          {label && (
+            <Label
+              htmlFor={inputId}
+              text={label}
+              icon={labelIcon}
+              emoji={labelEmoji}
+              tooltip={labelTooltip}
+            />
+          )}
+          {(allowCopy || handlePaste) && <div className="flex gap-0.5 flex-row">
+            {handlePaste && <PasteButton onPaste={handlePaste} />}
+            {allowCopy && <CopyButton text={`${props.value}`} />}
+          </div>}
+        </div>
 
         <div
           className={cn(
@@ -262,6 +277,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: string;
   helperText?: string;
   allowCopy?: boolean;
+  handlePaste?: (value: string) => void;
 }
 
 const textareaBase = [
@@ -299,6 +315,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       helperText,
       className,
       id,
+      handlePaste,
       ...props
     },
     ref
@@ -315,7 +332,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     return (
       <div className={cn("flex flex-col gap-1.5", className)}>
-        <div className="flex flex-row justify-between">
+        <div className={cn(
+          "flex flex-row max-h-4",
+          label ? "justify-between" : "justify-end"
+        )}>
           {label && (
             <Label
               htmlFor={inputId}
@@ -325,8 +345,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
               tooltip={labelTooltip}
             />
           )}
+          {(allowCopy || handlePaste) && <div className="flex gap-0.5 flex-row">
+            {handlePaste && <PasteButton onPaste={handlePaste} />}
+            {allowCopy && <CopyButton text={`${props.value}`} />}
+          </div>}
 
-          {allowCopy && <CopyButton text={`${props.value}`} />}
         </div>
 
         <div
