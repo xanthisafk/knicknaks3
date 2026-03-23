@@ -18,3 +18,4 @@ export * from "./InlineFileDrop";
 export * from "./Emoji";
 export * from "./ColorInput";
 export * from "./FileInfoBar";
+export * from "./PasteButton";

@@ -40,6 +40,11 @@ export async function copyToClipboard(text: string): Promise<boolean> {
   }
 }
 
+export async function pasteFromClipboard(): Promise<string> {
+  return await navigator.clipboard.readText() ?? "";
+}
+
+
 /** Format a date string for display */
 export function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("en-US", {
