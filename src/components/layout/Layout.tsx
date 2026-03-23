@@ -56,6 +56,7 @@ export function Panel({ children, className, padding = "md" }: PanelProps) {
         "bg-(--surface-elevated) rounded-lg",
         "border border-(--border-default)",
         "space-y-3",
+        "h-fit",
         panelPadding[padding],
         className
       )}
