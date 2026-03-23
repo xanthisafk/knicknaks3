@@ -3,21 +3,42 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "ROT-N Cipher",
   slug: "rot-cipher",
-  description: "Encrypt and decrypt text using a customizable Caesar cipher",
-  longDescription: "Protect message spoilers or solve geocaching puzzles using our classic ROT-N Cipher tool. By default, it applies the standard ROT13 algorithm (shifting each letter exactly halfway across the 26-letter alphabet), meaning the exact same tool is used for both encoding and decoding. You can also customize the 'N' shift value to create a custom Caesar cipher.",
+  description: "Encode and decode text using ROT13 or a custom Caesar cipher shift.",
   category: "encoders",
-  icon: "🔢",
-  keywords: ["rot13 decoder online", "caesar cipher translator", "rot n encoder", "shift text cipher", "decode geocaching hint", "spoilers text hide", "rot26 alphabet shift"],
-  tags: ["cipher", "encoding", "fun"],
+  icon: "🛞", // wheel emoji. not visible on win-10
+  keywords: [
+    "rot13 decoder",
+    "rot13 encoder",
+    "caesar cipher",
+    "rot n cipher",
+    "shift cipher tool",
+    "encode text rot13",
+    "decode rot13 online",
+    "caesar cipher translator",
+    "alphabet shift cipher",
+    "geocaching rot13 decoder"
+  ],
+  tags: ["cipher", "encoding", "security"],
   component: () => import("./RotCipherTool"),
   capabilities: { supportsClipboard: true, supportsOffline: true },
   faq: [
-    { question: "What is ROT13?", answer: "ROT13 is a simple letter substitution cipher that replaces a letter with the 13th letter after it in the alphabet. Because there are 26 letters in the English alphabet, applying ROT13 twice restores the original text." },
-    { question: "Can I use a shift value other than 13?", answer: "Yes! While ROT13 is the default, you can utilize the slider to set a custom 'N' shift value between 1 and 25, turning the tool into a fully functional, classic Caesar cipher." },
-    { question: "Does this cipher encrypt numbers and symbols?", answer: "No, standard ROT algorithms strictly apply to alphabetical characters (A-Z and a-z). Numbers, grammatical punctuation, spaces, and emojis remain entirely unaffected by the shift." }
+    {
+      question: "What is ROT13?",
+      answer: "ROT13 is a Caesar cipher that shifts letters by 13 positions. Applying it twice returns the original text."
+    },
+    {
+      question: "Can I use other shift values?",
+      answer: "Yes, you can use any shift value to encode or decode text using a standard Caesar cipher."
+    },
+    {
+      question: "Does it affect numbers or symbols?",
+      answer: "No, only letters (A–Z) are shifted. Numbers and symbols remain unchanged."
+    }
   ],
-  howItWorks: "Type your secret message into the input field and select your desired alphabetical shift value using the slider (defaults to 13). The tool will output the ciphered text instantly. To decode a message, simply paste it in and ensure the exact same shift value is selected.",
+  howItWorks: "Enter text, choose a shift value, and instantly encode or decode using a ROT-N Caesar cipher.",
   relatedTools: ["base64", "hash-generator"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-24",
 };
