@@ -1,38 +1,16 @@
-import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
-import { alignMap, bgClasses, edgeBorder, edgeClasses, edgeOrientation, gapMap, justifyMap, type Align, type FloatBackground, type FloatEdge, type Gap, type Justify } from "./types";
-import { cn } from "@/lib";
+import { forwardRef } from "react"
+import { cn } from "@/lib"
 
-
-export interface FloatingContainerProps extends HTMLAttributes<HTMLDivElement> {
-    /**
-     * Which edge of the nearest positioned ancestor to dock to.
-     * Defaults to "bottom".
-     */
-    edge?: FloatEdge;
-    /**
-     * Background treatment.
-     * - "blur"         semi-transparent + frosted glass (default)
-     * - "opaque"       fully opaque surface colour
-     * - "transparent"  no background
-     */
-    background?: FloatBackground;
-    /** Gap between children. Defaults to "2". */
-    gap?: Gap;
-    /** Align items along the cross-axis. */
-    align?: Align;
-    /** Justify items along the main axis. */
-    justify?: Justify;
-    /** z-index utility class. Defaults to "z-10". */
+export interface FloatingContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+    edge?: "top" | "bottom" | "left" | "right";
+    background?: "blur" | "opaque" | "transparent";
+    gap?: number;
+    align?: "start" | "center" | "end";
+    justify?: "start" | "center" | "end";
     zIndex?: string;
-    /**
-     * Draw a border on the inward edge (between float and main content).
-     * Defaults to true.
-     */
     bordered?: boolean;
-    /** Padding applied to the container. Defaults to "px-4 py-3". */
     padding?: string;
-    children?: ReactNode;
-    className?: string;
+    distanceFromEdge?: number;
 }
 
 export const FloatingContainer = forwardRef<HTMLDivElement, FloatingContainerProps>(
@@ -40,42 +18,55 @@ export const FloatingContainer = forwardRef<HTMLDivElement, FloatingContainerPro
         {
             edge = "bottom",
             background = "blur",
-            gap = "2",
+            gap = 2,
             align,
             justify,
             zIndex = "z-10",
-            bordered = true,
             padding = "px-4 py-3",
+            distanceFromEdge = 2,
             className,
             children,
             ...rest
-        },
-        ref
+        }: FloatingContainerProps,
+        ref: React.Ref<HTMLDivElement>
     ) => {
-        const orientation = edgeOrientation[edge];
+        const isHorizontal = edge === "top" || edge === "bottom"
 
         return (
             <div
                 ref={ref}
                 className={cn(
-                    "absolute",
-                    edgeClasses[edge],
-                    bgClasses[background],
+                    "absolute flex",
+
+                    // edge positioning
+                    edge === "top" && `top-${distanceFromEdge} left-0 right-0`,
+                    edge === "bottom" && `bottom-${distanceFromEdge} left-0 right-0`,
+                    edge === "left" && `left-${distanceFromEdge} top-0 bottom-0`,
+                    edge === "right" && `right-${distanceFromEdge} top-0 bottom-0`,
+
+                    // direction
+                    isHorizontal ? "flex-row" : "flex-col",
+
+                    // background
+                    background === "blur" && "backdrop-blur bg-(--surface-elevated)/70",
+                    background === "opaque" && "bg-(--surface-elevated)",
+                    background === "transparent" && "bg-transparent",
+
+                    // spacing
+                    `gap-${gap}`,
+                    align && `items-${align}`,
+                    justify && `justify-${justify}`,
+
                     zIndex,
-                    bordered && edgeBorder[edge],
                     padding,
-                    "flex",
-                    orientation === "horizontal" ? "flex-row" : "flex-col",
-                    gapMap[gap],
-                    align && alignMap[align],
-                    justify && justifyMap[justify],
                     className
                 )}
                 {...rest}
             >
                 {children}
             </div>
-        );
+        )
     }
-);
-FloatingContainer.displayName = "FloatingContainer";
+)
+
+FloatingContainer.displayName = "FloatingContainer"

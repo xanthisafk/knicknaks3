@@ -1,56 +1,43 @@
-import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
-import { cn } from "@/lib/utils";
-import { gapMap, alignMap, justifyMap, wrapMap, type Gap, type Align, type Justify, type Wrap } from "./types";
+import * as React from "react"
+import { cn } from "@/lib/utils"
 
-
-export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
-    /** Layout direction. Defaults to "vertical" (flex-col). */
-    orientation?: "horizontal" | "vertical";
-    /** Gap between children. Defaults to "2". */
-    gap?: Gap;
-    /** Align items along the cross-axis. */
-    align?: Align;
-    /** Justify items along the main axis. */
-    justify?: Justify;
-    /** Flex wrapping behaviour. Defaults to "nowrap". */
-    wrap?: Wrap;
-    /** Make the container full-width. */
-    full?: boolean;
-    children?: ReactNode;
-    className?: string;
+export interface ContainerProps
+    extends React.HTMLAttributes<HTMLDivElement> {
+    mobileCols?: number;
+    cols?: number;
+    gap?: number;
 }
 
-export const Container = forwardRef<HTMLDivElement, ContainerProps>(
-    (
-        {
-            orientation = "vertical",
-            gap = "2",
-            align,
-            justify,
-            wrap = "nowrap",
-            full,
-            className,
-            children,
-            ...rest
-        },
-        ref
-    ) => (
+export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(({
+    mobileCols = 1,
+    cols = 1,
+    gap = 2,
+    className,
+    ...props
+}, ref) => {
+    if (cols <= 0) cols = 1;
+    if (cols > 12) cols = 12;
+    if (mobileCols <= 0) mobileCols = 1;
+    if (mobileCols > 12) mobileCols = 12;
+    if (gap <= 0) gap = 2;
+    const gapClass = typeof gap === "number" ? `gap-${gap}` : undefined;
+    const colsClass = typeof cols === "number" ? `md:grid-cols-${cols}` : undefined;
+    const mobileColsClass = typeof mobileCols === "number" ? `grid-cols-${mobileCols}` : undefined;
+
+    return (
         <div
             ref={ref}
             className={cn(
-                "flex",
-                orientation === "horizontal" ? "flex-row" : "flex-col",
-                gapMap[gap],
-                align && alignMap[align],
-                justify && justifyMap[justify],
-                wrapMap[wrap],
-                full && "w-full",
+                "grid",
+                gapClass,
+                mobileColsClass,
+                colsClass,
                 className
             )}
-            {...rest}
-        >
-            {children}
-        </div>
+            {...props}
+        />
     )
-);
-Container.displayName = "Container";
+}
+)
+
+Container.displayName = "Container"
