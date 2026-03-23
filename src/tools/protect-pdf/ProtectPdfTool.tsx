@@ -1,24 +1,21 @@
-import { useState } from "react";
-import { Button, Input, Toggle } from "@/components/ui";
+import { useState, useCallback } from "react";
+import { Button, FileInfoBar, Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { PdfDropZone } from "@/components/advanced/PdfDropZone";
+import FileDropZone from "@/components/advanced/FileDropZone";
 import { PDFDocument } from "@cantoo/pdf-lib";
 import { downloadPdf, formatFileSize } from "@/tools/_pdf-utils";
+import { Check, Download, Trash2, TriangleAlert } from "lucide-react";
 
 export default function ProtectPdfTool() {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState(0);
+  const [previousPassword, setPreviousPassword] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [ownerPassword, setOwnerPassword] = useState("");
-  const [allowPrinting, setAllowPrinting] = useState(true);
-  const [allowCopying, setAllowCopying] = useState(true);
-  const [allowModifying, setAllowModifying] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState("");
 
-  const handleFile = async (files: File[]) => {
-    const f = files[0];
-    if (!f) return;
+  const handleFile = useCallback(async (f: File) => {
     setFile(f);
     setStatus("");
     try {
@@ -28,9 +25,9 @@ export default function ProtectPdfTool() {
     } catch {
       setStatus("Error: Could not read PDF.");
     }
-  };
+  }, []);
 
-  const handleProtect = async () => {
+  const handleProtect = useCallback(async () => {
     if (!file) return;
     if (!userPassword && !ownerPassword) {
       setStatus("Please set at least one password.");
@@ -41,112 +38,110 @@ export default function ProtectPdfTool() {
 
     try {
       const buffer = await file.arrayBuffer();
-      const pdf = await PDFDocument.load(buffer, { ignoreEncryption: true });
+
+      let pdf: PDFDocument;
+      try {
+        pdf = await PDFDocument.load(buffer, {
+          password: previousPassword || undefined,
+        });
+      } catch {
+        setStatus("Error: This PDF is already encrypted. Please enter the correct existing password.");
+        setIsProcessing(false);
+        return;
+      }
 
       await pdf.encrypt({
         userPassword: userPassword || "",
         ownerPassword: ownerPassword || userPassword,
-        permissions: {
-          printing: allowPrinting ? "highResolution" : undefined,
-          copying: allowCopying,
-          modifying: allowModifying,
-          annotating: false,
-          fillingForms: false,
-          contentAccessibility: allowCopying,
-          documentAssembly: allowModifying,
-        },
       });
 
       const bytes = await pdf.save();
       downloadPdf(bytes, `protected_${file.name}`);
-      setStatus("✓ PDF protected and saved!");
+      setStatus("PDF protected and saved!");
     } catch (err) {
       setStatus(`Error: ${err instanceof Error ? err.message : "Failed to encrypt"}`);
     } finally {
       setIsProcessing(false);
     }
-  };
+  }, [file, previousPassword, userPassword, ownerPassword]);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setFile(null);
     setPageCount(0);
+    setPreviousPassword("");
     setUserPassword("");
     setOwnerPassword("");
     setStatus("");
-  };
+  }, []);
+
+  const clearPasswords = useCallback(() => {
+    setPreviousPassword("");
+    setUserPassword("");
+    setOwnerPassword("");
+    setStatus("");
+  }, []);
 
   return (
     <div className="space-y-2">
-      <Panel>
-        {!file ? (
-          <PdfDropZone onFiles={handleFile} />
-        ) : (
-          <div className="space-y-4">
-            <div className="flex items-center gap-3 px-3 py-2 rounded-md bg-(--surface-secondary) border border-(--border-default)">
-              <span>📄</span>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text(--text-primary) truncate">{file.name}</p>
-                <p className="text-xs text-(--text-tertiary)">
-                  {formatFileSize(file.size)} · {pageCount} pages
-                </p>
-              </div>
-              <button
-                onClick={reset}
-                className="text-xs text-(--text-tertiary) hover:text-(--color-error) transition-colors cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
+      {!file ? (
+        <FileDropZone accepts=".pdf" onUpload={f => handleFile(f.file)} emoji="📄" />
+      ) : (
+        <Panel>
+          <div className="space-y-3">
+            <FileInfoBar
+              emoji="📄"
+              fileName={file.name}
+              fileSize={formatFileSize(file.size)}
+              text={`${pageCount} page${pageCount !== 1 ? "s" : ""}`}
+              onReset={reset}
+            />
 
             <Input
-              label="User Password (required to open)"
+              label="Open Password"
               type="password"
               value={userPassword}
-              onChange={(e) => setUserPassword(e.target.value)}
-              placeholder="Leave empty if not needed"
+              onChange={e => setUserPassword(e.target.value)}
+              placeholder="Required to open the PDF"
             />
             <Input
-              label="Owner Password (required for full access)"
+              label="Owner Password"
               type="password"
               value={ownerPassword}
-              onChange={(e) => setOwnerPassword(e.target.value)}
-              placeholder="Leave empty if not needed"
+              onChange={e => setOwnerPassword(e.target.value)}
+              placeholder="Required for full access (defaults to open password)"
             />
-
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text(--text-primary)">Permissions</h3>
-              <div className="space-y-2">
-                <Toggle label="Allow Printing" checked={allowPrinting} onChange={setAllowPrinting} />
-                <Toggle label="Allow Copying Text" checked={allowCopying} onChange={setAllowCopying} />
-                <Toggle label="Allow Modifying" checked={allowModifying} onChange={setAllowModifying} />
-              </div>
-            </div>
+            <Input
+              label="Existing Password"
+              type="password"
+              value={previousPassword}
+              onChange={e => setPreviousPassword(e.target.value)}
+              placeholder="Only needed if PDF is already encrypted"
+            />
           </div>
-        )}
-      </Panel>
+        </Panel>
+      )}
 
       {file && (
         <Panel>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-between space-y-3">
             <Button
               onClick={handleProtect}
               disabled={isProcessing || (!userPassword && !ownerPassword)}
+              icon={Download}
             >
               {isProcessing ? "Encrypting..." : "Protect & Download"}
             </Button>
-            <Button variant="ghost" onClick={reset}>
-              Choose Another
+            <Button variant="ghost" icon={Trash2} onClick={clearPasswords}>
+              Clear
             </Button>
           </div>
           {status && (
-            <p
-              className={`mt-3 text-sm ${status.startsWith("Error") || status.startsWith("Please")
-                ? "text-(--color-error)"
-                : "text(--text-secondary)"
-                }`}
+            <Label
+              variant={status.startsWith("Error") || status.startsWith("Please") ? "danger" : "success"}
+              icon={status.startsWith("Error") || status.startsWith("Please") ? TriangleAlert : Check}
             >
               {status}
-            </p>
+            </Label>
           )}
         </Panel>
       )}
