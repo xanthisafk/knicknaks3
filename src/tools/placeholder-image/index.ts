@@ -3,21 +3,39 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Placeholder Image Generator",
   slug: "placeholder-image",
-  description: "Instantly generate custom SVG placeholder images",
-  longDescription: "Build resilient web layouts exactly simulating final asset delivery without relying on third-party dummy image servers (which occasionally go offline). Our local Placeholder Image Generator creates pure SVG data URIs or downloadable files tailored exactly to your specified dimension, text label, and color schemes.",
+  description: "Generate custom placeholder images with text, colors, and export options",
   category: "generators",
   icon: "🖼️",
-  keywords: ["placeholder image generator", "dummy image maker offline", "svg placeholder code", "mockup picture creator", "generate image data uri", "wireframe image tool", "custom size dummy photo"],
-  tags: ["design", "generator", "images"],
+  keywords: [
+    "placeholder image generator",
+    "dummy image generator",
+    "svg png jpg placeholder",
+    "image data uri generator",
+    "mockup placeholder tool",
+    "custom size image generator",
+    "wireframe placeholder image"
+  ],
+  tags: ["design", "generator", "images", "frontend"],
   component: () => import("./PlaceholderImageTool"),
   capabilities: { supportsOffline: true },
   faq: [
-    { question: "What formats do these placeholders come in?", answer: "The generator produces pure, mathematically-drawn SVG vector files. You can export them as a downloadable `.svg` file, or as an embedded `data:` URI string to paste directly into an HTML `<img>` tag." },
-    { question: "Why use SVGs instead of PNG/JPG placeholders?", answer: "SVG files are infinitely scalable without losing resolution, resulting in dramatically smaller file sizes. Returning a small data URI means your HTML mockup loads instantly without firing an extra network request to a dusty third-party server." },
-    { question: "Can I customize the displayed text?", answer: "Yes. By default, the image displays its exact dimensions (e.g., '600 x 400'), but you can easily override this with any custom text string you require." }
+    {
+      question: "What formats can I export?",
+      answer: "You can download placeholders as SVG, PNG, or JPG. SVG is vector-based, while PNG and JPG are rasterized versions generated from canvas."
+    },
+    {
+      question: "What is a Data URI and why use it?",
+      answer: "A Data URI embeds the image directly in your HTML or CSS, eliminating external requests. This is useful for prototyping, emails, or lightweight UI mockups."
+    },
+    {
+      question: "Can I customize the placeholder text?",
+      answer: "Yes. You can override the default dimensions label with any custom text, along with background and text colors."
+    }
   ],
-  howItWorks: "Input your exact target pixel width and height. Optionally override the visual background and text colors using exact Hex values, and type out a custom label. Instantly copy the resulting lightweight `<svg>` code, Data URI format, or click to download the raw file.",
+  howItWorks: "Set width, height, colors, and optional label. The tool renders a live preview and lets you copy a Data URI, HTML <img> tag, or download the image in your chosen format.",
   relatedTools: ["aspect-ratio", "color-converter"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-23",
 };
