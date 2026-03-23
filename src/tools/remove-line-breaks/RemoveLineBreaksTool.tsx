@@ -1,12 +1,22 @@
 import { useState, useMemo } from "react";
 import { Button, Textarea, Input } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { Box, Container } from "@/components/layout/Primitive";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+
+const PRESETS = [
+  { label: "Space", value: " " },
+  { label: "Comma", value: ", " },
+  { label: "Semicolon", value: "; " },
+  { label: "Dot", value: " . " },
+  { label: "Slash", value: "/" },
+  { label: "Pipe", value: " | " },
+  { label: "None", value: "" },
+];
 
 export default function RemoveLineBreaksTool() {
   const [input, setInput] = useState("");
   const [separator, setSeparator] = useState(" ");
-  const [copied, setCopied] = useState(false);
 
   const output = useMemo(() => {
     if (!input) return "";
@@ -17,79 +27,56 @@ export default function RemoveLineBreaksTool() {
       .join(separator);
   }, [input, separator]);
 
-  const handleCopy = async () => {
-    if (await copyToClipboard(output)) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
 
-  const PRESETS = [
-    { label: "Space", value: " " },
-    { label: "Comma", value: ", " },
-    { label: "Semicolon", value: "; " },
-    { label: "Pipe", value: " | " },
-    { label: "None", value: "" },
-  ];
+
 
   return (
-    <div className="space-y-2">
-      <Panel>
-        <div className="flex flex-wrap items-end gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text(--text-primary)">Join with</label>
-            <div className="flex gap-1">
-              {PRESETS.map((p) => (
-                <button
-                  key={p.label}
-                  onClick={() => setSeparator(p.value)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer ${separator === p.value
-                    ? "bg-primary-500 text-white"
-                    : "bg-(--surface-secondary) text(--text-secondary) hover:text(--text-primary)"
-                    }`}
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs text(--text-secondary)">Custom</label>
-            <input
+    <Container cols={2}>
+      <Box>
+        <Panel className="flex flex-col gap-3">
+          <Textarea
+            label="Input"
+            placeholder={"Line one\nLine two\nLine three"}
+            allowCopy={false}
+            handlePaste={setInput}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <Select
+              label="Preset"
+              value={separator}
+              onValueChange={setSeparator}>
+              <SelectTrigger>
+                {PRESETS.find((p) => p.value === separator)?.label ?? "Custom"}
+              </SelectTrigger>
+              <SelectContent>
+                {PRESETS.map((p) => (
+                  <SelectItem key={p.label} value={p.value}>
+                    {p.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Input
+              label="Separator"
               value={separator}
               onChange={(e) => setSeparator(e.target.value)}
-              className="w-24 px-3 py-1.5 rounded-md bg-(--surface-elevated) text(--text-primary) border border-(--border-default) text-sm font-mono"
+              handlePaste={setSeparator}
             />
           </div>
-        </div>
-      </Panel>
+        </Panel>
+      </Box>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <Box>
         <Panel>
-          <div className="space-y-3">
-            <label className="text-sm font-medium text(--text-primary)">Input (with line breaks)</label>
-            <Textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={"Line one\nLine two\nLine three"}
-              className="h-48 text-sm"
-            />
-          </div>
+          <Textarea
+            label="Output"
+            value={output}
+            disabled
+          />
         </Panel>
-        <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Output</label>
-              {output && (
-                <Button size="sm" variant="ghost" onClick={handleCopy}>
-                  {copied ? "✓ Copied!" : "📋 Copy"}
-                </Button>
-              )}
-            </div>
-            <Textarea value={output} readOnly className="h-48 text-sm" />
-          </div>
-        </Panel>
-      </div>
-    </div>
+      </Box>
+    </Container>
   );
 }
