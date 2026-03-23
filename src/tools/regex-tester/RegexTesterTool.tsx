@@ -1,63 +1,63 @@
 import { useState, useMemo } from "react";
-import { Input, Textarea, Toggle } from "@/components/ui";
+import { Input, Label, Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { Checkbox } from "@/components/ui/Checkbox";
+import { Container } from "@/components/layout/Primitive";
 import { ToggleGroup } from "@/components/ui/ToggleGroup";
 import { findMatches } from "@/lib/regexHelper";
 import { HighlightMatches } from "./HighlightMatches";
 
-
 export default function RegexTesterTool() {
   const [pattern, setPattern] = useState("");
-  const [flags, setFlags] = useState<string[]>([]);
+  const [flags, setFlags] = useState<string[]>(["g", "m"]);
   const [text, setText] = useState("");
 
-  const flagString = Object.entries(flags)
-    .filter(([, v]) => v)
-    .map(([k]) => k)
-    .join("");
+  const flagString = flags.join("");
 
   const { matches, error } = useMemo(
     () => findMatches(pattern, flagString, text),
     [pattern, flagString, text]
   );
 
+  const matchesKey = useMemo(
+    () => matches.map((m) => `${m.index}:${m.full}`).join("|"),
+    [matches]
+  );
+
   const highlighted = useMemo(
-    () => HighlightMatches(text, matches),
-    [text, matches]
+    () => <HighlightMatches text={text} matches={matches} />,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [text, matchesKey] // use matchesKey instead of matches to avoid reference churn
   );
 
   return (
-    <div className="space-y-2">
-      {/* Pattern input */}
-      <Panel>
-        <div className="space-y-3">
-          <div className="flex gap-3 items-end">
-            <div className="flex-1">
-              <Input
-                label="Pattern"
-                value={pattern}
-                onChange={(e) => setPattern(e.target.value)}
-                placeholder="[a-z]+"
-                error={error}
-              />
-            </div>
-            <ToggleGroup
-              label="Flags"
-              options={[
-                { value: "g", title: "global" },
-                { value: "i", title: "case insensitive" },
-                { value: "m", title: "multiline" },
-                { value: "s", title: "dotAll" },
-              ]}
-              value={flags}
-              onChange={setFlags}
+    <Container gap="2">
+      <Panel className="space-y-2">
+        <div className="flex gap-3 items-end">
+          <div className="flex-1">
+            <Input
+              label="Pattern"
+              value={pattern}
+              onChange={(e) => setPattern(e.target.value)}
+              placeholder="[a-z]+"
+              handlePaste={(v) => setPattern(v)}
             />
           </div>
-          <p className="text-xs text-(--text-tertiary)">
-            Parsed: /{pattern || "..."}/{flagString}
-          </p>
+          <ToggleGroup
+            label="Flags"
+            options={[
+              { value: "g", title: "global" },
+              { value: "i", title: "case insensitive" },
+              { value: "m", title: "multiline" },
+              { value: "s", title: "dotAll" },
+            ]}
+            value={flags}
+            onChange={setFlags}
+          />
         </div>
+        {error && <Label variant="danger">{error}</Label>}
+        <p className="text-xs text-(--text-tertiary)">
+          <Label>Parsed:</Label> /{pattern || "..."}/{flagString}
+        </p>
       </Panel>
 
       {/* Test string */}
@@ -67,8 +67,8 @@ export default function RegexTesterTool() {
             value={text}
             label="Test String"
             onChange={(e) => setText(e.target.value)}
+            handlePaste={(v) => setText(v)}
             placeholder="Enter text to test against your pattern..."
-            className="h-32 text-sm transition-none"
           />
         </div>
       </Panel>
@@ -78,12 +78,10 @@ export default function RegexTesterTool() {
         <Panel>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Highlighted Matches</label>
-              <span className="text-xs text-(--text-tertiary)">
-                {matches.length} match{matches.length !== 1 ? "es" : ""}
-              </span>
+              <Label>Highlighted Matches</Label>
+              <Label>{matches.length} match{matches.length !== 1 ? "es" : ""}</Label>
             </div>
-            <div className="px-3 py-3 rounded-md bg-(--surface-secondary) font-mono text-sm text(--text-primary) whitespace-pre-wrap break-all">
+            <div className="px-3 py-3 rounded-md bg-(--surface-secondary) font-mono text-sm text-(--text-primary) whitespace-pre-wrap break-all">
               {highlighted}
             </div>
           </div>
@@ -94,11 +92,13 @@ export default function RegexTesterTool() {
       {matches.length > 0 && (
         <Panel>
           <div className="space-y-3">
-            <label className="text-sm font-medium text(--text-primary)">Match Details ({matches.length})</label>
+            <label className="text-sm font-medium text-(--text-primary)">
+              Match Details ({matches.length})
+            </label>
             <div className="space-y-2 max-h-64 overflow-y-auto">
               {matches.map((m, i) => (
                 <div
-                  key={i}
+                  key={`${m.index}-${m.full}`}
                   className="flex items-start gap-3 px-3 py-2 rounded-md bg-(--surface-secondary) text-sm"
                 >
                   <span className="text-xs text-(--text-tertiary) font-mono min-w-[30px]">
@@ -106,9 +106,11 @@ export default function RegexTesterTool() {
                   </span>
                   <div className="flex-1">
                     <code className="text-primary-600 font-mono">
-                      "{m.full}"
+                      &quot;{m.full}&quot;
                     </code>
-                    <span className="text-xs text-(--text-tertiary) ml-2">@ index {m.index}</span>
+                    <span className="text-xs text-(--text-tertiary) ml-2">
+                      @ index {m.index}
+                    </span>
                     {m.groups.length > 0 && (
                       <div className="mt-1 flex flex-wrap gap-1.5">
                         {m.groups.map((g, gi) => (
@@ -116,7 +118,7 @@ export default function RegexTesterTool() {
                             key={gi}
                             className="text-xs bg-(--surface-elevated) text-accent-500 px-1.5 py-0.5 rounded"
                           >
-                            ${gi + 1}: "{g}"
+                            ${gi + 1}: &quot;{g}&quot;
                           </mark>
                         ))}
                       </div>
@@ -128,6 +130,6 @@ export default function RegexTesterTool() {
           </div>
         </Panel>
       )}
-    </div>
+    </Container>
   );
 }

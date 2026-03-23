@@ -1,7 +1,12 @@
 import type { MatchResult } from "@/lib/regexHelper";
 
-export function HighlightMatches(text: string, matches: MatchResult[]): React.ReactNode[] {
-    if (!matches.length) return [text];
+interface Props {
+    text: string;
+    matches: MatchResult[];
+}
+
+export function HighlightMatches({ text, matches }: Props) {
+    if (!matches.length) return <>{text}</>;
 
     const parts: React.ReactNode[] = [];
     let lastIndex = 0;
@@ -13,7 +18,7 @@ export function HighlightMatches(text: string, matches: MatchResult[]): React.Re
         }
         parts.push(
             <mark
-                key={i}
+                key={`${m.index}-${m.full}`}
                 className="bg-(--surface-elevated) text-accent-500 rounded-sm px-0.5"
                 title={`Match ${i + 1}`}
             >
@@ -27,5 +32,5 @@ export function HighlightMatches(text: string, matches: MatchResult[]): React.Re
         parts.push(text.slice(lastIndex));
     }
 
-    return parts;
+    return <>{parts}</>;
 }
