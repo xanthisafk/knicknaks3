@@ -3,21 +3,42 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Roman Numeral Converter",
   slug: "roman-numeral",
-  description: "Convert numbers to and from Roman neumrals",
-  longDescription: "Translate standard Arabic digits into historic Roman numerals automatically. Ideal for academic work, styling copyright dates (e.g., MMXXI), or designing clock faces. Our bidirectional Roman Numeral Converter instantly processes modern integers and validates ancient numeral syntax.",
+  description: "Convert numbers to Roman numerals and Roman numerals to numbers.",
   category: "converters",
   icon: "🏛️",
-  keywords: ["roman numeral converter", "numbers to roman numerals", "roman numerals 1 to 100", "translate roman numerals", "how to write IV IX", "roman numeral year date", "MMXXIV year converter"],
-  tags: ["numbers", "conversion"],
+  keywords: [
+    "roman numeral converter",
+    "number to roman numerals",
+    "roman numerals to numbers",
+    "convert roman numerals",
+    "roman numeral translator",
+    "roman numerals chart",
+    "roman numeral calculator",
+    "convert year to roman numerals",
+    "MMXXIV meaning",
+    "roman number converter"
+  ],
+  tags: ["numbers", "conversion", "calculator"],
   component: () => import("./RomanNumeralTool"),
   capabilities: { supportsOffline: true, supportsClipboard: true },
   faq: [
-    { question: "What is the maximum number it can translate?", answer: "Standard historic Roman numerals lack a character to signify values of 5,000 or greater without using complex overlines. Therefore, this tool strictly supports the academically acceptable range of 1 to 3,999." },
-    { question: "Why does 4 equal IV instead of IIII?", answer: "Classic Roman numbering utilizes a specific subtractive notation to save space. Putting a smaller value (I=1) before a larger value (V=5) indicates subtraction (5-1=4)." },
-    { question: "Does it validate my typed Roman numerals?", answer: "Yes. If you attempt to decode an invalid sequence (such as typing 'IIII' or 'VV'), the tool will automatically flag the syntax error rather than guessing a mathematical value." }
+    {
+      question: "What numbers are supported?",
+      answer: "The tool supports standard Roman numerals from 1 to 3999."
+    },
+    {
+      question: "How are Roman numerals calculated?",
+      answer: "Roman numerals use additive and subtractive notation, such as IV for 4 and IX for 9."
+    },
+    {
+      question: "Can I convert Roman numerals back to numbers?",
+      answer: "Yes, you can instantly convert valid Roman numerals into their numeric values."
+    }
   ],
-  howItWorks: "Enter any standard integer between 1 and 3999 to see its exact Roman numeral translation. Conversely, toggle the mode and type a valid Roman string (like 'XIV') to instantly reveal its corresponding modern digit value.",
+  howItWorks: "Enter a number or Roman numeral to instantly convert between formats in real time.",
   relatedTools: ["number-to-words", "base-converter"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-24",
 };
