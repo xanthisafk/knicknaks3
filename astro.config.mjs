@@ -100,7 +100,18 @@ export default defineConfig({
         "/tools/zalgo-text": "/tools/text/zalgo-text",
     },
     vite: {
-        plugins: [tailwindcss()],
+        plugins: [tailwindcss({
+            config: {
+                safelist: [
+                    { pattern: /(grid-cols|gap)-(1|2|3|4|5|6|7|8|9|10|11|12)/ },
+                    { pattern: /(col-span|row-span)-(1|2|3|4|5|6|7|8|9|10|11|12)/ },
+                    { pattern: /md:grid-cols-(1|2|3|4|5|6|7|8|9|10|11|12)/ },
+                    { pattern: /md:col-span-(1|2|3|4|5|6|7|8|9|10|11|12)/ },
+                    { pattern: /md:row-span-(1|2|3|4|5|6|7|8|9|10|11|12)/ },
+                    { pattern: /space-y-(1|2|3|4|5|6|7|8|9|10|11|12)/ },
+                ]
+            }
+        })],
         build: {
             target: "es2022",
             cssMinify: true,
