@@ -1,7 +1,7 @@
 {
   "name": "knicknaks",
   "type": "module",
-  "version": "3.93.0",
+  "version": "3.94.0",
   "description": "Free, offline-capable web app with useful day-to-day tools",
   "scripts": {
     "dev": "npm version minor --no-git-tag-version && astro dev",
@@ -50,6 +50,7 @@
     "lucide-react": "^0.577.0",
     "marked": "^17.0.3",
     "nanostores": "^1.2.0",
+    "onnxruntime-web": "^1.24.3",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^5.5.207",
     "react": "^19.1.0",

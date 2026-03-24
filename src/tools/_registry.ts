@@ -167,11 +167,58 @@ export function getActiveCategories(): ToolCategory[] {
 /**
  * Get tools related to a given tool
  */
-export function getRelatedTools(tool: ToolDefinition): ToolDefinition[] {
-  if (!tool.relatedTools?.length) {
-    return tools.filter((t) => t.category === tool.category && t.slug !== tool.slug).slice(0, 4);
-  }
-  return tool.relatedTools
+export function getRelatedTools(tool: ToolDefinition, limit: number = 3): ToolDefinition[] {
+  const manualSlugs = new Set(tool.relatedTools || []);
+  const manualTools = (tool.relatedTools || [])
     .map((slug) => getToolBySlug(slug))
     .filter((t): t is ToolDefinition => t !== undefined);
+
+  // If we already have enough manual tools, just return them
+  if (manualTools.length >= limit) {
+    return manualTools.slice(0, limit);
+  }
+
+  const currentTags = new Set(tool.tags || []);
+  const currentKeywords = new Set(tool.keywords || []);
+
+  // Score all other tools
+  const scoredTools = tools
+    .filter((t) => t.slug !== tool.slug && !manualSlugs.has(t.slug))
+    .map((t) => {
+      let score = 0;
+
+      // 1. Tag Match (High Weight)
+      if (t.tags) {
+        for (const tag of t.tags) {
+          if (currentTags.has(tag)) score += 5;
+        }
+      }
+
+      // 2. Category Match
+      if (t.category === tool.category) score += 2;
+
+      // 3. Keyword Match (Detail Weight)
+      if (t.keywords) {
+        for (const kw of t.keywords) {
+          if (currentKeywords.has(kw)) score += 1;
+        }
+      }
+
+      // 4. Status Tie-breaker
+      const status = getToolStatus(t);
+      if (status === "popular" || status === "new") score += 0.5;
+
+      return { tool: t, score };
+    })
+    .filter((item) => item.score > 0);
+
+  // Sort by highest score first
+  scoredTools.sort((a, b) => b.score - a.score);
+
+  // Fill the remaining slots
+  const algorithmicTools = scoredTools
+    .slice(0, limit - manualTools.length)
+    .map((item) => item.tool);
+
+  return [...manualTools, ...algorithmicTools];
 }

@@ -27,6 +27,15 @@ const categoryInfo = getCategoryMeta(tool.category);
 const relatedTools = getRelatedTools(tool);
 const status = getToolStatus(tool);
 
+// Inject offline capability FAQ if applicable
+const toolFaq = [...(tool.faq || [])];
+if (tool.capabilities?.supportsOffline) {
+  toolFaq.push({
+    question: `Does the ${tool.name} work offline?`,
+    answer: `Yes, the ${tool.name} is fully functional offline. Because this tool runs entirely in your browser, no data is ever uploaded to external servers. Once the page is loaded, you can seamlessly continue using it without an active internet connection. You can also install Knicknaks as a Progressive Web App (PWA) for native-like offline access.`,
+  });
+}
+
 // Structured Data: WebApplication
 const structuredData: Record<string, unknown> = {
   "@context": "https://schema.org",
@@ -44,8 +53,8 @@ const structuredData: Record<string, unknown> = {
 };
 
 // FAQ structured data
-if (tool.faq?.length) {
-  structuredData["mainEntity"] = tool.faq.map((item) => ({
+if (toolFaq.length > 0) {
+  structuredData["mainEntity"] = toolFaq.map((item) => ({
     "@type": "Question",
     name: item.question,
     acceptedAnswer: {
@@ -256,7 +265,7 @@ function buildLicenseSentence(license: typeof tool.license) {
 
         <!-- FAQ -->
         {
-          tool.faq && tool.faq.length > 0 && (
+          toolFaq.length > 0 && (
             <section>
               <h2
                 class="text-xl font-semibold mb-12"
@@ -265,7 +274,7 @@ function buildLicenseSentence(license: typeof tool.license) {
                 <span class="font-emoji">❓</span> Frequently Asked Questions
               </h2>
               <div class="mt-2 space-y-2">
-                {tool.faq.map((item) => (
+                {toolFaq.map((item) => (
                   <Accordion label={item.question} content={item.answer} />
                 ))}
               </div>
