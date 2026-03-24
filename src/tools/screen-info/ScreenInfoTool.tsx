@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 import { Panel } from "@/components/layout";
+import { Box, Container } from "@/components/layout/Primitive";
+import { ResultRow } from "@/components/advanced/ResultRow";
+import { Label } from "@/components/ui";
+import StatBox from "@/components/ui/StatBox";
 
 interface ScreenData {
   screenWidth: number;
@@ -42,22 +46,6 @@ function getScreenData(): ScreenData {
   };
 }
 
-function InfoRow({ label, value, badge }: { label: string; value: string | number; badge?: "green" | "red" }) {
-  return (
-    <div className="flex items-center justify-between py-2.5 px-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] hover:bg(--surface-bg) transition-colors">
-      <span className="text-sm text(--text-secondary)">{label}</span>
-      <span className="text-sm font-medium font-[family-name:var(--font-mono)] text(--text-primary) flex items-center gap-2">
-        {badge && (
-          <span
-            className={`w-2 h-2 rounded-full ${badge === "green" ? "bg-green-500" : "bg-red-500"
-              }`}
-          />
-        )}
-        {value}
-      </span>
-    </div>
-  );
-}
 
 export default function ScreenInfoTool() {
   const [data, setData] = useState<ScreenData>(getScreenData);
@@ -77,57 +65,43 @@ export default function ScreenInfoTool() {
   }, []);
 
   return (
-    <div className="space-y-2">
-      {/* Headline stat */}
-      <Panel>
-        <div className="grid grid-cols-3 gap-4 text-center">
-          <div>
-            <p className="text-xs text-[var(--text-tertiary)]">Screen</p>
-            <p className="text-lg font-bold text(--text-primary) font-[family-name:var(--font-mono)] tabular-nums">
-              {data.screenWidth} x {data.screenHeight}
-            </p>
-          </div>
-          <div>
-            <p className="text-xs text-[var(--text-tertiary)]">Viewport</p>
-            <p className="text-lg font-bold text-[var(--color-primary-500)] font-[family-name:var(--font-mono)] tabular-nums">
-              {data.viewportWidth} x {data.viewportHeight}
-            </p>
-          </div>
-          <div>
-            <p className="text-xs text-[var(--text-tertiary)]">DPR</p>
-            <p className="text-lg font-bold text(--text-primary) font-[family-name:var(--font-mono)] tabular-nums">
-              {data.dpr}x
-            </p>
-          </div>
-        </div>
-      </Panel>
+    <Container>
+      <Container cols={3}>
+        <StatBox textSize="xl" label="Screen" value={`${data.screenWidth} x ${data.screenHeight}`} />
+        <StatBox textSize="xl" label="Viewport" value={`${data.viewportWidth} x ${data.viewportHeight}`} />
+        <StatBox textSize="xl" label="DPR" value={`${data.dpr}x`} />
+      </Container>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Panel>
-          <h3 className="text-sm font-semibold text(--text-primary) mb-3">Display</h3>
-          <div className="space-y-1.5">
-            <InfoRow label="Screen Resolution" value={`${data.screenWidth} x ${data.screenHeight}`} />
-            <InfoRow label="Viewport Size" value={`${data.viewportWidth} x ${data.viewportHeight}`} />
-            <InfoRow label="Device Pixel Ratio" value={`${data.dpr}x`} />
-            <InfoRow label="Color Depth" value={`${data.colorDepth}-bit`} />
-            <InfoRow label="Orientation" value={data.orientation} />
-            <InfoRow label="Color Scheme" value={data.colorScheme} />
-          </div>
-        </Panel>
+      <Container cols={2}>
+        <Box>
+          <Panel>
+            <Label>Display</Label>
+            <div className="space-y-1.5">
+              <ResultRow label="Screen Resolution" value={`${data.screenWidth} x ${data.screenHeight}`} />
+              <ResultRow label="Viewport Size" value={`${data.viewportWidth} x ${data.viewportHeight}`} />
+              <ResultRow label="Device Pixel Ratio" value={`${data.dpr}x`} />
+              <ResultRow label="Color Depth" value={`${data.colorDepth}-bit`} />
+              <ResultRow label="Orientation" value={data.orientation} />
+              <ResultRow label="Color Scheme" value={data.colorScheme} />
+            </div>
+          </Panel>
+        </Box>
 
-        <Panel>
-          <h3 className="text-sm font-semibold text(--text-primary) mb-3">Device & Browser</h3>
-          <div className="space-y-1.5">
-            <InfoRow label="Platform" value={data.platform} />
-            <InfoRow label="CPU Cores" value={data.hardwareConcurrency || "N/A"} />
-            <InfoRow label="Language" value={data.language} />
-            <InfoRow label="Touch Support" value={data.touchSupport ? "Yes" : "No"} badge={data.touchSupport ? "green" : "red"} />
-            <InfoRow label="Max Touch Points" value={data.maxTouchPoints} />
-            <InfoRow label="Cookies" value={data.cookiesEnabled ? "Enabled" : "Disabled"} badge={data.cookiesEnabled ? "green" : "red"} />
-            <InfoRow label="Online" value={data.onlineStatus ? "Yes" : "No"} badge={data.onlineStatus ? "green" : "red"} />
-          </div>
-        </Panel>
-      </div>
-    </div>
+        <Box>
+          <Panel>
+            <Label>Device & Browser</Label>
+            <div className="space-y-1.5">
+              <ResultRow label="Platform" value={data.platform} />
+              <ResultRow label="CPU Cores" value={`${data.hardwareConcurrency}`} />
+              <ResultRow label="Language" value={data.language} />
+              <ResultRow label="Touch Support" value={data.touchSupport ? "Yes" : "No"} />
+              <ResultRow label="Max Touch Points" value={`${data.maxTouchPoints}`} />
+              <ResultRow label="Cookies" value={data.cookiesEnabled ? "Enabled" : "Disabled"} />
+              <ResultRow label="Online" value={data.onlineStatus ? "Yes" : "No"} />
+            </div>
+          </Panel>
+        </Box>
+      </Container>
+    </Container>
   );
 }

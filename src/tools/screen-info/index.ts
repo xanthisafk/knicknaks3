@@ -3,20 +3,66 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Screen Info",
   slug: "screen-info",
-  description: "Get local screen info of device",
-  longDescription: "A vital diagnostic tool for frontend web developers and UI designers. Instantly view critical hardware and browser rendering metrics including raw Screen Resolution, active CSS Viewport width/height, Device Pixel Ratio (Retina scaling), Color Depth, and hardware concurrency threads. Values update live as you resize your browser window.",
+  description: "Check your screen resolution, viewport size, DPR, and device details instantly.",
   category: "dev",
   icon: "📱",
-  keywords: ["what is my screen resolution", "viewport size finder", "device pixel ratio detector", "monitor pixel density", "browser window size", "test retina screen", "detect screen depth"],
+  keywords: [
+    "what is my screen resolution",
+    "check screen size online",
+    "viewport size checker",
+    "device pixel ratio test",
+    "what is my screen size",
+    "browser window size tool",
+    "detect screen resolution",
+    "retina display checker",
+    "screen dimensions finder",
+    "display info tool"
+  ],
   tags: ["developer", "device"],
   component: () => import("./ScreenInfoTool"),
   capabilities: { supportsOffline: true },
+
   faq: [
-    { question: "What is the difference between Screen Resolution and Viewport Size?", answer: "Screen Resolution represents the total maximum physical pixels of your hardware monitor (e.g., 1920x1080). Viewport Size is the active, usable CSS space inside your web browser window, which shrinks if you leave full-screen mode or open sidebars." },
-    { question: "What does 'Device Pixel Ratio' (DPR) mean?", answer: "DPR is the ratio between physical hardware pixels and logical CSS pixels. Devices like Apple's Retina displays have a DPR of 2 or 3, meaning they pack 4 to 9 physical pixels into a single CSS pixel to render incredibly sharp text and images." }
+    {
+      question: "What is my screen resolution?",
+      answer: "Your screen resolution is the total number of physical pixels your display supports (e.g., 1920×1080). This tool detects it directly from your device."
+    },
+    {
+      question: "What is the difference between screen resolution and viewport size?",
+      answer: "Screen resolution is your display’s full pixel size. Viewport size is the visible area inside your browser window, which changes when you resize the window."
+    },
+    {
+      question: "What is Device Pixel Ratio (DPR)?",
+      answer: "DPR is the ratio of physical pixels to CSS pixels. A DPR of 2 means each CSS pixel uses 4 physical pixels, resulting in sharper visuals on high-density displays."
+    },
+    {
+      question: "Why does my viewport size change?",
+      answer: "Viewport size changes when you resize your browser window, open dev tools, or switch device orientation."
+    },
+    {
+      question: "Can I use this tool for responsive design testing?",
+      answer: "Yes. Developers commonly use viewport and DPR data to test layouts across different screen sizes and pixel densities."
+    },
+    {
+      question: "Does this tool work on mobile devices?",
+      answer: "Yes. It detects screen size, orientation, touch support, and DPR on smartphones and tablets."
+    },
+    {
+      question: "Is my data sent to a server?",
+      answer: "No. All data is read locally from your browser APIs and never transmitted."
+    },
+    {
+      question: "Does this tool work offline?",
+      answer: "Yes. Once loaded or installed as a PWA, it works fully offline."
+    }
   ],
-  howItWorks: "The tool queries your browser's native `window` and `screen` APIs upon loading. It displays the extracted data inside clean, organized cards. Try dragging the edges of your browser window to see the Viewport dimensions update instantly in real-time.",
+
+  howItWorks:
+    "The tool reads your device and browser data using built-in APIs like window, screen, and navigator. Values update in real time as you resize your browser or change device orientation.",
+
   relatedTools: ["user-agent-parser"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-24",
 };
