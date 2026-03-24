@@ -2,6 +2,7 @@
 import "@/styles/global.css";
 import "@/styles/doodles.css";
 import GlobalPalette from "@/components/layout/GlobalPalette";
+import { Toaster } from "@/components/ui/Toaster";
 
 interface Props {
   title: string;
@@ -128,6 +129,7 @@ if (isBlog) {
     <slot />
 
     <GlobalPalette client:load blogPosts={searchPosts} isBlog={isBlog} />
+    <Toaster client:load />
 
     <!-- Service Worker Registration -->
     <script is:inline>

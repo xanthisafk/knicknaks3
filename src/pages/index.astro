@@ -7,10 +7,10 @@ import {
   getFeaturedToolsForCategory,
   getCategoryMeta,
 } from "@/tools/_registry";
-import { CATEGORY_INFO } from "@/tools/_types";
 import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
 import ToolCard from "@/components/advanced/ToolCard.astro";
+import { ArrowDown } from "lucide-react";
 
 const allTools = getAllTools();
 const activeCategories = getActiveCategories();
@@ -75,90 +75,101 @@ const structuredData = {
               >
             </div>
           </div>
-        </div>
-      </section>
 
-      <hr class="doodle-divider max-w-full mx-auto" />
-
-      <!-- Category Previews -->
-      <section class="pb-16 md:pb-24" id="tools">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-          {
-            activeCategories.length > 0 ? (
-              activeCategories.map((category) => {
-                const info = getCategoryMeta(category);
-                const previewTools = getFeaturedToolsForCategory(category, 3);
-                const allCatTools = getToolsByCategory(category);
-                const totalCount = allCatTools.length;
-                return (
-                  <div
-                    class="mb-12 category-section"
-                    id={`category-${category}`}
-                    data-category={category}
-                  >
-                    <div class="mb-6">
-                      <a
-                        href={`/tools/${category}`}
-                        class="text-2xl font-bold flex items-center gap-2 no-underline hover:opacity-80 transition-opacity"
-                        style={`font-family: var(--font-heading); color: var(--text-primary)`}
-                      >
-                        <span class="font-emoji">{info.icon}</span>
-                        {info.label}
-                        <span
-                          class="text-sm font-normal"
-                          style="color: var(--text-tertiary)"
-                        >
-                          →
-                        </span>
-                      </a>
-                      <p
-                        class="text-sm mt-1"
-                        style="color: var(--text-secondary)"
-                      >
-                        {info.description}
-                      </p>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                      {previewTools.map((tool) => (
-                        <ToolCard tool={tool} previewOnly={true} />
-                      ))}
-                      {/* "View all" card */}
-                      {totalCount > 3 && (
-                        <a
-                          href={`/tools/${category}`}
-                          class="group flex flex-col items-center justify-center p-5 rounded-lg border border-dashed no-underline transition-colors"
-                          style="border-color: var(--border-default); color: var(--text-secondary); background: var(--surface-bg)"
-                        >
-                          <span class="text-3xl mb-2 font-emoji">
-                            {info.icon}
-                          </span>
-                          <span
-                            class="font-semibold text-sm"
-                            style="color: var(--text-primary)"
-                          >
-                            View all {totalCount} tools →
-                          </span>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <div class="text-center py-16">
-                <p class="text-4xl mb-4">🧰</p>
-                <p style="color: var(--text-secondary)">
-                  Tools are being crafted. Check back soon!
-                </p>
-              </div>
-            )
-          }
+          <a href="#tools" class="cursor-pointer">
+            <div class="mt-20 flex gap-2 flex-row items-center justify-center">
+              <ArrowDown
+                className="animate-bounce text-primary-500 translate-y-1"
+              />
+              <p class="font-heading uppercase text-(--text-tertiary)">
+                View tools
+              </p>
+            </div>
+          </a>
         </div>
       </section>
     </main>
 
-    <Footer />
+    <hr class="doodle-divider max-w-full mx-auto" />
+
+    <!-- Category Previews -->
+    <section class="pb-16 md:pb-24 scroll-mt-20" id="tools">
+      <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        {
+          activeCategories.length > 0 ? (
+            activeCategories.map((category) => {
+              const info = getCategoryMeta(category);
+              const previewTools = getFeaturedToolsForCategory(category, 3);
+              const allCatTools = getToolsByCategory(category);
+              const totalCount = allCatTools.length;
+              return (
+                <div
+                  class="mb-12 category-section"
+                  id={`category-${category}`}
+                  data-category={category}
+                >
+                  <div class="mb-6">
+                    <a
+                      href={`/tools/${category}`}
+                      class="text-2xl font-bold flex items-center gap-2 no-underline hover:opacity-80 transition-opacity"
+                      style={`font-family: var(--font-heading); color: var(--text-primary)`}
+                    >
+                      <span class="font-emoji">{info.icon}</span>
+                      {info.label}
+                      <span
+                        class="text-sm font-normal"
+                        style="color: var(--text-tertiary)"
+                      >
+                        →
+                      </span>
+                    </a>
+                    <p
+                      class="text-sm mt-1"
+                      style="color: var(--text-secondary)"
+                    >
+                      {info.description}
+                    </p>
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {previewTools.map((tool) => (
+                      <ToolCard tool={tool} previewOnly={true} />
+                    ))}
+                    {/* "View all" card */}
+                    {totalCount > 3 && (
+                      <a
+                        href={`/tools/${category}`}
+                        class="group flex flex-col items-center justify-center p-5 rounded-lg border border-dashed no-underline transition-colors"
+                        style="border-color: var(--border-default); color: var(--text-secondary); background: var(--surface-bg)"
+                      >
+                        <span class="text-3xl mb-2 font-emoji">
+                          {info.icon}
+                        </span>
+                        <span
+                          class="font-semibold text-sm"
+                          style="color: var(--text-primary)"
+                        >
+                          View all {totalCount} tools →
+                        </span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div class="text-center py-16">
+              <p class="text-4xl mb-4">🧰</p>
+              <p style="color: var(--text-secondary)">
+                Tools are being crafted. Check back soon!
+              </p>
+            </div>
+          )
+        }
+      </div>
+    </section>
   </div>
+
+  <Footer />
 </BaseLayout>
 
 <!-- Search hint: platform detection -->
