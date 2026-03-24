@@ -5,11 +5,10 @@ import { cn } from "@/lib/utils";
 interface BoxProps {
   children: ReactNode;
   className?: string;
-  as?: keyof HTMLElementTagNameMap;
 }
 
-export function Box({ children, className, as: Tag = "div" }: BoxProps) {
-  return <Tag className={className}>{children}</Tag>;
+export function Box({ children, className }: BoxProps) {
+  return <div className={className}>{children}</div>;
 }
 
 // ===== Container =====
