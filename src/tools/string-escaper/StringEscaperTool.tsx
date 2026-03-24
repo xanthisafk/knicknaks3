@@ -1,7 +1,10 @@
 import { useState, useMemo } from "react";
-import { Button, Textarea } from "@/components/ui";
+import { Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { toTitleCase } from "@/lib/utils";
+import { Box, Container } from "@/components/layout/Primitive";
+import { Tab, TabList, Tabs } from "@/components/ui/tab";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 
 type EscapeMode = "javascript" | "json" | "html" | "csv" | "sql";
 
@@ -83,7 +86,6 @@ export default function StringEscaperTool() {
   const [input, setInput] = useState("");
   const [mode, setMode] = useState<EscapeMode>("javascript");
   const [direction, setDirection] = useState<"escape" | "unescape">("escape");
-  const [copied, setCopied] = useState(false);
 
   const output = useMemo(() => {
     return direction === "escape"
@@ -91,72 +93,59 @@ export default function StringEscaperTool() {
       : unescapeString(input, mode);
   }, [input, mode, direction]);
 
-  const handleCopy = async () => {
-    if (await copyToClipboard(output)) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
 
   return (
-    <div className="space-y-2">
+    <Container>
       <Panel>
-        <div className="flex flex-wrap items-center gap-4">
-          <div className="flex gap-1 p-1 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
-            {(["escape", "unescape"] as const).map((d) => (
-              <button
-                key={d}
-                onClick={() => setDirection(d)}
-                className={`px-4 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-colors cursor-pointer ${direction === d
-                    ? "bg-[var(--surface-elevated)] text(--text-primary) shadow-sm"
-                    : "text-[var(--text-tertiary)] hover:text(--text-primary)"
-                  }`}
-              >
-                {d.charAt(0).toUpperCase() + d.slice(1)}
-              </button>
+        <Tabs value={direction} onValueChange={v => setDirection(v as "escape" | "unescape")}>
+          <TabList>
+            {["escape", "unescape"].map(d => (
+              <Tab key={d} value={d}>
+                {toTitleCase(d)}
+              </Tab>
             ))}
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {MODES.map((m) => (
-              <Button
-                key={m.id}
-                variant={mode === m.id ? "primary" : "secondary"}
-                size="sm"
-                onClick={() => setMode(m.id)}
-              >
-                {m.label}
-              </Button>
-            ))}
-          </div>
-        </div>
+          </TabList>
+        </Tabs>
       </Panel>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Panel>
-          <div className="space-y-3">
-            <label className="text-sm font-medium text(--text-primary)">Input</label>
+      <Container cols={2}>
+        <Box>
+          <Panel>
+            <Select
+              label="Mode"
+              value={mode} onValueChange={v => setMode(v as EscapeMode)}>
+              <SelectTrigger>
+                {MODES.find(m => m.id === mode)?.label}
+              </SelectTrigger>
+              <SelectContent>
+                {MODES.map(m => (
+                  <SelectItem key={m.id} value={m.id}>
+                    {m.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <Textarea
               value={input}
+              label="Input"
               onChange={(e) => setInput(e.target.value)}
               placeholder={`Enter string to ${direction}...`}
-              className="h-48 font-[family-name:var(--font-mono)] text-sm"
+              allowCopy={false}
+              handlePaste={setInput}
             />
-          </div>
-        </Panel>
-        <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Output</label>
-              {output && (
-                <Button size="sm" variant="ghost" onClick={handleCopy}>
-                  {copied ? "✓ Copied!" : "📋 Copy"}
-                </Button>
-              )}
-            </div>
-            <Textarea value={output} readOnly className="h-48 font-[family-name:var(--font-mono)] text-sm" />
-          </div>
-        </Panel>
-      </div>
-    </div>
+          </Panel>
+        </Box>
+        <Box>
+          <Panel>
+            <Textarea
+              value={output}
+              label="Output"
+              readOnly
+              allowCopy={true}
+            />
+          </Panel>
+        </Box>
+      </Container>
+    </Container>
+
   );
 }
