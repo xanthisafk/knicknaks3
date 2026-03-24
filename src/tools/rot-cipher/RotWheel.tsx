@@ -1,13 +1,9 @@
-import { Button } from "@/components/ui";
-import { Download } from "lucide-react";
 import { useEffect, useRef, useCallback, forwardRef, useImperativeHandle } from "react";
 
 // ─── types ────────────────────────────────────────────────────────────────────
 
 interface RotWheelProps {
-    /** Caesar-cipher shift amount (0–25). Values outside range are normalised. */
     shift: number;
-    /** Canvas display size in CSS pixels (default 420). */
     size?: number;
 }
 
@@ -168,7 +164,6 @@ function drawWheel(
     ctx.globalAlpha = 0.6;
 
     const watermarkText = "Knicknaks";
-    // vertical offset below center (tweak multiplier as needed)
     const offsetY = size * 0.05;
 
     ctx.fillText(
@@ -202,17 +197,14 @@ export const RotWheel = forwardRef<RotWheelHandle, RotWheelProps>(
         const containerRef = useRef<HTMLDivElement>(null);
         const sizeRef = useRef(0);
 
-        const norm = ((shift % 26) + 26) % 26;
-
         const render = useCallback(() => {
             const canvas = canvasRef.current;
             const size = sizeRef.current;
             if (!canvas || !size) return;
 
             drawWheel(canvas, shift, size, isDarkMode());
-        }, [norm]);
+        }, [shift]);
 
-        // 👇 track container size
         useEffect(() => {
             const el = containerRef.current;
             if (!el) return;
@@ -249,13 +241,13 @@ export const RotWheel = forwardRef<RotWheelHandle, RotWheelProps>(
 
         const handleDownload = useCallback(() => {
             const bigCanvas = document.createElement("canvas");
-            drawWheel(bigCanvas, norm, 2000, isDarkMode());
+            drawWheel(bigCanvas, shift, 2000, isDarkMode());
 
             const link = document.createElement("a");
-            link.download = `rot-${norm}-decoder-knicknaks.png`;
+            link.download = `rot-${shift}-decoder-knicknaks.png`;
             link.href = bigCanvas.toDataURL("image/png");
             link.click();
-        }, [norm]);
+        }, [shift]);
 
         useImperativeHandle(ref, () => ({
             download: handleDownload,

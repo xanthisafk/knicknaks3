@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { Input, Textarea } from "@/components/ui";
+import { useRef, useState } from "react";
+import { Button, Input, Label, Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { Container, Box } from "@/components/layout/Primitive";
+import { RotWheel, type RotWheelHandle } from "./RotWheel";
+import { Download } from "lucide-react";
 
 function rotN(text: string, shift: number): string {
   const n = ((shift % 26) + 26) % 26;
@@ -15,6 +17,7 @@ export default function RotCipherTool() {
   const [input, setInput] = useState("");
   const [shift, setShift] = useState(13);
   const [output, setOutput] = useState("");
+  const wheelRef = useRef<RotWheelHandle>(null);
 
   const handleInputChange = (text: string) => {
     setInput(text);
@@ -24,6 +27,10 @@ export default function RotCipherTool() {
   const handleShiftChange = (n: number) => {
     setShift(n);
     setOutput(rotN(input, n));
+  };
+
+  const downloadWheel = () => {
+    wheelRef.current?.download();
   };
 
 
@@ -47,9 +54,11 @@ export default function RotCipherTool() {
               let n = parseInt(e.target.value);
               if (isNaN(n)) return;
               if (n < 1) n = 1;
+              if (n > 9999) n = 9999;
               handleShiftChange(n);
             }}
             min={1}
+            max={9999}
             step={1}
           />
         </Panel>
@@ -62,6 +71,13 @@ export default function RotCipherTool() {
             readOnly
             placeholder="Ciphered text will appear here..."
           />
+        </Panel>
+        <Panel>
+          <div className="flex items-center justify-between">
+            <Label>Reference</Label>
+            <Button variant="ghost" icon={Download} onClick={() => downloadWheel()} />
+          </div>
+          <RotWheel shift={shift} ref={wheelRef} />
         </Panel>
       </Box>
     </Container>
