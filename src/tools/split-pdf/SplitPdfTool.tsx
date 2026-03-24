@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { Button, Input } from "@/components/ui";
+import { Button, FileInfoBar, Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { PdfDropZone } from "@/components/advanced/PdfDropZone";
 import { PDFDocument } from "pdf-lib";
 import { downloadPdf, formatFileSize } from "@/tools/_pdf-utils";
+import FileDropZone from "@/components/advanced/FileDropZone";
+import { useToast } from "@/hooks/useToast";
+import { Container } from "@/components/layout/Primitive";
+import { Split } from "lucide-react";
 
 /** Parse page ranges like "1,3,5-8" into zero-indexed array */
 function parsePageRanges(input: string, maxPages: number): number[] {
@@ -33,20 +36,22 @@ export default function SplitPdfTool() {
   const [rangeInput, setRangeInput] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState("");
+  const toast = useToast();
 
-  const handleFile = async (files: File[]) => {
-    const f = files[0];
-    if (!f) return;
-    setFile(f);
+  const handleFile = async (file: File) => {
+    if (!file) return;
+    setFile(file);
     setStatus("");
     try {
-      const buffer = await f.arrayBuffer();
+      const buffer = await file.arrayBuffer();
       const pdf = await PDFDocument.load(buffer, { ignoreEncryption: true });
       const count = pdf.getPageCount();
       setPageCount(count);
       setRangeInput(`1-${count}`);
     } catch {
-      setStatus("Error: Could not read PDF.");
+      const msg = "Could not read PDF."
+      setStatus(`Error: ${msg}`);
+      toast.error(msg, 10);
     }
   };
 
@@ -54,7 +59,9 @@ export default function SplitPdfTool() {
     if (!file || !rangeInput.trim()) return;
     const indices = parsePageRanges(rangeInput, pageCount);
     if (indices.length === 0) {
-      setStatus("No valid pages selected.");
+      const msg = "No valid pages selected.";
+      setStatus(`Error: ${msg}`);
+      toast.error(msg, 10);
       return;
     }
 
@@ -69,63 +76,56 @@ export default function SplitPdfTool() {
       pages.forEach((page) => dest.addPage(page));
       const bytes = await dest.save();
       downloadPdf(bytes, `split_${file.name}`);
-      setStatus(`✓ Extracted ${indices.length} page${indices.length > 1 ? "s" : ""} successfully!`);
+      const msg = `Extracted ${indices.length} page${indices.length > 1 ? "s" : ""} successfully!`;
+      setStatus(msg);
+      toast.success(msg, 10);
     } catch (err) {
-      setStatus(`Error: ${err instanceof Error ? err.message : "Failed to split"}`);
+      const msg = err instanceof Error ? err.message : "Failed to split";
+      setStatus(`Error: ${msg}`);
+      toast.error(msg, 10);
     } finally {
       setIsProcessing(false);
     }
   };
 
+  const reset = () => {
+    setFile(null);
+    setPageCount(0);
+    setRangeInput("");
+    setStatus("");
+  }
+
   return (
-    <div className="space-y-2">
-      <Panel>
-        {!file ? (
-          <PdfDropZone onFiles={handleFile} />
-        ) : (
-          <div className="space-y-4">
-            <div className="flex items-center gap-3 px-3 py-2 rounded-md bg-(--surface-secondary) border border-(--border-default)">
-              <span>📄</span>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text(--text-primary) truncate">{file.name}</p>
-                <p className="text-xs text-(--text-tertiary)">{formatFileSize(file.size)} · {pageCount} pages</p>
-              </div>
-              <button
-                onClick={() => { setFile(null); setPageCount(0); setRangeInput(""); setStatus(""); }}
-                className="text-xs text-(--text-tertiary) hover:text-(--color-error) transition-colors cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
-
-            <Input
-              label="Page Ranges"
-              value={rangeInput}
-              onChange={(e) => setRangeInput(e.target.value)}
-              placeholder="e.g. 1-3, 5, 7-10"
-              helperText={`Enter page numbers or ranges. Total pages: ${pageCount}`}
-            />
-          </div>
-        )}
-      </Panel>
-
-      {file && (
-        <Panel>
-          <div className="flex items-center gap-4">
-            <Button onClick={handleExtract} disabled={isProcessing || !rangeInput.trim()}>
-              {isProcessing ? "Extracting..." : "Extract Pages"}
-            </Button>
-            <Button variant="ghost" onClick={() => { setFile(null); setPageCount(0); setRangeInput(""); setStatus(""); }}>
-              Choose Another File
-            </Button>
-          </div>
+    <Container>
+      {!file ? (
+        <FileDropZone accepts=".pdf" emoji="📄" onUpload={f => handleFile(f.file)} />
+      ) : (
+        <Panel className="space-y-3">
+          <FileInfoBar
+            fileName={file.name}
+            fileSize={formatFileSize(file.size)}
+            text={`${pageCount} pages`}
+            onReset={reset}
+          />
+          <Input
+            label="Page Ranges"
+            value={rangeInput}
+            onChange={(e) => setRangeInput(e.target.value)}
+            placeholder="e.g. 1-3, 5, 7-10"
+            helperText={`Enter page numbers or ranges. Total pages: ${pageCount}`}
+          />
+          <Button onClick={handleExtract}
+            icon={Split}
+            disabled={isProcessing || !rangeInput.trim()}>
+            {isProcessing ? "Splitting..." : "Split PDF"}
+          </Button>
           {status && (
-            <p className={`mt-3 text-sm ${status.startsWith("Error") ? "text-(--color-error)" : "text(--text-secondary)"}`}>
-              {status}
-            </p>
+            status.startsWith("Error")
+              ? <Label variant="danger">{status}</Label>
+              : <Label variant="success">{status}</Label>
           )}
         </Panel>
       )}
-    </div>
+    </Container>
   );
 }

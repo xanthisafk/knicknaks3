@@ -3,13 +3,21 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Split PDF",
   slug: "split-pdf",
-  description: "Split a large PDF into smaller ones",
-  longDescription:
-    "Divide massive PDF documents into smaller, manageable files without relying on external cloud servers. Upload your PDF and specify exactly which pages or page ranges you wish to extract. " +
-    "You can save the precise selection as one new merged PDF, or explode it into a ZIP file of individual pages. Completely private and powered by local WebAssembly.",
+  description: "Split PDF pages or extract specific page ranges instantly in your browser.",
   category: "pdf",
   icon: "✂️",
-  keywords: ["split pdf online", "extract pdf pages", "divide pdf file", "cut pdf pages", "separate pdf pages online", "save one page from pdf", "local pdf splitter"],
+  keywords: [
+    "split pdf",
+    "split pdf online free",
+    "extract pages from pdf",
+    "separate pdf pages",
+    "cut pdf file",
+    "pdf page extractor",
+    "save specific pages from pdf",
+    "divide pdf into pages",
+    "pdf splitter browser",
+    "offline pdf splitter"
+  ],
   tags: ["pdf", "split"],
 
   component: () => import("./SplitPdfTool"),
@@ -21,19 +29,45 @@ export const definition: ToolDefinition = {
 
   faq: [
     {
-      question: "Can I extract non-consecutive pages?",
-      answer: "Yes! Enter comma-separated page formats or ranges like '1, 3, 5-8' to quickly cherry-pick specific pages from a long document.",
+      question: "How do I split a PDF file?",
+      answer: "Upload your PDF, enter the page numbers or ranges (e.g., 1-3, 5, 7-10), then click split to download a new file with only those pages."
     },
     {
-      question: "Is there a file size limit for splitting?",
-      answer: "Because the parsing is performed entirely by your computer's RAM rather than a remote server, limits depend entirely on your local hardware. Most modern browsers can easily split 100MB+ documents in seconds."
+      question: "Can I extract specific pages from a PDF?",
+      answer: "Yes. You can select individual pages or ranges using formats like '2, 4, 6-9' to extract exactly what you need."
+    },
+    {
+      question: "Can I split non-consecutive pages?",
+      answer: "Yes. The tool supports mixed input like '1, 3, 5-8', allowing flexible page selection."
+    },
+    {
+      question: "Will splitting a PDF reduce quality?",
+      answer: "No. Pages are copied directly without re-encoding, so all text, images, and formatting remain unchanged."
+    },
+    {
+      question: "Is this PDF splitter secure?",
+      answer: "Yes. All processing happens locally in your browser. Your files are never uploaded or stored."
+    },
+    {
+      question: "Does this tool work offline?",
+      answer: "Yes. After installing as a PWA, you can split PDFs completely offline."
+    },
+    {
+      question: "Is there a file size limit?",
+      answer: "Limits depend on your device's memory and browser performance. Most modern systems handle large PDFs (100MB+) without issues."
+    },
+    {
+      question: "Can I split a PDF into individual pages?",
+      answer: "Yes. Enter a full range like '1-100' and export selected pages, or run multiple splits to isolate single pages."
     }
   ],
 
   howItWorks:
-    "Upload the master PDF. Enter the precise page numbers you want to extract into the input field (e.g., '1-3, 5, 7-10'). Choose whether to bundle the output as a single new PDF or export them individually, then click 'Extract'.",
+    "Upload your PDF, enter page ranges like '1-3, 5, 7-10', and download a new file containing only those pages. Everything runs locally in your browser for speed and privacy.",
 
-  relatedTools: ["merge-pdf", "rotate-pdf", "delete-pdf-pages"],
+  relatedTools: ["merge-pdf"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-25",
 };
