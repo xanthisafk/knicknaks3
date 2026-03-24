@@ -1,7 +1,9 @@
 import { useState, useMemo } from "react";
-import { Input } from "@/components/ui";
+import { Button, CopyButton, Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { cn, copyToClipboard } from "@/lib/utils";
+import { Download, Search } from "lucide-react";
+import { Box, Container } from "@/components/layout/Primitive";
 
 // Tailwind v3 color palette
 const COLORS: Record<string, Record<string, string>> = {
@@ -31,13 +33,66 @@ const COLORS: Record<string, Record<string, string>> = {
 
 const SHADES = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"];
 
-function isLightColor(hex: string): boolean {
-  const c = hex.replace("#", "");
-  const r = parseInt(c.slice(0, 2), 16);
-  const g = parseInt(c.slice(2, 4), 16);
-  const b = parseInt(c.slice(4, 6), 16);
-  return (0.299 * r + 0.587 * g + 0.114 * b) > 150;
+const jsonToCss = (json: any, name: string) => {
+  const vars = Object.entries(json).map(([key, value]) => {
+    return `--${name}-${key}: ${value};`;
+  }).join("\n");
+  return `:root {
+    ${vars}
+  }`;
 }
+
+const saveAsImage = async (json: Record<string, string>, name: string) => {
+
+  const W = 2000;
+  const swatchCount = SHADES.length;
+  const swatchW = W / swatchCount;
+  const swatchH = Math.round(swatchW * 3);
+  const labelH = 80;
+  const H = swatchH + labelH;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d")!;
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, W, H);
+
+  SHADES.forEach((shade, i) => {
+    const hex = json[shade];
+    if (!hex) return;
+    const x = i * swatchW;
+
+    ctx.fillStyle = hex;
+    ctx.fillRect(x, 0, swatchW, swatchH);
+
+    ctx.font = `500 ${Math.round(swatchW * 0.115)}px Inter`;
+    ctx.fillStyle = "#111827";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "alphabetic";
+    ctx.fillText(`${name}-${shade}`, x + swatchW / 2, swatchH + Math.round(labelH * 0.42));
+
+    ctx.font = `400 ${Math.round(swatchW * 0.10)}px "JetBrains Mono"`;
+    ctx.fillStyle = "#6b7280";
+    ctx.textAlign = "center";
+    ctx.fillText(hex.toUpperCase(), x + swatchW / 2, swatchH + Math.round(labelH * 0.78));
+  });
+
+  ctx.font = `${Math.round(swatchW * 0.085)}px "Gloria Hallelujah"`;
+  ctx.fillStyle = "rgba(0,0,0,0.60)";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
+  const text = "knicknaks";
+  const textWidth = ctx.measureText(text).width;
+  const w = (swatchW - textWidth) / 2;
+  ctx.fillText(text, w, 30);
+
+  const link = document.createElement("a");
+  link.download = `${name}-palette-knicknaks.png`;
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+};
 
 export default function TailwindColorsTool() {
   const [search, setSearch] = useState("");
@@ -49,33 +104,44 @@ export default function TailwindColorsTool() {
   }, [search]);
 
   return (
-    <div className="space-y-2">
+    <Container>
       <Panel>
-        <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search colors (e.g. blue, red...)" />
+        <Input
+          leadingIcon={Search}
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Search colors (e.g. blue, red...)" />
       </Panel>
 
-      <div className="space-y-6">
+      <Box>
         {filtered.map(([name, shades]) => (
           <Panel key={name}>
-            <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">{name}</h3>
+            <div className="flex items-center justify-between">
+              <Label>{name}</Label>
+              <div className="flex items-center gap-2">
+                <CopyButton text={jsonToCss(shades, name)} />
+                <Button variant="ghost" size="xs" icon={Download} onClick={() => saveAsImage(shades, name)} />
+              </div>
+            </div>
             <div className="grid grid-cols-11 gap-1.5">
               {SHADES.map(shade => {
                 const hex = shades[shade];
                 if (!hex) return null;
                 const id = `${name}-${shade}`;
-                const textColor = isLightColor(hex) ? "#1a1a1a" : "#ffffff";
                 return (
                   <div key={shade} className="group relative">
                     <button
                       onClick={async () => { await copyToClipboard(hex); setCopied(id); setTimeout(() => setCopied(null), 1500); }}
-                      className="w-full aspect-square rounded-[var(--radius-md)] cursor-pointer transition-all duration-200 hover:scale-110 hover:shadow-lg hover:z-10 relative border border-black/5 dark:border-white/5"
+                      className={cn(
+                        "w-full aspect-square rounded-md cursor-pointer transition-all duration-200 hover:scale-110 hover:shadow-lg hover:z-10 relative border border-black/5 dark:border-white/5"
+                      )}
                       style={{ backgroundColor: hex }}
                       title={`${name}-${shade}: ${hex}`}
                     />
                     <div className="text-center mt-1">
-                      <span className="text-[9px] font-medium text-[var(--text-tertiary)]">{shade}</span>
+                      <Label>{shade}</Label>
                     </div>
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-[var(--surface-elevated)] border border-[var(--border-default)] rounded-[var(--radius-md)] px-2 py-1 text-xs font-mono text-[var(--text-primary)] whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-20 shadow-lg">
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-(--surface-elevated) border border-(--border-default) rounded-md px-2 py-1 text-xs font-mono text-(--text-primary) whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-20 shadow-lg">
                       {copied === id ? "✓ Copied!" : hex.toUpperCase()}
                     </div>
                   </div>
@@ -84,7 +150,7 @@ export default function TailwindColorsTool() {
             </div>
           </Panel>
         ))}
-      </div>
-    </div>
+      </Box>
+    </Container>
   );
 }

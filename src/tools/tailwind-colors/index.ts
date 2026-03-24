@@ -1,23 +1,68 @@
 import type { ToolDefinition } from "@/tools/_types";
 
 export const definition: ToolDefinition = {
-  name: "Tailwind Color Reference",
+  name: "Tailwind Color Palette",
   slug: "tailwind-colors",
-  description: "Searchable reference cheat sheet for all Tailwind CSS",
-  longDescription: "Speed up your web design workflow with our interactive Tailwind Color Reference. Instantly browse, search, and copy hex codes or utility class names for every single color swatch in the official Tailwind CSS default palette. Supports both legacy v3 and the latest v4 design systems.",
+  description: "Browse and copy Tailwind CSS color palette with hex codes and shades.",
   category: "color",
   icon: "🐦",
-  keywords: ["tailwind color palette", "tailwind hex codes", "tailwind css colors", "tailwind v4 palette", "copy tailwind classes", "tailwind color shades", "tailwind slate zinc"],
+  keywords: [
+    "tailwind colors",
+    "tailwind color palette",
+    "tailwind hex codes",
+    "tailwind css colors list",
+    "tailwind color shades",
+    "tailwind colors chart",
+    "tailwind palette generator",
+    "copy tailwind colors",
+    "tailwind slate zinc colors",
+    "tailwind color reference"
+  ],
   tags: ["design", "css", "tailwind", "reference"],
   component: () => import("./TailwindColorsTool"),
   capabilities: { supportsOffline: true, supportsClipboard: true },
+
   faq: [
-    { question: "Which numeric shades are included?", answer: "The tool includes every standard shade from 50 (lightest) to 950 (darkest) for all color families natively provided by the framework." },
-    { question: "Can I use this for Tailwind v4?", answer: "Yes! Use the toggle at the top of the interface to seamlessly switch between the classic version 3 palette and the slightly updated version 4 color scheme." },
-    { question: "How do I use this?", answer: "Simply find the color you like (e.g., 'emerald-500'). Clicking the swatch will instantly copy its raw HEX value (e.g., '#10b981') or its CSS utility class name directly to your clipboard." }
+    {
+      question: "What colors are included in Tailwind CSS?",
+      answer: "This tool includes all default Tailwind color families like slate, gray, zinc, red, blue, green, and more, each with shades from 50 to 950."
+    },
+    {
+      question: "What do Tailwind color shades mean?",
+      answer: "Shades range from 50 (lightest) to 950 (darkest). Lower numbers are softer tints, while higher numbers are deeper, more saturated tones."
+    },
+    {
+      question: "How do I copy Tailwind color hex codes?",
+      answer: "Click any color swatch to instantly copy its HEX value to your clipboard."
+    },
+    {
+      question: "Can I export Tailwind colors as CSS variables?",
+      answer: "Yes. Use the copy button to generate a full set of CSS variables for any color family."
+    },
+    {
+      question: "Can I download the color palette?",
+      answer: "Yes. You can export each color family as an image for design reference or sharing."
+    },
+    {
+      question: "Is this tool useful for designers?",
+      answer: "Yes. It provides a visual color scale for each palette, making it easy to pick consistent shades for UI design systems."
+    },
+    {
+      question: "Does this tool work offline?",
+      answer: "Yes. Once loaded or installed as a PWA, you can browse and copy colors offline."
+    },
+    {
+      question: "Are these official Tailwind colors?",
+      answer: "Yes. The palette matches the default Tailwind CSS color system."
+    }
   ],
-  howItWorks: "Scroll through the categorized visual swatches or use the search bar to find a specific color family like 'blue' or 'slate'. Click the toggle to switch between v3 and v4, and click any color block to copy its details.",
+
+  howItWorks:
+    "Search for a color family, browse all shades from 50 to 950, click any swatch to copy its hex code, or export the palette as CSS variables or an image. Runs entirely in your browser.",
+
   relatedTools: ["color-converter", "palette-generator", "gradient-maker"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-25",
 };
