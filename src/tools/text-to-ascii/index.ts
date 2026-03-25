@@ -1,23 +1,68 @@
 import type { ToolDefinition } from "@/tools/_types";
 
 export const definition: ToolDefinition = {
-  name: "Text to ASCII Codes",
+  name: "Text to ASCII Converter",
   slug: "text-to-ascii",
-  description: "Translate text characters to and from ASCII and Unicode",
-  longDescription: "Dive into the fundamental mathematical representation of typography. Our bidirectional Text-to-ASCII tool instantly maps standard alphabetical strings into their underlying decimal numerical codes. It effectively supports the classic 128-character ASCII table, but extends seamlessly into full Unicode map points (supporting complex symbols and emojis).",
+  description: "Convert text to ASCII codes in decimal, hex, octal, or binary.",
   category: "encoders",
   icon: "🔤",
-  keywords: ["text to ascii converter", "ascii code translator", "unicode code point finder", "decimal string encoder", "ascii values of letters", "decode ascii string", "char code converter"],
+  keywords: [
+    "text to ascii",
+    "ascii converter",
+    "ascii code generator",
+    "string to ascii codes",
+    "character code converter",
+    "text to hex ascii",
+    "ascii table lookup",
+    "unicode to ascii numbers",
+    "char code tool",
+    "ascii values of characters"
+  ],
   tags: ["encoding", "developer"],
   component: () => import("./TextToAsciiTool"),
   capabilities: { supportsOffline: true, supportsClipboard: true },
+
   faq: [
-    { question: "What is the difference between ASCII and Unicode here?", answer: "The classic ASCII standard only covers basic characters numbered 0-127 (like 'A' which is 65). This tool actually uses Modern Javascript, which renders the full Unicode standard, allowing it to accurately generate decimal codes for emojis and foreign characters." },
-    { question: "What separator is used for the output?", answer: "By default, the tool outputs a clean, space-separated sequence of decimal numbers to ensure readability. You can change this format in the options if needed." },
-    { question: "How do I decode numbers back to text?", answer: "Simply toggle the tool to 'Decode', and paste your space-separated list of numerical digits. Assuming they are valid unicode points, the english text will immediately appear." }
+    {
+      question: "How do I convert text to ASCII codes?",
+      answer: "Enter your text and the tool instantly converts each character into its numeric ASCII (or Unicode) representation."
+    },
+    {
+      question: "What formats are supported?",
+      answer: "You can view character codes in decimal, hexadecimal, octal, or binary formats."
+    },
+    {
+      question: "What is the difference between ASCII and Unicode?",
+      answer: "ASCII covers basic characters (0–127), while Unicode extends this to support thousands of global characters. This tool uses Unicode code points, so it works with emojis and non-English text."
+    },
+    {
+      question: "What does each number represent?",
+      answer: "Each number corresponds to a character’s code point—its internal numeric representation used by computers."
+    },
+    {
+      question: "Can I see a character-by-character breakdown?",
+      answer: "Yes. The tool includes a table showing each character alongside its decimal, hex, octal, and binary values."
+    },
+    {
+      question: "Is this tool useful for developers?",
+      answer: "Yes. It’s commonly used for debugging encoding issues, learning character codes, and working with low-level text formats."
+    },
+    {
+      question: "Does this tool work offline?",
+      answer: "Yes. Once loaded or installed as a PWA, it works entirely offline."
+    },
+    {
+      question: "Is my data private?",
+      answer: "Yes. All conversions happen locally in your browser with no data sent to a server."
+    }
   ],
-  howItWorks: "Enter standard text into the box to see its raw numerical representation updated live. To reverse the process, change the mode and enter a sequence of delimited digits to spawn the corresponding textual characters.",
-  relatedTools: ["text-to-hex", "unicode-inspector"],
+
+  howItWorks:
+    "Enter text, choose a format like decimal, hex, octal, or binary, and instantly see each character converted into its numeric code. Includes a detailed character table for reference.",
+
+  relatedTools: ["unicode-inspector"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-26",
 };

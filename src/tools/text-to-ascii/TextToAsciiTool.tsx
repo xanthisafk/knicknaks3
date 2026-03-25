@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { Textarea, Button, Input } from "@/components/ui";
+import { Textarea, Label, ExpectContent } from "@/components/ui";
 import { Panel } from "@/components/layout";
+import { Box, Container } from "@/components/layout/Primitive";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 type DisplayFormat = "decimal" | "hex" | "octal" | "binary";
 
@@ -19,20 +22,6 @@ function textToAscii(text: string, format: DisplayFormat): string {
     .join("  ");
 }
 
-function asciiToText(raw: string): string {
-  const tokens = raw.trim().split(/\s+/);
-  return tokens
-    .map((t) => {
-      let code: number;
-      if (/^0x/i.test(t)) code = parseInt(t, 16);
-      else if (/^0o/i.test(t)) code = parseInt(t.slice(2), 8);
-      else if (/^[01]{8}$/.test(t)) code = parseInt(t, 2);
-      else code = parseInt(t, 10);
-      return isNaN(code) ? "" : String.fromCharCode(code);
-    })
-    .join("");
-}
-
 const FORMAT_LABELS: { value: DisplayFormat; label: string }[] = [
   { value: "decimal", label: "Dec" },
   { value: "hex", label: "Hex" },
@@ -43,23 +32,9 @@ const FORMAT_LABELS: { value: DisplayFormat; label: string }[] = [
 export default function TextToAsciiTool() {
   const [text, setText] = useState("");
   const [format, setFormat] = useState<DisplayFormat>("decimal");
-  const [copied, setCopied] = useState(false);
 
   const output = text ? textToAscii(text, format) : "";
 
-  const handleOutputChange = (val: string) => {
-    setText(asciiToText(val));
-  };
-
-  const handleCopy = () => {
-    if (!output) return;
-    navigator.clipboard.writeText(output).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
-  };
-
-  const charCount = text.length;
   const rows = text
     ? text.split("").map((ch) => ({
       char: ch === " " ? "·" : ch === "\n" ? "↵" : ch,
@@ -71,115 +46,75 @@ export default function TextToAsciiTool() {
     : [];
 
   return (
-    <div className="space-y-2">
-      <Panel>
-        <div className="space-y-5">
-          {/* Input */}
-          <div>
-            <label className="text-sm font-medium text-[var(--text-primary)] block mb-2">
-              Text Input
-            </label>
+    <Container>
+      <Container cols={2}>
+        <Box>
+          <Panel>
             <Textarea
+              label="Text Input"
               value={text}
               onChange={(e) => setText(e.target.value)}
+              handlePaste={setText}
               placeholder="Type something to convert to ASCII codes..."
-              className="min-h-[100px]"
             />
-          </div>
-
-          {/* Format selector */}
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Number Format</label>
-            <div className="flex rounded-[var(--radius-md)] overflow-hidden border border-[var(--border-default)] w-fit">
-              {FORMAT_LABELS.map(({ value, label }) => (
-                <button
-                  key={value}
-                  onClick={() => setFormat(value)}
-                  className={`px-4 py-2 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors ${format === value
-                    ? "bg-[var(--color-primary-500)] text-white"
-                    : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                    }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Output */}
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <label className="text-sm font-medium text-[var(--text-primary)]">
-                ASCII Output
-                {charCount > 0 && (
-                  <span className="ml-2 text-xs text-[var(--text-tertiary)] font-normal">
-                    {charCount} character{charCount !== 1 ? "s" : ""}
-                  </span>
-                )}
-              </label>
-              <Button
-                variant="secondary"
-                className="px-4 py-1.5 text-sm"
-                onClick={handleCopy}
-                disabled={!output}
-              >
-                {copied ? "✓ Copied" : "Copy"}
-              </Button>
-            </div>
-            <Textarea
-              value={output}
-              onChange={(e) => handleOutputChange(e.target.value)}
-              placeholder="ASCII codes appear here..."
-              className="min-h-[80px] font-mono text-sm tracking-wide"
-            />
-          </div>
-        </div>
-      </Panel>
-
-      {/* Character table */}
-      {rows.length > 0 && rows.length <= 80 && (
-        <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">
-            Character Table
-          </h3>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm font-mono">
-              <thead>
-                <tr className="text-[var(--text-tertiary)] text-xs border-b border-[var(--border-default)]">
-                  <th className="text-left py-2 pr-6">Char</th>
-                  <th className="text-left py-2 pr-6">Dec</th>
-                  <th className="text-left py-2 pr-6">Hex</th>
-                  <th className="text-left py-2 pr-6">Oct</th>
-                  <th className="text-left py-2">Bin</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((row, i) => (
-                  <tr
-                    key={i}
-                    className="border-b border-[var(--border-subtle)] hover:bg-[var(--surface-hover)] transition-colors"
-                  >
-                    <td className="py-1.5 pr-6 text-[var(--color-primary-500)] font-bold">{row.char}</td>
-                    <td className="py-1.5 pr-6 text-[var(--text-primary)]">{row.decimal}</td>
-                    <td className="py-1.5 pr-6 text-[var(--text-secondary)]">{row.hex}</td>
-                    <td className="py-1.5 pr-6 text-[var(--text-secondary)]">{row.octal}</td>
-                    <td className="py-1.5 text-[var(--text-tertiary)]">{row.binary}</td>
-                  </tr>
+            <Select
+              label="Format"
+              value={format}
+              onValueChange={v => setFormat(v as DisplayFormat)}
+            >
+              <SelectTrigger>
+                {FORMAT_LABELS.find(f => f.value === format)?.label}
+              </SelectTrigger>
+              <SelectContent>
+                {FORMAT_LABELS.map(({ value, label }) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </Panel>
-      )}
+              </SelectContent>
+            </Select>
+          </Panel>
+        </Box>
 
-      <Panel>
-        <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">Tips</h3>
-        <ul className="text-sm text-[var(--text-secondary)] space-y-2 list-disc list-inside">
-          <li>Switch between Decimal, Hex, Octal, and Binary formats.</li>
-          <li>You can also paste ASCII codes into the output field to decode back to text.</li>
-          <li>The character table shows all four formats side-by-side (up to 80 chars).</li>
-        </ul>
-      </Panel>
-    </div>
+        <Panel>
+          {output ? <Textarea
+            label="ASCII Output"
+            value={output}
+            readOnly
+            placeholder="ASCII codes appear here..."
+            rows={11}
+          /> : <ExpectContent text="ASCII codes will show up here" emoji="≽^•⩊•^≼" />}
+
+        </Panel>
+
+      </Container>
+      {rows.length > 0 && rows.length <= 80 && <Box>
+        <Panel>
+          <Label>Character Table</Label>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Character</TableHead>
+                <TableHead>Decimal</TableHead>
+                <TableHead>Hex</TableHead>
+                <TableHead>Octal</TableHead>
+                <TableHead>Binary</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {rows.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row.char}</TableCell>
+                  <TableCell>{row.decimal}</TableCell>
+                  <TableCell>{row.hex}</TableCell>
+                  <TableCell>{row.octal}</TableCell>
+                  <TableCell>{row.binary}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Panel>
+      </Box>}
+    </Container>
   );
 }
