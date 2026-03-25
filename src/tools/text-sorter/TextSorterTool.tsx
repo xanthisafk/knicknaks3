@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Button, Textarea } from "@/components/ui";
+import { ExpectContent, Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { Container } from "@/components/layout/Primitive";
 
 type SortMode = "alpha-asc" | "alpha-desc" | "length-asc" | "length-desc" | "numeric" | "random";
 
@@ -11,7 +12,7 @@ const SORT_OPTIONS: { id: SortMode; label: string }[] = [
   { id: "length-asc", label: "Short → Long" },
   { id: "length-desc", label: "Long → Short" },
   { id: "numeric", label: "Numeric" },
-  { id: "random", label: "🎲 Shuffle" },
+  { id: "random", label: "Shuffle" },
 ];
 
 function sortLines(text: string, mode: SortMode): string {
@@ -46,68 +47,58 @@ export default function TextSorterTool() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("alpha-asc");
-  const [copied, setCopied] = useState(false);
 
   const handleSort = (mode: SortMode) => {
     setSortMode(mode);
     setOutput(sortLines(input, mode));
   };
 
-  const lineCount = input ? input.split("\n").length : 0;
+  const handleInput = (text: string) => {
+    setInput(text);
+    setOutput(sortLines(text, sortMode));
+  }
 
-  const handleCopy = async () => {
-    if (await copyToClipboard(output)) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
 
   return (
-    <div className="space-y-2">
+    <Container cols={2}>
       <Panel>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text(--text-primary)">Input Lines</label>
-            <span className="text-xs text-[var(--text-tertiary)]">{lineCount} lines</span>
-          </div>
+        <Textarea
+          label="Input Lines"
+          value={input}
+          onChange={(e) => handleInput(e.target.value)}
+          placeholder={"banana\napple\ncherry\ndate"}
+          handlePaste={handleInput}
+        />
+        <Select
+          label="Mode"
+          value={sortMode}
+          onValueChange={v => handleSort(v as SortMode)}
+        >
+          <SelectTrigger>
+            {SORT_OPTIONS.find(opt => opt.id === sortMode)?.label}
+          </SelectTrigger>
+          <SelectContent>
+            {SORT_OPTIONS.map((opt) => (
+              <SelectItem key={opt.id} value={opt.id}>
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </Panel>
+
+
+      <Panel>
+        {output ? (
           <Textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder={"banana\napple\ncherry\ndate"}
-            className="h-48 text-sm"
+            label="Output"
+            value={output}
+            rows={11}
+            readOnly
           />
-        </div>
+        ) : <ExpectContent text="Results will show up here" emoji="🧙‍♀️" />}
       </Panel>
 
-      <Panel>
-        <label className="text-sm font-medium text(--text-primary) mb-3 block">Sort by</label>
-        <div className="flex flex-wrap gap-2">
-          {SORT_OPTIONS.map((opt) => (
-            <Button
-              key={opt.id}
-              variant={sortMode === opt.id ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => handleSort(opt.id)}
-            >
-              {opt.label}
-            </Button>
-          ))}
-        </div>
-      </Panel>
-
-      {output && (
-        <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Sorted Result</label>
-              <Button size="sm" variant="ghost" onClick={handleCopy}>
-                {copied ? "✓ Copied!" : "📋 Copy"}
-              </Button>
-            </div>
-            <Textarea value={output} readOnly className="h-48 text-sm" />
-          </div>
-        </Panel>
-      )}
-    </div>
+    </Container>
   );
 }
