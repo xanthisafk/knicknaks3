@@ -19,3 +19,4 @@ export * from "./ColorInput";
 export * from "./FileInfoBar";
 export * from "./PasteButton";
 export * from "./WaitForContent";
+export * from "./ExpectContent";
