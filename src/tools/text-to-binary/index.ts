@@ -1,23 +1,68 @@
 import type { ToolDefinition } from "@/tools/_types";
 
 export const definition: ToolDefinition = {
-  name: "Text to Binary",
+  name: "Text to Binary Converter",
   slug: "text-to-binary",
-  description: "Convert text strings to binary and back",
-  longDescription: "Translate human-readable phrases into pure machine language. This bidirectional text-to-binary tool perfectly transforms characters into standard 8-bit binary byte blocks padded with zeros. Ideal for developers debugging raw data, students studying computer science, or creating encoded puzzle messages.",
+  description: "Convert text to binary and decode binary back to text instantly.",
   category: "encoders",
-  icon: "💾",
-  keywords: ["text to binary converter", "binary code translator", "letters to binary 01", "binary decode to english", "8-bit padding", "binary string generator", "word to byte converter"],
+  icon: "🔟",
+  keywords: [
+    "text to binary",
+    "binary converter",
+    "binary to text",
+    "string to binary",
+    "binary code translator",
+    "ascii to binary",
+    "decode binary to text",
+    "binary string generator",
+    "convert text to 0 and 1",
+    "binary encoder decoder"
+  ],
   tags: ["encoding", "developer"],
   component: () => import("./TextToBinaryTool"),
   capabilities: { supportsOffline: true, supportsClipboard: true },
+
   faq: [
-    { question: "Why is every letter represented by 8 numbers?", answer: "Standard characters use an 8-bit scale called a 'byte'. Even if the numerical value of a character only requires 6 bits (zeros or ones) to calculate, standard architecture pads the front with '0's to align the data perfectly into 8-bit memory blocks." },
-    { question: "Can it decode binary back into English text?", answer: "Yes! Simply use the toggle to switch into Decode mode. Paste your sequence of 0s and 1s, and the engine will instantly evaluate the bytes back into human-readable characters." },
-    { question: "How does it handle complex symbols or Emojis?", answer: "Modern text utilizes UTF-16 Unicode values. If a complex emoji is evaluated, it will naturally require more bytes of memory to store, resulting in a much longer binary output string for that single visible character." }
+    {
+      question: "How do I convert text to binary?",
+      answer: "Enter your text and the tool instantly converts each character into its binary representation using the selected bit width."
+    },
+    {
+      question: "Can I convert binary back to text?",
+      answer: "Yes. Paste a binary string into the output field, and it will automatically decode into readable text."
+    },
+    {
+      question: "What is 8-bit vs 16-bit vs 32-bit?",
+      answer: "Bit width determines how many binary digits are used per character. 8-bit is standard for ASCII, while 16-bit and 32-bit support larger Unicode values."
+    },
+    {
+      question: "Why are binary values padded with zeros?",
+      answer: "Binary values are padded to maintain consistent bit lengths, which is required for proper encoding and decoding."
+    },
+    {
+      question: "What separators can I use?",
+      answer: "You can separate binary values with spaces, dashes, or no separator depending on your use case."
+    },
+    {
+      question: "Does this support Unicode characters?",
+      answer: "Yes. It uses JavaScript character encoding, so it can handle most Unicode characters, though multi-byte characters may produce longer binary output."
+    },
+    {
+      question: "Does this tool work offline?",
+      answer: "Yes. Once loaded or installed as a PWA, it works entirely offline."
+    },
+    {
+      question: "Is my data private?",
+      answer: "Yes. All conversions happen locally in your browser with no data sent to a server."
+    }
   ],
-  howItWorks: "To encode, type a standard phrase into the box to see its binary bytes (padded to 8 bits by default). To decode, paste your raw 010101 string sequences separated by spaces to immediately reveal the translated textual phrase.",
+
+  howItWorks:
+    "Type text to convert it into binary using 8, 16, or 32-bit encoding. You can also paste binary to instantly decode it back into text. Everything runs locally in your browser.",
+
   relatedTools: ["text-to-hex", "text-to-ascii"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-26",
 };
