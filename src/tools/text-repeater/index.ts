@@ -3,21 +3,66 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Text Repeater",
   slug: "text-repeater",
-  description: "Duplicate any string of text with custom separator",
-  longDescription: "Quickly generate dummy data, testing patterns, or repetitive code blocks. Provide a base string, specify the exact number of times you want it to be repeated (up to thousands), and assign a custom separator (like a space or a newline). The Text Repeater outputs the massive string instantly.",
+  description: "Repeat text multiple times with custom separators instantly.",
   category: "text",
   icon: "🔃",
-  keywords: ["text repeater tool", "duplicate string online", "copy text 100 times", "string multiplier", "repeat words generator", "spam text copy paste", "generate repeated phrases"],
+  keywords: [
+    "text repeater",
+    "repeat text online",
+    "duplicate text tool",
+    "repeat string multiple times",
+    "copy text many times",
+    "text multiplier",
+    "repeat words generator",
+    "bulk text generator",
+    "newline text generator",
+    "string repeat tool"
+  ],
   tags: ["text", "utility"],
   component: () => import("./TextRepeaterTool"),
   capabilities: { supportsOffline: true, supportsClipboard: true },
+
   faq: [
-    { question: "What separators can I use?", answer: "You can select a standard Space, a Comma, a Newline (to create vertical lists), or define a totally Custom text string to sit between every repeated block." },
-    { question: "What is the maximum number of repeats?", answer: "While you can technically repeat a phrase thousands of times, browser memory limits apply. Generating extreme volumes of text (e.g. millions of words) may cause your tab to freeze temporarily." },
-    { question: "Who uses this tool?", answer: "Software testers use it to generate large strings to try and break database limits. Designers use it for rapid visual dummy text, and everyday users use it to make repetitive formatting easier." }
+    {
+      question: "How do I repeat text multiple times?",
+      answer: "Enter your text, set the repeat count, choose a separator (like space or newline), and the tool instantly generates the repeated output."
+    },
+    {
+      question: "What separators can I use?",
+      answer: "You can use presets like newline, space, comma, or define any custom separator such as symbols or words."
+    },
+    {
+      question: "Can I create a list with each line on a new row?",
+      answer: "Yes. Use the newline (\\n) separator to generate vertical lists with each repetition on its own line."
+    },
+    {
+      question: "Is there a maximum repeat limit?",
+      answer: "The tool caps output to prevent browser slowdowns, but you can still generate large repeated text blocks efficiently."
+    },
+    {
+      question: "Can I copy the generated text?",
+      answer: "Yes. You can copy the full output instantly for use in documents, code, or testing."
+    },
+    {
+      question: "Is this tool useful for testing?",
+      answer: "Yes. Developers often use it to generate large input strings for stress testing forms, APIs, or databases."
+    },
+    {
+      question: "Does this tool work offline?",
+      answer: "Yes. Once loaded or installed as a PWA, it works completely offline."
+    },
+    {
+      question: "Is my data private?",
+      answer: "Yes. All processing happens locally in your browser with no data sent to a server."
+    }
   ],
-  howItWorks: "Enter the base word or phrase you wish to copy into the primary input field. Select how many times to duplicate it using the number dial, choose your separator character, and instantly click to copy the generated mass output.",
+
+  howItWorks:
+    "Enter your text, choose how many times to repeat it, and set a separator like space, comma, or newline. The repeated output is generated instantly in your browser.",
+
   relatedTools: ["lorem-ipsum", "text-diff"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-26",
 };
