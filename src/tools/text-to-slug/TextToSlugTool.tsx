@@ -1,7 +1,14 @@
 import { useState } from "react";
-import { Button, Input } from "@/components/ui";
+import { Input } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { Box, Container } from "@/components/layout/Primitive";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+
+const SEPARATORS = [
+  { value: "-", label: "Hyphen" },
+  { value: "_", label: "Underscore" },
+  { value: ".", label: "Dot" },
+];
 
 function toSlug(text: string, separator: string): string {
   return text
@@ -17,67 +24,53 @@ function toSlug(text: string, separator: string): string {
 export default function TextToSlugTool() {
   const [input, setInput] = useState("");
   const [separator, setSeparator] = useState("-");
-  const [copied, setCopied] = useState(false);
 
   const slug = toSlug(input, separator);
 
-  const handleCopy = async () => {
-    if (await copyToClipboard(slug)) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
   return (
-    <div className="space-y-2">
+    <Container>
       <Panel>
-        <div className="space-y-4">
-          <Input
-            label="Input Text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="My Blog Post Title! (2024)"
-          />
-
-          <div className="flex items-center gap-3">
-            <span className="text-sm text(--text-secondary)">Separator:</span>
-            {["-", "_", "."].map((sep) => (
-              <button
-                key={sep}
-                onClick={() => setSeparator(sep)}
-                className={`px-3 py-1 text-sm font-[family-name:var(--font-mono)] rounded-[var(--radius-md)] transition-colors cursor-pointer ${separator === sep
-                    ? "bg-[var(--color-primary-500)] text-white"
-                    : "bg-[var(--surface-secondary)] text(--text-secondary)"
-                  }`}
-              >
-                {sep === "-" ? "hyphen" : sep === "_" ? "underscore" : "dot"}
-              </button>
-            ))}
-          </div>
-        </div>
+        <Container cols={3}>
+          <Box colSpan={2}>
+            <Input
+              label="Input Text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              handlePaste={setInput}
+              placeholder="My Blog Post Title! (2024)"
+            />
+          </Box>
+          <Select
+            label="Separator"
+            value={separator}
+            onValueChange={v => setSeparator(v)}
+          >
+            <SelectTrigger>
+              {SEPARATORS.find(s => s.value === separator)?.label}
+            </SelectTrigger>
+            <SelectContent>
+              {SEPARATORS.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Container>
       </Panel>
 
       {slug && (
         <Panel>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text(--text-primary)">Generated Slug</label>
-              <Button size="sm" variant="ghost" onClick={handleCopy}>
-                {copied ? "✓ Copied!" : "📋 Copy"}
-              </Button>
-            </div>
-            <div
-              className="px-4 py-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)] font-[family-name:var(--font-mono)] text-base text-[var(--color-primary-500)] border border-[var(--border-default)] select-all cursor-pointer"
-              onClick={handleCopy}
-            >
-              {slug}
-            </div>
-            <p className="text-xs text-[var(--text-tertiary)]">
-              Preview: example.com/blog/<strong>{slug}</strong>
-            </p>
-          </div>
+          <Input
+            label="Generated Slug"
+            value={slug}
+            disabled
+            allowCopy={true}
+            helperText={`Preview: example.com/blog/${slug}`}
+          />
         </Panel>
-      )}
-    </div>
+      )
+      }
+    </Container >
   );
 }
