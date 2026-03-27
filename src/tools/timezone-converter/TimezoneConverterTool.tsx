@@ -1,6 +1,13 @@
+import { Panel } from "@/components/layout";
+import { Box, Container } from "@/components/layout/Primitive";
+import { Button, Input } from "@/components/ui";
+import { DateInput } from "@/components/ui/DateInput";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import StatBox from "@/components/ui/StatBox";
+import { Clock, Pause, Search } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 
-// ─── Data ────────────────────────────────────────────────────────────────────
+// - Data -
 
 const TIMEZONES = [
   { label: "UTC", tz: "UTC" },
@@ -25,7 +32,7 @@ const TIMEZONES = [
   { label: "Honolulu (HST)", tz: "Pacific/Honolulu" },
 ];
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// - Helpers -
 
 function detectUserTimezone(): string {
   try { return Intl.DateTimeFormat().resolvedOptions().timeZone; } catch { return "UTC"; }
@@ -51,20 +58,20 @@ function formatInTZ(date: Date, tz: string): { time: string; date: string; offse
   return { time: timeStr, date: dateStr, offset, abbr };
 }
 
-// Parse a local datetime-local input string as if it's in a given timezone
-// We build the Date by computing the UTC offset for that tz at approximately that time.
+
 function parseDatetimeInTZ(localStr: string, tz: string): Date {
-  // localStr: "YYYY-MM-DDTHH:mm"
-  // Approximate: use the current UTC offset for the tz
   const [datePart, timePart] = localStr.split("T");
   const [y, mo, d] = datePart.split("-").map(Number);
   const [h, mi] = (timePart || "00:00").split(":").map(Number);
 
-  // Trick: create the time in UTC, check what the tz thinks it is, adjust
-  const utcGuess = new Date(Date.UTC(y, mo - 1, d, h, mi, 0));
-  const tzTime = new Date(utcGuess.toLocaleString("en-US", { timeZone: tz }));
-  const diff = utcGuess.getTime() - tzTime.getTime();
-  return new Date(utcGuess.getTime() + diff);
+  // Step 1: treat input as if it's UTC (temporary anchor)
+  const utcDate = new Date(Date.UTC(y, mo - 1, d, h, mi, 0));
+
+  // Step 2: get the timezone offset at that moment
+  const offsetMinutes = getOffsetMinutes(utcDate, tz);
+
+  // Step 3: subtract offset to get real UTC time
+  return new Date(utcDate.getTime() - offsetMinutes * 60 * 1000);
 }
 
 function toDatetimeLocal(date: Date, tz: string): string {
@@ -77,79 +84,70 @@ function toDatetimeLocal(date: Date, tz: string): string {
   return `${get("year")}-${get("month")}-${get("day")}T${get("hour") === "24" ? "00" : get("hour")}:${get("minute")}`;
 }
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+function fuzzyMatch(query: string, target: string): boolean {
+  query = query.toLowerCase();
+  target = target.toLowerCase();
 
-function Panel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-default)] p-5 ${className}`}>
-      {children}
-    </div>
-  );
+  let qi = 0;
+  let ti = 0;
+
+  while (qi < query.length && ti < target.length) {
+    if (query[qi] === target[ti]) qi++;
+    ti++;
+  }
+
+  return qi === query.length;
 }
 
-function TZSelect({ value, onChange, label }: { value: string; onChange: (v: string) => void; label: string }) {
-  return (
-    <div>
-      <label className="text-xs font-medium text-[var(--text-secondary)] block mb-1.5">{label}</label>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full px-3 py-2.5 text-sm rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-primary)] outline-none focus:border-[var(--color-primary-500)] transition-colors cursor-pointer"
-      >
-        {TIMEZONES.map((tz) => (
-          <option key={tz.tz} value={tz.tz}>{tz.label}</option>
-        ))}
-        {/* If user tz not in list, add it */}
-      </select>
-    </div>
-  );
+function getOffsetMinutes(date: Date, tz: string): number {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    timeZoneName: "shortOffset",
+  }).formatToParts(date);
+
+  const offsetStr = parts.find(p => p.type === "timeZoneName")?.value ?? "UTC+0";
+
+  const match = offsetStr.match(/(?:UTC|GMT)([+-]\d{1,2})(?::?(\d{2}))?/);
+  if (!match) return 0;
+
+  const sign = match[1].startsWith("-") ? -1 : 1;
+  const hours = Math.abs(parseInt(match[1], 10));
+  const minutes = match[2] ? parseInt(match[2], 10) : 0;
+
+  return sign * (hours * 60 + minutes);
 }
 
-function TimeCard({ label, info, isSource = false, onEdit, editValue }: {
-  label: string;
-  info: ReturnType<typeof formatInTZ> | null;
-  isSource?: boolean;
-  onEdit?: (v: string) => void;
-  editValue?: string;
-}) {
-  return (
-    <div className={`rounded-[var(--radius-md)] border p-4 flex flex-col gap-1 transition-colors ${isSource
-      ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/5"
-      : "border-[var(--border-default)] bg-[var(--surface-bg)]"
-      }`}>
-      <div className="flex items-center justify-between mb-0.5">
-        <span className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase truncate">{label}</span>
-        {info && <span className="text-[10px] text-[var(--text-tertiary)] font-mono ml-2 shrink-0">{info.offset}</span>}
-      </div>
-      {isSource && onEdit !== undefined && editValue !== undefined ? (
-        <input
-          type="datetime-local"
-          value={editValue}
-          onChange={(e) => onEdit(e.target.value)}
-          className="text-xl font-semibold text-[var(--text-primary)] bg-transparent border-none outline-none w-full"
-        />
-      ) : (
-        <span className="text-2xl font-semibold text-[var(--text-primary)] tabular-nums font-mono">{info?.time ?? "—"}</span>
-      )}
-      {info && (
-        <span className="text-xs text-[var(--text-secondary)]">{info.date} · <span className="font-medium">{info.abbr}</span></span>
-      )}
-    </div>
-  );
+function getRelativeTZDiff(date: Date, fromTZ: string, toTZ: string): string {
+  const fromOffset = getOffsetMinutes(date, fromTZ);
+  const toOffset = getOffsetMinutes(date, toTZ);
+
+  const diffMinutes = toOffset - fromOffset;
+
+  if (diffMinutes === 0) return "Same time";
+
+  const abs = Math.abs(diffMinutes);
+  const hours = Math.floor(abs / 60);
+  const minutes = abs % 60;
+
+  const unit =
+    minutes === 0
+      ? `${hours} hour${hours !== 1 ? "s" : ""}`
+      : `${hours}h ${minutes}m`;
+
+  return diffMinutes > 0
+    ? `${unit} ahead`
+    : `${unit} behind`;
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+
+// - Main Component -
 
 export default function TimezoneConverterTool() {
   const userTZ = useMemo(detectUserTimezone, []);
 
   const [sourceTZ, setSourceTZ] = useState(userTZ);
-  const [targetTZs, setTargetTZs] = useState<string[]>([
-    "UTC",
-    "America/New_York",
-    "Europe/London",
-    "Asia/Tokyo",
-  ].filter((tz) => tz !== userTZ).slice(0, 4));
+  const [targetTZs, setTargetTZs] = useState<string[]>(TIMEZONES.map(({ tz }) => tz));
+  const [filter, setFilter] = useState("");
 
   const [sourceInput, setSourceInput] = useState(() => {
     const now = new Date();
@@ -157,7 +155,7 @@ export default function TimezoneConverterTool() {
   });
 
   // Current wall-clock time mode
-  const [liveMode, setLiveMode] = useState(false);
+  const [liveMode, setLiveMode] = useState(true);
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -178,111 +176,105 @@ export default function TimezoneConverterTool() {
 
   const handleSourceTZChange = (tz: string) => {
     setSourceTZ(tz);
-    if (!liveMode) {
-      // Re-anchor so the displayed source time stays the same number
-      // (user is changing what timezone their typed time is in)
-    }
   };
 
-  const addTargetTZ = (tz: string) => {
-    if (!targetTZs.includes(tz) && tz !== sourceTZ) {
-      setTargetTZs((prev) => [...prev, tz]);
-    }
-  };
+  const handleFilterChange = (v: string) => {
+    setFilter(v);
+    filterTimezones(v);
+  }
 
-  const removeTargetTZ = (tz: string) => setTargetTZs((prev) => prev.filter((t) => t !== tz));
+  const filterTimezones = (input: string) => {
+    const q = input.trim().toLowerCase();
+
+    if (!q) {
+      setTargetTZs(TIMEZONES.map(t => t.tz));
+      return;
+    }
+
+    const filtered = TIMEZONES.filter(({ label, tz }) => {
+      return (
+        fuzzyMatch(q, label) ||
+        fuzzyMatch(q, tz) ||
+        label.toLowerCase().includes(q) ||
+        tz.toLowerCase().includes(q)
+      );
+    }).map(t => t.tz);
+
+    setTargetTZs(filtered);
+  };
 
   const tzLabel = (tz: string) => TIMEZONES.find((t) => t.tz === tz)?.label ?? tz;
 
-  const availableToAdd = TIMEZONES.filter((t) => t.tz !== sourceTZ && !targetTZs.includes(t.tz));
-
   return (
-    <div className="space-y-5">
-      {/* Source */}
+    <Container>
       <Panel>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-          <TZSelect label="Source Timezone" value={sourceTZ} onChange={handleSourceTZChange} />
-          <div className="flex items-end gap-2">
-            <div className="flex-1">
-              <label className="text-xs font-medium text-[var(--text-secondary)] block mb-1.5">Date & Time</label>
-              <input
-                type="datetime-local"
-                value={liveMode ? toDatetimeLocal(now, sourceTZ) : sourceInput}
-                onChange={(e) => handleSourceInput(e.target.value)}
-                disabled={liveMode}
-                className="w-full px-3 py-2.5 text-sm rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-primary)] outline-none focus:border-[var(--color-primary-500)] transition-colors disabled:opacity-50"
-              />
-            </div>
-            <button
-              onClick={() => { setLiveMode((v) => !v); }}
-              title="Toggle live clock"
-              className={`mb-0 px-3 py-2.5 text-xs rounded-[var(--radius-md)] border transition-colors whitespace-nowrap ${liveMode
-                ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/10 text-[var(--text-primary)]"
-                : "border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                }`}
+        <Container cols={5}>
+          <Box colSpan={2}>
+            <Select
+              label="Source"
+              value={sourceTZ}
+              onValueChange={v => handleSourceTZChange(v)}
             >
-              {liveMode ? "🔴 Live" : "⏱ Live"}
-            </button>
-          </div>
-        </div>
+              <SelectTrigger>
+                {TIMEZONES.find(t => t.tz === sourceTZ)?.label ?? sourceTZ}
+              </SelectTrigger>
+              <SelectContent>
+                {TIMEZONES.map((tz) => (
+                  <SelectItem key={tz.tz} value={tz.tz}>
+                    {tz.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </Box>
+          <Box colSpan={2}>
+            <DateInput
+              label="Date & Time"
+              inputType="datetime-local"
+              onClick={() => setLiveMode(false)}
+              value={liveMode ? toDatetimeLocal(now, sourceTZ) : sourceInput}
+              onChange={(e) => handleSourceInput(e.target.value)}
+              readOnly={liveMode}
+            />
+          </Box>
 
-        <div className="rounded-[var(--radius-md)] border border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/5 p-4">
-          {(() => {
-            const info = formatInTZ(sourceDate, sourceTZ);
-            return (
-              <div className="flex items-center justify-between flex-wrap gap-2">
-                <div>
-                  <p className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-0.5">{tzLabel(sourceTZ)}</p>
-                  <p className="text-3xl font-semibold tabular-nums text-[var(--text-primary)] font-mono">{info.time}</p>
-                  <p className="text-xs text-[var(--text-secondary)] mt-0.5">{info.date} · <span className="font-medium">{info.abbr}</span> · {info.offset}</p>
-                </div>
-              </div>
-            );
-          })()}
-        </div>
+          <Box colSpan={1}>
+            <div className="min-h-0 md:min-h-4" aria-hidden></div>
+            <Button
+              onClick={() => { setLiveMode((v) => !v) }}
+              variant={"ghost"}
+              icon={liveMode ? Pause : Clock}
+              className="w-full"
+            >
+              {liveMode ? "Stop Live" : "Start Live"}
+            </Button>
+          </Box>
+        </Container>
       </Panel>
-
-      {/* Target timezones */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {targetTZs.map((tz) => {
-          const info = formatInTZ(sourceDate, tz);
-          return (
-            <div
-              key={tz}
-              className="rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-bg)] p-4 relative group"
-            >
-              <button
-                onClick={() => removeTargetTZ(tz)}
-                className="absolute top-3 right-3 w-5 h-5 rounded-full text-[var(--text-tertiary)] hover:text-[var(--text-primary)] opacity-0 group-hover:opacity-100 transition-opacity text-xs flex items-center justify-center border border-[var(--border-default)] bg-[var(--surface-elevated)]"
-              >
-                x
-              </button>
-              <p className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-0.5 pr-6">{tzLabel(tz)}</p>
-              <p className="text-2xl font-semibold tabular-nums text-[var(--text-primary)] font-mono">{info.time}</p>
-              <p className="text-xs text-[var(--text-secondary)] mt-0.5">{info.date} · <span className="font-medium">{info.abbr}</span> · {info.offset}</p>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Add timezone */}
-      {availableToAdd.length > 0 && (
-        <Panel className="py-3">
-          <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-xs text-[var(--text-secondary)]">Add timezone:</span>
-            <select
-              defaultValue=""
-              onChange={(e) => { if (e.target.value) { addTargetTZ(e.target.value); e.target.value = ""; } }}
-              className="text-xs px-2.5 py-1.5 rounded-[var(--radius-sm)] border border-[var(--border-default)] bg-[var(--surface-bg)] text-[var(--text-primary)] cursor-pointer outline-none focus:border-[var(--color-primary-500)] transition-colors"
-            >
-              <option value="" disabled>Select timezone...</option>
-              {availableToAdd.map((tz) => (
-                <option key={tz.tz} value={tz.tz}>{tz.label}</option>
-              ))}
-            </select>
-          </div>
-        </Panel>
-      )}
-    </div>
+      <Panel>
+        <Input
+          leadingIcon={Search}
+          value={filter}
+          placeholder="New York or NY..."
+          onChange={(e) => handleFilterChange(e.target.value)}
+        />
+        <Container cols={2}>
+          {/* Map all the time zones to statboxes */}
+          {targetTZs.map((tz) => {
+            const info = formatInTZ(sourceDate, tz);
+            const rel = getRelativeTZDiff(sourceDate, sourceTZ, tz);
+            const label = `${info.date} · ${info.abbr} · ${info.offset} · ${rel}`
+            return (
+              <StatBox
+                key={tz}
+                prefix={tzLabel(tz)}
+                value={info.time}
+                label={label}
+              />
+            )
+          })}
+        </Container>
+      </Panel>
+    </Container>
   );
 }
