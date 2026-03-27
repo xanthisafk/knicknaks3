@@ -5,12 +5,7 @@ export const definition: ToolDefinition = {
   slug: "tip-calculator",
   description: "Calculate tips and split restaurant bills between multiple people",
 
-  longDescription:
-    "Easily calculate restaurant tips and split bills with friends using this fast tip calculator. Enter the bill amount, choose a tip percentage, and instantly see the total including tip and the exact amount each person should pay. " +
-    "Perfect for dining out, group meals, or travel expenses where you need quick and fair bill splitting.",
-
   category: "calculators",
-  status: "alpha",
   icon: "💰",
 
   keywords: [
@@ -49,5 +44,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["loan-mortgage-calculator", "date-difference-calculator"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-06",
+  createdAt: "2026-03-06",
+  // launchedAt: "2026-03-06",
+  // updatedAt: "2026-03-06",
 };
