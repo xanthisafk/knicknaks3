@@ -1,4 +1,4 @@
-import { encodeWAV } from "@/lib/audioHelper";
+import { encodeWAV } from "../../lib/audioHelper";
 import type { KokoroTTS } from "kokoro-js";
 
 const MODEL_ID = "onnx-community/Kokoro-82M-v1.0-ONNX";

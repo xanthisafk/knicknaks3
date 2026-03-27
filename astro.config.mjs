@@ -100,6 +100,9 @@ export default defineConfig({
         "/tools/zalgo-text": "/tools/text/zalgo-text",
     },
     vite: {
+        worker: {
+            format: "es",
+        },
         plugins: [tailwindcss({
             config: {
                 safelist: [
