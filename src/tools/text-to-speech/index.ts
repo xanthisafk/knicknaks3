@@ -3,21 +3,75 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Text to Speech (Kokoro)",
   slug: "kokoro-tts",
-  description: "Locally generate ultra-realistic AI speech from text",
-  longDescription: "Turn any script into studio-quality audio directly on your device. Unlike traditional robotic-sounding browser APIs which rely heavily on massive corporate servers, this Text-to-Speech tool executes a heavily optimized, quantized AI voice model (Kokoro) completely offline. Enjoy zero API costs and total data privacy while generating incredibly lifelike spoken audio.",
+  description: "Convert text to realistic AI speech in your browser.",
   category: "ai",
   icon: "🗣️",
-  keywords: ["ai text to speech online", "kokoro tts browser", "local voice generator", "offline ai speech tool", "ultra realistic voice synthesis", "read text aloud ai", "browser based tts voice"],
-  tags: ["ai", "audio", "experimental"],
+  keywords: [
+    "text to speech",
+    "ai voice generator",
+    "browser text to speech",
+    "offline text to speech",
+    "kokoro tts",
+    "neural voice generator",
+    "realistic ai voice",
+    "text to audio",
+    "speech synthesis online",
+    "tts without api",
+    "local ai voice generator",
+    "read text aloud online",
+    "webgpu tts",
+    "onnx text to speech"
+  ],
+  tags: ["ai", "audio", "tts", "speech"],
   component: () => import("./TextToSpeechTool"),
   capabilities: { supportsOffline: true },
+  status: "beta",
   faq: [
-    { question: "Is my text data sent to a cloud server to synthesize the voice?", answer: "Absolutely not. After completing a one-time download of the neural network voice models (which are heavily compressed), the actual Artificial Intelligence computations run entirely on your own local device using modern WebAssembly!" },
-    { question: "Why does it take so long to generate the first audio clip?", answer: "Because the machine learning relies entirely on your local hardware architecture, generating speech on older smartphones or lacking CPUs will be significantly slower than running it on a powerful, dedicated desktop computer." },
-    { question: "Can I download the generated speech files?", answer: "Yes! Once the AI engine finishes synthesizing your textual input into an audio buffer, you can instantly replay it or click to download the crisp `.wav` file directly to your hard drive." }
+    {
+      question: "Does this text to speech tool work offline?",
+      answer: "Yes. After the model is loaded, all speech generation runs locally in your browser without any internet connection."
+    },
+    {
+      question: "Is my text sent to a server?",
+      answer: "No. Your input stays entirely on your device. This tool performs speech synthesis locally for full privacy."
+    },
+    {
+      question: "How realistic are the voices?",
+      answer: "The Kokoro model produces high-quality neural voices with natural tone, pacing, and pronunciation."
+    },
+    {
+      question: "What is WebGPU and should I use it?",
+      answer: "WebGPU enables GPU acceleration in supported browsers, significantly improving performance compared to CPU (WASM)."
+    },
+    {
+      question: "Why does the model need to download first?",
+      answer: "The AI model must be loaded into your browser before generation. This is a one-time download after which it will be cached for future use."
+    },
+    {
+      question: "Can I generate long audio files?",
+      answer: "Yes, but very long inputs may take more time depending on your device performance."
+    },
+    {
+      question: "What voice options are available?",
+      answer: "Multiple voices with different accents and quality grades are available. Higher grades typically sound more natural."
+    },
+    {
+      question: "What does precision (q8, etc.) mean?",
+      answer: "Precision controls model size and performance. Lower precision is faster but slightly less accurate, while higher precision improves quality."
+    },
+    {
+      question: "Can I download the generated audio?",
+      answer: "Yes. Once generated, you can play and save the audio file directly from your browser."
+    },
+    {
+      question: "Is this better than traditional TTS APIs?",
+      answer: "This tool prioritizes privacy and offline use, unlike cloud TTS APIs that require network requests and API keys."
+    }
   ],
   howItWorks:
-    "Upon initialization, your browser downloads a compact version of the Kokoro ONNX machine learning model. After selecting a distinct voice profile, you input your desired script. Clicking 'Generate' triggers your local CPU to synthesize the text into incredibly human-sounding audio.",
+    "The tool downloads a lightweight Kokoro AI model into your browser. After selecting a voice, it converts text into natural speech locally using CPU or GPU acceleration.",
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-27",
 };
