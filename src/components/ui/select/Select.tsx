@@ -67,7 +67,7 @@ export function Select({ value, defaultValue = "", label, onValueChange, childre
             items,
         }}>
             <div className="flex flex-col gap-1.5 grow">
-                {label && <Label>{label}</Label>}
+                {label && <Label className="max-h-4">{label}</Label>}
                 <div className="relative inline-block w-full">
                     {children}
                 </div>

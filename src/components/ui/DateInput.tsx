@@ -51,6 +51,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                 {label && (
                     <Label
                         htmlFor={inputId}
+                        className="max-h-4"
                     >
                         {label}
                     </Label>

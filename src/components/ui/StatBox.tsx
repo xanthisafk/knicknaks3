@@ -43,9 +43,9 @@ export default function StatBox({
                 </div>
             )}
 
-            {prefix && <Label size="xs">{prefix}</Label>}
-            <span className={`text-${textSize ? textSize : "2xl"} p-4 font-bold text-primary-500 tabular-nums`} dangerouslySetInnerHTML={{ __html: wrapEmojisWithSpan(`${value}`) }} />
-            <Label size="xs">{label}</Label>
+            {prefix && <Label size="xs" className="text-center">{prefix}</Label>}
+            <span className={`text-${textSize ? textSize : "2xl"} text-center p-4 font-bold text-primary-500 tabular-nums`} dangerouslySetInnerHTML={{ __html: wrapEmojisWithSpan(`${value}`) }} />
+            <Label size="xs" className="text-center">{label}</Label>
             {url
                 ? <ExternalLink className="absolute right-2 top-2 opacity-30 size-3" />
                 : tooltip
