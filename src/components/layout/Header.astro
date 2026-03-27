@@ -1,6 +1,6 @@
 ---
-import { ChefHat } from "lucide-react";
-import { Badge } from "../ui";
+import { ChefHat, Rose } from "lucide-react";
+import { Badge, Button } from "../ui";
 
 interface Props {
   activeTab?: "tools" | "blog";
@@ -34,6 +34,14 @@ const { activeTab } = Astro.props;
         }
 
         <div class="w-px h-4 bg-[--border-default] mx-1"></div>
+
+        <Button
+          id="pwa-install-btn"
+          variant="secondary"
+          icon={Rose}
+          style={{ display: "none" }}
+          size="sm">Install</Button
+        >
 
         <a
           href="/"
@@ -217,4 +225,26 @@ const { activeTab } = Astro.props;
       startDesktopWobble();
     }
   }
+</script>
+
+<!-- PWA Script -->
+<script is:inline>
+  // ── PWA install ──────────────────────────────────────────────────────────
+  let deferredPrompt = null;
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const btn = document.getElementById("pwa-install-btn");
+    if (btn) {
+      btn.style.display = "flex";
+      btn.addEventListener("click", async () => {
+        const choice = await deferredPrompt.prompt();
+        if (choice.outcome === "accepted") {
+          deferredPrompt = null;
+          btn.style.display = "none";
+        }
+      });
+    }
+  });
 </script>

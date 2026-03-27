@@ -25,6 +25,12 @@ const structuredData = {
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 };
+
+const toolCount = allTools.length;
+const formatted =
+  toolCount % 5 === 0
+    ? toolCount.toString()
+    : `${toolCount - (toolCount % 5)}+`;
 ---
 
 <BaseLayout title="Knicknaks" structuredData={structuredData}>
@@ -46,8 +52,8 @@ const structuredData = {
             class="text-lg md:text-xl my-8 max-w-xl mx-auto"
             style="color: var(--text-secondary)"
           >
-            Free, fast, and privacy-friendly tools that run entirely in your
-            browser. No signup. No tracking. No nonsense.
+            {formatted} free, fast, and privacy-friendly tools that run entirely in
+            your browser. No signup. No tracking. No nonsense.
           </p>
 
           <!-- Search Trigger -->
