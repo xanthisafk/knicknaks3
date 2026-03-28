@@ -1,6 +1,10 @@
 import { useState } from "react";
-import { Input, Button } from "@/components/ui";
+import { Input, Button, Label, Toggle } from "@/components/ui";
 import { Panel } from "@/components/layout";
+import { Box, Container } from "@/components/layout/Primitive";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { Plus, Trash2 } from "lucide-react";
+import { ResultRow } from "@/components/advanced/ResultRow";
 
 interface QueryParam {
   id: string;
@@ -52,7 +56,6 @@ export default function UrlBuilderTool() {
   const [path, setPath] = useState("");
   const [params, setParams] = useState<QueryParam[]>([newParam()]);
   const [fragment, setFragment] = useState("");
-  const [copied, setCopied] = useState(false);
 
   const builtUrl = buildUrl(protocol, host, port, path, params, fragment);
 
@@ -69,177 +72,104 @@ export default function UrlBuilderTool() {
     });
   };
 
-  const handleCopy = () => {
-    if (!builtUrl) return;
-    navigator.clipboard.writeText(builtUrl).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
-  };
-
   return (
-    <div className="space-y-2">
-      {/* Base URL */}
+    <Container>
       <Panel>
-        <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">
-          Base URL
-        </h3>
-        <div className="flex flex-col sm:flex-row gap-3">
-          {/* Protocol */}
-          <div className="flex rounded-[var(--radius-md)] overflow-hidden border border-[var(--border-default)] h-10 shrink-0">
-            {["https", "http"].map((p) => (
-              <button
-                key={p}
-                onClick={() => setProtocol(p)}
-                className={`px-3 text-sm font-mono border-r border-[var(--border-default)] last:border-r-0 transition-colors ${protocol === p
-                  ? "bg-[var(--color-primary-500)] text-white"
-                  : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                  }`}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
-          <div className="flex-1">
-            <Input
-              value={host}
-              onChange={(e) => setHost(e.target.value)}
-              placeholder="example.com"
-              className="font-mono"
-            />
-          </div>
-          <div className="w-24">
-            <Input
-              value={port}
-              onChange={(e) => setPort(e.target.value)}
-              placeholder="Port"
-              className="font-mono"
-            />
-          </div>
-        </div>
-        <div className="mt-3">
+        <Container customCols="1fr 3fr 1fr">
+          <Select
+            label="Protocol"
+            value={protocol}
+            onValueChange={v => setProtocol(v)}
+          >
+            <SelectTrigger>
+              {protocol.toUpperCase()}
+            </SelectTrigger>
+            <SelectContent>
+              {["https", "http", "ftp", "ws", "wss"].map((p) => (
+                <SelectItem key={p} value={p}>
+                  {p.toUpperCase()}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <Input
-            value={path}
-            onChange={(e) => setPath(e.target.value)}
-            placeholder="/path/to/resource"
+            label="Host"
+            value={host}
+            onChange={e => setHost(e.target.value)}
+            handlePaste={setHost}
+            placeholder="example.com"
             className="font-mono"
-            label="Path"
           />
-        </div>
-      </Panel>
 
-      {/* Query Params */}
-      <Panel>
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">
-            Query Parameters
-          </h3>
-          <Button variant="secondary" className="text-sm px-3 py-1.5" onClick={addParam}>
-            + Add Param
-          </Button>
-        </div>
 
-        <div className="space-y-2">
-          {params.map((param) => (
-            <div key={param.id} className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={param.enabled}
-                onChange={(e) => updateParam(param.id, "enabled", e.target.checked)}
-                className="rounded accent-[var(--color-primary-500)] w-4 h-4 shrink-0"
-              />
-              <div className="flex-1">
-                <Input
-                  value={param.key}
-                  onChange={(e) => updateParam(param.id, "key", e.target.value)}
-                  placeholder="key"
-                  className={`font-mono text-sm ${!param.enabled ? "opacity-40" : ""}`}
-                />
-              </div>
-              <span className="text-[var(--text-tertiary)] font-mono">=</span>
-              <div className="flex-1">
-                <Input
-                  value={param.value}
-                  onChange={(e) => updateParam(param.id, "value", e.target.value)}
-                  placeholder="value"
-                  className={`font-mono text-sm ${!param.enabled ? "opacity-40" : ""}`}
-                />
-              </div>
-              <button
-                onClick={() => removeParam(param.id)}
-                className="text-[var(--text-tertiary)] hover:text-red-500 transition-colors px-1 text-lg leading-none"
-                aria-label="Remove param"
-              >
-                x
-              </button>
-            </div>
-          ))}
-        </div>
-      </Panel>
+          <Input
+            label="Port"
+            value={port}
+            onChange={e => setPort(e.target.value)}
+            handlePaste={setPort}
+            placeholder="Port"
+            className="font-mono"
+          />
 
-      {/* Fragment */}
-      <Panel>
+        </Container>
         <Input
+          label="Path"
+          value={path}
+          onChange={e => setPath(e.target.value)}
+          handlePaste={setPath}
+          placeholder="/path/to/resource"
+          className="font-mono"
+        />
+        <Input
+          label="Fragment"
           value={fragment}
-          onChange={(e) => setFragment(e.target.value)}
-          placeholder="section-id"
-          label="Fragment (#)"
+          onChange={e => setFragment(e.target.value)}
+          handlePaste={setFragment}
+          placeholder="Fragment"
           className="font-mono"
         />
       </Panel>
-
-      {/* Output */}
       <Panel>
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">
-            Built URL
-          </h3>
-          <Button
-            variant={copied ? "secondary" : "primary"}
-            className="px-4 py-1.5 text-sm"
-            onClick={handleCopy}
-            disabled={!builtUrl}
-          >
-            {copied ? "✓ Copied" : "Copy URL"}
+        <div className="flex justify-between items-center">
+          <Label>Query Parameters</Label>
+          <Button variant="ghost" onClick={addParam} size="xs" icon={Plus}>
+            Add Param
           </Button>
         </div>
-        <div
-          className={`rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-bg)] p-3 font-mono text-sm break-all min-h-[3rem] ${builtUrl ? "text-[var(--text-primary)]" : "text-[var(--text-tertiary)] italic"
-            }`}
-        >
-          {builtUrl || "Fill in the fields above to build a URL..."}
-        </div>
-
-        {builtUrl && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {(() => {
-              try {
-                const u = new URL(builtUrl);
-                return [
-                  { label: "Protocol", val: u.protocol },
-                  { label: "Host", val: u.hostname },
-                  u.port ? { label: "Port", val: u.port } : null,
-                  u.pathname !== "/" ? { label: "Path", val: u.pathname } : null,
-                  u.search ? { label: "Query", val: u.search } : null,
-                  u.hash ? { label: "Hash", val: u.hash } : null,
-                ]
-                  .filter(Boolean)
-                  .map(({ label, val }) => (
-                    <span
-                      key={label}
-                      className="text-xs font-mono px-2 py-1 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-default)] text-[var(--text-secondary)]"
-                    >
-                      <span className="text-[var(--text-tertiary)]">{label}: </span>
-                      {val}
-                    </span>
-                  ));
-              } catch {
-                return null;
-              }
-            })()}
-          </div>
-        )}
+        <Box>
+          {params.map((param) => (
+            <div className="flex items-center justify-between gap-2">
+              <Toggle
+                checked={param.enabled}
+                onChange={v => updateParam(param.id, "enabled", v)}
+              />
+              <Input
+                value={param.key}
+                onChange={(e) => updateParam(param.id, "key", e.target.value)}
+                placeholder="Key"
+                className="font-mono flex-1"
+              />
+              <Input
+                value={param.value}
+                onChange={(e) => updateParam(param.id, "value", e.target.value)}
+                placeholder="Value"
+                className="font-mono flex-1"
+              />
+              <Button
+                variant="ghost"
+                onClick={() => removeParam(param.id)}
+                size="xs"
+                disabled={params.length === 1}
+                icon={Trash2}
+              />
+            </div>
+          ))}
+        </Box>
       </Panel>
-    </div>
+      {builtUrl && <Panel>
+        <ResultRow label="Final URL" value={builtUrl} />
+      </Panel>}
+    </Container>
+
   );
 }

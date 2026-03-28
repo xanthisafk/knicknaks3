@@ -1,23 +1,72 @@
 import type { ToolDefinition } from "@/tools/_types";
 
 export const definition: ToolDefinition = {
-  name: "URL Builder",
+  name: "URL Builder & Query String Generator",
   slug: "url-builder",
-  description: "Construct URL from individual components",
-  longDescription: "A visual playground for constructing perfectly formatted API endpoints and web links. Our interactive URL Builder allows developers to break down web addresses into their raw structural components—Protocol, Hostname, Port, Path, and Query Parameters. It automatically handles the tricky percent-encoding of special characters and provides a live preview of the final assembled URL string.",
+  description: "Build and encode URLs with query parameters.",
   category: "dev",
   icon: "🏗️",
-  keywords: ["url builder online", "construct api endpoint", "url query parameter generator", "assemble web address", "live url preview tool", "format url string", "add uri parameters"],
-  tags: ["developer", "network"],
+  keywords: [
+    "url builder",
+    "url builder online",
+    "query string generator",
+    "url parameter builder",
+    "build url with parameters",
+    "api url generator",
+    "encode url parameters",
+    "create query string",
+    "rest api url builder",
+    "construct url online"
+  ],
+  tags: ["developer", "network", "url", "api"],
   component: () => import("./UrlBuilderTool"),
   capabilities: { supportsOffline: true, supportsClipboard: true },
   faq: [
-    { question: "What is URL encoding?", answer: "Special characters (like spaces, ampersands, or equals signs) have structural meaning inside a URL. If you want to use them as standard text in a query parameter, they must be 'percent-encoded' (e.g. converting a space into '%20') so they don't break the link." },
-    { question: "Does this tool auto-encode my query parameters?", answer: "Yes! As you type your key-value pairs into the Query Parameters list, the URL Builder automatically applies the necessary percent-encoding in real-time, ensuring your final link is perfectly safe to use." },
-    { question: "Can I test different HTTP protocols?", answer: "Absolutely. The dropdown handles standard Web protocols (`http://` and `https://`), FTP transfer (`ftp://`), and even Websocket connections (`ws://` and `wss://`)." }
+    {
+      question: "What is a URL builder?",
+      answer: "A URL builder lets you construct a complete URL by combining protocol, domain, path, query parameters, and fragments."
+    },
+    {
+      question: "What are query parameters?",
+      answer: "Query parameters are key-value pairs appended to a URL after a question mark, used to pass data to servers."
+    },
+    {
+      question: "Does this tool encode URL parameters?",
+      answer: "Yes, all query keys and values are automatically percent-encoded to ensure valid URLs."
+    },
+    {
+      question: "How do I add multiple query parameters?",
+      answer: "Use the add button to create multiple key-value pairs, which will be joined with ampersands in the final URL."
+    },
+    {
+      question: "What is URL encoding?",
+      answer: "URL encoding converts special characters into a safe format using percent notation, such as spaces becoming %20."
+    },
+    {
+      question: "Can I include ports in my URL?",
+      answer: "Yes, you can specify a custom port which will be appended after the domain."
+    },
+    {
+      question: "What is a URL fragment?",
+      answer: "A fragment is the part after the hash symbol (#) used to navigate to a specific section of a page."
+    },
+    {
+      question: "Does this support API URLs?",
+      answer: "Yes, it is useful for building REST API endpoints with query parameters."
+    },
+    {
+      question: "What protocols are supported?",
+      answer: "Common protocols like HTTP, HTTPS, FTP, WS, and WSS are supported."
+    },
+    {
+      question: "Is this tool free and offline?",
+      answer: "Yes, it runs completely in your browser and does not require any server requests."
+    }
   ],
-  howItWorks: "Select your desired network protocol and input the base Host/Domain. Fill out optional fields like Port numbers or specific file paths. Click the '+' button to add dynamic Query Parameters. The final URL string updates live as you type, ready to be copied.",
+  howItWorks: "Enter protocol, host, and optional path, port, query parameters, and fragment. The tool automatically encodes parameters and generates a valid URL in real time.",
   relatedTools: ["url-parser", "url-encoder", "http-status-codes"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-29",
 };
