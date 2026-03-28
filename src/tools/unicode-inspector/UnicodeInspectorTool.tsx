@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { Textarea, Button } from "@/components/ui";
+import { Textarea, Button, Label, Input } from "@/components/ui";
 import { Panel } from "@/components/layout";
+import { Box, Container } from "@/components/layout/Primitive";
+import StatBox from "@/components/ui/StatBox";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface CodePointInfo {
   char: string;
@@ -89,135 +92,121 @@ export default function UnicodeInspectorTool() {
   const [selected, setSelected] = useState<CodePointInfo | null>(null);
 
   const chars = text ? analyzeText(text) : [];
-  const uniqueCount = new Set(chars.map((c) => c.codePoint)).size;
+  const charSet = Array.from(
+    new Map(chars.map(c => [c.codePoint, c])).values()
+  );
+  const uniqueCount = charSet.length;
   const totalBytes = chars.reduce((sum, c) => sum + getUtf8Bytes(c.codePoint).split(" ").length, 0);
 
+  const handleInput = (text: string) => {
+    setText(text);
+    setSelected(null);
+  }
+
   return (
-    <div className="space-y-2">
+    <Container>
       <Panel>
-        <div className="space-y-4">
-          <div>
-            <label className="text-sm font-medium text-[var(--text-primary)] block mb-2">
-              Input Text
-            </label>
-            <Textarea
-              value={text}
-              onChange={(e) => { setText(e.target.value); setSelected(null); }}
-              placeholder="Paste any text — emoji, scripts, symbols — to inspect its Unicode..."
-              className="min-h-[100px]"
-            />
-          </div>
-
-          {text && (
-            <div className="flex gap-4 flex-wrap">
-              {[
-                { label: "Characters", value: chars.length },
-                { label: "Unique", value: uniqueCount },
-                { label: "UTF-8 Bytes", value: totalBytes },
-                { label: "Code Points", value: chars.length },
-              ].map(({ label, value }) => (
-                <div key={label} className="flex flex-col">
-                  <span className="text-[10px] tracking-widest text-[var(--text-tertiary)] uppercase">{label}</span>
-                  <span className="text-2xl font-bold text-[var(--text-primary)] font-mono">{value}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <Textarea
+          label="Input Text"
+          value={text}
+          onChange={(e) => handleInput(e.target.value)}
+          placeholder="Enter any text..."
+          handlePaste={handleInput}
+          onClear={() => handleInput("")}
+        />
       </Panel>
+      {text && <Container cols={4} mobileCols={2}>
+        <StatBox label="Characters" value={chars.length} textSize="5xl" />
+        <StatBox label="Unique" value={uniqueCount} textSize="5xl" />
+        <StatBox label="UTF-8 Bytes" value={totalBytes} textSize="5xl" />
+        <StatBox label="Code Points" value={chars.length} textSize="5xl" />
+      </Container>}
 
-      {/* Character grid */}
       {chars.length > 0 && (
         <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">
-            Character Map — click a character to inspect
-          </h3>
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {chars.map((info, i) => (
-              <button
-                key={i}
-                onClick={() => setSelected(selected?.codePoint === info.codePoint && selected === chars[i] ? null : info)}
+          <Label>Character Map (Click to select)</Label>
+          <div className="flex flex-wrap gap-1 max-h-96 overflow-y-auto">
+            {charSet.map((info) => (
+              <Button
+                key={info.codePoint}
+                onClick={() =>
+                  setSelected(
+                    selected?.codePoint === info.codePoint ? null : info
+                  )
+                }
                 title={info.codePointHex}
-                className={`w-10 h-10 rounded-[var(--radius-sm)] font-mono text-base flex items-center justify-center border transition-all ${selected === info
-                  ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)] text-white scale-110"
-                  : "border-[var(--border-default)] bg-[var(--surface-elevated)] text-[var(--text-primary)] hover:border-[var(--color-primary-500)] hover:scale-105"
-                  }`}
+                variant={selected?.codePoint === info.codePoint ? "primary" : "secondary"}
+                size="sm"
+                className="border-0"
               >
                 {info.display}
-              </button>
+              </Button>
             ))}
           </div>
 
+
           {selected && (
-            <div className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--surface-bg)] p-4 mt-2">
-              <div className="flex items-start gap-6">
-                <div className="text-5xl leading-none font-mono text-[var(--text-primary)] w-16 shrink-0 flex items-center justify-center">
-                  {selected.display}
-                </div>
-                <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm flex-1">
-                  {[
-                    ["Code Point", selected.codePointHex],
-                    ["Category", selected.category],
-                    ["UTF-8 Bytes", selected.utf8Bytes],
-                    ["UTF-16", selected.utf16Bytes],
-                    ["Decimal", selected.codePoint.toString()],
-                    ["Octal", "0o" + selected.codePoint.toString(8)],
-                    ["HTML Entity", `&#${selected.codePoint};`],
-                    ["CSS Escape", `\\${selected.codePoint.toString(16).toUpperCase()}`],
-                  ].map(([label, val]) => (
-                    <div key={label} className="flex flex-col">
-                      <span className="text-[10px] tracking-widest text-[var(--text-tertiary)] uppercase">{label}</span>
-                      <span className="font-mono text-[var(--text-primary)]">{val}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <Box>
+              <Container cols={2}>
+                {[
+                  ["Code Point", selected.codePointHex],
+                  ["Category", selected.category],
+                  ["UTF-8 Bytes", selected.utf8Bytes],
+                  ["UTF-16", selected.utf16Bytes],
+                  ["Decimal", selected.codePoint.toString()],
+                  ["Octal", "0o" + selected.codePoint.toString(8)],
+                  ["HTML Entity", `&#${selected.codePoint};`],
+                  ["CSS Escape", `\\${selected.codePoint.toString(16).toUpperCase()}`],
+                ].map(([label, val]) => (
+                  <Input
+                    key={label}
+                    label={label}
+                    disabled
+                    allowCopy
+                    value={val}
+                  />
+                ))}
+              </Container>
+            </Box>
+
+
           )}
         </Panel>
-      )}
+      )
+      }
 
       {/* Full table for small inputs */}
-      {chars.length > 0 && chars.length <= 50 && (
-        <Panel>
-          <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">
-            Full Breakdown
-          </h3>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm font-mono">
-              <thead>
-                <tr className="text-[var(--text-tertiary)] text-xs border-b border-[var(--border-default)]">
-                  <th className="text-left py-2 pr-4">Char</th>
-                  <th className="text-left py-2 pr-4">Code Point</th>
-                  <th className="text-left py-2 pr-4">UTF-8</th>
-                  <th className="text-left py-2 pr-4">UTF-16</th>
-                  <th className="text-left py-2">Category</th>
-                </tr>
-              </thead>
-              <tbody>
-                {chars.map((info, i) => (
-                  <tr key={i} className="border-b border-[var(--border-subtle)] hover:bg-[var(--surface-hover)]">
-                    <td className="py-1.5 pr-4 text-[var(--color-primary-500)] font-bold text-base">{info.display}</td>
-                    <td className="py-1.5 pr-4 text-[var(--text-primary)]">{info.codePointHex}</td>
-                    <td className="py-1.5 pr-4 text-[var(--text-secondary)]">{info.utf8Bytes}</td>
-                    <td className="py-1.5 pr-4 text-[var(--text-secondary)]">{info.utf16Bytes}</td>
-                    <td className="py-1.5 text-[var(--text-tertiary)]">{info.category}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Panel>
-      )}
-
-      <Panel>
-        <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">Tips</h3>
-        <ul className="text-sm text-[var(--text-secondary)] space-y-2 list-disc list-inside">
-          <li>Click any character tile to see its full encoding details.</li>
-          <li>Emoji and multi-byte characters are fully supported.</li>
-          <li>HTML entities and CSS escapes are shown for each code point.</li>
-        </ul>
-      </Panel>
-    </div>
+      {
+        charSet.length > 0 && (
+          <Panel>
+            <div className="overflow-x-auto max-h-96">
+              <Label>Full Breakdown</Label>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Char</TableHead>
+                    <TableHead>Code Point</TableHead>
+                    <TableHead>UTF-8</TableHead>
+                    <TableHead>UTF-16</TableHead>
+                    <TableHead>Category</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {charSet.map((info) => (
+                    <TableRow key={info.codePoint}>
+                      <TableCell>{info.display}</TableCell>
+                      <TableCell>{info.codePointHex}</TableCell>
+                      <TableCell>{info.utf8Bytes}</TableCell>
+                      <TableCell>{info.utf16Bytes}</TableCell>
+                      <TableCell>{info.category}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </Panel>
+        )
+      }
+    </Container>
   );
 }
