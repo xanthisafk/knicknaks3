@@ -10,7 +10,8 @@ import {
 import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
 import ToolCard from "@/components/advanced/ToolCard.astro";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Download, Rose } from "lucide-react";
+import { Button } from "@/components/ui";
 
 const allTools = getAllTools();
 const activeCategories = getActiveCategories();
@@ -82,8 +83,31 @@ const formatted =
             </div>
           </div>
 
-          <a href="#tools" class="cursor-pointer">
-            <div class="mt-20 flex gap-2 flex-row items-center justify-center">
+          <div
+            class=`
+            pwa-install-btn flex items-center justify-center gap-6 text-2xl font-bold hover:text-primary-500
+            cursor-pointer p-3 rounded-lg mx-auto
+            `
+            style={{ display: "none" }}
+            role="button"
+            tabindex="0"
+          >
+            <Download size={32} />
+            <span class="font-heading doodle-underline">Install App</span>
+          </div>
+
+          <a
+            href="#tools"
+            class="cursor-pointer group mx-auto"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class=`
+              mt-20 flex gap-2 flex-row items-center justify-center group-focus:ring-2
+              group-focus:ring-primary-500 p-3 rounded-lg
+              `
+            >
               <ArrowDown
                 className="animate-bounce text-primary-500 translate-y-1"
               />

@@ -4,8 +4,6 @@ export const definition: ToolDefinition = {
   name: "URL Encoder / Decoder",
   slug: "url-encoder",
   description: "Encode or decode any web URL",
-  longDescription:
-    "Safely construct robust web addresses by encoding special characters in your URLs with standard percent-encoding (like %20 for spaces). Alternatively, paste messy encoded strings to instantly decode them back to readable human text. The tool simultaneously supports both full `encodeURI` operations and stricter `encodeURIComponent` functions for query parameters.",
   category: "encoders",
   icon: "🔗",
   keywords: ["url encoder online", "decode url string", "percent encoding tool", "encodeURIComponent tester", "sanitize web link", "url decoder tool", "convert spaces to %20"],
@@ -40,5 +38,7 @@ export const definition: ToolDefinition = {
 
   relatedTools: ["base64", "html-entities", "url-builder"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-29",
 };

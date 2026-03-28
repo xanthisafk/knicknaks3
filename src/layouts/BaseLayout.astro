@@ -145,5 +145,33 @@ if (isBlog) {
         });
       }
     </script>
+    <!-- PWA Script -->
+    <script is:inline>
+      let deferredPrompt = null;
+
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const btn = document.getElementsByClassName("pwa-install-btn");
+        if (btn) {
+          for (let i = 0; i < btn.length; i++) {
+            btn[i].style.display = "flex";
+            btn[i].addEventListener("keydown", (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                e.currentTarget.click();
+              }
+            });
+            btn[i].addEventListener("click", async () => {
+              const choice = await deferredPrompt.prompt();
+              if (choice.outcome === "accepted") {
+                deferredPrompt = null;
+                btn[i].style.display = "none";
+              }
+            });
+          }
+        }
+      });
+    </script>
   </body>
 </html>
