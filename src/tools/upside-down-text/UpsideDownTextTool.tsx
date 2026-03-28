@@ -1,6 +1,7 @@
-import { useState, useCallback } from "react";
-import { Button } from "@/components/ui";
+import { useState } from "react";
+import { Textarea } from "@/components/ui";
 import { Panel } from "@/components/layout";
+import { Container } from "@/components/layout/Primitive";
 
 // Full Unicode flip map — a-z, A-Z, 0-9, and common punctuation
 const FLIP_MAP: Record<string, string> = {
@@ -29,74 +30,32 @@ function flipText(input: string): string {
 
 export default function UpsideDownTextTool() {
   const [input, setInput] = useState("");
-  const [copied, setCopied] = useState(false);
 
-  const flipped = flipText(input);
-  const hasOutput = input.length > 0;
+  const flipped = flipText(input.trim());
 
-  const handleCopy = useCallback(async () => {
-    if (!flipped) return;
-    await navigator.clipboard.writeText(flipped);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }, [flipped]);
-
-  const handleClear = () => {
-    setInput("");
-    setCopied(false);
-  };
 
   return (
     <div className="space-y-4">
-      <Panel>
-        <div className="space-y-2">
-          <label className="text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wider">
-            Your Text
-          </label>
-          <textarea
+      <Container cols={2}>
+        <Panel>
+          <Textarea
+            label="Your Text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            handlePaste={setInput}
+            onClear={() => setInput("")}
             placeholder="Type something here..."
-            rows={4}
-            className="w-full resize-none rounded-[var(--radius-md)] bg-[var(--surface-secondary)] border border-[var(--border-default)] px-3 py-2 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-shadow"
           />
-          <p className="text-xs text-[var(--text-tertiary)] text-right">
-            {input.length} character{input.length !== 1 ? "s" : ""}
-          </p>
-        </div>
-      </Panel>
-
-      <Panel>
-        <div className="space-y-2">
-          <label className="text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wider">
-            Flipped Result
-          </label>
-          <div
-            className="min-h-24 rounded-md bg-(--surface-secondary) border border-[var(--border-default)] px-3 py-2 text-sm text-[var(--text-primary)] break-all select-all"
-          >
-            {hasOutput ? (
-              <span className="font-mono">{flipped}</span>
-            ) : (
-              <span className="text-(--text-tertiary) font-mono">
-                ˙˙˙ǝɹǝɥ ƃuᴉɥʇǝɯos ǝdʎ┴
-              </span>
-            )}
-          </div>
-        </div>
-      </Panel>
-
-      {hasOutput && (
-        <Panel>
-          <div className="flex items-center gap-3">
-            <Button onClick={handleCopy}>
-              {copied ? "✓ Copied!" : "Copy Flipped Text"}
-            </Button>
-            <Button variant="ghost" onClick={handleClear}>
-              Clear
-            </Button>
-          </div>
         </Panel>
-      )}
+        <Panel>
+          <Textarea
+            label="Flipped Text"
+            value={flipped}
+            disabled
+            placeholder="˙˙˙ǝɹǝɥ ɹɐǝddɐ llᴉʍ ʇxǝʇ pǝddᴉlℲ"
+          />
+        </Panel>
+      </Container>
     </div>
   );
 }

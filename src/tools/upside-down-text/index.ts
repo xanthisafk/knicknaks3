@@ -1,24 +1,69 @@
 import type { ToolDefinition } from "@/tools/_types";
 
 export const definition: ToolDefinition = {
-  name: "Upside Down Text",
+  name: "Upside Down Text Generator",
   slug: "upside-down-text",
-  description: "Flip your text!",
-  longDescription: "Create engaging social media posts, fun jokes, or unique gaming usernames. The Upside Down Text generator maps your standard alphabetical input to visually inverted Unicode character equivalents, giving the perfect optical illusion of an inverted string. Guaranteed to make your friends tilt their phones.",
+  description: "Flip text upside down instantly.",
   category: "text",
   icon: "🙃",
   status: "new",
-  keywords: ["upside down text generator", "flip text upside down", "mirror text online", "inverted letters copy paste", "unicode flip letters", "make text read upside down", "funny social media font"],
-  tags: ["text", "fun", "unicode"],
+  keywords: [
+    "upside down text generator",
+    "flip text upside down",
+    "upside down font copy paste",
+    "invert text online",
+    "mirror text generator",
+    "unicode upside down letters",
+    "reverse and flip text",
+    "funny text generator",
+    "social media text effects",
+    "upside down writing tool"
+  ],
+  tags: ["text", "unicode", "generator", "fun"],
   component: () => import("./UpsideDownTextTool"),
   capabilities: { supportsOffline: true, supportsClipboard: true },
   faq: [
-    { question: "How does the flipping illusion actually work?", answer: "We don't actually rotate your screen! The tool intelligently swaps your standard English letters (like 'h') for specific, obscure math and foreign Unicode characters that look structurally inverted (like 'ɥ')." },
-    { question: "Can I paste this flipped text anywhere?", answer: "Yes! Because the output consists entirely of standard Unicode characters, you can successfully paste the illusion into Twitter, Discord, Instagram, or text messages without the formatting breaking." },
-    { question: "Does every letter have an upside down equivalent?", answer: "Most alphabetic characters and standardized numbers have recognizable inverted cousins. However, certain complex punctuation marks lack a perfect Unicode match and are only roughly approximated." }
+    {
+      question: "What is an upside down text generator?",
+      answer: "It converts normal text into upside down Unicode characters so it appears flipped when read."
+    },
+    {
+      question: "How does upside down text work?",
+      answer: "Each character is replaced with a visually inverted Unicode equivalent, then the string is reversed."
+    },
+    {
+      question: "Can I copy and paste upside down text?",
+      answer: "Yes, the output uses standard Unicode so it works on most apps, browsers, and social platforms."
+    },
+    {
+      question: "Does this work on mobile devices?",
+      answer: "Yes, you can generate and paste flipped text on iOS and Android without issues."
+    },
+    {
+      question: "Is this the same as mirrored text?",
+      answer: "Not exactly. Upside down text flips vertically, while mirrored text flips horizontally."
+    },
+    {
+      question: "Why do some characters not flip perfectly?",
+      answer: "Unicode doesn't have exact inverted versions for every symbol, so some are approximations."
+    },
+    {
+      question: "Can I use upside down text on social media?",
+      answer: "Yes, it works on platforms like Instagram, Twitter (X), TikTok, and Discord."
+    },
+    {
+      question: "Does it support numbers and punctuation?",
+      answer: "Most numbers and common punctuation are supported, though a few may look slightly different."
+    },
+    {
+      question: "Is this tool free to use?",
+      answer: "Yes, it's completely free with no limits."
+    }
   ],
-  howItWorks: "Type your joke or message into the main input field. As you type, the engine instantly matches your standard string against a large dictionary array of inverted Unicode characters, displaying the flipped result below.",
+  howItWorks: "Enter text, and the tool replaces each character with an upside down Unicode equivalent, then reverses the string to create the flipped effect.",
   relatedTools: ["fancy-text-generator", "zalgo-text", "reverse-text"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-04",
+  createdAt: "2026-03-04",
+  launchedAt: "2026-03-04",
+  updatedAt: "2026-03-29",
 };
