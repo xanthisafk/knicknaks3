@@ -1,23 +1,99 @@
 import type { ToolDefinition } from "@/tools/_types";
 
 export const definition: ToolDefinition = {
-  name: "ULID Generator",
+  name: "ULID Generator & Decoder",
   slug: "ulid-generator",
-  description: "Generate ULIDs securely in your browser",
-  longDescription: "Create robust database primary keys with our local ULID Generator. Unlike random UUIDs, ULIDs natively embed a millisecond-precision UNIX timestamp, ensuring they can be naturally sorted chronologically. This tool generates mathematically valid, 26-character Crockford Base32 encoded identifiers entirely offline, meaning zero server round-trips for your IDs.",
+  description: "Generate and decode ULIDs instantly with sortable, unique IDs.",
   category: "generators",
   icon: "🆔",
-  keywords: ["ulid generator online", "sortable unique identifier", "timestamp id generator", "uuid alternative", "crockford base32 id", "generate ulid database key", "lexicographically sortable id"],
-  tags: ["developer", "id", "generator"],
-  component: () => import("./UlidGeneratorTool"),
-  capabilities: { supportsOffline: true, supportsClipboard: true },
-  faq: [
-    { question: "Why should I use a ULID over a UUID?", answer: "While standard UUIDs (v4) are completely random, making them terrible for database indexing, a ULID contains a baked-in timestamp. This allows databases to natively sort them chronologically without needing a separate 'created_at' column." },
-    { question: "What is the ULID format?", answer: "A ULID is exactly 26 characters long, composed using Crockford's Base32 alphabet. The first 10 characters dictate the creation timestamp, and the final 16 characters provide the cryptographic randomness." },
-    { question: "Is this tool generating IDs securely?", answer: "Yes. The randomness is sourced directly from your browser's native `Crypto.getRandomValues()` API, making them safe for production database keys and distributed systems." }
+
+  keywords: [
+    "ulid generator",
+    "generate ulid",
+    "ulid vs uuid",
+    "sortable unique id",
+    "ulid decoder",
+    "decode ulid timestamp",
+    "crockford base32 id",
+    "timestamp id generator",
+    "lexicographically sortable id",
+    "unique id generator",
+    "distributed id generator",
+    "database id generator",
+    "ulid example",
+    "ulid format explained"
   ],
-  howItWorks: "Click the 'Generate' button to immediately create a single ULID string, or use the batch feature to instantly spawn up to 100 unique identifiers at once. Simply click on any generated ID block to automatically copy it to your clipboard.",
-  relatedTools: ["uuid-generator"],
+
+  tags: ["developer", "id", "generator", "ulid"],
+
+  component: () => import("./UlidGeneratorTool"),
+
+  capabilities: { supportsOffline: true, supportsClipboard: true },
+
+  faq: [
+    {
+      question: "What is a ULID?",
+      answer:
+        "A ULID (Universally Unique Lexicographically Sortable Identifier) is a 26-character string that combines a timestamp with randomness, allowing IDs to be both unique and sortable."
+    },
+    {
+      question: "Why use ULID instead of UUID?",
+      answer:
+        "Unlike UUID v4, ULIDs are lexicographically sortable because they include a timestamp. This improves database indexing and query performance."
+    },
+    {
+      question: "What is the ULID format?",
+      answer:
+        "ULIDs are 26-character strings encoded in Crockford's Base32. The first 10 characters represent the timestamp, and the remaining 16 represent randomness."
+    },
+    {
+      question: "Can I decode a ULID?",
+      answer:
+        "Yes. This tool extracts the embedded timestamp and random component from any valid ULID."
+    },
+    {
+      question: "Are ULIDs globally unique?",
+      answer:
+        "Yes. ULIDs combine time and randomness, making collisions extremely unlikely even in distributed systems."
+    },
+    {
+      question: "Is this ULID generator secure?",
+      answer:
+        "Yes. It uses browser-based randomness APIs to generate sufficiently unpredictable identifiers for most applications."
+    },
+    {
+      question: "Are ULIDs case-sensitive?",
+      answer:
+        "No. ULIDs are case-insensitive, but they are typically represented in uppercase for consistency."
+    },
+    {
+      question: "What is Crockford Base32?",
+      answer:
+        "It is a human-friendly Base32 encoding that avoids ambiguous characters like I, L, O, and U."
+    },
+    {
+      question: "Can I use ULIDs as database primary keys?",
+      answer:
+        "Yes. ULIDs are ideal for database keys because they are sortable and reduce index fragmentation compared to random UUIDs."
+    },
+    {
+      question: "What is the timestamp precision in ULID?",
+      answer:
+        "ULIDs use millisecond precision for the timestamp portion."
+    }
+  ],
+
+  howItWorks:
+    "Generate ULIDs instantly using a timestamp and random component encoded in Base32. You can also inspect any ULID to extract its creation time and randomness.",
+
+  relatedTools: [
+    "uuid-generator",
+    "nano-id-generator",
+    "base32-encoder"
+  ],
+
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-28",
 };
