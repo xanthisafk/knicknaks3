@@ -9,7 +9,7 @@ export default function UrlEncoderTool() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState<"encode" | "decode">("encode");
-  const [componentMode, setComponentMode] = useState(true); // true = encodeURIComponent, false = encodeURI
+  const [componentMode, setComponentMode] = useState(true);
   const [liveMode, setLiveMode] = useState(true);
   const [error, setError] = useState("");
 

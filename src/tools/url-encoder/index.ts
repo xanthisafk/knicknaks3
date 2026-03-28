@@ -1,13 +1,24 @@
 import type { ToolDefinition } from "@/tools/_types";
 
 export const definition: ToolDefinition = {
-  name: "URL Encoder / Decoder",
+  name: "URL Encoder & Decoder (Percent Encoding Tool)",
   slug: "url-encoder",
-  description: "Encode or decode any web URL",
+  description: "Encode or decode URLs and query strings.",
   category: "encoders",
   icon: "🔗",
-  keywords: ["url encoder online", "decode url string", "percent encoding tool", "encodeURIComponent tester", "sanitize web link", "url decoder tool", "convert spaces to %20"],
-  tags: ["encoding", "web", "url"],
+  keywords: [
+    "url encoder",
+    "url decoder",
+    "percent encoding tool",
+    "encode url online",
+    "decode url string",
+    "encodeURIComponent tool",
+    "decodeURIComponent online",
+    "url encoding example",
+    "convert spaces to %20",
+    "query string encoder"
+  ],
+  tags: ["encoding", "web", "url", "developer"],
 
   component: () => import("./UrlEncoderTool"),
 
@@ -18,23 +29,49 @@ export const definition: ToolDefinition = {
 
   faq: [
     {
-      question: "What exactly is URL encoding?",
-      answer:
-        "Also known as percent-encoding, it's a mechanism to safely pass data across the internet. It replaces 'unsafe' characters with a `%` symbol followed by their two-character mathematical hex code. For example, a blank space becomes `%20` and an ampersand `&` becomes `%26`.",
+      question: "What is URL encoding?",
+      answer: "URL encoding (percent encoding) converts unsafe characters into a % followed by hexadecimal values so they can be safely used in URLs."
+    },
+    {
+      question: "What is a URL decoder?",
+      answer: "A URL decoder reverses percent encoding, converting encoded sequences like %20 back into readable characters."
     },
     {
       question: "What is the difference between encodeURI and encodeURIComponent?",
-      answer:
-        "`encodeURI` is used for full URLs, preserving structural characters like `:`, `/`, `?`, and `#`. `encodeURIComponent` is far more aggressive, encoding absolutely everything. It is designed specifically to ensure query parameter string values don't break the parent link.",
+      answer: "encodeURI preserves URL structure characters, while encodeURIComponent encodes everything, making it ideal for query parameters."
     },
     {
-      question: "Are my pasted links tracked?",
-      answer: "No. The entire conversion execution runs directly inside your active browser utilizing native Javascript functions. The data never interacts with an external server."
+      question: "When should I use encodeURIComponent?",
+      answer: "Use encodeURIComponent when encoding query parameter values to prevent breaking the URL structure."
+    },
+    {
+      question: "Why do spaces become %20 in URLs?",
+      answer: "Spaces are not valid in URLs, so they are encoded as %20 to ensure proper transmission."
+    },
+    {
+      question: "Can I decode malformed URLs?",
+      answer: "If the encoding is invalid or incomplete, decoding may fail and return an error."
+    },
+    {
+      question: "Is this tool safe to use?",
+      answer: "Yes, all encoding and decoding happens locally in your browser with no data sent to servers."
+    },
+    {
+      question: "Does this support full URLs and query strings?",
+      answer: "Yes, you can encode or decode entire URLs or just individual query parameters."
+    },
+    {
+      question: "What characters get encoded?",
+      answer: "Special characters like spaces, symbols, and reserved URL characters are encoded into percent format."
+    },
+    {
+      question: "Is this tool free?",
+      answer: "Yes, it is completely free and works offline."
     }
   ],
 
   howItWorks:
-    "Paste your raw text or existing URL into the primary input field. Select the toggle between 'Encode' or 'Decode' operations. Choose your desired strictness level (Component vs Full URI), and the resulting string will instantly update below.",
+    "Enter text or a URL, choose encode or decode mode, and the tool instantly converts it using standard JavaScript encoding functions.",
 
   relatedTools: ["base64", "html-entities", "url-builder"],
   schemaType: "WebApplication",
