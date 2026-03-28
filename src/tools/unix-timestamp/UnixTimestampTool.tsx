@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
-import { Button, Input } from "@/components/ui";
+import { useState, useEffect, useCallback } from "react";
+import { Button, Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
-import { copyToClipboard } from "@/lib/utils";
+import { Box, Container } from "@/components/layout/Primitive";
+import StatBox from "@/components/ui/StatBox";
+import { DateInput } from "@/components/ui/DateInput";
+import { ResultRow } from "@/components/advanced/ResultRow";
+
+// --- Pure helpers (defined outside component so they're never recreated) ---
 
 function formatDate(date: Date): Record<string, string> {
   return {
@@ -37,144 +42,155 @@ function getRelativeTime(date: Date): string {
   return `${prefix}${y} year${y > 1 ? "s" : ""}${suffix}`;
 }
 
-function InfoRow({ label, value }: { label: string; value: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <div className="flex items-center justify-between py-2 px-3 rounded-[var(--radius-md)] bg-[var(--surface-secondary)]">
-      <span className="text-xs font-medium text(--text-secondary) w-20">{label}</span>
-      <span className="text-sm font-[family-name:var(--font-mono)] text(--text-primary) flex-1 ml-3">{value}</span>
-      <button
-        onClick={async () => {
-          await copyToClipboard(value);
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1500);
-        }}
-        className="text-xs text-[var(--text-tertiary)] hover:text(--text-primary) transition-colors cursor-pointer ml-2"
-      >
-        {copied ? "✓" : "Copy"}
-      </button>
-    </div>
-  );
+// Auto-detect seconds vs milliseconds and return a valid Date, or null
+function parseTimestamp(raw: string): Date | null {
+  const ts = parseInt(raw, 10);
+  if (isNaN(ts)) return null;
+  const msTs = ts > 1e12 ? ts : ts * 1000;
+  const date = new Date(msTs);
+  return isNaN(date.getTime()) ? null : date;
 }
 
+// --- Component ---
+
 export default function UnixTimestampTool() {
-  const [currentTime, setCurrentTime] = useState(Math.floor(Date.now() / 1000));
+  const [currentTime, setCurrentTime] = useState(() => Math.floor(Date.now() / 1000));
+
+  // Two independent input states — fixes the "resets while typing" bug
   const [timestampInput, setTimestampInput] = useState("");
   const [dateInput, setDateInput] = useState("");
+
   const [result, setResult] = useState<Record<string, string> | null>(null);
   const [resultTimestamp, setResultTimestamp] = useState<number | null>(null);
   const [error, setError] = useState("");
 
-  // Live clock
+  // Live clock — only updates its own state slice
   useEffect(() => {
-    const interval = setInterval(() => setCurrentTime(Math.floor(Date.now() / 1000)), 1000);
+    const interval = setInterval(
+      () => setCurrentTime(Math.floor(Date.now() / 1000)),
+      1000
+    );
     return () => clearInterval(interval);
   }, []);
 
-  const handleTimestampConvert = () => {
+  const showResult = useCallback((date: Date) => {
     setError("");
-    const ts = parseInt(timestampInput);
-    if (isNaN(ts)) {
-      setError("Please enter a valid number.");
-      return;
-    }
-    // Auto-detect seconds vs milliseconds
-    const msTs = ts > 1e12 ? ts : ts * 1000;
-    const date = new Date(msTs);
-    if (isNaN(date.getTime())) {
-      setError("Invalid timestamp.");
-      return;
-    }
     setResult(formatDate(date));
-    setResultTimestamp(Math.floor(msTs / 1000));
-  };
+    setResultTimestamp(Math.floor(date.getTime() / 1000));
+  }, []);
 
-  const handleDateConvert = () => {
-    setError("");
+  const handleTimestampConvert = useCallback(() => {
+    const date = parseTimestamp(timestampInput);
+    if (!date) {
+      setError("Please enter a valid Unix timestamp (seconds or milliseconds).");
+      setResult(null);
+      setResultTimestamp(null);
+      return;
+    }
+    showResult(date);
+  }, [timestampInput, showResult]);
+
+  const handleDateConvert = useCallback(() => {
     if (!dateInput) {
       setError("Please select a date.");
       return;
     }
     const date = new Date(dateInput);
     if (isNaN(date.getTime())) {
-      setError("Invalid date.");
+      setError("Invalid date value.");
       return;
     }
-    const ts = Math.floor(date.getTime() / 1000);
-    setResultTimestamp(ts);
-    setTimestampInput(ts.toString());
-    setResult(formatDate(date));
-  };
+    // Also populate the timestamp input so both sides stay in sync
+    setTimestampInput(Math.floor(date.getTime() / 1000).toString());
+    showResult(date);
+  }, [dateInput, showResult]);
 
-  const handleNow = () => {
+  const handleNow = useCallback(() => {
     const now = new Date();
-    setTimestampInput(Math.floor(now.getTime() / 1000).toString());
-    setResult(formatDate(now));
-    setResultTimestamp(Math.floor(now.getTime() / 1000));
-  };
+    const ts = Math.floor(now.getTime() / 1000);
+    setTimestampInput(ts.toString());
+    setDateInput(now.toISOString().slice(0, 16)); // "YYYY-MM-DDTHH:MM" for datetime-local
+    showResult(now);
+  }, [showResult]);
 
   return (
-    <div className="space-y-2">
-      {/* Live clock */}
-      <Panel>
-        <div className="text-center">
-          <p className="text-xs text-[var(--text-tertiary)] mb-1">Current Unix Timestamp</p>
-          <p className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-mono)] text-[var(--color-primary-500)] tabular-nums">
-            {currentTime}
-          </p>
-        </div>
-      </Panel>
+    <Container>
+      <Box>
+        <StatBox
+          prefix="Current Unix Timestamp"
+          textSize="4xl"
+          label=""
+          value={currentTime.toString()}
+        />
+      </Box>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Timestamp → Date */}
-        <Panel>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text(--text-primary)">Timestamp → Date</h3>
+      <Container cols={2}>
+        {/* Left panel: Timestamp → Date */}
+        <Box>
+          <Panel>
             <Input
+              label="Timestamp to date"
+              placeholder="e.g. 1711584000"
               value={timestampInput}
               onChange={(e) => setTimestampInput(e.target.value)}
-              placeholder="e.g. 1700000000"
-              className="font-[family-name:var(--font-mono)]"
+              onKeyDown={(e) => e.key === "Enter" && handleTimestampConvert()}
             />
-            <div className="flex gap-2">
-              <Button onClick={handleTimestampConvert} size="sm">Convert</Button>
-              <Button onClick={handleNow} size="sm" variant="secondary">Now</Button>
-            </div>
-          </div>
-        </Panel>
+            <Container cols={2}>
+              <Button
+                onClick={handleTimestampConvert}
+                size="sm"
+                variant="primary"
+                disabled={!timestampInput}
+              >
+                Convert
+              </Button>
+              <Button onClick={handleNow} size="sm" variant="secondary">
+                Now
+              </Button>
+            </Container>
+          </Panel>
+        </Box>
 
-        {/* Date → Timestamp */}
-        <Panel>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text(--text-primary)">Date → Timestamp</h3>
-            <input
-              type="datetime-local"
+        {/* Right panel: Date → Timestamp */}
+        <Box>
+          <Panel>
+            <DateInput
+              label="Date to timestamp"
               value={dateInput}
               onChange={(e) => setDateInput(e.target.value)}
-              className="w-full px-3 py-2 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] text(--text-primary) border border-[var(--border-default)] text-sm"
             />
-            <Button onClick={handleDateConvert} size="sm">Convert</Button>
-          </div>
-        </Panel>
-      </div>
+            <Container cols={2}>
+              <Button
+                onClick={handleDateConvert}
+                size="sm"
+                variant="primary"
+                disabled={!dateInput}
+              >
+                Convert
+              </Button>
+              <Button onClick={handleNow} size="sm" variant="secondary">
+                Now
+              </Button>
+            </Container>
+          </Panel>
+        </Box>
+      </Container>
 
-      {error && (
-        <p className="text-sm text-[var(--color-error)] px-1" role="alert">{error}</p>
-      )}
-
-      {result && (
-        <Panel>
-          <h3 className="text-sm font-medium text(--text-primary) mb-3">Conversion Result</h3>
-          <div className="space-y-2">
-            {resultTimestamp !== null && (
-              <InfoRow label="Timestamp" value={resultTimestamp.toString()} />
+      {(result || error) && (
+        <Box>
+          <Panel>
+            <Label>Results</Label>
+            {error && <Label variant="danger">{error}</Label>}
+            {resultTimestamp != null && (
+              <ResultRow label="Timestamp" value={resultTimestamp.toString()} />
             )}
-            {Object.entries(result).map(([label, value]) => (
-              <InfoRow key={label} label={label} value={value} />
-            ))}
-          </div>
-        </Panel>
+            {result &&
+              Object.entries(result).map(([label, value]) => (
+                <ResultRow key={label} label={label} value={value} />
+              ))}
+          </Panel>
+        </Box>
       )}
-    </div>
+    </Container>
   );
 }
