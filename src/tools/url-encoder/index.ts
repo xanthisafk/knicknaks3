@@ -1,9 +1,9 @@
 import type { ToolDefinition } from "@/tools/_types";
 
 export const definition: ToolDefinition = {
-  name: "URL Encoder & Decoder (Percent Encoding Tool)",
+  name: "URL Encoder",
   slug: "url-encoder",
-  description: "Encode or decode URLs and query strings.",
+  description: "Encode URLs and query strings.",
   category: "encoders",
   icon: "🔗",
   keywords: [
