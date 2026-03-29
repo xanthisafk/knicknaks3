@@ -12,7 +12,7 @@ interface CopyButtonProps {
   resetMs?: number;
   size?: CopyButtonSize;
   iconPos?: IconPosition;
-  confirmCopy: boolean;
+  confirmCopy?: boolean;
   variant?: CopyButtonVariant;
   className?: string;
 }
