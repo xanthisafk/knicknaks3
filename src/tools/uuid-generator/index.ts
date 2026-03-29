@@ -3,14 +3,22 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "UUID Generator",
   slug: "uuid-generator",
-  description: "Generate cryptographically secure v4 and v7 UUIDs",
-  longDescription:
-    "Generate universally unique identifiers (UUIDs) using cryptographically secure random values. " +
-    "Supports both classic completely randomized v4 keys, and the modern timestamp-ordered v7 keys. Generate up to 100 UUIDs simultaneously in a fast, robust offline batch.",
+  description: "Generate UUID v4 and v7 instantly.",
   category: "generators",
   icon: "🆔",
-  keywords: ["uuid generator online", "guid creator online", "generate uuid v4", "create sortable uuid v7", "cryptographically secure identifier", "bulk guid generator", "database primary key maker"],
-  tags: ["generator", "id", "developer"],
+  keywords: [
+    "uuid generator",
+    "uuid v4 generator",
+    "uuid v7 generator",
+    "guid generator online",
+    "generate uuid online",
+    "bulk uuid generator",
+    "create unique id",
+    "random uuid generator",
+    "sortable uuid v7",
+    "database id generator"
+  ],
+  tags: ["generator", "id", "developer", "uuid"],
 
   component: () => import("./UuidGeneratorTool"),
 
@@ -21,20 +29,53 @@ export const definition: ToolDefinition = {
 
   faq: [
     {
-      question: "What is the difference between UUID v4 and v7?",
-      answer:
-        "UUID v4 is purely random, ensuring high cryptographic entropy but causing severe database index fragmentation. UUID v7 embeds a millisecond-precision Unix timestamp in the first 48 bits, making it perfectly lexicographically sortable by creation time — the ideal modern standard for database primary keys."
+      question: "What is a UUID?",
+      answer: "A UUID is a universally unique identifier used to uniquely identify data across systems."
     },
     {
-      question: "Is this tool generating truly secure IDs?",
-      answer: "Yes. All randomness is sourced directly from your browser's native `window.crypto.getRandomValues()` API framework, guaranteeing cryptographically secure algorithmic generation suitable for enterprise production environments."
+      question: "What is the difference between UUID v4 and v7?",
+      answer: "v4 is random-based, while v7 includes a timestamp, making it sortable by creation time."
+    },
+    {
+      question: "When should I use UUID v7?",
+      answer: "Use v7 when you need time-ordered IDs, such as database indexes or logs."
+    },
+    {
+      question: "Are these UUIDs secure?",
+      answer: "Yes, they use cryptographically secure randomness from the browser crypto API."
+    },
+    {
+      question: "Can I generate multiple UUIDs at once?",
+      answer: "Yes, you can generate up to 100 UUIDs in a single batch."
+    },
+    {
+      question: "What is a GUID?",
+      answer: "GUID is another name for UUID, commonly used in Microsoft systems."
+    },
+    {
+      question: "Are UUIDs guaranteed to be unique?",
+      answer: "They are not guaranteed, but the probability of collision is extremely low."
+    },
+    {
+      question: "Can I use UUIDs as database primary keys?",
+      answer: "Yes, especially v7 which is optimized for indexing due to its sortable structure."
+    },
+    {
+      question: "Does this tool work offline?",
+      answer: "Yes, all generation happens locally in your browser."
+    },
+    {
+      question: "Is this tool free?",
+      answer: "Yes, it is completely free to use."
     }
   ],
 
   howItWorks:
-    "Select your preferred UUID version architecture and desired quantity, then click Generate. The resulting list of IDs can be copied individually by clicking them, or copied entirely using the bulk action button.",
+    "Choose UUID version and quantity, then generate a list of unique IDs instantly using secure browser APIs.",
 
   relatedTools: ["ulid-generator", "password-generator", "hash-generator"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-29",
 };
