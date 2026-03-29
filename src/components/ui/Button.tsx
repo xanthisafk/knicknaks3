@@ -2,9 +2,9 @@ import type { ReactNode, ButtonHTMLAttributes } from "react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type ButtonVariant = "primary" | "secondary" | "warning" | "danger" | "ghost";
-type ButtonSize = "xs" | "s" | "sm" | "m" | "md" | "l" | "lg" | "xl";
-type IconPosition = "left" | "right";
+export type ButtonVariant = "primary" | "secondary" | "warning" | "danger" | "ghost";
+export type ButtonSize = "xs" | "s" | "sm" | "m" | "md" | "l" | "lg" | "xl";
+export type IconPosition = "left" | "right";
 
 interface ButtonProps extends React.ComponentProps<'button'> {
   variant?: ButtonVariant;
