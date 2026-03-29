@@ -1,16 +1,18 @@
 // WatermarkPdfTool.tsx
 import { useState, useEffect, useRef } from "react";
-import { Button, FileInfoBar, Input } from "@/components/ui";
+import { Button, ExpectContent, FileInfoBar, InlineFileDrop, Input, Label, NeoSlider, WaitForContent } from "@/components/ui";
 import { Panel } from "@/components/layout";
 import { PDFDocument, StandardFonts, rgb, degrees as pdfDegrees } from "pdf-lib";
 import { downloadPdf, formatFileSize } from "@/tools/_pdf-utils";
 import FileDropZone from "@/components/advanced/FileDropZone";
 import { Container, FloatingContainer } from "@/components/layout/Primitive";
-import { CornerDownLeft, Download, Type, Image as ImageIcon } from "lucide-react";
+import { CornerDownLeft, Download, Type, Image as ImageIcon, Check, AlertTriangle } from "lucide-react";
 import * as pdfjsLib from "pdfjs-dist";
 
 // Use the worker bundled with pdfjs-dist
 import PdfjsWorker from "pdfjs-dist/build/pdf.worker?worker";
+import { Tab, TabList, Tabs } from "@/components/ui/tab";
+import { fmt } from "../split-bills/helpers";
 pdfjsLib.GlobalWorkerOptions.workerPort = new PdfjsWorker();
 
 // ─── Preview canvas ───────────────────────────────────────────────────────────
@@ -43,9 +45,9 @@ function PdfPageCanvas({
   watermark: WatermarkOpts;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [pageSize, setPageSize] = useState({ width: 1, height: 1 });
+  const [canvasSize, setCanvasSize] = useState({ width: 1, height: 1 });
 
-  const PREVIEW_SCALE = 0.7; // smaller scale so previews fit on screen
+  const PREVIEW_SCALE = 0.7;
 
   useEffect(() => {
     if (!pdfDoc || !canvasRef.current) return;
@@ -56,16 +58,16 @@ function PdfPageCanvas({
       const canvas = canvasRef.current!;
       canvas.width = viewport.width;
       canvas.height = viewport.height;
-      if (!cancelled) setPageSize({ width: viewport.width, height: viewport.height });
+      if (!cancelled) setCanvasSize({ width: viewport.width, height: viewport.height });
       const ctx = canvas.getContext("2d");
       await page.render({ canvasContext: ctx as CanvasRenderingContext2D, canvas, viewport }).promise;
     })();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [pdfDoc, pageNum]);
 
-  // ── CSS overlay watermark (mirrors the pdf-lib output as closely as possible) ──
+  // The overlay div is position:absolute inset-0, same pixel dimensions as the canvas.
+  // We place a single child element at the exact center using flexbox,
+  // then apply rotation via CSS transform — matching what pdf-lib does.
   const overlayStyle: React.CSSProperties = {
     position: "absolute",
     inset: 0,
@@ -79,31 +81,34 @@ function PdfPageCanvas({
   let watermarkEl: React.ReactNode = null;
 
   if (watermark.mode === "text") {
-    // Cap font at 40 % of page width (same cap used in pdf output)
+    // Cap font at 40% of canvas width (same cap used in pdf output)
     const scaledFont = Math.min(
       watermark.fontSize * PREVIEW_SCALE,
-      pageSize.width * 0.4
+      canvasSize.width * 0.4
     );
     watermarkEl = (
       <span
         style={{
           fontSize: `${scaledFont}px`,
           opacity: watermark.opacity,
-          // In pdf-lib positive rotation is counter-clockwise; CSS positive is clockwise →
-          // negate to match the rendered PDF
+          // pdf-lib: positive rotation = counter-clockwise.
+          // CSS transform rotate: positive = clockwise.
+          // So negate to keep preview in sync with PDF output.
           transform: `rotate(${-watermark.rotation}deg)`,
           color: "#808080",
           fontWeight: 700,
           whiteSpace: "nowrap",
           userSelect: "none",
           letterSpacing: "0.05em",
+          // Ensure the rotated element pivots around its own center (default)
+          transformOrigin: "center center",
         }}
       >
         {watermark.text || " "}
       </span>
     );
   } else {
-    const imgWidth = pageSize.width * watermark.scale;
+    const imgWidth = canvasSize.width * watermark.scale;
     watermarkEl = (
       <img
         src={watermark.src}
@@ -111,6 +116,7 @@ function PdfPageCanvas({
           width: `${imgWidth}px`,
           opacity: watermark.opacity,
           transform: `rotate(${-watermark.rotation}deg)`,
+          transformOrigin: "center center",
           objectFit: "contain",
           userSelect: "none",
           pointerEvents: "none",
@@ -122,17 +128,18 @@ function PdfPageCanvas({
 
   return (
     <div
-      className="relative inline-block border border-[var(--border-default)] rounded-[var(--radius-md)] overflow-hidden shadow-md bg-white"
+      className="relative inline-block border border-(--border-default) rounded-md overflow-hidden shadow-md bg-white"
       style={{ maxHeight: "55vh", maxWidth: "100%" }}
     >
       <canvas
         ref={canvasRef}
         style={{ display: "block", maxWidth: "100%", height: "auto", maxHeight: "55vh" }}
       />
-      <div aria-hidden="true" style={overlayStyle}>
+      {/* Overlay sits exactly over the canvas — same dimensions */}
+      <div aria-hidden="true" style={{ ...overlayStyle, width: canvasSize.width, height: canvasSize.height }}>
         {watermarkEl}
       </div>
-      <div className="absolute top-1.5 left-2 text-xs font-medium text-[var(--text-tertiary)] bg-white/70 rounded px-1">
+      <div className="absolute top-1.5 left-2 text-xs font-medium text-(--text-tertiary) bg-white/70 rounded px-1">
         Page {pageNum}
       </div>
     </div>
@@ -160,13 +167,38 @@ export default function WatermarkPdfTool() {
   // Image mode
   const [wmImageFile, setWmImageFile] = useState<File | null>(null);
   const [wmImageSrc, setWmImageSrc] = useState<string>("");
-  const [wmImageScale, setWmImageScale] = useState(0.4); // fraction of page width
+  const [wmImageScale, setWmImageScale] = useState(0.4);
   const wmImageBytesRef = useRef<Uint8Array | null>(null);
   const wmImageTypeRef = useRef<string>("image/png");
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState("");
 
+  // ── DEBUG: auto-load local PDF on mount ──────────────────────────────────────
+  useEffect(() => {
+    const loadDebugPdf = async () => {
+      try {
+        // fetch() can load local file:// paths in dev environments (Vite serves from disk).
+        // Adjust the path separator for your OS if needed.
+        const response = await fetch(
+          "C:/Users/Xanthis/Desktop/e1bc5898-891f-49e5-abec-b4f622792e17.pdf"
+        );
+        if (!response.ok) {
+          console.warn("[DEBUG] Could not fetch debug PDF:", response.status);
+          return;
+        }
+        const blob = await response.blob();
+        const debugFile = new File([blob], "debug.pdf", { type: "application/pdf" });
+        await handleFile(debugFile);
+        console.log("[DEBUG] Debug PDF loaded successfully");
+      } catch (err) {
+        console.warn("[DEBUG] Auto-load failed (normal if not running locally):", err);
+      }
+    };
+    loadDebugPdf();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // ────────────────────────────────────────────────────────────────────────────
 
   const handleFile = async (f: File) => {
     setFile(f);
@@ -182,7 +214,6 @@ export default function WatermarkPdfTool() {
     }
   };
 
-
   const handleWmImage = async (f: File) => {
     setWmImageFile(f);
     const url = URL.createObjectURL(f);
@@ -191,7 +222,6 @@ export default function WatermarkPdfTool() {
     wmImageBytesRef.current = arr;
     wmImageTypeRef.current = f.type;
   };
-
 
   const handleApply = async () => {
     if (!file) return;
@@ -210,16 +240,40 @@ export default function WatermarkPdfTool() {
 
         for (const page of pages) {
           const { width, height } = page.getSize();
-          const effectiveFontSize = Math.min(fontSize, width * 0.4);
-          const cx = width / 2;
-          const cy = height / 2;
 
+          // Cap font size at 40% of page width (same as preview cap)
+          const effectiveFontSize = Math.min(fontSize, width * 0.4);
+
+          // Measure text in pdf-lib units
           const textWidth = font.widthOfTextAtSize(watermarkText, effectiveFontSize);
+          // heightAtSize returns the full cap-height; descender is ~20% of that
           const textHeight = font.heightAtSize(effectiveFontSize);
 
+          // pdf-lib coordinate origin: bottom-left.
+          // drawText x/y is the bottom-left corner of the text bounding box.
+          // To center the text on the page center:
+          //   x = pageCenter.x - textWidth/2
+          //   y = pageCenter.y - textHeight/2
+          // Rotation in pdf-lib is applied around the (x, y) anchor point,
+          // NOT around the text center. To rotate around the text center instead,
+          // we must shift the anchor by half the text dimensions:
+          //   anchorX = pageCenter.x - (textWidth/2) * cos(θ) + (textHeight/2) * sin(θ)
+          //   anchorY = pageCenter.y - (textWidth/2) * sin(θ) - (textHeight/2) * cos(θ)
+          // This keeps the visual center of the rotated text at the page center.
+          const cx = width / 2;
+          const cy = height / 2;
+          const rad = (rotation * Math.PI) / 180;
+          const cos = Math.cos(rad);
+          const sin = Math.sin(rad);
+          const hw = textWidth / 2;
+          const hh = textHeight / 2;
+
+          const anchorX = cx - hw * cos + hh * sin;
+          const anchorY = cy - hw * sin - hh * cos;
+
           page.drawText(watermarkText, {
-            x: cx - textWidth / 2,
-            y: cy - textHeight / 2,
+            x: anchorX,
+            y: anchorY,
             size: effectiveFontSize,
             font,
             color: rgb(0.5, 0.5, 0.5),
@@ -241,12 +295,30 @@ export default function WatermarkPdfTool() {
 
         for (const page of pages) {
           const { width, height } = page.getSize();
+
           const imgWidth = width * wmImageScale;
           const imgHeight = (embeddedImage.height / embeddedImage.width) * imgWidth;
 
+          const cx = width / 2;
+          const cy = height / 2;
+
+          // pdf-lib drawImage x/y is the bottom-left corner of the image bounding box.
+          // Rotation is applied around that same bottom-left anchor point — NOT the center.
+          // To rotate around the image center:
+          //   anchorX = cx - (imgWidth/2)*cos(θ) + (imgHeight/2)*sin(θ)
+          //   anchorY = cy - (imgWidth/2)*sin(θ) - (imgHeight/2)*cos(θ)
+          const rad = (rotation * Math.PI) / 180;
+          const cos = Math.cos(rad);
+          const sin = Math.sin(rad);
+          const hw = imgWidth / 2;
+          const hh = imgHeight / 2;
+
+          const anchorX = cx - hw * cos + hh * sin;
+          const anchorY = cy - hw * sin - hh * cos;
+
           page.drawImage(embeddedImage, {
-            x: (width - imgWidth) / 2,
-            y: (height - imgHeight) / 2,
+            x: anchorX,
+            y: anchorY,
             width: imgWidth,
             height: imgHeight,
             opacity,
@@ -272,20 +344,19 @@ export default function WatermarkPdfTool() {
     setPdfDoc(null);
   };
 
-  // Build watermark opts for preview
+  // Build watermark opts for preview — only page 1
   const watermarkOpts: WatermarkOpts =
     mode === "text"
       ? { mode: "text", text: watermarkText, fontSize, opacity, rotation }
       : { mode: "image", src: wmImageSrc, scale: wmImageScale, opacity, rotation };
 
-  const previewPages = Math.min(pageCount, 2);
   const canApply =
     !isProcessing &&
     !!file &&
     (mode === "text" ? !!watermarkText.trim() : !!wmImageBytesRef.current);
 
   return (
-    <Container>
+    <Container cols={2}>
       {!file && (
         <FileDropZone onUpload={(f) => handleFile(f.file)} accepts=".pdf" emoji="📄" />
       )}
@@ -293,7 +364,7 @@ export default function WatermarkPdfTool() {
       {file && (
         <Container>
           {/* ── Controls ── */}
-          <Panel>
+          <Panel className="max-h-fit space-y-3">
             <FileInfoBar
               fileName={file.name}
               fileSize={formatFileSize(file.size)}
@@ -301,27 +372,17 @@ export default function WatermarkPdfTool() {
               onReset={reset}
             />
 
-            {/* Mode toggle */}
-            <div className="flex gap-2 mt-1">
-              <button
-                onClick={() => setMode("text")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-sm)] text-sm font-medium transition-colors ${mode === "text"
-                  ? "bg-[var(--color-accent)] text-white"
-                  : "bg-[var(--bg-subtle)] text-[var(--text-secondary)] hover:bg-[var(--bg-hover)]"
-                  }`}
-              >
-                <Type size={14} /> Text
-              </button>
-              <button
-                onClick={() => setMode("image")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-sm)] text-sm font-medium transition-colors ${mode === "image"
-                  ? "bg-[var(--color-accent)] text-white"
-                  : "bg-[var(--bg-subtle)] text-[var(--text-secondary)] hover:bg-[var(--bg-hover)]"
-                  }`}
-              >
-                <ImageIcon size={14} /> Image
-              </button>
-            </div>
+            {/* Mode */}
+            <Tabs
+              label="Watermark Type"
+              value={mode}
+              onValueChange={(v) => setMode(v as "text" | "image")}
+            >
+              <TabList>
+                <Tab value="text">Text</Tab>
+                <Tab value="image">Image</Tab>
+              </TabList>
+            </Tabs>
 
             {/* Text mode controls */}
             {mode === "text" && (
@@ -333,138 +394,109 @@ export default function WatermarkPdfTool() {
                   handlePaste={setWatermarkText}
                   placeholder="e.g. CONFIDENTIAL, DRAFT, SAMPLE"
                 />
-                <Container cols={2}>
-                  <Input
-                    label="Font Size (pt)"
-                    type="number"
-                    value={fontSize}
-                    onChange={(e) =>
-                      setFontSize(Math.max(8, parseInt(e.target.value) || 60))
-                    }
-                    min={8}
-                    max={300}
-                  />
-                </Container>
-                {status && (
-                  <p
-                    className={`mt-3 text-sm ${status.startsWith("Error")
-                      ? "text-[var(--color-error)]"
-                      : "text-[var(--text-secondary)]"
-                      }`}
-                  >
-                    {status}
-                  </p>
-                )}
+                <Input
+                  label="Font Size (pt)"
+                  type="number"
+                  value={fontSize}
+                  onChange={(e) =>
+                    setFontSize(Math.max(8, parseInt(e.target.value) || 60))
+                  }
+                  min={8}
+                  max={300}
+                />
+
               </>
             )}
 
             {/* Image mode controls */}
             {mode === "image" && (
               <>
-                <div>
-                  <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">
-                    Watermark Image
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-[var(--radius-sm)] border border-dashed border-[var(--border-default)] hover:border-[var(--color-accent)] transition-colors text-sm text-[var(--text-secondary)]">
-                    <ImageIcon size={14} />
-                    {wmImageFile ? wmImageFile.name : "Choose PNG / JPG…"}
-                    <input
-                      type="file"
-                      accept="image/png,image/jpeg,image/webp"
-                      className="hidden"
-                      onChange={(e) => {
-                        const f = e.target.files?.[0];
-                        if (f) handleWmImage(f);
-                      }}
-                    />
-                  </label>
+                <Label>
+                  Watermark Image
+                </Label>
+                <div className="w-full">
+                  <InlineFileDrop
+                    variant="full"
+                    onUpload={f => handleWmImage(f.file)}
+                    accept=".png,.jpg,.jpeg,.webp" />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">
-                    Size (% of page width): {Math.round(wmImageScale * 100)}%
-                  </label>
-                  <input
-                    type="range"
-                    min={0.05}
-                    max={1}
-                    step={0.01}
-                    value={wmImageScale}
-                    onChange={(e) => setWmImageScale(parseFloat(e.target.value))}
-                    className="w-full"
-                  />
-                </div>
+                <NeoSlider
+                  label="Size (% of page width)"
+                  min={5}
+                  max={100}
+                  step={1}
+                  value={Math.ceil(wmImageScale * 100)}
+                  onValueChange={(v) => setWmImageScale(v / 100)}
+                  className="w-full"
+                />
+
               </>
             )}
 
             {/* Shared controls */}
-            <Container cols={2}>
-              <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">
-                  Opacity: {Math.round(opacity * 100)}%
-                </label>
-                <input
-                  type="range"
-                  min={0.01}
-                  max={1}
-                  step={0.01}
-                  value={opacity}
-                  onChange={(e) => setOpacity(parseFloat(e.target.value))}
-                  className="w-full"
-                />
-              </div>
-              <Input
-                label="Rotation (°)"
-                type="number"
-                value={rotation}
-                onChange={(e) => setRotation(parseInt(e.target.value) ?? 45)}
-                min={-360}
-                max={360}
-              />
-            </Container>
-          </Panel>
 
-          {/* ── Preview ── */}
+            <NeoSlider
+              label="Opacity"
+              min={1}
+              max={100}
+              step={1}
+              value={Math.ceil(opacity * 100)}
+              onValueChange={(v) => setOpacity(v / 100)}
+              className="w-full"
+            />
+
+            <NeoSlider
+              label="Rotation (°)"
+              min={0}
+              max={360}
+              step={1}
+              value={Math.ceil(rotation)}
+              onValueChange={(v) => setRotation(v)}
+              className="w-full"
+            />
+          </Panel>
           <Panel>
-            <p className="text-sm font-medium text-[var(--text-primary)] mb-3">
-              Live Preview
-              {previewPages > 0
-                ? ` (${previewPages === 1 ? "Page 1" : "Pages 1–2"})`
-                : ""}
-            </p>
-            {!pdfDoc ? (
-              <div className="flex items-center justify-center h-40 text-sm text-[var(--text-tertiary)]">
-                Loading preview…
-              </div>
-            ) : (
-              <div
-                className={`flex gap-4 ${previewPages > 1 ? "flex-col sm:flex-row" : ""}`}
+            <Button
+              icon={Download}
+              onClick={handleApply}
+              disabled={!canApply}
+              className="w-full"
+            >
+              {isProcessing ? "Applying…" : "Apply Watermark & Download"}
+            </Button>
+            <Button
+              variant="ghost"
+              icon={CornerDownLeft}
+              onClick={reset}
+              className="w-full"
+            >
+              Choose Another
+            </Button>
+            {status && (
+              <Label
+                icon={status.startsWith("Error") ? AlertTriangle : Check}
+                variant={status.startsWith("Error") ? "danger" : "success"}
               >
-                {Array.from({ length: previewPages }, (_, i) => (
-                  <div key={i} className="flex-1 min-w-0 flex justify-center">
-                    <PdfPageCanvas
-                      pdfDoc={pdfDoc}
-                      pageNum={i + 1}
-                      watermark={watermarkOpts}
-                    />
-                  </div>
-                ))}
-              </div>
+                {status}
+              </Label>
             )}
           </Panel>
-
-          {/* ── Actions ── */}
-          <FloatingContainer>
-            <div className="w-full flex flex-col md:flex-row items-center justify-between gap-3">
-              <Button icon={Download} onClick={handleApply} disabled={!canApply} className="w-full md:w-auto">
-                {isProcessing ? "Applying…" : "Apply Watermark & Download"}
-              </Button>
-              <Button variant="ghost" icon={CornerDownLeft} onClick={reset} className="w-full md:w-auto">
-                Choose Another
-              </Button>
-            </div>
-          </FloatingContainer>
         </Container>
       )}
+      <Panel>
+        <Label>Preview</Label>
+        {!pdfDoc ? (
+          <ExpectContent emoji="📄" text="Upload a PDF to preview" />
+        ) : (
+          <div className="flex justify-center">
+            <PdfPageCanvas
+              pdfDoc={pdfDoc}
+              pageNum={1}
+              watermark={watermarkOpts}
+            />
+          </div>
+        )}
+      </Panel>
     </Container>
   );
 }
