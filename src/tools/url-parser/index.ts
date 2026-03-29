@@ -1,23 +1,76 @@
 import type { ToolDefinition } from "@/tools/_types";
 
 export const definition: ToolDefinition = {
-  name: "URL Parser",
-  slug: "url-parser",
-  description: "Deconstruct URL into components",
-  longDescription: "Understand precisely where a web link leads. The visual URL Parser breaks down massive, chaotic web addresses into their distinct structural properties. Instantly isolate the Protocol scheme, the core Hostname domain, specific Ports, folder Paths, nested Query string parameters, and Fragment hashes. Perfect for debugging API integrations and redirect chains.",
-  category: "dev",
+  name: "URL Parser & Decoder",
+  slug: "url-decoder",
+  description: "Parse URLs into components and parameters.",
+  category: "encoders",
   icon: "🔗",
-  keywords: ["url parser online", "break down web link", "extract url query strings", "hostname extractor", "url fragment analyzer", "check api endpoint structure", "deconstruct url"],
-  tags: ["developer", "network"],
+  keywords: [
+    "url parser",
+    "url parser online",
+    "url decoder",
+    "analyze url structure",
+    "break down url components",
+    "extract query parameters",
+    "url query string parser",
+    "parse api endpoint",
+    "url analyzer tool",
+    "split url into parts"
+  ],
+  tags: ["developer", "network", "url", "parser"],
   component: () => import("./UrlParserTool"),
   capabilities: { supportsOffline: true, supportsClipboard: true },
+
   faq: [
-    { question: "What URL networking formats are supported?", answer: "The parser robustly interprets any standardized URL scheme mathematically valid under RFC 3986. This includes standard Web (http/https), FTP servers, mailto triggers, and custom application protocol URLs." },
-    { question: "Can I visually edit the parsed parts?", answer: "Yes! Our interface is entirely bidirectional. Any edits made to the isolated component input fields (like changing the Hostname or a specific Query value) will instantly rebuild the final URL string above." },
-    { question: "Does this perform DNS lookups?", answer: "No. This tool performs strict string manipulation and syntax parsing based on the Javascript URL API. It does not actively ping or verify if the domain is currently online." }
+    {
+      question: "What is a URL parser?",
+      answer: "A URL parser breaks a URL into parts like protocol, hostname, path, query parameters, and fragment."
+    },
+    {
+      question: "What parts of a URL can this tool extract?",
+      answer: "It extracts protocol, origin, hostname, port, path, query string, fragment, and individual parameters."
+    },
+    {
+      question: "Does this tool decode query parameters?",
+      answer: "Yes, it shows both decoded and encoded values for query parameters when applicable."
+    },
+    {
+      question: "Can I parse URLs without http or https?",
+      answer: "Yes, the tool automatically normalizes input by adding a default protocol if missing."
+    },
+    {
+      question: "What are query parameters in a URL?",
+      answer: "Query parameters are key-value pairs appended after a question mark used to pass data to a server."
+    },
+    {
+      question: "What is a URL fragment?",
+      answer: "A fragment is the part after the # symbol used to reference a section within a page."
+    },
+    {
+      question: "Does this tool validate URLs?",
+      answer: "It validates format using the browser URL API, but does not check if the domain is reachable."
+    },
+    {
+      question: "Can I use this for API URLs?",
+      answer: "Yes, it is useful for inspecting REST API endpoints and debugging query strings."
+    },
+    {
+      question: "Is any data sent to a server?",
+      answer: "No, parsing happens entirely in your browser with no external requests."
+    },
+    {
+      question: "What are path segments?",
+      answer: "Path segments are the individual parts of the URL path separated by slashes."
+    }
   ],
-  howItWorks: "Paste your raw URL string into the top master input. The tool instantly slices the string at specific delimiters, filling the properties panel below. You can then edit the individual property fields to dynamically rebuild the master link.",
+
+  howItWorks:
+    "Paste a URL and the tool instantly parses it into structured components, including query parameters and path segments, using the browser URL API.",
+
   relatedTools: ["url-encoder", "url-builder", "http-status-codes"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-29",
 };
