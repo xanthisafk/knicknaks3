@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { Textarea, Button } from "@/components/ui";
+import { Button, ExpectContent, Label, Input } from "@/components/ui";
 import { Panel } from "@/components/layout";
+import { Container } from "@/components/layout/Primitive";
+import { Check, Globe, Trash2 } from "lucide-react";
+import { ResultRow } from "@/components/advanced/ResultRow";
 
 interface UAResult {
   browser: { name: string; version: string };
@@ -95,28 +98,6 @@ function parseUA(ua: string): UAResult {
   };
 }
 
-const DEVICE_ICONS: Record<string, string> = {
-  Mobile: "📱",
-  Tablet: "📲",
-  Desktop: "🖥️",
-};
-
-function Badge({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
-  if (!value || value === "Unknown") return null;
-  return (
-    <div
-      className={`rounded-[var(--radius-md)] border px-3 py-2 ${accent
-        ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500)]/10"
-        : "border-[var(--border-default)] bg-[var(--surface-elevated)]"
-        }`}
-    >
-      <div className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-widest">{label}</div>
-      <div className={`font-mono text-sm font-semibold ${accent ? "text-[var(--color-primary-500)]" : "text-[var(--text-primary)]"}`}>
-        {value}
-      </div>
-    </div>
-  );
-}
 
 export default function UserAgentParserTool() {
   const [ua, setUa] = useState("");
@@ -125,113 +106,71 @@ export default function UserAgentParserTool() {
   const displayUa = useOwn ? navigator.userAgent : ua;
   const result = displayUa.trim() ? parseUA(displayUa) : null;
 
+  const handleInputChange = (text: string) => {
+    setUa(text);
+    setUseOwn(false);
+  }
+
   return (
     <div className="space-y-2">
-      <Panel>
-        <div className="space-y-4">
-          <div>
-            <label className="text-sm font-medium text-[var(--text-primary)] block mb-2">
-              User Agent String
-            </label>
-            <Textarea
-              value={useOwn ? navigator.userAgent : ua}
-              onChange={(e) => { setUa(e.target.value); setUseOwn(false); }}
-              placeholder="Paste a User Agent string to parse..."
-              className="min-h-[80px] font-mono text-xs"
-              readOnly={useOwn}
-            />
-          </div>
-          <div className="flex items-center gap-3">
+      <Container>
+        <Panel>
+          <Input
+            label="User Agent String"
+            value={useOwn ? navigator.userAgent : ua}
+            onChange={(e) => handleInputChange(e.target.value)}
+            placeholder="Paste a User Agent string to parse..."
+            handlePaste={handleInputChange}
+            allowCopy={true}
+            onClear={() => handleInputChange("")}
+          />
+          <div className="flex flex-col md:flex-row gap-2 items-center justify-between">
             <Button
-              variant="secondary"
-              className="text-sm px-4 py-2"
-              onClick={() => setUseOwn((v) => !v)}
+              onClick={() => setUseOwn(true)}
+              icon={useOwn ? Check : Globe}
+              disabled={useOwn}
+              variant={useOwn ? "secondary" : "primary"}
+              className="border-0 w-full md:w-fit"
             >
-              {useOwn ? "✓ Using your browser" : "Use my browser's UA"}
+              {useOwn ? "Using Your User Agent" : "Use My User Agent"}
             </Button>
-            {(ua || useOwn) && (
-              <button
-                className="text-sm text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
-                onClick={() => { setUa(""); setUseOwn(false); }}
-              >
-                Clear
-              </button>
-            )}
+            <Button
+              onClick={() => handleInputChange("")}
+              icon={Trash2}
+              variant="ghost"
+              className="border-0 w-full md:w-fit"
+            >
+              Clear
+            </Button>
           </div>
-        </div>
-      </Panel>
-
-      {result && (
-        <>
-          {result.isBot && (
-            <Panel>
-              <div className="flex items-center gap-3 text-yellow-600 dark:text-yellow-400">
-                <span className="text-2xl">🤖</span>
-                <div>
-                  <div className="font-semibold">Bot / Crawler Detected</div>
-                  <div className="text-sm opacity-75">This user agent appears to be an automated bot or web crawler.</div>
-                </div>
-              </div>
-            </Panel>
-          )}
-
+        </Panel>
+        {!result && (
           <Panel>
-            <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">
-              Parsed Results
-            </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              <Badge label="Browser" value={`${result.browser.name}${result.browser.version ? " " + result.browser.version.split(".")[0] : ""}`} accent />
-              <Badge label="Engine" value={`${result.engine.name} ${result.engine.version.split(".")[0]}`} />
-              <Badge label="OS" value={`${result.os.name}${result.os.version ? " " + result.os.version : ""}`} />
-              <Badge
-                label="Device Type"
-                value={`${DEVICE_ICONS[result.device.type] || ""} ${result.device.type}`}
-              />
-              {result.device.vendor && <Badge label="Vendor" value={result.device.vendor} />}
-              {result.device.model && <Badge label="Model" value={result.device.model} />}
-            </div>
+            <ExpectContent text="Enter a User Agent string to parse..." emoji="🥨" />
           </Panel>
-
+        )}
+        {result && <>
           <Panel>
-            <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-3">
-              Full Detail
-            </h3>
-            <div className="space-y-1.5">
-              {[
-                ["Browser Name", result.browser.name],
-                ["Browser Version", result.browser.version],
-                ["Engine Name", result.engine.name],
-                ["Engine Version", result.engine.version],
-                ["OS Name", result.os.name],
-                ["OS Version", result.os.version],
-                ["Device Type", result.device.type],
-                ["Device Vendor", result.device.vendor],
-                ["Device Model", result.device.model],
-                ["Bot", result.isBot ? "Yes" : "No"],
-              ]
-                .filter(([, v]) => v)
-                .map(([label, value]) => (
-                  <div
-                    key={label}
-                    className="flex items-center justify-between text-sm border-b border-[var(--border-subtle)] last:border-b-0 py-1.5"
-                  >
-                    <span className="text-[var(--text-tertiary)] w-36 shrink-0">{label}</span>
-                    <span className="font-mono text-[var(--text-primary)] text-right break-all">{value}</span>
-                  </div>
-                ))}
-            </div>
+            <Label>Parsed Results</Label>
+            {[
+              ["Browser Name", result.browser.name],
+              ["Browser Version", result.browser.version],
+              ["Engine Name", result.engine.name],
+              ["Engine Version", result.engine.version],
+              ["OS Name", result.os.name],
+              ["OS Version", result.os.version],
+              ["Device Type", result.device.type],
+              ["Device Vendor", result.device.vendor],
+              ["Device Model", result.device.model],
+              ["Bot", result.isBot ? "Likely" : "Unlikely"],
+            ]
+              .filter(([, v]) => v)
+              .map(([label, value]) => (
+                <ResultRow key={label} label={label} value={value} />
+              ))}
           </Panel>
-        </>
-      )}
-
-      <Panel>
-        <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">Tips</h3>
-        <ul className="text-sm text-[var(--text-secondary)] space-y-2 list-disc list-inside">
-          <li>Click "Use my browser's UA" to auto-fill with your current browser's string.</li>
-          <li>Supports Chrome, Firefox, Safari, Edge, Opera, Samsung Browser, and more.</li>
-          <li>Bots and crawlers (e.g. Googlebot) are flagged automatically.</li>
-        </ul>
-      </Panel>
+        </>}
+      </Container>
     </div>
   );
 }

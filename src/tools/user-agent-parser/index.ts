@@ -3,21 +3,76 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "User Agent Parser",
   slug: "user-agent-parser",
-  description: "Turn user agent string into readable data",
-  longDescription: "Uncover the precise details of internet traffic headers. Our extensive User Agent string parser deeply analyzes complex UA headers to reliably identify the specific Web Browser (e.g., Chrome, Safari), underlying Engine (e.g., WebKit, Gecko), Operating System, and physical Device Category (Mobile, Tablet, Desktop) making the network request.",
+  description: "Parse user agent strings into browser, OS, and device.",
   category: "dev",
   icon: "🕵️",
-  keywords: ["user agent parser online", "detect browser from string", "ua string analyzer", "identify mobile user agent", "parse navigator object", "check web browser version", "bot user agent checker"],
-  tags: ["developer", "network"],
-  component: () => import("./UserAgentParserTool"),
-  capabilities: { supportsOffline: true, supportsClipboard: true },
-  faq: [
-    { question: "What exactly is a User-Agent?", answer: "A User-Agent is a specialized text string automatically sent by web browsers in the HTTP headers of every network request to identify their capabilities to the receiving server. It includes the browser name, version, host OS, and layout engine." },
-    { question: "Can a User-Agent be spoofed or faked?", answer: "Yes, very easily. Both users and automated bots constantly manipulate their UA strings (for privacy or malicious web scraping), so they should never be solely relied upon for strict security measures." },
-    { question: "Does this parse search engine bots?", answer: "Yes. In addition to standard consumer device formats, the internal parsing dictionary reliably identifies strings from major crawlers like Googlebot, Bingbot, and popular social web scrapers." }
+  keywords: [
+    "user agent parser",
+    "ua parser online",
+    "user agent analyzer",
+    "browser detector from user agent",
+    "detect device from user agent",
+    "ua string parser",
+    "identify browser version",
+    "user agent lookup",
+    "bot user agent checker",
+    "parse navigator userAgent"
   ],
-  howItWorks: "Upon loading, the tool automatically reads your own browser's native `navigator.userAgent` property. To test other strings, simply paste any raw UA header text into the input box to instantly dissect the software components.",
+  tags: ["developer", "network", "browser", "ua"],
+
+  component: () => import("./UserAgentParserTool"),
+
+  capabilities: { supportsOffline: true, supportsClipboard: true },
+
+  faq: [
+    {
+      question: "What is a user agent string?",
+      answer: "A user agent string is a text identifier sent by browsers that includes details about the browser, operating system, and device."
+    },
+    {
+      question: "What can this user agent parser detect?",
+      answer: "It detects browser name and version, rendering engine, operating system, device type, vendor, and possible bot status."
+    },
+    {
+      question: "How do I find my user agent?",
+      answer: "Click the 'Use My User Agent' button to automatically load your browser's user agent string."
+    },
+    {
+      question: "Can user agents be faked?",
+      answer: "Yes, user agent strings can be easily spoofed, so they should not be used alone for security decisions."
+    },
+    {
+      question: "Does this detect bots and crawlers?",
+      answer: "Yes, it flags common bot patterns such as Googlebot, Bingbot, and other crawlers."
+    },
+    {
+      question: "What is a rendering engine?",
+      answer: "A rendering engine is the browser component responsible for displaying web content, such as WebKit or Gecko."
+    },
+    {
+      question: "Can I parse mobile user agents?",
+      answer: "Yes, it detects mobile, tablet, and desktop devices along with vendor and model when available."
+    },
+    {
+      question: "Is this tool accurate?",
+      answer: "It provides reliable parsing based on common patterns, but uncommon or custom user agents may not be fully recognized."
+    },
+    {
+      question: "Is my data sent anywhere?",
+      answer: "No, all parsing happens locally in your browser without any server requests."
+    },
+    {
+      question: "Is this tool free?",
+      answer: "Yes, it is completely free and works offline."
+    }
+  ],
+
+  howItWorks:
+    "Paste a user agent string or use your own, and the tool instantly parses it into browser, engine, OS, and device details.",
+
   relatedTools: ["screen-info", "url-parser", "http-status-codes"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-29",
 };
