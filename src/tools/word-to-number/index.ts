@@ -3,21 +3,71 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "Word to Number",
   slug: "word-to-number",
-  description: "Convert words to numbers and numbers to words",
-  longDescription: "Effortlessly bridge the gap between mathematics and linguistics. Our bidirectional Word-to-Number translator takes written phrases (like 'three hundred forty two') and mathematically converts them into integers ('342'), and vice versa. Perfect for data entry normalization, students learning English numerical grammar, and programming string manipulation.",
+  description: "Convert number words to digits instantly. Supports decimals, large numbers, and formats.",
   category: "converters",
   icon: "🔢",
-  keywords: ["word to number converter", "numbers to words online", "spell out number", "english number translation", "digit to text generator", "written number decoder", "convert text to integer"],
-  tags: ["text", "numbers", "conversion"],
-  component: () => import("./WordToNumberTool"),
-  capabilities: { supportsOffline: true, supportsClipboard: true },
-  faq: [
-    { question: "What is the maximum number it can convert?", answer: "The parsing engine is incredibly robust, successfully translating digits into the trillions (both positive and negative) in both text-to-number and number-to-text directions." },
-    { question: "Does it understand decimal points?", answer: "Yes! Writing a phrase like 'three point five' will successfully translate to '3.5', while inserting fractional digits will reverse out into properly spaced english words." },
-    { question: "Does it require grammar to be perfect?", answer: "Not entirely. The linguistic parser is forgiving with hyphens, capitalizations, and conjunctions (e.g. 'one hundred AND twenty' works identically to 'one hundred twenty')." }
+  keywords: [
+    "word to number converter",
+    "convert words to numbers",
+    "text to number converter",
+    "number words to digits",
+    "english words to number",
+    "spell number to digit",
+    "written number converter",
+    "convert text to integer",
+    "decimal words to number",
+    "large number word converter"
   ],
-  howItWorks: "Type either a standard digit (e.g., '1024') or a written phrase (e.g., 'one thousand twenty-four') into the input field. The tool continuously evaluates the string type, simultaneously translating it into its exact structural opposite.",
+  tags: ["text", "numbers", "conversion"],
+
+  component: () => import("./WordToNumberTool"),
+
+  capabilities: { supportsOffline: true, supportsClipboard: true },
+
+  faq: [
+    {
+      question: "How do I convert words to numbers?",
+      answer: "Type or paste number words like 'one hundred twenty three' and the tool instantly converts them into digits."
+    },
+    {
+      question: "Can it convert large numbers?",
+      answer: "Yes, it supports large values including millions, billions, trillions, and regional formats like lakh and crore."
+    },
+    {
+      question: "Does it support decimal numbers?",
+      answer: "Yes, phrases like 'three point five' are converted into 3.5 automatically."
+    },
+    {
+      question: "Can I enter negative numbers?",
+      answer: "Yes, using words like 'minus' or 'negative' will produce negative values."
+    },
+    {
+      question: "Does it handle different number systems?",
+      answer: "Yes, both Western (million, billion) and Indian (lakh, crore) systems are supported."
+    },
+    {
+      question: "Do I need perfect grammar or formatting?",
+      answer: "No, the parser handles variations like hyphens, spacing, and optional words like 'and'."
+    },
+    {
+      question: "Is this word to number converter free?",
+      answer: "Yes, it is completely free with no usage limits."
+    },
+    {
+      question: "Is my input data stored?",
+      answer: "No, your input is not stored or sent anywhere."
+    },
+    {
+      question: "What happens if the input is invalid?",
+      answer: "If the text cannot be parsed into a number, the tool will return an empty result."
+    }
+  ],
+
+  howItWorks:
+    "Enter number words like 'two thousand five hundred' and instantly convert them into digits, including decimals and large values.",
+
   relatedTools: ["number-to-words", "percentage-calc"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-30",
 };
