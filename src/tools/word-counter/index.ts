@@ -1,14 +1,23 @@
 import type { ToolDefinition } from "@/tools/_types";
 
 export const definition: ToolDefinition = {
-  name: "Word & Character Counter",
+  name: "Word Counter",
   slug: "word-counter",
-  description: "Count word, characters, sentences and reading time",
-  longDescription:
-    "A powerful, real-time typography analytics dashboard designed for writers, students, and SEO marketers. Beyond basic word and character counting (with or without spaces), this tool instantly calculates paragraph density, sentence boundaries, estimated human reading time, and theoretical speaking time based on standardized adult reading metrics.",
+  description: "Free online word counter with character count, sentences, and reading time.",
   category: "text",
   icon: "📝",
-  keywords: ["word counter online", "character count tool", "how many words is this", "reading time calculator", "paragraph counter", "text length analyzer", "count words without spaces"],
+  keywords: [
+    "word counter",
+    "word counter online free",
+    "character count tool",
+    "count words and characters",
+    "reading time calculator",
+    "sentence counter",
+    "paragraph counter",
+    "text analyzer online",
+    "word count checker",
+    "characters without spaces counter"
+  ],
   tags: ["text", "analytics", "writing"],
 
   component: () => import("./WordCounterTool"),
@@ -20,25 +29,49 @@ export const definition: ToolDefinition = {
 
   faq: [
     {
-      question: "How is the reading and speaking time calculated?",
-      answer:
-        "Standard reading time estimation relies on an industry-standard average reading speed of 200 words per minute (WPM), typical for adult English readers. Speaking time utilizes a slightly slower 130 WPM average to account for vocal pacing."
+      question: "How do I count words in my text?",
+      answer: "Paste or type your text into the box and the word count updates instantly in real time."
     },
     {
-      question: "Does the character count include special symbols?",
-      answer:
-        "Yes. The primary 'Characters' metric counts absolutely every keystroke (including spaces, newlines, and punctuation). We also provide a distinct 'Characters (no spaces)' metric strictly excluding whitespace."
+      question: "Does this tool count characters and spaces?",
+      answer: "Yes, it shows total characters and characters without spaces as separate metrics."
     },
     {
-      question: "Is there a limit to how much text I can paste?",
-      answer: "Since the entire calculation loops via Javascript directly within your own browser with no server uploads, the only limit is the total RAM size of your computer. Most modern devices can easily handle counting hundreds of thousands of words instantly."
+      question: "How is reading time calculated?",
+      answer: "Reading time is estimated using an average speed of 200 words per minute."
+    },
+    {
+      question: "How is speaking time calculated?",
+      answer: "Speaking time is based on an average pace of 130 words per minute."
+    },
+    {
+      question: "Can I count sentences and paragraphs?",
+      answer: "Yes, the tool automatically detects sentences and paragraphs from your text."
+    },
+    {
+      question: "Is this word counter free?",
+      answer: "Yes, the tool is completely free with no limits or sign-up required."
+    },
+    {
+      question: "Is my text saved or uploaded?",
+      answer: "No, your text stays private and is never uploaded or stored."
+    },
+    {
+      question: "Can I use this for essays or SEO content?",
+      answer: "Yes, it's useful for essays, blog posts, SEO writing, and social media content."
+    },
+    {
+      question: "What counts as a word?",
+      answer: "Words are detected by splitting text based on spaces and standard whitespace."
     }
   ],
 
   howItWorks:
-    "Paste or type your text draft into the large input area. The analytics dashboard above updates in absolute real-time on every single keystroke. Words are split by generic whitespace, sentences are grouped by terminal punctuation (`.!?`), and paragraphs are determined by detecting blank line breaks.",
+    "Paste or type text to instantly count words, characters, sentences, and reading time in real time.",
 
   relatedTools: ["case-converter", "text-sorter", "lorem-ipsum"],
   schemaType: "WebApplication",
-  updatedAt: "2026-03-03",
+  createdAt: "2026-03-03",
+  launchedAt: "2026-03-03",
+  updatedAt: "2026-03-30",
 };
