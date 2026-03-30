@@ -44,7 +44,7 @@ export function CopyButton({
   return (
     <Button
       type="button"
-      onClick={handleCopy}
+      onClick={(e) => { e.stopPropagation(); handleCopy() }}
       aria-label={copied ? "Copied to clipboard" : "Copy to clipboard"}
       className={className}
       variant={variant}

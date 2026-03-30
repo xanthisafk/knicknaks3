@@ -1,8 +1,19 @@
 import { cn } from "@/lib";
-import { stringHasEmoji, wrapEmojisWithSpan } from "@/lib/emojiHelper";
+import { wrapEmojisWithSpan } from "@/lib/emojiHelper";
 import { BadgeQuestionMark, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { Label } from "./Label";
+import { CopyButton } from "./CopyButton";
+
+export interface StatBoxProps {
+    label: string;
+    value: string | number;
+    tooltip?: string;
+    url?: string;
+    textSize?: string
+    allowCopy?: boolean
+    prefix?: string
+}
 
 export default function StatBox({
     label,
@@ -10,15 +21,9 @@ export default function StatBox({
     tooltip,
     url,
     textSize,
+    allowCopy = true,
     prefix
-}: {
-    label: string;
-    value: string | number;
-    tooltip?: string;
-    url?: string;
-    textSize?: string
-    prefix?: string
-}) {
+}: StatBoxProps) {
     const [visible, setVisible] = useState(false);
 
     return (
@@ -52,6 +57,9 @@ export default function StatBox({
                     ? <BadgeQuestionMark className="absolute right-2 top-2 opacity-30 size-3" />
                     : ""
             }
+            {allowCopy && <CopyButton text={`${value}`} className="absolute z-10 right-2 bottom-2" />}
         </div>
+
+
     );
 }
