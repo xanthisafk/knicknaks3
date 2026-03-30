@@ -9,3 +9,4 @@ export * from "./storage";
 export * from "./utils";
 export * from "./zodiac";
 export * from "./currencyHelper";
+export * from "./downloadHelper";
