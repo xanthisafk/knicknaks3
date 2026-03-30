@@ -6,7 +6,6 @@ export const definition: ToolDefinition = {
   description: "Add a watermark to your PDF file",
   category: "pdf",
   icon: "©️",
-  status: "beta",
   keywords: ["watermark pdf online", "add stamp to pdf", "overlay text on pdf", "brand pdf document", "draft watermark maker", "secure pdf document", "transparent pdf text overlay"],
   tags: ["pdf", "edit"],
 
@@ -35,5 +34,5 @@ export const definition: ToolDefinition = {
   schemaType: "WebApplication",
   createdAt: "2026-03-04",
   launchedAt: "2026-03-04",
-  updatedAt: "2026-03-29",
+  updatedAt: "2026-03-30",
 };
