@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { Label } from "./Label";
 import { Emoji } from "./Emoji";
+import { TriangleAlert } from "lucide-react";
 
 export type InlineFileDropSize = "default" | "full";
 
@@ -10,6 +11,7 @@ export type InlineFileDropProps = {
     emoji?: string;
     variant?: InlineFileDropSize;
     label?: string;
+    text?: string;
     onUpload?: (payload: { file: File }) => void;
 };
 
@@ -22,13 +24,15 @@ export function InlineFileDrop({
     maxSize,
     emoji = "📎",
     variant = "default",
-    label = "Upload file",
+    text = "Upload File",
+    label,
     onUpload,
     ...rest
 }: InlineFileDropProps & React.InputHTMLAttributes<HTMLInputElement>) {
     const ref = useRef<HTMLInputElement>(null);
     const [dragging, setDragging] = useState(false);
     const [warning, setWarning] = useState("");
+    const id = useId();
 
     function isValidType(file: File) {
         if (accepts === "*") return true;
@@ -63,38 +67,52 @@ export function InlineFileDrop({
     const isFull = variant === "full";
 
     return (
-        <span
-            onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-            onDragLeave={() => setDragging(false)}
-            onDrop={handleDrop}
-            onClick={handleClick}
-            tabIndex={0}
-            onKeyDown={handleKeyDown}
-            className={cn(
-                "items-center gap-1 px-2 py-2 rounded-md border text-sm cursor-pointer select-none transition",
-                isFull ? "flex w-full justify-center" : "inline-flex",
-                dragging
-                    ? "border-primary-500 bg-primary-500/10"
-                    : "border-(--border-default) hover:border-primary-500/60"
-            )}
-        >
-            <Emoji>{emoji}</Emoji><Label>{label}</Label>
+        <div className={cn("flex flex-col gap-3", isFull ? "w-full" : "inline-flex")}>
+            {label && <div className="max-h-4 h-4">
+                <Label htmlFor={id}>{label}</Label>
+            </div>}
+            <span
+                onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+                onDragLeave={() => setDragging(false)}
+                onDrop={handleDrop}
+                onClick={handleClick}
+                tabIndex={0}
+                onKeyDown={handleKeyDown}
+                aria-labelledby={id}
+                className={cn(
+                    // Match Input's wrapperBase tokens 1-to-1
+                    "flex items-center gap-2 justify-start",
+                    "rounded-md border px-3 py-2",
+                    "bg-(--surface-elevated)",
+                    "border-(--border-default)",
+                    "hover:border-(--border-hover)",
+                    "focus-within:border-(--border-focus) focus-within:ring-2 focus-within:ring-(--ring-color)",
+                    "transition-colors duration-(--duration-fast)",
+                    "text-sm cursor-pointer select-none",
+                    isFull ? "w-full" : "inline-flex",
+                    dragging && "border-primary-500 bg-primary-500/10",
+                )}
+            >
+                <Emoji>{emoji}</Emoji>
+                <Label className="truncate">{text}</Label>
 
-            {warning && (
-                <span className="text-red-500 text-[10px]">{warning}</span>
-            )}
+                {warning && (
+                    <Label variant="danger" icon={TriangleAlert}>{warning}</Label>
+                )}
 
-            <input
-                ref={ref}
-                type="file"
-                accept={accepts}
-                className="hidden"
-                {...rest}
-                onChange={(e) => {
-                    handleFile(e.target.files?.[0]);
-                    e.target.value = "";
-                }}
-            />
-        </span>
+                <input
+                    id={id}
+                    ref={ref}
+                    type="file"
+                    accept={accepts}
+                    className="hidden"
+                    {...rest}
+                    onChange={(e) => {
+                        handleFile(e.target.files?.[0]);
+                        e.target.value = "";
+                    }}
+                />
+            </span>
+        </div>
     );
 }
