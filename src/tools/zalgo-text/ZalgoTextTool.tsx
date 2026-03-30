@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { Textarea, Button, Input } from "@/components/ui";
+import { useMemo, useState } from "react";
+import { Textarea, Button, Input, Toggle, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
+import { Container } from "@/components/layout/Primitive";
+import { Radio, RadioGroup } from "@/components/ui/radio";
 
 // Unicode combining characters for Zalgo effect
 const ZALGO_UP = [
@@ -80,145 +82,42 @@ export default function ZalgoTextGeneratorTool() {
   const [useUp, setUseUp] = useState(true);
   const [useMid, setUseMid] = useState(true);
   const [useDown, setUseDown] = useState(true);
-  const [output, setOutput] = useState("");
-  const [copied, setCopied] = useState(false);
-  const [seed, setSeed] = useState(0); // used to re-randomise
 
-  const generate = () => {
-    setOutput(zalgoify(text, intensity, useUp, useMid, useDown));
-    setSeed((s) => s + 1);
-  };
-
-  const handleCopy = () => {
-    if (!output) return;
-    navigator.clipboard.writeText(output).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
-  };
-
-  const handleClear = () => {
-    setOutput("");
-    setText("");
-  };
+  const out = useMemo(() => zalgoify(text, intensity, useUp, useMid, useDown), [text, intensity, useUp, useMid, useDown]);
 
   return (
-    <div className="space-y-2">
+    <Container cols={2}>
       <Panel>
-        <div className="space-y-5">
-          <div>
-            <label className="text-sm font-medium text-[var(--text-primary)] block mb-2">
-              Input Text
-            </label>
-            <Textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Type something innocent..."
-              className="min-h-[80px]"
-            />
-          </div>
-
-          {/* Intensity */}
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Intensity</label>
-            <div className="flex rounded-[var(--radius-md)] overflow-hidden border border-[var(--border-default)] w-fit">
-              {INTENSITY_OPTIONS.map(({ value, label, desc }) => (
-                <button
-                  key={value}
-                  onClick={() => setIntensity(value)}
-                  title={desc}
-                  className={`px-4 py-2 text-sm border-r border-[var(--border-default)] last:border-r-0 transition-colors ${intensity === value
-                    ? "bg-[var(--color-primary-500)] text-white"
-                    : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                    }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-            <span className="text-xs text-[var(--text-tertiary)]">
-              {INTENSITY_OPTIONS.find((o) => o.value === intensity)?.desc}
-            </span>
-          </div>
-
-          {/* Direction toggles */}
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-[var(--text-primary)]">Corruption Direction</label>
-            <div className="flex gap-3">
-              {[
-                { label: "↑ Above", checked: useUp, set: setUseUp },
-                { label: "● Middle", checked: useMid, set: setUseMid },
-                { label: "↓ Below", checked: useDown, set: setUseDown },
-              ].map(({ label, checked, set }) => (
-                <label key={label} className="flex items-center gap-1.5 text-sm text-[var(--text-secondary)] cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={(e) => set(e.target.checked)}
-                    className="rounded accent-[var(--color-primary-500)]"
-                  />
-                  {label}
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex gap-3">
-            <Button
-              variant="primary"
-              onClick={generate}
-              disabled={!text.trim()}
-              className="px-6 py-2"
-            >
-              ☠ Zalgoify
-            </Button>
-            {output && (
-              <Button variant="secondary" onClick={generate} className="px-4 py-2">
-                ↻ Re-randomise
-              </Button>
-            )}
-            {(text || output) && (
-              <Button variant="secondary" onClick={handleClear} className="px-4 py-2">
-                Clear
-              </Button>
-            )}
-          </div>
+        <Textarea
+          label="Normal Text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          handlePaste={setText}
+          onClear={() => setText("")}
+          placeholder="Type something..."
+        />
+        <RadioGroup label="Intensity" value={intensity} onValueChange={v => setIntensity(v as Intensity)}>
+          {INTENSITY_OPTIONS.map((option) => (
+            <Radio key={option.value} value={option.value} label={option.label} />
+          ))}
+        </RadioGroup>
+        <Label>Direction</Label>
+        <div className="flex flex-row flex-wrap gap-3">
+          <Toggle label="Above" checked={useUp} onChange={() => setUseUp(!useUp)} />
+          <Toggle label="Middle" checked={useMid} onChange={() => setUseMid(!useMid)} />
+          <Toggle label="Below" checked={useDown} onChange={() => setUseDown(!useDown)} />
         </div>
       </Panel>
-
-      {output && (
-        <Panel>
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase">
-              Output
-            </h3>
-            <Button
-              variant="secondary"
-              className="px-4 py-1.5 text-sm"
-              onClick={handleCopy}
-            >
-              {copied ? "✓ Copied" : "Copy"}
-            </Button>
-          </div>
-          <div className="rounded-[var(--radius-md)] bg-[var(--surface-bg)] border border-[var(--border-default)] p-4 min-h-[5rem] font-mono text-2xl leading-[3rem] break-all text-[var(--text-primary)]">
-            {output}
-          </div>
-        </Panel>
-      )}
-
       <Panel>
-        <h3 className="text-[10px] font-semibold tracking-widest text-[var(--text-tertiary)] uppercase mb-4">
-          What is Zalgo text?
-        </h3>
-        <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-          Zalgo text uses Unicode <strong>combining characters</strong> — diacritics that stack above, below, or through base characters. These are normally used for accents like <code>é</code> or <code>ñ</code>, but stacking many of them creates the signature chaotic, glitchy look. The text remains fully copy-pasteable.
-        </p>
-        <ul className="text-sm text-[var(--text-secondary)] space-y-2 list-disc list-inside mt-3">
-          <li>Hit <strong>Re-randomise</strong> for a different pattern with the same settings.</li>
-          <li>Toggle directions to corrupt only above, below, or through the middle.</li>
-          <li><strong>Extreme</strong> intensity will likely break most layouts — use wisely.</li>
-        </ul>
+        <Textarea
+          label="Output Text"
+          value={out}
+          readOnly
+          placeholder="Output will show up here..."
+          rows={12}
+        />
       </Panel>
-    </div>
+    </Container>
+
   );
 }

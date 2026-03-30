@@ -4,7 +4,6 @@ export const definition: ToolDefinition = {
   name: "Zalgo Text Generator",
   slug: "zalgo-text",
   description: "Currupt your text and make it look weird!",
-  longDescription: "Summon the void into your standard text box. The Zalgo Text Generator overlays your standard alphabetic text input with chaotic, random layers of invisible Unicode combining algorithms. It simulates extreme graphical glitches, horror aesthetics, and 'cursed' computer crashes. Perfect for Halloween, gaming usernames, and disturbing Discord messages.",
   category: "text",
   icon: "👾",
   keywords: ["zalgo text generator", "glitch text maker", "creepy cursed text", "corrupted string generator", "demonic font copy paste", "weird unicode symbols", "scary text effect"],

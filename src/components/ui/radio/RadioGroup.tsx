@@ -1,6 +1,7 @@
 import { type ReactNode, useId } from "react";
 import { cn } from "@/lib/utils";
 import { RadioGroupContext } from "./useRadioGroup";
+import { Label } from "../Label";
 
 export interface RadioGroupProps {
     value: string;
@@ -38,13 +39,13 @@ export function RadioGroup({
         <RadioGroupContext.Provider
             value={{ name: name ?? autoName, value, onValueChange, disabled, size, error }}
         >
-            <fieldset className={cn("border-none p-0 m-0", className)} disabled={disabled}>
+            <fieldset className={cn("border-none p-0 pb-2 m-0", className)} disabled={disabled}>
                 {(label || description) && (
                     <div className="mb-2 flex flex-col gap-0.5">
                         {label && (
-                            <legend className="text-sm font-medium text-(--text-primary) float-none p-0">
+                            <Label>
                                 {label}
-                            </legend>
+                            </Label>
                         )}
                         {description && (
                             <p className="text-xs text-(--text-tertiary)">{description}</p>
