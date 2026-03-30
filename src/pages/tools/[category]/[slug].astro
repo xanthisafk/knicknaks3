@@ -329,3 +329,31 @@ function buildLicenseSentence(license: typeof tool.license) {
     <Footer />
   </div>
 </BaseLayout>
+
+<!-- Recently Used: push current tool into localStorage -->
+<script define:vars={{ toolData: { slug: tool.slug, name: tool.name, description: tool.description, icon: tool.icon, category: tool.category } }}>
+  (function () {
+    const STORAGE_KEY = "knicknaks_recent_tools";
+    const MAX_ITEMS = 4;
+
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      let recent = stored ? JSON.parse(stored) : [];
+
+      // Remove duplicate if this tool already exists
+      recent = recent.filter((t) => t.slug !== toolData.slug);
+
+      // Push current tool to the front
+      recent.unshift(toolData);
+
+      // Keep only the last MAX_ITEMS
+      if (recent.length > MAX_ITEMS) {
+        recent = recent.slice(0, MAX_ITEMS);
+      }
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(recent));
+    } catch (e) {
+      // Silently fail if localStorage is unavailable
+    }
+  })();
+</script>
