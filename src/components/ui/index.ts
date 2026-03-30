@@ -1,7 +1,6 @@
 export * from "./Button";
 export * from "./Input";
 export * from "./Slider";
-export * from "./NeoSlider";
 export * from "./Toggle";
 export * from "./Tabs";
 export * from "./Modal";
