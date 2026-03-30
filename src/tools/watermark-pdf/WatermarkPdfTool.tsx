@@ -1,4 +1,3 @@
-// WatermarkPdfTool.tsx
 import { useState, useRef } from "react";
 import { Button, ExpectContent, FileInfoBar, InlineFileDrop, Input, Label } from "@/components/ui";
 import { Panel } from "@/components/layout";
