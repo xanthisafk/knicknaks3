@@ -45,7 +45,7 @@ export default function CsvToJsonTool() {
   const [options, setOptions] = useState<ParseOptions>(DEFAULT_OPTIONS);
 
   const output = useMemo(
-    () => (input.trim() ? parseCsv(input, options) : null),
+    async () => (input.trim() ? await parseCsv(input, options) : null),
     [input, options]
   );
 
