@@ -115,7 +115,7 @@ export default function JsonToCsvTool() {
             <>
               <div className="flex flex-row justify-between items-center">
                 <Label>CSV Preview</Label>
-                <div className="flex flex-row gap-2 max-h-200 overflow-y-auto">
+                <div className="flex flex-row gap-2">
                   <Tooltip content={previewMode === "table" ? "Switch to Raw View" : "Switch to Table View"}><Button
                     variant="ghost"
                     size="sm"

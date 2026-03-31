@@ -15,11 +15,14 @@ export const DEFAULT_CSV_PARSE_OPTIONS: CsvParseOptions = {
     delimiter: ",",
 };
 
-// YAML ///////////////////////////
-export interface YamlParseOptions {
-
+export function flattenObject(obj: Record<string, unknown>, prefix = ""): Record<string, unknown> {
+    return Object.entries(obj).reduce((acc, [key, value]) => {
+        const flatKey = prefix ? `${prefix}.${key}` : key;
+        if (value !== null && typeof value === "object" && !Array.isArray(value)) {
+            Object.assign(acc, flattenObject(value as Record<string, unknown>, flatKey));
+        } else {
+            acc[flatKey] = value;
+        }
+        return acc;
+    }, {} as Record<string, unknown>);
 }
-
-export const DEFAULT_YAML_PARSE_OPTIONS: YamlParseOptions = {
-
-};
