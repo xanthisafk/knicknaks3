@@ -1,5 +1,4 @@
 import Papa from "papaparse";
-import type { ParseOptions } from "../csv-to-json/CsvToJsonTool";
 import { Box, Container, FloatingContainer } from "@/components/layout/Primitive";
 import { useCallback, useMemo, useState } from "react";
 import { download, getFileSize, normalizeFileName } from "@/lib";
@@ -7,20 +6,15 @@ import { Panel } from "@/components/layout";
 import { Button, CopyButton, ExpectContent, InlineFileDrop, Input, Label, Textarea, Toggle, Tooltip } from "@/components/ui";
 import { Download, Repeat2 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import type { CsvParseOptions } from "@/lib"
+import { DEFAULT_CSV_PARSE_OPTIONS } from "@/lib"
 
-const DEFAULT_OPTIONS: ParseOptions = {
-  header: true,
-  dynamicTyping: true,
-  skipEmptyLines: true,
-  metadata: false,
-  delimiter: ",",
-};
 
 export default function JsonToCsvTool() {
   const [input, setInput] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState("");
-  const [options, setOptions] = useState<ParseOptions>(DEFAULT_OPTIONS);
+  const [options, setOptions] = useState<CsvParseOptions>(DEFAULT_CSV_PARSE_OPTIONS);
   const [previewMode, setPreviewMode] = useState<"table" | "raw">("table");
 
   const output = useMemo<string | null>(() => {
@@ -53,7 +47,7 @@ export default function JsonToCsvTool() {
   }, []);
 
   const handleOptionChange = useCallback(
-    <K extends keyof ParseOptions>(option: K, value: ParseOptions[K]) => {
+    <K extends keyof CsvParseOptions>(option: K, value: CsvParseOptions[K]) => {
       setOptions((prev) => ({ ...prev, [option]: value }));
     },
     []
@@ -121,7 +115,7 @@ export default function JsonToCsvTool() {
             <>
               <div className="flex flex-row justify-between items-center">
                 <Label>CSV Preview</Label>
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-row gap-2 max-h-200 overflow-y-auto">
                   <Tooltip content={previewMode === "table" ? "Switch to Raw View" : "Switch to Table View"}><Button
                     variant="ghost"
                     size="sm"
