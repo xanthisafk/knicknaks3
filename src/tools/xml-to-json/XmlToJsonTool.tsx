@@ -2,9 +2,9 @@ import { useCallback, useMemo, useState } from "react";
 import { XMLParser } from "fast-xml-parser";
 import { Box, Container } from "@/components/layout/Primitive";
 import { Panel } from "@/components/layout";
-import { Button, ExpectContent, InlineFileDrop, Input, Textarea, Toggle } from "@/components/ui";
+import { Button, ExpectContent, InlineFileDrop, Input, Label, Textarea, Toggle } from "@/components/ui";
 import CodeBlock from "@/components/advanced/CodeBlock";
-import { Download } from "lucide-react";
+import { AlertTriangle, Download } from "lucide-react";
 import { download, getFileSize, normalizeFileName } from "@/lib";
 import { useToast } from "@/hooks/useToast";
 
@@ -12,9 +12,12 @@ export default function XmlToJsonTool() {
   const [input, setInput] = useState("");
   const [fileName, setFileName] = useState("");
   const [ignoreAttributes, setIgnoreAttributes] = useState(false);
+  const [error, setError] = useState("");
   const toast = useToast();
 
   const output = useMemo(() => {
+    setError("");
+
     const trimmed = input.trim();
     if (!trimmed) return null;
     try {
@@ -22,8 +25,15 @@ export default function XmlToJsonTool() {
         ignoreAttributes,
       });
       const parsed = parser.parse(trimmed);
+      if (Object.keys(parsed).length === 0) {
+        setError("No root element found");
+        return null;
+      }
+
       return JSON.stringify(parsed, null, 2);
-    } catch {
+    } catch (e: any) {
+      console.log(e.message);
+      setError("Invalid XML");
       return null;
     }
   }, [input, ignoreAttributes]);
@@ -70,6 +80,7 @@ export default function XmlToJsonTool() {
             checked={ignoreAttributes}
             onChange={setIgnoreAttributes}
           />
+          {error && <><br /><Label variant="danger" icon={AlertTriangle}>{error}</Label></>}
         </Panel>
         {output && (
           <Panel>
