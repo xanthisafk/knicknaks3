@@ -2,24 +2,28 @@ import { useCallback, useMemo, useState } from "react";
 import { parse } from "yaml";
 import { Box, Container } from "@/components/layout/Primitive";
 import { Panel } from "@/components/layout";
-import { Button, ExpectContent, InlineFileDrop, Input, Textarea } from "@/components/ui";
+import { Button, ExpectContent, InlineFileDrop, Input, Label, Textarea } from "@/components/ui";
 import CodeBlock from "@/components/advanced/CodeBlock";
-import { Download } from "lucide-react";
+import { AlertTriangle, Download } from "lucide-react";
 import { download, getFileSize, normalizeFileName } from "@/lib";
 import { useToast } from "@/hooks/useToast";
 
 export default function YamlToJsonTool() {
   const [input, setInput] = useState("");
   const [fileName, setFileName] = useState("");
+  const [error, setError] = useState("");
   const toast = useToast();
 
   const output = useMemo(() => {
+    setError("");
     const trimmed = input.trim();
     if (!trimmed) return null;
     try {
       const parsed = parse(trimmed);
       return JSON.stringify(parsed, null, 2);
-    } catch {
+    } catch (e: any) {
+      console.error(e.message);
+      setError("Invalid YAML")
       return null;
     }
   }, [input]);
@@ -61,6 +65,7 @@ export default function YamlToJsonTool() {
             text="Upload YAML"
             variant="full"
           />
+          {error && <Label variant="danger" icon={AlertTriangle}>{error}</Label>}
         </Panel>
         {output && (
           <Panel>
