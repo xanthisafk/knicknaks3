@@ -18,7 +18,10 @@ export default function JsonToXmlTool() {
     const trimmed = input.trim();
     if (!trimmed) return null;
     try {
-      const parsed = JSON.parse(trimmed);
+      let parsed = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) {
+        parsed = { root: { items: parsed } };
+      }
       const builder = new XMLBuilder({
         format: true,
         ignoreAttributes,
