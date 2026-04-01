@@ -2,24 +2,29 @@ import { useCallback, useMemo, useState } from "react";
 import { parse } from "smol-toml";
 import { Box, Container } from "@/components/layout/Primitive";
 import { Panel } from "@/components/layout";
-import { Button, ExpectContent, InlineFileDrop, Input, Textarea } from "@/components/ui";
+import { Button, ExpectContent, InlineFileDrop, Input, Label, Textarea } from "@/components/ui";
 import CodeBlock from "@/components/advanced/CodeBlock";
-import { Download } from "lucide-react";
+import { AlertTriangle, Download } from "lucide-react";
 import { download, getFileSize, normalizeFileName } from "@/lib";
 import { useToast } from "@/hooks/useToast";
 
 export default function TomlToJsonTool() {
   const [input, setInput] = useState("");
   const [fileName, setFileName] = useState("");
+  const [error, setError] = useState<string>("");
   const toast = useToast();
 
   const output = useMemo(() => {
+    setError("");
+
     const trimmed = input.trim();
     if (!trimmed) return null;
     try {
       const parsed = parse(trimmed);
       return JSON.stringify(parsed, null, 2);
-    } catch {
+    } catch (e: any) {
+      console.log(e.message);
+      setError("Invalid TOML");
       return null;
     }
   }, [input]);
@@ -35,6 +40,7 @@ export default function TomlToJsonTool() {
 
   const handleChange = useCallback((text: string) => {
     setInput(text);
+    setError("");
   }, []);
 
   const handleDownload = useCallback(() => {
@@ -61,6 +67,7 @@ export default function TomlToJsonTool() {
             text="Upload TOML"
             variant="full"
           />
+          {error && <Label variant="danger" icon={AlertTriangle}>{error}</Label>}
         </Panel>
         {output && (
           <Panel>
