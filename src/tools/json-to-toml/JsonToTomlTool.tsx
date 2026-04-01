@@ -17,7 +17,12 @@ export default function JsonToTomlTool() {
     const trimmed = input.trim();
     if (!trimmed) return null;
     try {
-      const parsed = JSON.parse(trimmed);
+      let parsed = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) {
+        parsed = {
+          "data": parsed
+        }
+      }
       return stringify(parsed);
     } catch {
       return null;
