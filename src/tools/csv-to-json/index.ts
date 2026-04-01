@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@/tools/_types";
 export const definition: ToolDefinition = {
   name: "CSV to JSON",
   slug: "csv-to-json",
-  description: "Convert CSV to JSON online free. Fast, secure, and works in your browser.",
+  description: "Convert CSV to JSON online free.",
   category: "converters",
   icon: "🔁",
   keywords: [

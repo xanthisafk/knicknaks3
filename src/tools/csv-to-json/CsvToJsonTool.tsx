@@ -6,16 +6,10 @@ import { Button, ExpectContent, InlineFileDrop, Input, Label, Textarea, Toggle }
 import CodeBlock from "@/components/advanced/CodeBlock";
 import { Download } from "lucide-react";
 import { download, getFileSize, normalizeFileName } from "@/lib";
+import { DEFAULT_CSV_PARSE_OPTIONS, type CsvParseOptions } from "@/lib";
+import { useToast } from "@/hooks/useToast";
 
-export interface ParseOptions {
-  header: boolean;
-  dynamicTyping: boolean;
-  skipEmptyLines: boolean;
-  metadata: boolean;
-  delimiter: string;
-}
-
-const parseCsv = (input: string, options: ParseOptions) => {
+const parseCsv = (input: string, options: CsvParseOptions) => {
   const result = Papa.parse(input, options);
   return options.metadata ? result : result.data;
 };
@@ -30,19 +24,13 @@ const hasContent = (output: unknown): boolean => {
   return false;
 };
 
-const DEFAULT_OPTIONS: ParseOptions = {
-  header: true,
-  dynamicTyping: true,
-  skipEmptyLines: true,
-  metadata: false,
-  delimiter: ",",
-};
 
 export default function CsvToJsonTool() {
   const [input, setInput] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState("");
-  const [options, setOptions] = useState<ParseOptions>(DEFAULT_OPTIONS);
+  const [options, setOptions] = useState<CsvParseOptions>(DEFAULT_CSV_PARSE_OPTIONS);
+  const toast = useToast();
 
   const output = useMemo(
     () => (input.trim() ? parseCsv(input, options) : null),
@@ -56,6 +44,7 @@ export default function CsvToJsonTool() {
       setInput(e.target?.result as string);
     };
     reader.readAsText(uploadedFile);
+    toast.success(`Loaded ${uploadedFile.name}`);
   }, []);
 
   const handleChange = useCallback((text: string) => {
@@ -63,7 +52,7 @@ export default function CsvToJsonTool() {
   }, []);
 
   const handleOptionChange = useCallback(
-    <K extends keyof ParseOptions>(option: K, value: ParseOptions[K]) => {
+    <K extends keyof CsvParseOptions>(option: K, value: CsvParseOptions[K]) => {
       setOptions((prev) => ({ ...prev, [option]: value }));
     },
     []
@@ -93,7 +82,7 @@ export default function CsvToJsonTool() {
           <InlineFileDrop
             onUpload={(f) => handleFile(f.file)}
             accepts=".csv"
-            text={file ? file.name : "Upload CSV"}
+            text="Upload CSV"
             variant="full"
           />
         </Panel>
