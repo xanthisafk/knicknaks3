@@ -12,6 +12,13 @@ export function download(content: string, filename: string) {
     downloadBlob(blob, filename);
 }
 
+export function downloadAsDataURL(dataURL: string, filename: string) {
+    const a = document.createElement("a");
+    a.href = dataURL;
+    a.download = filename;
+    a.click();
+}
+
 export function normalizeFileName(filename: string, extension: string) {
     let name = filename.trim();
     if (!name.endsWith(extension)) name += extension;

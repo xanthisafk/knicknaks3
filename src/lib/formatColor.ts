@@ -72,9 +72,18 @@ function getLuminance(r: number, g: number, b: number): number {
   return 0.2126 * (r / 255) + 0.7152 * (g / 255) + 0.0722 * (b / 255);
 }
 
+function randomVibrantHsl(): { h: number; s: number; l: number } {
+  return {
+    h: Math.random() * 360,
+    s: 70 + Math.random() * 30,   // 70-100 %
+    l: 45 + Math.random() * 20,   // 45-65 % (bright but not white)
+  };
+}
+
 export {
-    formatColor,
-    rgbToOklch,
-    toHex,
-    getLuminance
+  formatColor,
+  rgbToOklch,
+  toHex,
+  getLuminance,
+  randomVibrantHsl
 }
