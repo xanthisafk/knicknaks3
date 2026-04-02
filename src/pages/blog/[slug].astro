@@ -14,10 +14,13 @@ import Footer from "@/components/layout/Footer.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  const today = new Date();
+  return posts
+    .filter((post) => !post.data.draft && post.data.publishDate <= today)
+    .map((post) => ({
+      params: { slug: post.id },
+      props: { post },
+    }));
 }
 
 const { post } = Astro.props;

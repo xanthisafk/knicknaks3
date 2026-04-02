@@ -2,11 +2,9 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
+import { CopyButton } from "@/components/ui";
 
-const emails = [{ icon: "📧", email: "hello@xanthis.xyz" }];
-
-const twitter = "xxanthiss";
-const discord = "@cupmoodle";
+const email = "abhinav.ranger@gmail.com";
 ---
 
 <BaseLayout
@@ -17,82 +15,21 @@ const discord = "@cupmoodle";
     <Header />
 
     <main class="flex-1 doodle-paper py-16 md:py-24">
-      <div class="max-w-3xl mx-auto px-4 md:px-6">
-        <div
-          class="bg-(--surface-elevated) p-8 md:p-12 rounded-xl border-2 border-(--border-default) doodle-border relative overflow-hidden shadow-lg"
+      <div class="max-w-3xl mx-auto px-4 md:px-6 text-center">
+        <h1
+          class="text-4xl md:text-5xl font-extrabold mb-8 font-heading text-(--text-primary)"
         >
-          <div
-            class="absolute -right-10 -top-10 opacity-10 text-9xl font-emoji"
-          >
-            📬
-          </div>
+          <span class="doodle-underline">Contact</span>
+        </h1>
 
-          <h1
-            class="text-4xl md:text-5xl font-extrabold mb-6 font-heading text-(--text-primary)"
-          >
-            Let's <span class="doodle-underline text-primary-500">Connect</span>
-          </h1>
-
-          <p class="text-lg text-(--text-secondary) my-10">
-            Have a feature request, found a weird edge-case bug, or just want to
-            say hi? I'd love to hear from you. Because Knicknaks operates
-            without a backend database, we don't use complex ticketing systems.
-            Just send an email.
+        <div class="py-20">
+          <p class="text-(--text-primary)">
+            Send an email to <a
+              class="doodle-underline font-bold text-primary-500 hover:text-primary-400"
+              href={"mailto:" + email}>{email}</a
+            >
+            <CopyButton client:load text={email} />
           </p>
-
-          <div class="space-y-2">
-            <h3
-              class="font-bold text-xl font-heading text-(--text-primary) mb-4"
-            >
-            </h3>
-            {
-              emails.map((item) => (
-                <a
-                  href={`mailto:${item.email}`}
-                  class="flex items-center gap-4 p-4 rounded-lg border border-(--border-default) hover:border-primary-500 bg-(--surface-bg) group transition-all"
-                >
-                  <span class="text-2xl group-hover:scale-110 font-emoji transition-transform">
-                    {item.icon}
-                  </span>
-                  <span class="font-mono text-(--text-primary) group-hover:text-primary-600 transition-colors">
-                    {item.email}
-                  </span>
-                </a>
-              ))
-            }
-          </div>
-          <br />
-          <p class="text-lg text-(--text-secondary) mb-10">
-            I do have a Twitter & a Discord account, but, I do not use them as
-            much.
-          </p>
-          <div class="space-y-2">
-            <a
-              href={`https://x.com/${twitter}`}
-              class="flex items-center gap-4 p-4 rounded-lg border border-(--border-default) hover:border-primary-500 bg-(--surface-bg) group transition-all"
-            >
-              <span
-                class="text-2xl group-hover:scale-110 transition-transform font-emoji"
-                >🐦</span
-              >
-              <span
-                class="font-mono text-(--text-primary) group-hover:text-primary-600 transition-colors"
-                >@xxanthiss</span
-              >
-            </a>
-            <div
-              class="flex items-center gap-4 p-4 rounded-lg border border-(--border-default) hover:border-primary-500 bg-(--surface-bg) group transition-all"
-            >
-              <span
-                class="text-2xl group-hover:scale-110 transition-transform font-emoji"
-                >🗯</span
-              >
-              <span
-                class="font-mono text-(--text-primary) group-hover:text-primary-600 transition-colors"
-                >{discord}</span
-              >
-            </div>
-          </div>
         </div>
       </div>
     </main>
