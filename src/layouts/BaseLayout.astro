@@ -152,25 +152,32 @@ if (isBlog) {
       window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        const btn = document.getElementsByClassName("pwa-install-btn");
-        if (btn) {
-          for (let i = 0; i < btn.length; i++) {
-            btn[i].style.opacity = "1";
-            btn[i].addEventListener("keydown", (e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                e.currentTarget.click();
-              }
-            });
-            btn[i].addEventListener("click", async () => {
-              const choice = await deferredPrompt.prompt();
-              if (choice.outcome === "accepted") {
-                deferredPrompt = null;
-                btn[i].style.display = "none";
-              }
-            });
-          }
-        }
+
+        const buttons = document.querySelectorAll(".pwa-install-btn");
+
+        buttons.forEach((btn) => {
+          // Reveal with a gentle fade+lift
+          btn.style.display = "inline-flex";
+          void btn.offsetWidth; // force reflow
+          btn.style.opacity = "1";
+          btn.style.transform = "translateY(0)";
+
+          btn.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              btn.click();
+            }
+          });
+
+          btn.addEventListener("click", async () => {
+            if (!deferredPrompt) return;
+            const choice = await deferredPrompt.prompt();
+            if (choice.outcome === "accepted") {
+              deferredPrompt = null;
+              buttons.forEach((b) => (b.style.display = "none"));
+            }
+          });
+        });
       });
     </script>
   </body>
