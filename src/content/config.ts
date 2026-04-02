@@ -16,6 +16,7 @@ const blog = defineCollection({
     isSticky: z.boolean().optional().default(false),
     seoTitle: z.string(),
     seoDescription: z.string(),
+    draft: z.boolean().optional().default(false),
   }),
 });
 
