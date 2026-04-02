@@ -31,11 +31,15 @@ let searchPosts: any[] = [];
 if (isBlog) {
   try {
     const posts = await getCollection("blog");
+    const today = new Date();
     searchPosts = posts.map((post) => ({
       id: post.id,
       title: post.data.title,
       description: post.data.description,
       tags: post.data.tags,
+      publishDate: post.data.publishDate,
+      draft: post.data.draft,
+      currentTime: today,
     }));
   } catch (e) {
     console.error(e);
