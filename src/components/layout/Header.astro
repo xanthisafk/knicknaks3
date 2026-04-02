@@ -29,12 +29,21 @@ const { activeTab } = Astro.props;
       <div class="flex items-center gap-4 text-sm font-medium">
         {
           import.meta.env.DEV && (
-            <Badge variant="secondary" icon={ChefHat} text="DEV MODE" />
+            <Badge
+              variant="secondary"
+              className="hidden! md:inline-flex!"
+              icon={ChefHat}
+              text="DEV MODE"
+            />
+            <ChefHat size="12" className="md:hidden" />
           )
         }
 
-        <div class="w-px h-4 bg-[--border-default] mx-1"></div>
-
+        <button
+          class="cursor-pointer text-(--text-secondary) hover:text-(--text-primary) transition-colors"
+          onclick="window.dispatchEvent(new CustomEvent('open-command-palette'))"
+          ><span class="font-emoji">🔍</span></button
+        >
         <a
           href="/"
           class={`${activeTab === "tools" ? "text-primary-600 border-primary-500" : "text-(--text-secondary) hover:text-(--text-primary) border-transparent"} border-b-2 py-5 transition-colors`}
