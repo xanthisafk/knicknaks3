@@ -81,8 +81,7 @@ const presets = [
 export default function DateDifferenceCalculatorTool() {
   const [currentPreset, setCurrentPreset] = useState(presets[0].key);
   const [startDate, setStartDate] = useState(() => {
-    const d = new Date();
-    d.setFullYear(d.getFullYear() - 1);
+    const d = new Date("2024-10-12");
     return d.toISOString().slice(0, 10);
   });
   const [endDate, setEndDate] = useState(today);
