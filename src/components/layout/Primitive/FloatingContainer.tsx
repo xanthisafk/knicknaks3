@@ -1,5 +1,6 @@
 import { forwardRef } from "react"
 import { cn } from "@/lib"
+import { refractive } from "@hashintel/refractive";
 
 export interface FloatingContainerProps extends React.HTMLAttributes<HTMLDivElement> {
     background?: "blur" | "opaque" | "transparent";
@@ -29,7 +30,7 @@ export const FloatingContainer = forwardRef<HTMLDivElement, FloatingContainerPro
     ) => {
 
         return (
-            <div
+            <refractive.div
                 ref={ref}
                 className={cn(
                     "flex sticky rounded-lg",
@@ -37,9 +38,9 @@ export const FloatingContainer = forwardRef<HTMLDivElement, FloatingContainerPro
                     `bottom-${distanceFromEdge} left-0 right-0`,
 
                     // background
-                    background === "blur" && "backdrop-blur bg-(--surface-elevated)/70",
-                    background === "opaque" && "bg-(--surface-elevated)",
-                    background === "transparent" && "bg-transparent",
+                    // background === "blur" && "backdrop-blur bg-(--surface-elevated)/70",
+                    // background === "opaque" && "bg-(--surface-elevated)",
+                    // background === "transparent" && "bg-transparent",
 
                     // spacing
                     `gap-${gap}`,
@@ -50,10 +51,15 @@ export const FloatingContainer = forwardRef<HTMLDivElement, FloatingContainerPro
                     padding,
                     className
                 )}
+                refraction={{
+                    radius: 12,
+                    blur: 4,
+                    bezelWidth: 5
+                }}
                 {...rest}
             >
                 {children}
-            </div>
+            </refractive.div>
         )
     }
 )

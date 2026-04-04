@@ -1,7 +1,7 @@
 {
   "name": "knicknaks",
   "type": "module",
-  "version": "3.115.0",
+  "version": "3.116.0",
   "description": "Free, offline-capable web app with useful day-to-day tools",
   "scripts": {
     "dev": "npm version minor --no-git-tag-version && astro dev",
@@ -21,6 +21,7 @@
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.3.1",
     "@cantoo/pdf-lib": "^2.6.1",
+    "@hashintel/refractive": "^0.0.3",
     "@nanostores/react": "^1.1.0",
     "@tailwindcss/typography": "^0.5.19",
     "@tiptap/extension-color": "^3.20.1",
