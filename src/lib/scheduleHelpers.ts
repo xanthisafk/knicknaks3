@@ -162,7 +162,35 @@ export function computeCountdown(
 
   // Custom mode: walk through the schedule
   const totalSec = computeScheduledSeconds(now, end, schedule);
-  return decompose(totalSec);
+  return decomposeScheduled(totalSec);
+}
+
+export function decomposeScheduled(totalSeconds: number): CountdownResult {
+  if (totalSeconds <= 0) {
+    return {
+      totalSeconds: 0,
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      finished: true,
+    };
+  }
+
+  const s = Math.floor(totalSeconds);
+
+  const totalHours = Math.floor(s / 3600);
+  const minutes = Math.floor((s % 3600) / 60);
+  const seconds = s % 60;
+
+  return {
+    totalSeconds: s,
+    days: 0,              // not meaningful in scheduled mode
+    hours: totalHours,    // ← key change (accumulated hours)
+    minutes,
+    seconds,
+    finished: false,
+  };
 }
 
 // ─── Formatting ──────────────────────────────────────────────────────────────
@@ -175,8 +203,12 @@ export function formatTime(h: number, m: number, s: number): string {
 /** Format as "Xd HH:MM:SS" or just "HH:MM:SS" */
 export function formatCountdown(result: CountdownResult): string {
   if (result.finished) return "00:00:00";
-  const time = formatTime(result.hours, result.minutes, result.seconds);
-  return result.days > 0 ? `${result.days}d ${time}` : time;
+
+  const h = result.hours;
+  const m = String(result.minutes).padStart(2, "0");
+  const s = String(result.seconds).padStart(2, "0");
+
+  return `${h}:${m}:${s}`;
 }
 
 /** Deep-clone a schedule */
