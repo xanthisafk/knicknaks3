@@ -1,7 +1,7 @@
 {
   "name": "knicknaks",
   "type": "module",
-  "version": "3.108.0",
+  "version": "3.110.0",
   "description": "Free, offline-capable web app with useful day-to-day tools",
   "scripts": {
     "dev": "npm version minor --no-git-tag-version && astro dev",
@@ -55,6 +55,7 @@
     "papaparse": "^5.5.3",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^5.5.207",
+    "perfect-freehand": "^1.2.3",
     "react": "^19.1.0",
     "react-diff-viewer-continued": "^4.2.0",
     "react-dom": "^19.1.0",

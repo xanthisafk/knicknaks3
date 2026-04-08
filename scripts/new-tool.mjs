@@ -20,7 +20,7 @@ const ask = (q) => new Promise((resolve) => rl.question(q, resolve));
 const CATEGORIES = [
   "encoders", "generators", "converters", "formatters",
   "validators", "calculators", "text", "media",
-  "network", "crypto", "dev", "health", "pdf", "other",
+  "network", "crypto", "dev", "health", "pdf", "creative", "other",
 ];
 
 async function main() {

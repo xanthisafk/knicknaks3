@@ -18,6 +18,7 @@ export const TOOL_CATEGORIES = [
   "health",
   "pdf",
   "ai",
+  "creative",
   "other",
 ] as const;
 
@@ -112,6 +113,15 @@ export const CATEGORY_INFO: Record<ToolCategory, CategoryDefinition> = {
     seoDescription: "Convert color formats, generate palettes, and check contrast with fast, in-browser tools.",
     heroTagline: "Design with precision",
     heroDescription: "Create, convert, and refine colors for any UI or design workflow.",
+  },
+  creative: {
+    label: "Creative Tools",
+    icon: "🎨",
+    description: "Draw and animate",
+    seoTitle: "Creative Tools | Draw and animate",
+    seoDescription: "Draw and animate with fast, in-browser tools.",
+    heroTagline: "Create with your imagination",
+    heroDescription: "Create, draw, and animate with fast, in-browser tools.",
   },
   media: {
     label: "Media Tools",

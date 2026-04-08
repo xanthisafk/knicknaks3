@@ -11,3 +11,5 @@ export * from "./zodiac";
 export * from "./currencyHelper";
 export * from "./downloadHelper";
 export * from "./parseHelper";
+export * from "./drawing";
+export * from "./scheduleHelpers";
