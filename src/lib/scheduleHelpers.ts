@@ -201,12 +201,16 @@ export function formatTime(h: number, m: number, s: number): string {
 }
 
 /** Format as "Xd HH:MM:SS" or just "HH:MM:SS" */
-export function formatCountdown(result: CountdownResult): string {
+export function formatCountdown(result: CountdownResult, mode: CountdownMode): string {
   if (result.finished) return "00:00:00";
 
   const h = result.hours;
   const m = String(result.minutes).padStart(2, "0");
   const s = String(result.seconds).padStart(2, "0");
+
+  if (mode === "full") {
+    return `${result.days}d ${h}:${m}:${s}`;
+  }
 
   return `${h}:${m}:${s}`;
 }

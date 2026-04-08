@@ -32,11 +32,11 @@ import StatBox from "@/components/ui/StatBox";
 
 // ─── localStorage keys ───────────────────────────────────────────────────────
 
-const STORAGE_PREFIX = "knicknaks:time-until:";
-const KEY_START = `${STORAGE_PREFIX}start`;
-const KEY_END = `${STORAGE_PREFIX}end`;
-const KEY_MODE = `${STORAGE_PREFIX}mode`;
-const KEY_SCHEDULE = `${STORAGE_PREFIX}schedule`;
+const STORAGE_PREFIX = "knicknaks-time-until";
+const KEY_START = `${STORAGE_PREFIX}-start`;
+const KEY_END = `${STORAGE_PREFIX}-end`;
+const KEY_MODE = `${STORAGE_PREFIX}-mode`;
+const KEY_SCHEDULE = `${STORAGE_PREFIX}-schedule`;
 
 // ─── Defaults ────────────────────────────────────────────────────────────────
 
@@ -196,7 +196,7 @@ function CountdownDisplay({
   result: CountdownResult;
   mode: CountdownMode;
 }) {
-  const formatted = formatCountdown(result);
+  const formatted = formatCountdown(result, mode);
   const parts = formatted.split(" ");
   const daysPart = parts.length > 1 ? parts[0] : null;
   const timePart = parts.length > 1 ? parts[1] : parts[0];
