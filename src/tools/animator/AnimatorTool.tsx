@@ -22,6 +22,7 @@ import {
   Pen,
   Eraser,
   Droplets,
+  Video,
 } from "lucide-react";
 import { cn } from "@/lib";
 
@@ -53,6 +54,7 @@ export default function AnimatorTool() {
   const containerRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<DrawingEngine | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+  const recordCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // Frame state
   const [frames, setFrames] = useState<Frame[]>([]);
@@ -349,6 +351,73 @@ export default function AnimatorTool() {
     return () => window.removeEventListener("keydown", handler);
   }, [syncHistory, goToFrame, currentFrameIndex, isPlaying, startPlayback, stopPlayback]);
 
+  const handleExportVideo = useCallback(async () => {
+    saveCurrentFrame();
+
+    const engine = engineRef.current;
+    if (!engine) return;
+
+    if (!containerRef.current) return;
+
+    const width = Math.floor(containerRef.current.clientWidth / 2) * 2;
+    const height = Math.floor(containerRef.current.clientHeight / 2) * 2;
+
+    // Create offscreen canvas
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    recordCanvasRef.current = canvas;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Capture stream
+    const stream = canvas.captureStream(fps);
+    const recorder = new MediaRecorder(stream, {
+      mimeType: "video/webm;codecs=vp9",
+    });
+
+    const chunks: Blob[] = [];
+
+    recorder.ondataavailable = (e) => {
+      if (e.data.size > 0) chunks.push(e.data);
+    };
+
+    recorder.start();
+
+    // Render frames sequentially
+    for (let i = 0; i < frames.length; i++) {
+      loadFrameIntoEngine(frames[i]);
+
+      // Wait a tick so engine renders
+      await new Promise((r) => requestAnimationFrame(r));
+
+      // Draw engine canvas into recording canvas
+      const engineCanvas = containerRef.current?.querySelector("canvas");
+      if (engineCanvas) {
+        ctx.clearRect(0, 0, width, height);
+        ctx.drawImage(engineCanvas, 0, 0, width, height);
+      }
+
+      // Hold frame for correct duration
+      await new Promise((r) => setTimeout(r, 1000 / fps));
+    }
+
+    recorder.stop();
+
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: "video/webm" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "animation.webm";
+      a.click();
+
+      URL.revokeObjectURL(url);
+    };
+  }, [frames, fps, saveCurrentFrame, loadFrameIntoEngine]);
+
   return (
     <div className="space-y-2">
       {/* ── Toolbar ──────────────────────────────────────────── */}
@@ -533,6 +602,9 @@ export default function AnimatorTool() {
           <Tooltip content="Export all frames as PNG">
             <Button variant="ghost" size="xs" icon={Download} onClick={handleExport} disabled={isPlaying} />
           </Tooltip>
+          <Tooltip content="Export animation as video">
+            <Button variant="ghost" size="xs" icon={Video} onClick={handleExportVideo} disabled={isPlaying} />
+          </Tooltip>
         </div>
       </Panel>
 
@@ -545,7 +617,7 @@ export default function AnimatorTool() {
               type="button"
               onClick={() => !isPlaying && goToFrame(idx)}
               className={cn(
-                "flex-shrink-0 w-16 h-12 rounded-md border-2 cursor-pointer overflow-hidden transition-all duration-(--duration-fast)",
+                "shrink-0 w-16 h-12 rounded-md border-2 cursor-pointer overflow-hidden transition-all duration-(--duration-fast)",
                 "hover:scale-105",
                 idx === currentFrameIndex
                   ? "border-primary-500 ring-2 ring-primary-300 shadow-md"
