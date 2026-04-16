@@ -2,7 +2,6 @@ import { useState, useMemo, useEffect } from "react";
 import confetti from "canvas-confetti";
 import { Panel } from "@/components/layout";
 import StatBox from "@/components/ui/StatBox";
-import FunStat from "@/components/advanced/FunStatCard";
 import { getZodiacSign, getChineseZodiac } from "@/lib/zodiac";
 import { countLeapDays, isLeapYear } from "@/lib/date";
 import { DateInput } from "@/components/ui/DateInput";
@@ -160,6 +159,7 @@ export default function AgeCalculatorTool() {
               max={toDate}
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
+              showNow={true}
             />
 
           </div>

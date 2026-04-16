@@ -7,6 +7,7 @@ import FileDropZone from "@/components/advanced/FileDropZone";
 import { useToast } from "@/hooks/useToast";
 import { Container } from "@/components/layout/Primitive";
 import { Split } from "lucide-react";
+import { downloadBlob, normalizeFileName } from "@/lib";
 
 /** Parse page ranges like "1,3,5-8" into zero-indexed array */
 function parsePageRanges(input: string, maxPages: number): number[] {
@@ -36,11 +37,13 @@ export default function SplitPdfTool() {
   const [rangeInput, setRangeInput] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState("");
+  const [fileName, setFileName] = useState("");
   const toast = useToast();
 
   const handleFile = async (file: File) => {
     if (!file) return;
     setFile(file);
+    setFileName("split_" + file.name);
     setStatus("");
     try {
       const buffer = await file.arrayBuffer();
@@ -75,7 +78,8 @@ export default function SplitPdfTool() {
       const pages = await dest.copyPages(src, indices);
       pages.forEach((page) => dest.addPage(page));
       const bytes = await dest.save();
-      downloadPdf(bytes, `split_${file.name}`);
+      const normalizedName = normalizeFileName(fileName || "split", "pdf");
+      downloadPdf(bytes, normalizedName);
       const msg = `Extracted ${indices.length} page${indices.length > 1 ? "s" : ""} successfully!`;
       setStatus(msg);
       toast.success(msg, 10);
@@ -114,16 +118,25 @@ export default function SplitPdfTool() {
             placeholder="e.g. 1-3, 5, 7-10"
             helperText={`Enter page numbers or ranges. Total pages: ${pageCount}`}
           />
-          <Button onClick={handleExtract}
-            icon={Split}
-            disabled={isProcessing || !rangeInput.trim()}>
-            {isProcessing ? "Splitting..." : "Split PDF"}
-          </Button>
-          {status && (
-            status.startsWith("Error")
-              ? <Label variant="danger">{status}</Label>
-              : <Label variant="success">{status}</Label>
-          )}
+          <Container>
+            <Input
+              label="File Name"
+              value={fileName}
+              onChange={(e) => setFileName(e.target.value)}
+              placeholder="e.g. split"
+              trailingText=".pdf"
+            />
+            <Button onClick={handleExtract}
+              icon={Split}
+              disabled={isProcessing || !rangeInput.trim()}>
+              {isProcessing ? "Splitting..." : "Split PDF"}
+            </Button>
+            {status && (
+              status.startsWith("Error")
+                ? <Label variant="danger">{status}</Label>
+                : <Label variant="success">{status}</Label>
+            )}
+          </Container>
         </Panel>
       )}
     </Container>

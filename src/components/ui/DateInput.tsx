@@ -15,6 +15,7 @@ export interface DateInputProps
     error?: string;
     size?: "sm" | "md" | "lg";
     inputType?: "date" | "datetime-local" | "month" | "week" | "time";
+    showNow?: boolean;
 }
 
 export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
@@ -25,9 +26,11 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
             error,
             size = "md",
             inputType = "date",
+            showNow = false,
             disabled,
             id,
             className,
+            onChange,
             ...props
         },
         ref,
@@ -37,7 +40,6 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
         const descId = `${inputId}-desc`;
         const errorId = `${inputId}-error`;
 
-        // Click the calendar icon to open the native picker
         const inputRef = useRef<HTMLInputElement | null>(null);
 
         const sizes = {
@@ -46,13 +48,60 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
             lg: { input: "h-11 px-4 text-sm", icon: "size-4 mr-3" },
         }[size];
 
+        const formatNowValue = () => {
+            const now = new Date();
+
+            const pad = (n: number) => String(n).padStart(2, "0");
+
+            const year = now.getFullYear();
+            const month = pad(now.getMonth() + 1);
+            const day = pad(now.getDate());
+            const hours = pad(now.getHours());
+            const minutes = pad(now.getMinutes());
+
+            switch (inputType) {
+                case "date":
+                    return `${year}-${month}-${day}`;
+                case "datetime-local":
+                    return `${year}-${month}-${day}T${hours}:${minutes}`;
+                case "time":
+                    return `${hours}:${minutes}`;
+                case "month":
+                    return `${year}-${month}`;
+                case "week": {
+                    const temp = new Date(now.getTime());
+                    temp.setHours(0, 0, 0, 0);
+                    temp.setDate(temp.getDate() + 3 - ((temp.getDay() + 6) % 7));
+                    const week1 = new Date(temp.getFullYear(), 0, 4);
+                    const weekNumber =
+                        1 +
+                        Math.round(
+                            ((temp.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7,
+                        );
+                    return `${temp.getFullYear()}-W${pad(weekNumber)}`;
+                }
+                default:
+                    return "";
+            }
+        };
+
+        const handleNowClick = () => {
+            const el = (ref as React.RefObject<HTMLInputElement>)?.current ?? inputRef.current;
+            if (!el) return;
+
+            const value = formatNowValue();
+            el.value = value;
+
+            if (onChange) {
+                const event = new Event("input", { bubbles: true });
+                el.dispatchEvent(event);
+            }
+        };
+
         return (
             <div className={cn("flex flex-col gap-1.5", className)}>
                 {label && (
-                    <Label
-                        htmlFor={inputId}
-                        className="max-h-4"
-                    >
+                    <Label htmlFor={inputId} className="max-h-4">
                         {label}
                     </Label>
                 )}
@@ -63,30 +112,26 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                     </p>
                 )}
 
-                {/* Input wrapper */}
                 <div
                     className={cn(
                         "relative flex items-center w-full",
                         "rounded-md border bg-(--surface-elevated)",
                         "transition-shadow duration-150",
-                        // default border
                         "border-(--border-default)",
-                        // focus-within ring
                         "focus-within:ring-2 focus-within:ring-orange-500/40 focus-within:border-orange-500",
-                        // error
-                        error && "border-error focus-within:ring-error/30 focus-within:border-error",
-                        // disabled
+                        error &&
+                        "border-error focus-within:ring-error/30 focus-within:border-error",
                         disabled && "opacity-50 cursor-not-allowed",
                     )}
                 >
-                    {/* Calendar icon — clicking opens the picker */}
                     <button
                         type="button"
                         tabIndex={-1}
                         disabled={disabled}
                         aria-hidden
                         onClick={() => {
-                            const el = (ref as React.RefObject<HTMLInputElement>)?.current ?? inputRef.current;
+                            const el =
+                                (ref as React.RefObject<HTMLInputElement>)?.current ?? inputRef.current;
                             el?.showPicker?.();
                         }}
                         className={cn(
@@ -105,23 +150,23 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                         ref={(el) => {
                             inputRef.current = el;
                             if (typeof ref === "function") ref(el);
-                            else if (ref) (ref as React.RefObject<HTMLInputElement | null>).current = el;
+                            else if (ref)
+                                (ref as React.RefObject<HTMLInputElement | null>).current = el;
                         }}
                         id={inputId}
                         type={inputType}
                         disabled={disabled}
                         aria-describedby={
-                            [description && descId, error && errorId].filter(Boolean).join(" ") || undefined
+                            [description && descId, error && errorId]
+                                .filter(Boolean)
+                                .join(" ") || undefined
                         }
                         aria-invalid={!!error}
                         className={cn(
                             sizes.input,
                             "flex-1 min-w-0 bg-transparent outline-none",
                             "text-(--text-primary) placeholder:text-(--text-tertiary)",
-                            // Style the native date picker parts to match theme
-                            // Tailwind Forms resets most of the ugliness; we fine-tune below
                             "scheme-light dark:scheme-dark",
-                            // Hide the native calendar icon (we use our own)
                             "[&::-webkit-calendar-picker-indicator]:opacity-0",
                             "[&::-webkit-calendar-picker-indicator]:absolute",
                             "[&::-webkit-calendar-picker-indicator]:inset-0",
@@ -129,8 +174,25 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                             "[&::-webkit-calendar-picker-indicator]:cursor-pointer",
                             disabled && "cursor-not-allowed",
                         )}
+                        onChange={onChange}
                         {...props}
                     />
+
+                    {showNow && (
+                        <button
+                            type="button"
+                            tabIndex={-1}
+                            disabled={disabled}
+                            onClick={handleNowClick}
+                            className={cn(
+                                "flex items-center pr-3 text-xs font-medium",
+                                "text-(--text-tertiary) hover:text-orange-500 transition-colors duration-150",
+                                disabled && "pointer-events-none",
+                            )}
+                        >
+                            Now
+                        </button>
+                    )}
                 </div>
 
                 {error && (
