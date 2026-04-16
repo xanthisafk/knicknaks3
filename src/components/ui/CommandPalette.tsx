@@ -127,30 +127,6 @@ function itemMatches(query: string, item: CommandItem): boolean {
   return fields.some((f) => fuzzyMatch(query, f));
 }
 
-function renderItemVisual(icon?: LucideIcon, emoji?: string) {
-  const Icon = icon;
-  if (Icon) {
-    return (
-      <Icon
-        size={16}
-        aria-hidden="true"
-        className="shrink-0 text-(--text-tertiary)"
-      />
-    );
-  }
-  if (emoji) {
-    return (
-      <span
-        className="font-emoji text-base leading-none shrink-0"
-        aria-hidden="true"
-      >
-        {emoji}
-      </span>
-    );
-  }
-  return <span className="w-4 h-4 shrink-0" aria-hidden="true" />;
-}
-
 // ===== Component =====
 
 export function CommandPalette({
@@ -166,6 +142,7 @@ export function CommandPalette({
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   // Filter & score with priority: label > tags > keywords > description
   const filteredItems = useMemo(() => {
@@ -195,6 +172,34 @@ export function CommandPalette({
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleClick = (e: MouseEvent) => {
+      if (!panelRef.current) return;
+      if (!panelRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [isOpen, onClose]);
 
   // Keep active index in bounds
   useEffect(() => {
@@ -239,11 +244,6 @@ export function CommandPalette({
     [filteredItems, activeIndex, onClose]
   );
 
-  // Click handler for backdrop
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) onClose();
-  };
-
   if (!isOpen) return null;
 
   let flatIndex = -1;
@@ -251,7 +251,7 @@ export function CommandPalette({
   return (
     <div
       className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]"
-      onClick={handleBackdropClick}
+      ref={panelRef}
     >
       {/* Backdrop */}
       <div
@@ -313,7 +313,7 @@ export function CommandPalette({
                 : undefined
             }
           />
-          <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-medium text-(--text-tertiary) bg-(--surface-secondary) border border-(--border-default) rounded-sm">
+          <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-medium text-(--text-tertiary) bg-(--surface-secondary) border border-(--border-default) rounded-sm">
             ESC
           </kbd>
         </div>
@@ -355,13 +355,18 @@ export function CommandPalette({
                       onMouseEnter={() => setActiveIndex(idx)}
                       className={cn(
                         "flex items-center gap-3 px-3 py-2.5 rounded-md",
-                        "cursor-pointer select-none",
+                        "cursor-pointer select-none transition-none",
                         isActive
                           ? "bg-primary-500 text-white"
                           : "text-(--text-primary) hover:bg-(--surface-secondary)"
                       )}
                     >
-                      {renderItemVisual(item.icon, item.emoji)}
+                      <span
+                        className="font-emoji text-base leading-none shrink-0"
+                        aria-hidden="true"
+                      >
+                        {item.emoji}
+                      </span>
                       <div className="flex-1 min-w-0">
                         <div className="text-sm font-medium truncate">
                           {item.label}

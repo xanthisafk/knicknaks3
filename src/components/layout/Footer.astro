@@ -60,7 +60,7 @@ const buildVersion = `${buildNumber}.${gitDecimal}`;
         <a
           href="/about"
           class="text-(--text-secondary) hover:text-primary-600 transition-colors inline-block py-1 transform duration-200"
-          >About Our Philosophy</a
+          >About</a
         >
         <a
           href="/contact"
@@ -109,7 +109,7 @@ const buildVersion = `${buildNumber}.${gitDecimal}`;
       <div class="flex items-center gap-4">
         <span
           class="pwa-install-btn font-mono text-xs text-primary-500/50 cursor-pointer hover:text-primary-500/80"
-          style={{ opacity: "0" }}>Install App</span
+          style={{ opacity: "0", display: "none" }}>Install App</span
         >
         <span class="opacity-50 text-xs">•</span>
         <span class="font-mono text-xs opacity-50">Build {buildVersion}</span>

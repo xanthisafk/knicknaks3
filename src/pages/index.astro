@@ -39,8 +39,15 @@ const formatted =
     <Header activeTab="tools" />
 
     <main class="flex-1">
-      <section class="py-16 md:py-24 text-center relative">
-        <div class="relative z-10 max-w-3xl mx-auto px-4">
+      <section
+        class="doodle-hero py-16 md:py-24 text-center relative"
+        style="box-shadow: 0 30px 40px var(--surface-bg);
+        mask: conic-gradient(from -32.5deg at bottom,#0000,#000 1deg 64deg,#0000 65deg) 50%/17.84px 100%"
+      >
+        <!-- <div class="relative z-10 max-w-3xl mx-auto px-4"> -->
+        <div
+          class="max-w-3xl mx-auto px-4 flex flex-col items-center justify-center text-center gap-2"
+        >
           <h1
             class="text-4xl md:text-6xl font-extrabold mb-4"
             style="font-family: var(--font-heading); color: var(--text-primary)"
@@ -58,42 +65,56 @@ const formatted =
           </p>
 
           <!-- Search Trigger -->
-          <div class="relative max-w-md mx-auto mb-6">
+          <div class="relative flex justify-center">
             <button
               type="button"
               onclick="window.dispatchEvent(new CustomEvent('open-command-palette'))"
-              class="w-full text-left px-4 py-3 pl-10 rounded-xl border text-base cursor-pointer transition-colors"
-              style="background: var(--surface-elevated); color: var(--text-tertiary); border-color: var(--border-default)"
+              class="w-full max-w-xl flex items-center gap-3 px-4 py-3 rounded-xl border text-base transition-colors"
+              style="background: var(--surface-elevated);
+                     color: var(--text-tertiary);
+                     border-color: var(--border-default);"
             >
-              Search for a tool, description or tag...
-            </button>
-            <span
-              class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none font-emoji"
-              style="color: var(--text-tertiary)">🔍</span
-            >
-            <div
-              class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none"
-            >
+              <!-- Icon -->
+              <span
+                class="flex items-center justify-center text-lg font-emoji"
+                style="color: var(--text-tertiary);"
+                aria-hidden="true"
+              >
+                🔍
+              </span>
+
+              <!-- Placeholder Text -->
+              <span class="flex-1 text-left">
+                Search for a tool, description or tag...
+              </span>
+
+              <!-- Shortcut Hint -->
               <span
                 id="search-hint"
-                class="hidden sm:block text-xs font-bold px-2 py-1 border rounded-md"
-                style="color: var(--text-tertiary); border-color: var(--border-default); background: var(--surface-bg)"
-                >⌘K</span
+                class="hidden sm:inline-block text-xs font-semibold px-2 py-1 border rounded-md"
+                style="color: var(--text-tertiary);
+                       border-color: var(--border-default);
+                       background: var(--surface-bg);"
               >
-            </div>
+                ⌘K
+              </span>
+            </button>
           </div>
 
           <div
-            class=`
-            pwa-install-btn flex items-center justify-center gap-6 text-2xl font-bold hover:text-primary-500
-            cursor-pointer p-3 rounded-lg mx-auto
-            `
-            style={{ opacity: "0" }}
+            class="pwa-install-btn"
             role="button"
             tabindex="0"
+            style={{
+              display: "none",
+              cursor: "pointer",
+            }}
           >
-            <Download size={32} />
-            <span class="font-heading doodle-underline">Install App</span>
+            <span
+              style="color: var(--text-secondary); padding: 0.5rem 1.25rem; border-radius: var(--radius-md); display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading); font-weight: 600; transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out);"
+            >
+              <span class="font-emoji">📲</span> Add to home screen
+            </span>
           </div>
 
           <a
@@ -119,8 +140,6 @@ const formatted =
         </div>
       </section>
     </main>
-
-    <hr class="doodle-divider max-w-full mx-auto" />
 
     <!-- Category Previews -->
     <section class="pb-16 md:pb-24 scroll-mt-20" id="tools">
@@ -225,43 +244,42 @@ const formatted =
   </div>
 
   <Footer />
-</BaseLayout>
 
-<!-- Search hint: platform detection -->
-<script>
-  const hint = document.getElementById("search-hint");
-  if (hint) {
-    hint.textContent = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent)
-      ? "⌘K"
-      : "Ctrl+K";
-  }
-</script>
+  <!-- Search hint: platform detection -->
+  <script>
+    const hint = document.getElementById("search-hint");
+    if (hint) {
+      hint.textContent = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent)
+        ? "⌘K"
+        : "Ctrl+K";
+    }
+  </script>
 
-<!-- Recently Used: retrieve from localStorage and render -->
-<script>
-  (function () {
-    const STORAGE_KEY = "knicknaks_recent_tools";
-    const section = document.getElementById("recently-used-section");
-    const grid = document.getElementById("recently-used-grid");
-    if (!section || !grid) return;
+  <!-- Recently Used: retrieve from localStorage and render -->
+  <script>
+    (function () {
+      const STORAGE_KEY = "knicknaks_recent_tools";
+      const section = document.getElementById("recently-used-section");
+      const grid = document.getElementById("recently-used-grid");
+      if (!section || !grid) return;
 
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (!stored) return;
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (!stored) return;
 
-      const recent = JSON.parse(stored);
-      if (!Array.isArray(recent) || recent.length === 0) return;
+        const recent = JSON.parse(stored);
+        if (!Array.isArray(recent) || recent.length === 0) return;
 
-      recent.forEach((tool) => {
-        const card = document.createElement("a");
-        card.href = `/tools/${tool.category}/${tool.slug}`;
-        card.className =
-          "group flex flex-col p-4 md:p-5 rounded-lg border no-underline transition-[transform,border-color,box-shadow] duration-150 tool-card relative overflow-visible hover:shadow-md";
-        card.style.cssText =
-          "background: var(--surface-elevated); border-color: var(--border-default)";
-        card.dataset.toolSlug = tool.slug;
+        recent.forEach((tool) => {
+          const card = document.createElement("a");
+          card.href = `/tools/${tool.category}/${tool.slug}`;
+          card.className =
+            "group flex flex-col p-4 md:p-5 rounded-lg border no-underline transition-[transform,border-color,box-shadow] duration-150 tool-card relative overflow-visible hover:shadow-md";
+          card.style.cssText =
+            "background: var(--surface-elevated); border-color: var(--border-default)";
+          card.dataset.toolSlug = tool.slug;
 
-        card.innerHTML = `
+          card.innerHTML = `
           <div class="flex items-start gap-3 flex-1 group">
             <span class="text-2xl shrink-0 mt-0.5 font-emoji">${escapeHtml(tool.icon)}</span>
             <div>
@@ -279,18 +297,19 @@ const formatted =
             </div>
           </div>`;
 
-        grid.appendChild(card);
-      });
+          grid.appendChild(card);
+        });
 
-      section.style.display = "";
-    } catch (e) {
-      // Silently fail
-    }
+        section.style.display = "";
+      } catch (e) {
+        // Silently fail
+      }
 
-    function escapeHtml(str: string) {
-      const div = document.createElement("div");
-      div.textContent = str;
-      return div.innerHTML;
-    }
-  })();
-</script>
+      function escapeHtml(str: string) {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
+    })();
+  </script>
+</BaseLayout>

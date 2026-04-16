@@ -72,7 +72,7 @@ function calculateAge(birthDate: Date, toDate: Date): AgeResult {
 
 export default function AgeCalculatorTool() {
   const today = new Date().toISOString().split("T")[0];
-  const [birthDate, setBirthDate] = useState("1999-08-16");
+  const [birthDate, setBirthDate] = useState("2003-09-08");
   const [toDate, setToDate] = useState(today);
   const [liveNow, setLiveNow] = useState(new Date());
   const [countdown, setCountdown] = useState("");
